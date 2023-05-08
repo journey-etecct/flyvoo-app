@@ -14,6 +14,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor:
           dark ? temaDark["cores"]["fundo"] : temaLight["cores"]["fundo"],
+      body: const Placeholder(),
     );
   }
 }

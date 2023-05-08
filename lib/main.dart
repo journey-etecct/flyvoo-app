@@ -102,28 +102,20 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: dark
-            ? temaDark["cores"]["primaria"]
-            : temaLight["cores"]["primaria"],
-      ),
-      home: const Home(),
-    );
+    return const Flyvoo();
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({
+class Flyvoo extends StatefulWidget {
+  const Flyvoo({
     super.key,
   });
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Flyvoo> createState() => _FlyvooState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _FlyvooState extends State<Flyvoo> {
   late VideoPlayerController _controller;
 
   @override
@@ -147,91 +139,110 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor:
-            dark ? temaDark["cores"]["fundo"] : temaLight["cores"]["fundo"],
-        body: Stack(
-          children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: dark
+            ? temaDark["cores"]["primaria"]
+            : temaLight["cores"]["primaria"],
+      ),
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor:
+              dark ? temaDark["cores"]["fundo"] : temaLight["cores"]["fundo"],
+          body: Stack(
+            children: [
+              SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _controller.value.size.width,
+                    height: _controller.value.size.height,
+                    child: VideoPlayer(_controller),
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Teste de tema',
-                    style: TextStyle(
-                      color: dark
-                          ? temaDark["cores"]["primaria"]
-                          : temaLight["cores"]["primaria"],
-                      fontSize: 20,
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Teste de tema',
+                      style: TextStyle(
+                        color: dark
+                            ? temaDark["cores"]["primaria"]
+                            : temaLight["cores"]["primaria"],
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Hello World!',
-                    style: TextStyle(
-                      color: dark
-                          ? temaDark["cores"]["noFundo"]
-                          : temaLight["cores"]["noFundo"],
+                    Text(
+                      'Hello World!',
+                      style: TextStyle(
+                        color: dark
+                            ? temaDark["cores"]["noFundo"]
+                            : temaLight["cores"]["noFundo"],
+                      ),
                     ),
-                  ),
-                  Switch(
-                    value: dark,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          dark = !dark;
-                          if (!dark) {
-                            _controller =
-                                VideoPlayerController.asset("assets/light.webm")
-                                  ..initialize().then(
-                                    (_) {
-                                      _controller.play();
-                                      _controller.setLooping(true);
-                                      setState(() {});
-                                    },
-                                  );
-                          } else {
-                            _controller =
-                                VideoPlayerController.asset("assets/dark.webm")
-                                  ..initialize().then(
-                                    (_) {
-                                      _controller.play();
-                                      _controller.setLooping(true);
-                                      setState(() {});
-                                    },
-                                  );
-                          }
-                        },
-                      );
-                    },
-                  ),
-                  FilledButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Login(),
-                        ),
-                      );
-                    },
-                    child: const Text("login teste"),
-                  )
-                ],
+                    Switch(
+                      value: dark,
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            dark = !dark;
+                            if (!dark) {
+                              _controller = VideoPlayerController.asset(
+                                  "assets/light.webm")
+                                ..initialize().then(
+                                  (_) {
+                                    _controller.play();
+                                    _controller.setLooping(true);
+                                    setState(() {});
+                                  },
+                                );
+                            } else {
+                              _controller = VideoPlayerController.asset(
+                                  "assets/dark.webm")
+                                ..initialize().then(
+                                  (_) {
+                                    _controller.play();
+                                    _controller.setLooping(true);
+                                    setState(() {});
+                                  },
+                                );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    const LoginBotao()
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class LoginBotao extends StatelessWidget {
+  const LoginBotao({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Login(),
+          ),
+        );
+      },
+      child: const Text("login teste"),
     );
   }
 }
