@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flyvoo/login.dart';
 import 'package:video_player/video_player.dart';
 
@@ -87,6 +88,12 @@ Map<String, dynamic> temaDark = {
   }
 };
 bool dark = false;
+final List<String> listModo = <String>[
+  "Modo escuro",
+  "Modo claro",
+  "Seguir o sistema"
+];
+String? valorDropdown = "Seguir o sistema";
 
 void main() => runApp(const Flyvoo());
 
@@ -125,11 +132,11 @@ class _FlyvooState extends State<Flyvoo> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: dark
-            ? temaDark["cores"]["primaria"]
-            : temaLight["cores"]["primaria"],
-      ),
+          useMaterial3: true,
+          colorSchemeSeed: dark
+              ? temaDark["cores"]["primaria"]
+              : temaLight["cores"]["primaria"],
+          brightness: dark ? Brightness.dark : Brightness.light),
       home: SafeArea(
         child: Scaffold(
           backgroundColor:
@@ -170,18 +177,83 @@ class _FlyvooState extends State<Flyvoo> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "dark mode",
-                          style: TextStyle(
-                            color: dark
-                                ? temaDark["cores"]["noFundo"]
-                                : temaLight["cores"]["noFundo"],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Switch(
+                        DropdownButton(
+                          borderRadius: BorderRadius.circular(25),
+                          value: valorDropdown,
+                          items: listModo.map<DropdownMenuItem<String>>(
+                            (valor) {
+                              return DropdownMenuItem<String>(
+                                value: valor,
+                                child: Text(valor),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (selecionado) {
+                            setState(() {
+                              valorDropdown = selecionado;
+                            });
+                            switch (selecionado) {
+                              case "Modo escuro":
+                                setState(() {
+                                  dark = true;
+                                  _controller = VideoPlayerController.asset(
+                                      "assets/dark.webm")
+                                    ..initialize().then(
+                                      (_) {
+                                        _controller.play();
+                                        _controller.setLooping(true);
+                                        setState(() {});
+                                      },
+                                    );
+                                });
+                                break;
+                              case "Modo claro":
+                                setState(() {
+                                  dark = false;
+                                  _controller = VideoPlayerController.asset(
+                                      "assets/light.webm")
+                                    ..initialize().then(
+                                      (_) {
+                                        _controller.play();
+                                        _controller.setLooping(true);
+                                        setState(() {});
+                                      },
+                                    );
+                                });
+                                break;
+                              default:
+                                setState(() {
+                                  dark = SchedulerBinding
+                                          .instance
+                                          .platformDispatcher
+                                          .platformBrightness ==
+                                      Brightness.dark;
+                                  if (dark) {
+                                    _controller = VideoPlayerController.asset(
+                                        "assets/dark.webm")
+                                      ..initialize().then(
+                                        (_) {
+                                          _controller.play();
+                                          _controller.setLooping(true);
+                                          setState(() {});
+                                        },
+                                      );
+                                  } else {
+                                    _controller = VideoPlayerController.asset(
+                                        "assets/light.webm")
+                                      ..initialize().then(
+                                        (_) {
+                                          _controller.play();
+                                          _controller.setLooping(true);
+                                          setState(() {});
+                                        },
+                                      );
+                                  }
+                                });
+                            }
+                          },
+                        )
+                        /* Switch(
                           value: dark,
                           onChanged: (value) {
                             setState(
@@ -211,7 +283,7 @@ class _FlyvooState extends State<Flyvoo> {
                               },
                             );
                           },
-                        ),
+                        ), */
                       ],
                     ),
                     const LoginBotao()
