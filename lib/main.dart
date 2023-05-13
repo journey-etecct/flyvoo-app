@@ -88,23 +88,7 @@ Map<String, dynamic> temaDark = {
 };
 bool dark = false;
 
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
-
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  @override
-  Widget build(BuildContext context) {
-    return const Flyvoo();
-  }
-}
+void main() => runApp(const Flyvoo());
 
 class Flyvoo extends StatefulWidget {
   const Flyvoo({
@@ -183,36 +167,52 @@ class _FlyvooState extends State<Flyvoo> {
                             : temaLight["cores"]["noFundo"],
                       ),
                     ),
-                    Switch(
-                      value: dark,
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            dark = !dark;
-                            if (!dark) {
-                              _controller = VideoPlayerController.asset(
-                                  "assets/light.webm")
-                                ..initialize().then(
-                                  (_) {
-                                    _controller.play();
-                                    _controller.setLooping(true);
-                                    setState(() {});
-                                  },
-                                );
-                            } else {
-                              _controller = VideoPlayerController.asset(
-                                  "assets/dark.webm")
-                                ..initialize().then(
-                                  (_) {
-                                    _controller.play();
-                                    _controller.setLooping(true);
-                                    setState(() {});
-                                  },
-                                );
-                            }
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "dark mode",
+                          style: TextStyle(
+                            color: dark
+                                ? temaDark["cores"]["noFundo"]
+                                : temaLight["cores"]["noFundo"],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Switch(
+                          value: dark,
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                dark = !dark;
+                                if (!dark) {
+                                  _controller = VideoPlayerController.asset(
+                                      "assets/light.webm")
+                                    ..initialize().then(
+                                      (_) {
+                                        _controller.play();
+                                        _controller.setLooping(true);
+                                        setState(() {});
+                                      },
+                                    );
+                                } else {
+                                  _controller = VideoPlayerController.asset(
+                                      "assets/dark.webm")
+                                    ..initialize().then(
+                                      (_) {
+                                        _controller.play();
+                                        _controller.setLooping(true);
+                                        setState(() {});
+                                      },
+                                    );
+                                }
+                              },
+                            );
                           },
-                        );
-                      },
+                        ),
+                      ],
                     ),
                     const LoginBotao()
                   ],
