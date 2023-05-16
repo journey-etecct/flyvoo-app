@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flyvoo/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
+import 'login.dart';
+
+// tema do aplicativo
 Map<String, List> paletas = {
   "paletaVerde": [
     // Cores para Biologia, Química, Saúde
@@ -41,18 +43,12 @@ Map<String, List> paletas = {
     const Color(0xffff87ec),
   ]
 };
-
-Map<String, dynamic> temaLight = {
-  "primaria": const Color(0xffFB5607),
-  "fundo": Colors.white,
-  "noFundo": Colors.black,
+Map<String, dynamic> tema = {
+  "primaria": dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
+  "fundo": dark ? const Color(0xff252525) : Colors.white,
+  "noFundo": dark ? Colors.white : Colors.black,
 };
-
-Map<String, dynamic> temaDark = {
-  "primaria": const Color(0xff00FFD8),
-  "fundo": const Color(0xff252525),
-  "noFundo": Colors.white,
-};
+// fim do tema do aplicativo
 
 bool dark = false;
 final List<String> listModo = <String>[
@@ -126,55 +122,53 @@ class _FlyvooState extends State<Flyvoo> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: _buildTheme(),
-      home: SafeArea(
-        child: Scaffold(
-          backgroundColor: dark ? temaDark["fundo"] : temaLight["fundo"],
-          body: Stack(
-            children: [
-              SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: _controller.value.size.width,
-                    height: _controller.value.size.height,
-                    child: VideoPlayer(_controller),
-                  ),
+      home: Scaffold(
+        backgroundColor: tema["fundo"],
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _controller.value.size.width,
+                  height: _controller.value.size.height,
+                  child: VideoPlayer(_controller),
                 ),
               ),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Teste de tema',
-                      style: TextStyle(
-                        color:
-                            dark ? temaDark["primaria"] : temaLight["primaria"],
-                        fontSize: 20,
-                      ),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Teste de tema',
+                    style: TextStyle(
+                      color: tema["primaria"],
+                      fontSize: 20,
                     ),
-                    Text(
-                      'Hello World!',
-                      style: TextStyle(
-                        color:
-                            dark ? temaDark["noFundo"] : temaLight["noFundo"],
-                      ),
+                  ),
+                  Text(
+                    'Hello World!',
+                    style: TextStyle(
+                      color: tema["noFundo"],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DropdownButton(
-                          borderRadius: BorderRadius.circular(25),
-                          value: valorDropdown,
-                          items: listModo.map<DropdownMenuItem<String>>(
-                            (valor) {
-                              return DropdownMenuItem<String>(
-                                value: valor,
-                                child: Text(valor),
-                              );
-                            },
-                          ).toList(),
-                          onChanged: (selecionado) {
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownButton(
+                        borderRadius: BorderRadius.circular(25),
+                        value: valorDropdown,
+                        items: listModo.map<DropdownMenuItem<String>>(
+                          (valor) {
+                            return DropdownMenuItem<String>(
+                              value: valor,
+                              child: Text(valor),
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (selecionado) {
+                          if (valorDropdown != selecionado) {
                             setState(() {
                               valorDropdown = selecionado;
                             });
@@ -182,6 +176,16 @@ class _FlyvooState extends State<Flyvoo> {
                               case "Modo escuro":
                                 setState(() {
                                   dark = true;
+                                  tema = {
+                                    "primaria": dark
+                                        ? const Color(0xff00FFD8)
+                                        : const Color(0xffFB5607),
+                                    "fundo": dark
+                                        ? const Color(0xff252525)
+                                        : Colors.white,
+                                    "noFundo":
+                                        dark ? Colors.white : Colors.black,
+                                  };
                                   _controller = VideoPlayerController.asset(
                                       "assets/dark.webm")
                                     ..initialize().then(
@@ -196,6 +200,16 @@ class _FlyvooState extends State<Flyvoo> {
                               case "Modo claro":
                                 setState(() {
                                   dark = false;
+                                  tema = {
+                                    "primaria": dark
+                                        ? const Color(0xff00FFD8)
+                                        : const Color(0xffFB5607),
+                                    "fundo": dark
+                                        ? const Color(0xff252525)
+                                        : Colors.white,
+                                    "noFundo":
+                                        dark ? Colors.white : Colors.black,
+                                  };
                                   _controller = VideoPlayerController.asset(
                                       "assets/light.webm")
                                     ..initialize().then(
@@ -235,49 +249,59 @@ class _FlyvooState extends State<Flyvoo> {
                                         },
                                       );
                                   }
+                                  tema = {
+                                    "primaria": dark
+                                        ? const Color(0xff00FFD8)
+                                        : const Color(0xffFB5607),
+                                    "fundo": dark
+                                        ? const Color(0xff252525)
+                                        : Colors.white,
+                                    "noFundo":
+                                        dark ? Colors.white : Colors.black,
+                                  };
                                 });
                             }
-                          },
-                        )
-                        /* Switch(
-                          value: dark,
-                          onChanged: (value) {
-                            setState(
-                              () {
-                                dark = !dark;
-                                if (!dark) {
-                                  _controller = VideoPlayerController.asset(
-                                      "assets/light.webm")
-                                    ..initialize().then(
-                                      (_) {
-                                        _controller.play();
-                                        _controller.setLooping(true);
-                                        setState(() {});
-                                      },
-                                    );
-                                } else {
-                                  _controller = VideoPlayerController.asset(
-                                      "assets/dark.webm")
-                                    ..initialize().then(
-                                      (_) {
-                                        _controller.play();
-                                        _controller.setLooping(true);
-                                        setState(() {});
-                                      },
-                                    );
-                                }
-                              },
-                            );
-                          },
-                        ), */
-                      ],
-                    ),
-                    const LoginBotao()
-                  ],
-                ),
+                          }
+                        },
+                      )
+                      /* Switch(
+                        value: dark,
+                        onChanged: (value) {
+                          setState(
+                            () {
+                              dark = !dark;
+                              if (!dark) {
+                                _controller = VideoPlayerController.asset(
+                                    "assets/light.webm")
+                                  ..initialize().then(
+                                    (_) {
+                                      _controller.play();
+                                      _controller.setLooping(true);
+                                      setState(() {});
+                                    },
+                                  );
+                              } else {
+                                _controller = VideoPlayerController.asset(
+                                    "assets/dark.webm")
+                                  ..initialize().then(
+                                    (_) {
+                                      _controller.play();
+                                      _controller.setLooping(true);
+                                      setState(() {});
+                                    },
+                                  );
+                              }
+                            },
+                          );
+                        },
+                      ), */
+                    ],
+                  ),
+                  const LoginBotao()
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -308,7 +332,10 @@ class LoginBotao extends StatelessWidget {
 class MyBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
     return child;
   }
 }
@@ -316,8 +343,18 @@ class MyBehavior extends ScrollBehavior {
 ThemeData _buildTheme() {
   var baseTheme = ThemeData(
     useMaterial3: true,
-    colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
+    colorSchemeSeed: tema["primaria"],
     brightness: dark ? Brightness.dark : Brightness.light,
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(
+        color: tema["primaria"],
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: tema["primaria"],
+        ),
+      ),
+    ),
   );
 
   return baseTheme.copyWith(
