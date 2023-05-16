@@ -3,90 +3,56 @@ import 'package:flutter/scheduler.dart';
 import 'package:flyvoo/login.dart';
 import 'package:video_player/video_player.dart';
 
+Map<String, List> paletas = {
+  "paletaVerde": [
+    // Cores para Biologia, Química, Saúde
+    const Color(0xff00bf63),
+    const Color(0xff7ed957),
+    const Color(0xffc1ff72),
+    const Color(0xffedff59),
+  ],
+  "paletaLaranja": [
+    // Cores para História, Geografia, Filosofia, Sociologia
+    const Color(0xffaf5f15),
+    const Color(0xffed974e),
+    const Color(0xfff4c755),
+    const Color(0xfffff24a),
+  ],
+  "paletaAzul": [
+    // Cores para Mat., Pesquisas, Física, Marketing, RH, ADM
+    const Color(0xff4974af),
+    const Color(0xff49a3cf),
+    const Color(0xff6fb1d1),
+    const Color(0xff93d6e1),
+  ],
+  "paletaVermelho": [
+    // Cores para Arte, literatura, expressão, teatro, dança, coach
+    const Color(0xffd12525),
+    const Color(0xfffa5656),
+    const Color(0xffff5b5b),
+    const Color(0xfff46a7f),
+  ],
+  "paletaRoxo": [
+    // Cores para Abstratas: mente, programação, design
+    const Color(0xffb243b0),
+    const Color(0xffe855e6),
+    const Color(0xffdb64f4),
+    const Color(0xffff87ec),
+  ]
+};
+
 Map<String, dynamic> temaLight = {
-  "cores": {
-    "primaria": const Color(0xffFB5607),
-    "fundo": Colors.white,
-    "noFundo": Colors.black,
-    "paletaVerde": [
-      // Cores para Biologia, Química, Saúde
-      const Color(0xff00bf63),
-      const Color(0xff7ed957),
-      const Color(0xffc1ff72),
-      const Color(0xffedff59),
-    ],
-    "paletaLaranja": [
-      // Cores para História, Geografia, Filosofia, Sociologia
-      const Color(0xffaf5f15),
-      const Color(0xffed974e),
-      const Color(0xfff4c755),
-      const Color(0xfffff24a),
-    ],
-    "paletaAzul": [
-      // Cores para Mat., Pesquisas, Física, Marketing, RH, ADM
-      const Color(0xff4974af),
-      const Color(0xff49a3cf),
-      const Color(0xff6fb1d1),
-      const Color(0xff93d6e1),
-    ],
-    "paletaVermelho": [
-      // Cores para Arte, literatura, expressão, teatro, dança, coach
-      const Color(0xffd12525),
-      const Color(0xfffa5656),
-      const Color(0xffff5b5b),
-      const Color(0xfff46a7f),
-    ],
-    "paletaRoxo": [
-      // Cores para Abstratas: mente, programação, design
-      const Color(0xffb243b0),
-      const Color(0xffe855e6),
-      const Color(0xffdb64f4),
-      const Color(0xffff87ec),
-    ]
-  }
+  "primaria": const Color(0xffFB5607),
+  "fundo": Colors.white,
+  "noFundo": Colors.black,
 };
+
 Map<String, dynamic> temaDark = {
-  "cores": {
-    "primaria": const Color(0xff00FFD8),
-    "fundo": const Color(0xff252525),
-    "noFundo": Colors.white,
-    "paletaVerde": <Color>[
-      // Cores para Biologia, Química, Saúde
-      const Color(0xff00bf63),
-      const Color(0xff7ed957),
-      const Color(0xffc1ff72),
-      const Color(0xffedff59),
-    ],
-    "paletaLaranja": <Color>[
-      // Cores para História, Geografia, Filosofia, Sociologia
-      const Color(0xffaf5f15),
-      const Color(0xffed974e),
-      const Color(0xfff4c755),
-      const Color(0xfffff24a),
-    ],
-    "paletaAzul": <Color>[
-      // Cores para Mat., Pesquisas, Física, Marketing, RH, ADM
-      const Color(0xff4974af),
-      const Color(0xff49a3cf),
-      const Color(0xff6fb1d1),
-      const Color(0xff93d6e1),
-    ],
-    "paletaVermelho": <Color>[
-      // Cores para Arte, literatura, expressão, teatro, dança, coach
-      const Color(0xffd12525),
-      const Color(0xfffa5656),
-      const Color(0xffff5b5b),
-      const Color(0xfff46a7f),
-    ],
-    "paletaRoxo": <Color>[
-      // Cores para Abstratas: mente, programação, design
-      const Color(0xffb243b0),
-      const Color(0xffe855e6),
-      const Color(0xffdb64f4),
-      const Color(0xffff87ec),
-    ]
-  }
+  "primaria": const Color(0xff00FFD8),
+  "fundo": const Color(0xff252525),
+  "noFundo": Colors.white,
 };
+
 bool dark = false;
 final List<String> listModo = <String>[
   "Modo escuro",
@@ -109,6 +75,32 @@ class Flyvoo extends StatefulWidget {
 class _FlyvooState extends State<Flyvoo> {
   late VideoPlayerController _controller;
 
+  _mudarTema() {
+    setState(() {
+      dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.dark;
+      if (dark) {
+        _controller = VideoPlayerController.asset("assets/dark.webm")
+          ..initialize().then(
+            (_) {
+              _controller.play();
+              _controller.setLooping(true);
+              setState(() {});
+            },
+          );
+      } else {
+        _controller = VideoPlayerController.asset("assets/light.webm")
+          ..initialize().then(
+            (_) {
+              _controller.play();
+              _controller.setLooping(true);
+              setState(() {});
+            },
+          );
+      }
+    });
+  }
+
   @override
   void initState() {
     _controller = VideoPlayerController.asset("assets/light.webm")
@@ -119,6 +111,7 @@ class _FlyvooState extends State<Flyvoo> {
           setState(() {});
         },
       );
+    _mudarTema();
     super.initState();
   }
 
@@ -133,14 +126,11 @@ class _FlyvooState extends State<Flyvoo> {
     return MaterialApp(
       theme: ThemeData(
           useMaterial3: true,
-          colorSchemeSeed: dark
-              ? temaDark["cores"]["primaria"]
-              : temaLight["cores"]["primaria"],
+          colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
           brightness: dark ? Brightness.dark : Brightness.light),
       home: SafeArea(
         child: Scaffold(
-          backgroundColor:
-              dark ? temaDark["cores"]["fundo"] : temaLight["cores"]["fundo"],
+          backgroundColor: dark ? temaDark["fundo"] : temaLight["fundo"],
           body: Stack(
             children: [
               SizedBox.expand(
@@ -160,18 +150,16 @@ class _FlyvooState extends State<Flyvoo> {
                     Text(
                       'Teste de tema',
                       style: TextStyle(
-                        color: dark
-                            ? temaDark["cores"]["primaria"]
-                            : temaLight["cores"]["primaria"],
+                        color:
+                            dark ? temaDark["primaria"] : temaLight["primaria"],
                         fontSize: 20,
                       ),
                     ),
                     Text(
                       'Hello World!',
                       style: TextStyle(
-                        color: dark
-                            ? temaDark["cores"]["noFundo"]
-                            : temaLight["cores"]["noFundo"],
+                        color:
+                            dark ? temaDark["noFundo"] : temaLight["noFundo"],
                       ),
                     ),
                     Row(
