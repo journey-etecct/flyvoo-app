@@ -25,3 +25,6 @@ flutter:
     - family: Queensides
       fonts:
         - asset: assets/queensides.ttf
+    - family: Product Sans
+      fonts:
+        - asset: assets/productsans.ttf

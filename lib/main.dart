@@ -125,9 +125,11 @@ class _FlyvooState extends State<Flyvoo> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
-          brightness: dark ? Brightness.dark : Brightness.light),
+        useMaterial3: true,
+        colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
+        brightness: dark ? Brightness.dark : Brightness.light,
+        fontFamily: "Product Sans",
+      ),
       home: SafeArea(
         child: Scaffold(
           backgroundColor: dark ? temaDark["fundo"] : temaLight["fundo"],
@@ -304,5 +306,13 @@ class LoginBotao extends StatelessWidget {
       },
       child: const Text("login teste"),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }
