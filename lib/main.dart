@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flyvoo/cadastro.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
@@ -297,7 +298,8 @@ class _FlyvooState extends State<Flyvoo> {
                       ), */
                     ],
                   ),
-                  const LoginBotao()
+                  const LoginBotao(),
+                  const CadastroBotao()
                 ],
               ),
             ),
@@ -325,6 +327,27 @@ class LoginBotao extends StatelessWidget {
         );
       },
       child: const Text("login teste"),
+    );
+  }
+}
+
+class CadastroBotao extends StatelessWidget {
+  const CadastroBotao({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Cadastro(),
+          ),
+        );
+      },
+      child: const Text("cadastro teste"),
     );
   }
 }
