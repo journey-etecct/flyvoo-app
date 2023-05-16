@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flyvoo/login.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
 Map<String, List> paletas = {
@@ -124,12 +125,7 @@ class _FlyvooState extends State<Flyvoo> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
-        brightness: dark ? Brightness.dark : Brightness.light,
-        fontFamily: "Product Sans",
-      ),
+      theme: _buildTheme(),
       home: SafeArea(
         child: Scaffold(
           backgroundColor: dark ? temaDark["fundo"] : temaLight["fundo"],
@@ -315,4 +311,16 @@ class MyBehavior extends ScrollBehavior {
       BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
+}
+
+ThemeData _buildTheme() {
+  var baseTheme = ThemeData(
+    useMaterial3: true,
+    colorSchemeSeed: dark ? temaDark["primaria"] : temaLight["primaria"],
+    brightness: dark ? Brightness.dark : Brightness.light,
+  );
+
+  return baseTheme.copyWith(
+    textTheme: GoogleFonts.interTextTheme(baseTheme.textTheme),
+  );
 }

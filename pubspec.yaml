@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^4.0.4
   video_player: ^2.6.1
 
 dev_dependencies:
@@ -25,6 +26,3 @@ flutter:
     - family: Queensides
       fonts:
         - asset: assets/queensides.ttf
-    - family: Product Sans
-      fonts:
-        - asset: assets/productsans.ttf
