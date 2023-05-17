@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
@@ -208,6 +208,7 @@ class Tela1 extends StatefulWidget {
 class _Tela1State extends State<Tela1> {
   IconData _iconeOlho = Icons.visibility_rounded;
   bool _txtEscondido = true;
+  final _senhaConfKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -230,6 +231,12 @@ class _Tela1State extends State<Tela1> {
                 ),
               )) {
                 return "Nome inválido";
+              } else if (!value.contains(
+                RegExp(
+                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}){1,10}$',
+                ),
+              )) {
+                return "Insira seu nome completo";
               }
               return null;
             },
@@ -245,6 +252,7 @@ class _Tela1State extends State<Tela1> {
                 ),
               ),
             ),
+            cursorColor: tema["primaria"],
           ),
           TextFormField(
             controller: _txtEmail,
@@ -268,7 +276,6 @@ class _Tela1State extends State<Tela1> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            cursorColor: tema["primaria"],
             autofillHints: const [AutofillHints.email],
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -282,9 +289,11 @@ class _Tela1State extends State<Tela1> {
                 ),
               ),
             ),
+            cursorColor: tema["primaria"],
           ),
           TextFormField(
             controller: _txtTelefone,
+            keyboardType: TextInputType.phone,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
@@ -298,7 +307,13 @@ class _Tela1State extends State<Tela1> {
             decoration: InputDecoration(
               labelText: "Telefone (Celular ou fixo)",
               labelStyle: TextStyle(fontSize: 20),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
             ),
+            cursorColor: tema["primaria"],
             inputFormatters: [
               PhoneInputFormatter(
                 defaultCountryCode: "BR",
@@ -307,6 +322,7 @@ class _Tela1State extends State<Tela1> {
           ),
           TextFormField(
             controller: _txtSenha,
+            enableInteractiveSelection: false,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
@@ -314,7 +330,7 @@ class _Tela1State extends State<Tela1> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            cursorColor: tema["primaria"],
+            onChanged: (value) => _senhaConfKey.currentState!.validate(),
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
@@ -322,11 +338,6 @@ class _Tela1State extends State<Tela1> {
               labelText: "Senha",
               labelStyle: TextStyle(
                 fontSize: 20,
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: tema["primaria"],
-                ),
               ),
               suffix: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
@@ -351,10 +362,18 @@ class _Tela1State extends State<Tela1> {
                   ),
                 ),
               ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
             ),
+            cursorColor: tema["primaria"],
           ),
           TextFormField(
+            key: _senhaConfKey,
             controller: _txtSenhaConf,
+            enableInteractiveSelection: false,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
@@ -365,7 +384,6 @@ class _Tela1State extends State<Tela1> {
               }
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            cursorColor: tema["primaria"],
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
@@ -380,6 +398,7 @@ class _Tela1State extends State<Tela1> {
                 ),
               ),
             ),
+            cursorColor: tema["primaria"],
           ),
         ],
       ),
@@ -396,8 +415,78 @@ class Tela2 extends StatefulWidget {
 }
 
 class _Tela2State extends State<Tela2> {
+  final List<ColorItem> items = [
+    ColorItem("default", Colors.white),
+    ColorItem("verde", Colors.green),
+    ColorItem("laranja", Colors.yellow),
+    ColorItem("azul", Colors.blue),
+    ColorItem("vermelho", Colors.blue),
+    ColorItem("roxo", Colors.blue),
+  ];
+  late ColorItem currentChoice;
+
+  @override
+  void initState() {
+    currentChoice = items.first;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Form(
+      key: widget.formKey,
+      child: Column(
+        children: [
+          Theme(
+            data: Theme.of(context).copyWith(canvasColor: Colors.amber),
+            child: DropdownButtonFormField(
+              borderRadius: BorderRadius.circular(25),
+              value: currentChoice,
+              decoration: InputDecoration(fillColor: Colors.amber),
+              items: items
+                  .map<DropdownMenuItem<ColorItem>>(
+                    (ColorItem item) => DropdownMenuItem<ColorItem>(
+                      value: item,
+                      child: Container(
+                        constraints: BoxConstraints(minHeight: 48.0),
+                        color: item.color,
+                        child: Text(item.name),
+                      ),
+                    ),
+                  )
+                  .toList(),
+              /* <DropdownMenuItem>[
+                DropdownMenuItem(
+                  value: "",
+                  enabled: false,
+                  child: Text("Qual área mais te interessa?"),
+                ),
+                DropdownMenuItem(
+                  value: "essa",
+                  child: Text("essa"),
+                ),
+                DropdownMenuItem(
+                  value: "essa outra",
+                  child: Text("essa outra"),
+                ),
+                DropdownMenuItem(
+                  value: "mais uma",
+                  child: Text("mais uma"),
+                ),
+              ], */
+              onChanged: (ColorItem? value) => setState(
+                () => currentChoice = value!,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
+}
+
+class ColorItem {
+  ColorItem(this.name, this.color);
+  final String name;
+  final Color color;
 }
