@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'main.dart';
+
+int _step = 0;
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -14,12 +17,10 @@ class Cadastro extends StatefulWidget {
   State<Cadastro> createState() => _CadastroState();
 }
 
-class _CadastroState extends State<Cadastro> {
-  IconData _iconeOlho = Icons.visibility_rounded;
-  bool _txtEscondido = true;
-  final _loginKey = GlobalKey<FormFieldState>();
-  final _senhaKey = GlobalKey<FormFieldState>();
+class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
+  late List<Widget> telas = <Widget>[Tela1(_formKey), Tela2()];
+  bool _reverse = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,15 @@ class _CadastroState extends State<Cadastro> {
       child: Scaffold(
         backgroundColor: tema["fundo"],
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(50, 50, 50, 0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  setState(() {});
-                },
+          padding: const EdgeInsets.fromLTRB(50, 60, 50, 40),
+          child: SingleChildScrollView(
+            child: GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                setState(() {});
+              },
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -44,14 +45,25 @@ class _CadastroState extends State<Cadastro> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(25),
-                          child: Image(
-                            image: AssetImage(
-                              dark
-                                  ? "assets/logodark.png"
-                                  : "assets/logolight.png",
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: dark
+                                  ? Colors.black.withOpacity(0.2)
+                                  : Colors.transparent,
+                              border: Border.all(
+                                color: tema["primaria"],
+                              ),
                             ),
-                            width: 78,
-                            height: 78,
+                            child: Image(
+                              image: AssetImage(
+                                dark
+                                    ? "assets/logodark.png"
+                                    : "assets/logolight.png",
+                              ),
+                              width: 90,
+                              height: 90,
+                            ),
                           ),
                         ),
                         Expanded(
@@ -69,129 +81,23 @@ class _CadastroState extends State<Cadastro> {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      key: _loginKey,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "*Obrigatório";
-                        } else if (!value.contains("@gmail.com") &&
-                            !value.contains("@etec.sp.gov.br") &&
-                            !value.contains("@outlook.com") &&
-                            !value.contains("@hotmail.com")) {
-                          return "Email inválido";
-                        }
-                        return null;
-                      },
-                      onTapOutside: (event) {
-                        _loginKey.currentState!.reset();
-                      },
-                      onChanged: (value) {
-                        _loginKey.currentState!.validate();
-                      },
-                      cursorColor: tema["primaria"],
-                      autofillHints: const [AutofillHints.email],
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                          fontSize: 20,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tema["primaria"],
-                          ),
-                        ),
-                        suffix: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              child: Icon(
-                                Icons.favorite_border,
-                                color: Colors.transparent,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                // ignorar
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      key: _senhaKey,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "*Obrigatório";
-                        }
-                        return null;
-                      },
-                      onTapOutside: (event) {
-                        _senhaKey.currentState!.reset();
-                      },
-                      onChanged: (value) {
-                        _senhaKey.currentState!.validate();
-                      },
-                      cursorColor: tema["primaria"],
-                      autofillHints: const [AutofillHints.password],
-                      obscureText: _txtEscondido,
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: InputDecoration(
-                        labelText: "Senha",
-                        labelStyle: TextStyle(
-                          fontSize: 20,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tema["primaria"],
-                          ),
-                        ),
-                        suffix: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              child: Icon(
-                                _iconeOlho,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  if (_txtEscondido) {
-                                    _iconeOlho = Icons.visibility_off_rounded;
-                                    _txtEscondido = false;
-                                  } else {
-                                    _iconeOlho = Icons.visibility_rounded;
-                                    _txtEscondido = true;
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Esqueceu a senha?",
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
-                              color: tema["primaria"],
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // TODO: mudar senha
-                              }),
+                    Expanded(
+                      child: PageTransitionSwitcher(
+                        reverse: _reverse,
+                        transitionBuilder: (
+                          Widget child,
+                          Animation<double> primaryAnimation,
+                          Animation<double> secondaryAnimation,
+                        ) {
+                          return SharedAxisTransition(
+                            fillColor: Colors.transparent,
+                            animation: primaryAnimation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                            child: child,
+                          );
+                        },
+                        child: telas[_step],
                       ),
                     ),
                     SizedBox(
@@ -199,7 +105,7 @@ class _CadastroState extends State<Cadastro> {
                     ),
                     RichText(
                       text: TextSpan(
-                        text: "Não possui cadastro? ",
+                        text: "Já possui cadastro? ",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onBackground,
                         ),
@@ -212,7 +118,7 @@ class _CadastroState extends State<Cadastro> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                // TODO: criar conta
+                                // TODO: tela de login
                               },
                           ),
                         ],
@@ -226,13 +132,18 @@ class _CadastroState extends State<Cadastro> {
                       padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
                       color: tema["primaria"].withOpacity(0.65),
                       onPressed: () {
-                        // TODO: entrar
-                        if (_formKey.currentState!.validate()) {
-                          debugPrint("ebaa");
-                        }
+                        setState(() {
+                          if (_step == 0) {
+                            _reverse = false;
+                            _step++;
+                          } else {
+                            _reverse = true;
+                            _step--;
+                          }
+                        });
                       },
                       child: Text(
-                        "Entrar",
+                        "Próximo",
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
@@ -247,5 +158,183 @@ class _CadastroState extends State<Cadastro> {
         ),
       ),
     );
+  }
+}
+
+class Tela1 extends StatefulWidget {
+  final Key formKey;
+  const Tela1(this.formKey, {super.key});
+
+  @override
+  State<Tela1> createState() => _Tela1State();
+}
+
+class _Tela1State extends State<Tela1> {
+  IconData _iconeOlho = Icons.visibility_rounded;
+  bool _txtEscondido = true;
+  final _loginKey = GlobalKey<FormFieldState>();
+  final _senhaKey = GlobalKey<FormFieldState>();
+  final _senhaConfKey = GlobalKey<FormFieldState>();
+  final _txtSenha = TextEditingController();
+  final _txtSenhaConf = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: widget.formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            key: _loginKey,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "*Obrigatório";
+              } else if (!value.contains(
+                RegExp(
+                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                ),
+              ) /* !value.contains("@gmail.com") &&
+                  !value.contains("@etec.sp.gov.br") &&
+                  !value.contains("@outlook.com") &&
+                  !value.contains("@hotmail.com") &&
+                  !value.contains("@yahoo.com") &&
+                  !value.contains("@terra.com.br") */
+                  ) {
+                return "Email inválido";
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _loginKey.currentState!.validate();
+            },
+            cursorColor: tema["primaria"],
+            autofillHints: const [AutofillHints.email],
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: "Email",
+              labelStyle: TextStyle(
+                fontSize: 20,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
+              suffix: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.transparent,
+                      size: 20,
+                    ),
+                    onTap: () {
+                      // ignorar
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            key: _senhaKey,
+            controller: _txtSenha,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "*Obrigatório";
+              }
+              return null;
+            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            cursorColor: tema["primaria"],
+            autofillHints: const [AutofillHints.password],
+            obscureText: _txtEscondido,
+            keyboardType: TextInputType.visiblePassword,
+            decoration: InputDecoration(
+              labelText: "Senha",
+              labelStyle: TextStyle(
+                fontSize: 20,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
+              suffix: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    child: Icon(
+                      _iconeOlho,
+                      size: 20,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        if (_txtEscondido) {
+                          _iconeOlho = Icons.visibility_off_rounded;
+                          _txtEscondido = false;
+                        } else {
+                          _iconeOlho = Icons.visibility_rounded;
+                          _txtEscondido = true;
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          TextFormField(
+            key: _senhaConfKey,
+            controller: _txtSenhaConf,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "*Obrigatório";
+              } else if (_txtSenha.text != _txtSenhaConf.text) {
+                return "Senhas não coincidem";
+              } else {
+                return null;
+              }
+            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            cursorColor: tema["primaria"],
+            autofillHints: const [AutofillHints.password],
+            obscureText: _txtEscondido,
+            keyboardType: TextInputType.visiblePassword,
+            decoration: InputDecoration(
+              labelText: "Confirmação da senha",
+              labelStyle: TextStyle(
+                fontSize: 20,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Tela2 extends StatefulWidget {
+  const Tela2({super.key});
+
+  @override
+  State<Tela2> createState() => _Tela2State();
+}
+
+class _Tela2State extends State<Tela2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
