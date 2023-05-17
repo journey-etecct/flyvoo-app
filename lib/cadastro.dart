@@ -4,11 +4,17 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'main.dart';
 
 int _step = 0;
+final _txtNome = TextEditingController();
+final _txtEmail = TextEditingController();
+final _txtTelefone = TextEditingController();
+final _txtSenha = TextEditingController();
+final _txtSenhaConf = TextEditingController();
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -18,139 +24,169 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
-  final _formKey = GlobalKey<FormState>();
-  late List<Widget> telas = <Widget>[Tela1(_formKey), Tela2()];
-  bool _reverse = false;
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  late List<Widget> telas = <Widget>[Tela1(_formKey1), Tela2(_formKey2)];
+  bool _reversed = false;
+
+  @override
+  void initState() {
+    _step = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: Scaffold(
-        backgroundColor: tema["fundo"],
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(50, 60, 50, 40),
-          child: SingleChildScrollView(
-            child: GestureDetector(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                setState(() {});
-              },
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height - 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: dark
-                                  ? Colors.black.withOpacity(0.2)
-                                  : Colors.transparent,
-                              border: Border.all(
-                                color: tema["primaria"],
-                              ),
-                            ),
-                            child: Image(
-                              image: AssetImage(
-                                dark
-                                    ? "assets/logodark.png"
-                                    : "assets/logolight.png",
-                              ),
-                              width: 90,
-                              height: 90,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            "CADASTRO",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Expanded(
-                      child: PageTransitionSwitcher(
-                        reverse: _reverse,
-                        transitionBuilder: (
-                          Widget child,
-                          Animation<double> primaryAnimation,
-                          Animation<double> secondaryAnimation,
-                        ) {
-                          return SharedAxisTransition(
-                            fillColor: Colors.transparent,
-                            animation: primaryAnimation,
-                            secondaryAnimation: secondaryAnimation,
-                            transitionType: SharedAxisTransitionType.horizontal,
-                            child: child,
-                          );
-                        },
-                        child: telas[_step],
+    return WillPopScope(
+      onWillPop: () async {
+        if (_step == 1) {
+          setState(() {
+            _reversed = true;
+            _step--;
+          });
+          return false;
+        } else {
+          _txtSenha.text = "";
+          _txtSenhaConf.text = "";
+          return true;
+        }
+      },
+      child: ScrollConfiguration(
+        behavior: MyBehavior(),
+        child: Scaffold(
+          backgroundColor: tema["fundo"],
+          body: Padding(
+            padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+            child: SingleChildScrollView(
+              child: GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  setState(() {});
+                },
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 60,
                       ),
-                    ),
-                    SizedBox(
-                      height: 80,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: "Já possui cadastro? ",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
+                      Row(
                         children: [
-                          TextSpan(
-                            text: "Clique aqui",
-                            style: TextStyle(
-                              color: tema["primaria"],
-                              decoration: TextDecoration.underline,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: dark
+                                    ? Colors.black.withOpacity(0.2)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: tema["primaria"],
+                                ),
+                              ),
+                              child: Image(
+                                image: AssetImage(
+                                  dark
+                                      ? "assets/logodark.png"
+                                      : "assets/logolight.png",
+                                ),
+                                width: 90,
+                                height: 90,
+                              ),
                             ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // TODO: tela de login
-                              },
+                          ),
+                          Expanded(
+                            child: Text(
+                              "CADASTRO",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    CupertinoButton(
-                      borderRadius: BorderRadius.circular(10),
-                      padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
-                      color: tema["primaria"].withOpacity(0.65),
-                      onPressed: () {
-                        setState(() {
-                          if (_step == 0) {
-                            _reverse = false;
-                            _step++;
-                          } else {
-                            _reverse = true;
-                            _step--;
-                          }
-                        });
-                      },
-                      child: Text(
-                        "Próximo",
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: PageTransitionSwitcher(
+                          reverse: _reversed,
+                          transitionBuilder: (
+                            Widget child,
+                            Animation<double> primaryAnimation,
+                            Animation<double> secondaryAnimation,
+                          ) {
+                            return SharedAxisTransition(
+                              fillColor: Colors.transparent,
+                              animation: primaryAnimation,
+                              secondaryAnimation: secondaryAnimation,
+                              transitionType:
+                                  SharedAxisTransitionType.horizontal,
+                              child: child,
+                            );
+                          },
+                          child: telas[_step],
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 80,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Já possui cadastro? ",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Clique aqui",
+                              style: TextStyle(
+                                color: tema["primaria"],
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // TODO: tela de login
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      CupertinoButton(
+                        borderRadius: BorderRadius.circular(10),
+                        padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
+                        color: tema["primaria"].withOpacity(0.65),
+                        onPressed: () {
+                          setState(() {
+                            if (_step == 0) {
+                              if (_formKey1.currentState!.validate()) {
+                                _reversed = false;
+                                _step++;
+                              }
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          });
+                        },
+                        child: Text(
+                          _step == 0 ? "Próximo" : "Cadastrar",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -172,11 +208,6 @@ class Tela1 extends StatefulWidget {
 class _Tela1State extends State<Tela1> {
   IconData _iconeOlho = Icons.visibility_rounded;
   bool _txtEscondido = true;
-  final _loginKey = GlobalKey<FormFieldState>();
-  final _senhaKey = GlobalKey<FormFieldState>();
-  final _senhaConfKey = GlobalKey<FormFieldState>();
-  final _txtSenha = TextEditingController();
-  final _txtSenhaConf = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +216,39 @@ class _Tela1State extends State<Tela1> {
       child: Column(
         children: [
           TextFormField(
-            key: _loginKey,
+            controller: _txtNome,
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.words,
+            keyboardType: TextInputType.text,
+            maxLength: 255,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "*Obrigatório";
+              } else if (value.contains(
+                RegExp(
+                  r'''[!@#<>?":,.'_/`~;[\]\\|=+)(*&^%0-9-]''',
+                ),
+              )) {
+                return "Nome inválido";
+              }
+              return null;
+            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: InputDecoration(
+              labelText: "Nome Completo",
+              labelStyle: TextStyle(
+                fontSize: 20,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
+                ),
+              ),
+            ),
+          ),
+          TextFormField(
+            controller: _txtEmail,
+            textInputAction: TextInputAction.next,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
@@ -204,9 +267,7 @@ class _Tela1State extends State<Tela1> {
               }
               return null;
             },
-            onChanged: (value) {
-              _loginKey.currentState!.validate();
-            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             cursorColor: tema["primaria"],
             autofillHints: const [AutofillHints.email],
             keyboardType: TextInputType.emailAddress,
@@ -220,29 +281,31 @@ class _Tela1State extends State<Tela1> {
                   color: tema["primaria"],
                 ),
               ),
-              suffix: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    child: Icon(
-                      Icons.favorite_border,
-                      color: Colors.transparent,
-                      size: 20,
-                    ),
-                    onTap: () {
-                      // ignorar
-                    },
-                  ),
-                ),
-              ),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          TextFormField(
+            controller: _txtTelefone,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "*Obrigatório";
+              } else if (value.length < 14) {
+                return "Muito curto";
+              }
+              return null;
+            },
+            autofillHints: const [AutofillHints.telephoneNumberNational],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: InputDecoration(
+              labelText: "Telefone (Celular ou fixo)",
+              labelStyle: TextStyle(fontSize: 20),
+            ),
+            inputFormatters: [
+              PhoneInputFormatter(
+                defaultCountryCode: "BR",
+              )
+            ],
           ),
           TextFormField(
-            key: _senhaKey,
             controller: _txtSenha,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -291,12 +354,11 @@ class _Tela1State extends State<Tela1> {
             ),
           ),
           TextFormField(
-            key: _senhaConfKey,
             controller: _txtSenhaConf,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
-              } else if (_txtSenha.text != _txtSenhaConf.text) {
+              } else if (_txtSenha.text != value) {
                 return "Senhas não coincidem";
               } else {
                 return null;
@@ -308,7 +370,7 @@ class _Tela1State extends State<Tela1> {
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
-              labelText: "Confirmação da senha",
+              labelText: "Confirmação da Senha",
               labelStyle: TextStyle(
                 fontSize: 20,
               ),
@@ -326,7 +388,8 @@ class _Tela1State extends State<Tela1> {
 }
 
 class Tela2 extends StatefulWidget {
-  const Tela2({super.key});
+  final Key formKey;
+  const Tela2(this.formKey, {super.key});
 
   @override
   State<Tela2> createState() => _Tela2State();

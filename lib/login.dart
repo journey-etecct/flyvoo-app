@@ -98,22 +98,6 @@ class _LoginState extends State<Login> {
                               color: tema["primaria"],
                             ),
                           ),
-                          suffix: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.transparent,
-                                  size: 20,
-                                ),
-                                onTap: () {
-                                  // ignorar
-                                },
-                              ),
-                            ),
-                          ),
                         ),
                       ),
                       const SizedBox(
