@@ -2,6 +2,7 @@
 
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
@@ -15,6 +16,7 @@ final _txtEmail = TextEditingController();
 final _txtTelefone = TextEditingController();
 final _txtSenha = TextEditingController();
 final _txtSenhaConf = TextEditingController();
+final _txtTelefoneE = TextEditingController();
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -165,7 +167,12 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                         onPressed: () {
                           setState(() {
                             if (_step == 0) {
-                              if (_formKey1.currentState!.validate()) {
+                              if (!kDebugMode) {
+                                if (_formKey1.currentState!.validate()) {
+                                  _reversed = false;
+                                  _step++;
+                                }
+                              } else {
                                 _reversed = false;
                                 _step++;
                               }
@@ -241,6 +248,7 @@ class _Tela1State extends State<Tela1> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            autofillHints: [AutofillHints.name],
             decoration: InputDecoration(
               labelText: "Nome Completo",
               labelStyle: TextStyle(
@@ -305,7 +313,7 @@ class _Tela1State extends State<Tela1> {
             autofillHints: const [AutofillHints.telephoneNumberNational],
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              labelText: "Telefone (Celular ou fixo)",
+              labelText: "Telefone Pessoal (Celular)",
               labelStyle: TextStyle(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -326,6 +334,8 @@ class _Tela1State extends State<Tela1> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "*Obrigatório";
+              } else if (value.length < 8) {
+                return "Sua senha precisa ter mais de 8 caracteres.";
               }
               return null;
             },
@@ -416,18 +426,29 @@ class Tela2 extends StatefulWidget {
 
 class _Tela2State extends State<Tela2> {
   final List<ColorItem> items = [
-    ColorItem("default", Colors.white),
+    ColorItem("Qual carreira você deseja seguir?", tema["fundo"]),
     ColorItem("verde", Colors.green),
-    ColorItem("laranja", Colors.yellow),
+    ColorItem("laranja", Colors.orange),
     ColorItem("azul", Colors.blue),
-    ColorItem("vermelho", Colors.blue),
-    ColorItem("roxo", Colors.blue),
+    ColorItem("vermelho", Colors.red),
+    ColorItem("roxo", Colors.purple),
   ];
-  late ColorItem currentChoice;
+  late ColorItem carreiraEscolhida;
+
+  final List<PeleItem> etnias = [
+    PeleItem("Cor de Pele", tema["fundo"], tema["noFundo"]),
+    PeleItem("Amarelo", Color(0xffffe9b0), Colors.black),
+    PeleItem("Branco", Color(0xffffdfc4), Colors.black),
+    PeleItem("Pardo", Color.fromARGB(255, 209, 170, 131), Colors.black),
+    PeleItem("Indígena", Color.fromARGB(255, 145, 86, 59), Colors.white),
+    PeleItem("Preto", Color(0xff3f2818), Colors.white),
+  ];
+  late PeleItem peleEscolhida;
 
   @override
   void initState() {
-    currentChoice = items.first;
+    carreiraEscolhida = items.first;
+    peleEscolhida = etnias.first;
     super.initState();
   }
 
@@ -437,48 +458,295 @@ class _Tela2State extends State<Tela2> {
       key: widget.formKey,
       child: Column(
         children: [
-          Theme(
-            data: Theme.of(context).copyWith(canvasColor: Colors.amber),
-            child: DropdownButtonFormField(
-              borderRadius: BorderRadius.circular(25),
-              value: currentChoice,
-              decoration: InputDecoration(fillColor: Colors.amber),
-              items: items
-                  .map<DropdownMenuItem<ColorItem>>(
-                    (ColorItem item) => DropdownMenuItem<ColorItem>(
-                      value: item,
-                      child: Container(
-                        constraints: BoxConstraints(minHeight: 48.0),
-                        color: item.color,
-                        child: Text(item.name),
+          DropdownButtonFormField(
+            value: carreiraEscolhida,
+            elevation: 0,
+            dropdownColor: Colors.transparent,
+            validator: (value) {
+              if (value != null && value == items.first) {
+                return "*Obrigatório";
+              }
+              return null;
+            },
+            selectedItemBuilder: (context) {
+              return items
+                  .map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        5,
+                        0,
+                        0,
+                        0,
                       ),
+                      child: Text(item.name),
                     ),
                   )
-                  .toList(),
-              /* <DropdownMenuItem>[
-                DropdownMenuItem(
-                  value: "",
-                  enabled: false,
-                  child: Text("Qual área mais te interessa?"),
+                  .toList();
+            },
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            icon: Image.asset(
+              "assets/seta.png",
+              color: tema["noFundo"],
+            ),
+            items: items
+                .map<DropdownMenuItem<ColorItem>>(
+                  (ColorItem item) => DropdownMenuItem<ColorItem>(
+                    value: item,
+                    enabled: item != items.first,
+                    child: ClipRRect(
+                      borderRadius: item == items.first
+                          ? BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )
+                          : item == items.last
+                              ? BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                )
+                              : BorderRadius.circular(0),
+                      child: Stack(
+                        children: [
+                          Container(
+                            color: Colors.black,
+                            constraints: BoxConstraints(minHeight: 49),
+                            alignment: Alignment.centerLeft,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              item == items.first ? 2 : 0,
+                              item == items.first ? 2 : 0,
+                              item == items.first ? 2 : 0,
+                              0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: item == items.first
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    )
+                                  : item == items.last
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        )
+                                      : BorderRadius.circular(0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: item.color,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                constraints: BoxConstraints(minHeight: 48.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    15,
+                                    0,
+                                    0,
+                                    0,
+                                  ),
+                                  child: Text(
+                                    item.name,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+            /* <DropdownMenuItem>[
+              DropdownMenuItem(
+                value: "",
+                enabled: false,
+                child: Text("Qual área mais te interessa?"),
+              ),
+              DropdownMenuItem(
+                value: "essa",
+                child: Text("essa"),
+              ),
+              DropdownMenuItem(
+                value: "essa outra",
+                child: Text("essa outra"),
+              ),
+              DropdownMenuItem(
+                value: "mais uma",
+                child: Text("mais uma"),
+              ),
+            ], */
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  carreiraEscolhida = value;
+                });
+              }
+            },
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          DropdownButtonFormField(
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            elevation: 0,
+            dropdownColor: Colors.transparent,
+            value: peleEscolhida,
+            icon: Image.asset(
+              "assets/seta.png",
+              color: tema["noFundo"],
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            selectedItemBuilder: (context) => etnias
+                .map(
+                  (PeleItem pele) => Row(
+                    children: [
+                      SizedBox(
+                        width: peleEscolhida == etnias.first ? 0 : 5,
+                      ),
+                      Container(
+                        width: peleEscolhida == etnias.first ? 0 : 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          color: peleEscolhida.bgColor,
+                          border: Border.all(
+                            color: peleEscolhida.txtColor,
+                            width: 0.5,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        pele.name,
+                        style: TextStyle(
+                          color: tema["noFundo"],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+                .toList(),
+            items: etnias
+                .map<DropdownMenuItem<PeleItem>>(
+                  (PeleItem pele) => DropdownMenuItem(
+                    value: pele,
+                    enabled: pele != etnias.first,
+                    child: ClipRRect(
+                      borderRadius: pele == etnias.first
+                          ? BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )
+                          : pele == etnias.last
+                              ? BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                )
+                              : BorderRadius.circular(0),
+                      child: Stack(
+                        children: [
+                          Container(
+                            color: Colors.black,
+                            constraints: BoxConstraints(minHeight: 49),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              pele == etnias.first ? 2 : 0,
+                              pele == etnias.first ? 2 : 0,
+                              pele == etnias.first ? 2 : 0,
+                              0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: pele == etnias.first
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    )
+                                  : pele == etnias.last
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        )
+                                      : BorderRadius.circular(0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: pele.bgColor,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                constraints: BoxConstraints(minHeight: 48.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    25,
+                                    0,
+                                    0,
+                                    0,
+                                  ),
+                                  child: Text(
+                                    pele.name,
+                                    style: TextStyle(
+                                      color: pele.txtColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  peleEscolhida = value;
+                });
+              }
+            },
+          ),
+          TextFormField(
+            controller: _txtTelefoneE,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              } else if (value.length < 14) {
+                return "Muito curto";
+              }
+              return null;
+            },
+            autofillHints: const [AutofillHints.telephoneNumberNational],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: InputDecoration(
+              labelText: "Telefone Profissional (Opcional)",
+              labelStyle: TextStyle(fontSize: 20),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: tema["primaria"],
                 ),
-                DropdownMenuItem(
-                  value: "essa",
-                  child: Text("essa"),
-                ),
-                DropdownMenuItem(
-                  value: "essa outra",
-                  child: Text("essa outra"),
-                ),
-                DropdownMenuItem(
-                  value: "mais uma",
-                  child: Text("mais uma"),
-                ),
-              ], */
-              onChanged: (ColorItem? value) => setState(
-                () => currentChoice = value!,
               ),
             ),
-          )
+            cursorColor: tema["primaria"],
+            inputFormatters: [
+              PhoneInputFormatter(
+                defaultCountryCode: "BR",
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -489,4 +757,11 @@ class ColorItem {
   ColorItem(this.name, this.color);
   final String name;
   final Color color;
+}
+
+class PeleItem {
+  PeleItem(this.name, this.bgColor, this.txtColor);
+  final String name;
+  final Color bgColor;
+  final Color txtColor;
 }
