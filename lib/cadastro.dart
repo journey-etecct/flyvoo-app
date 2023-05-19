@@ -425,25 +425,25 @@ class Tela2 extends StatefulWidget {
 }
 
 class _Tela2State extends State<Tela2> {
-  final List<ColorItem> items = [
+  /* final List<ColorItem> items = [
     ColorItem("Qual carreira você deseja seguir?", tema["fundo"]),
     ColorItem("verde", Colors.green),
     ColorItem("laranja", Colors.orange),
     ColorItem("azul", Colors.blue),
     ColorItem("vermelho", Colors.red),
     ColorItem("roxo", Colors.purple),
-  ];
-  late ColorItem carreiraEscolhida;
+  ]; */
+  late String carreiraEscolhida;
 
-  final List<PeleItem> etnias = [
+  /* final List<PeleItem> etnias = [
     PeleItem("Cor de Pele", tema["fundo"], tema["noFundo"]),
     PeleItem("Amarelo", Color(0xffffe9b0), Colors.black),
     PeleItem("Branco", Color(0xffffdfc4), Colors.black),
     PeleItem("Pardo", Color.fromARGB(255, 209, 170, 131), Colors.black),
     PeleItem("Indígena", Color.fromARGB(255, 145, 86, 59), Colors.white),
     PeleItem("Preto", Color(0xff3f2818), Colors.white),
-  ];
-  late PeleItem peleEscolhida;
+  ]; */
+  late String peleEscolhida;
 
   @override
   void initState() {
@@ -608,7 +608,8 @@ class _Tela2State extends State<Tela2> {
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
-            selectedItemBuilder: (context) => etnias
+            selectedItemBuilder: (context) => [Text("data")]
+            /* etnias
                 .map(
                   (PeleItem pele) => Row(
                     children: [
@@ -638,8 +639,10 @@ class _Tela2State extends State<Tela2> {
                     ],
                   ),
                 )
-                .toList(),
-            items: etnias
+                .toList() */
+            ,
+            items: []
+            /* etnias
                 .map<DropdownMenuItem<PeleItem>>(
                   (PeleItem pele) => DropdownMenuItem(
                     value: pele,
@@ -709,11 +712,12 @@ class _Tela2State extends State<Tela2> {
                     ),
                   ),
                 )
-                .toList(),
+                .toList() */
+            ,
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  peleEscolhida = value;
+                  peleEscolhida = value.toString();
                 });
               }
             },
@@ -754,13 +758,20 @@ class _Tela2State extends State<Tela2> {
 }
 
 class ColorItem {
-  ColorItem(this.name, this.color);
+  ColorItem(
+    this.name,
+    this.color,
+  );
   final String name;
   final Color color;
 }
 
 class PeleItem {
-  PeleItem(this.name, this.bgColor, this.txtColor);
+  PeleItem(
+    this.name,
+    this.bgColor,
+    this.txtColor,
+  );
   final String name;
   final Color bgColor;
   final Color txtColor;
