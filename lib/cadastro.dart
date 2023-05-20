@@ -425,29 +425,24 @@ class Tela2 extends StatefulWidget {
 }
 
 class _Tela2State extends State<Tela2> {
-  /* final List<ColorItem> items = [
-    ColorItem("Qual carreira você deseja seguir?", tema["fundo"]),
-    ColorItem("verde", Colors.green),
-    ColorItem("laranja", Colors.orange),
-    ColorItem("azul", Colors.blue),
-    ColorItem("vermelho", Colors.red),
-    ColorItem("roxo", Colors.purple),
-  ]; */
+  final List<String> carreiras = [
+    "Qual carreira você deseja seguir?",
+  ];
   late String carreiraEscolhida;
 
-  /* final List<PeleItem> etnias = [
-    PeleItem("Cor de Pele", tema["fundo"], tema["noFundo"]),
-    PeleItem("Amarelo", Color(0xffffe9b0), Colors.black),
-    PeleItem("Branco", Color(0xffffdfc4), Colors.black),
-    PeleItem("Pardo", Color.fromARGB(255, 209, 170, 131), Colors.black),
-    PeleItem("Indígena", Color.fromARGB(255, 145, 86, 59), Colors.white),
-    PeleItem("Preto", Color(0xff3f2818), Colors.white),
-  ]; */
+  final List<String> etnias = [
+    "Cor de Pele",
+    "Amarelo",
+    "Branco",
+    "Pardo",
+    "Indígena",
+    "Preto"
+  ];
   late String peleEscolhida;
 
   @override
   void initState() {
-    carreiraEscolhida = items.first;
+    carreiraEscolhida = carreiras.first;
     peleEscolhida = etnias.first;
     super.initState();
   }
@@ -463,26 +458,12 @@ class _Tela2State extends State<Tela2> {
             elevation: 0,
             dropdownColor: Colors.transparent,
             validator: (value) {
-              if (value != null && value == items.first) {
+              if (value != null && value == carreiras.first) {
                 return "*Obrigatório";
               }
               return null;
             },
-            selectedItemBuilder: (context) {
-              return items
-                  .map(
-                    (item) => Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        5,
-                        0,
-                        0,
-                        0,
-                      ),
-                      child: Text(item.name),
-                    ),
-                  )
-                  .toList();
-            },
+            selectedItemBuilder: (context) => [Text("data")],
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -491,101 +472,11 @@ class _Tela2State extends State<Tela2> {
               "assets/seta.png",
               color: tema["noFundo"],
             ),
-            items: items
-                .map<DropdownMenuItem<ColorItem>>(
-                  (ColorItem item) => DropdownMenuItem<ColorItem>(
-                    value: item,
-                    enabled: item != items.first,
-                    child: ClipRRect(
-                      borderRadius: item == items.first
-                          ? BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            )
-                          : item == items.last
-                              ? BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                )
-                              : BorderRadius.circular(0),
-                      child: Stack(
-                        children: [
-                          Container(
-                            color: Colors.black,
-                            constraints: BoxConstraints(minHeight: 49),
-                            alignment: Alignment.centerLeft,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              item == items.first ? 2 : 0,
-                              item == items.first ? 2 : 0,
-                              item == items.first ? 2 : 0,
-                              0,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: item == items.first
-                                  ? BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    )
-                                  : item == items.last
-                                      ? BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        )
-                                      : BorderRadius.circular(0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: item.color,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                constraints: BoxConstraints(minHeight: 48.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    15,
-                                    0,
-                                    0,
-                                    0,
-                                  ),
-                                  child: Text(
-                                    item.name,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            /* <DropdownMenuItem>[
-              DropdownMenuItem(
-                value: "",
-                enabled: false,
-                child: Text("Qual área mais te interessa?"),
-              ),
-              DropdownMenuItem(
-                value: "essa",
-                child: Text("essa"),
-              ),
-              DropdownMenuItem(
-                value: "essa outra",
-                child: Text("essa outra"),
-              ),
-              DropdownMenuItem(
-                value: "mais uma",
-                child: Text("mais uma"),
-              ),
-            ], */
+            items: [],
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  carreiraEscolhida = value;
+                  carreiraEscolhida = value.toString();
                 });
               }
             },
@@ -608,112 +499,8 @@ class _Tela2State extends State<Tela2> {
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
-            selectedItemBuilder: (context) => [Text("data")]
-            /* etnias
-                .map(
-                  (PeleItem pele) => Row(
-                    children: [
-                      SizedBox(
-                        width: peleEscolhida == etnias.first ? 0 : 5,
-                      ),
-                      Container(
-                        width: peleEscolhida == etnias.first ? 0 : 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                          color: peleEscolhida.bgColor,
-                          border: Border.all(
-                            color: peleEscolhida.txtColor,
-                            width: 0.5,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        pele.name,
-                        style: TextStyle(
-                          color: tema["noFundo"],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-                .toList() */
-            ,
-            items: []
-            /* etnias
-                .map<DropdownMenuItem<PeleItem>>(
-                  (PeleItem pele) => DropdownMenuItem(
-                    value: pele,
-                    enabled: pele != etnias.first,
-                    child: ClipRRect(
-                      borderRadius: pele == etnias.first
-                          ? BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            )
-                          : pele == etnias.last
-                              ? BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                )
-                              : BorderRadius.circular(0),
-                      child: Stack(
-                        children: [
-                          Container(
-                            color: Colors.black,
-                            constraints: BoxConstraints(minHeight: 49),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              pele == etnias.first ? 2 : 0,
-                              pele == etnias.first ? 2 : 0,
-                              pele == etnias.first ? 2 : 0,
-                              0,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: pele == etnias.first
-                                  ? BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    )
-                                  : pele == etnias.last
-                                      ? BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        )
-                                      : BorderRadius.circular(0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: pele.bgColor,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                constraints: BoxConstraints(minHeight: 48.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    25,
-                                    0,
-                                    0,
-                                    0,
-                                  ),
-                                  child: Text(
-                                    pele.name,
-                                    style: TextStyle(
-                                      color: pele.txtColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList() */
-            ,
+            selectedItemBuilder: (context) => [Text("data")],
+            items: [],
             onChanged: (value) {
               if (value != null) {
                 setState(() {
@@ -755,24 +542,4 @@ class _Tela2State extends State<Tela2> {
       ),
     );
   }
-}
-
-class ColorItem {
-  ColorItem(
-    this.name,
-    this.color,
-  );
-  final String name;
-  final Color color;
-}
-
-class PeleItem {
-  PeleItem(
-    this.name,
-    this.bgColor,
-    this.txtColor,
-  );
-  final String name;
-  final Color bgColor;
-  final Color txtColor;
 }
