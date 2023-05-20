@@ -53,6 +53,7 @@ Map<String, dynamic> tema = {
 };
 // fim do tema do aplicativo
 
+// variaveis iniciais
 bool dark = false;
 final List<String> listModo = <String>[
   "Modo escuro",
@@ -300,8 +301,7 @@ class _FlyvooState extends State<Flyvoo> {
                       ), */
                     ],
                   ),
-                  const LoginBotao(),
-                  const CadastroBotao()
+                  const Botoes()
                 ],
               ),
             ),
@@ -312,54 +312,89 @@ class _FlyvooState extends State<Flyvoo> {
   }
 }
 
-class LoginBotao extends StatelessWidget {
-  const LoginBotao({
+class Botoes extends StatefulWidget {
+  const Botoes({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: () {
-        Navigator.push(
+  State<Botoes> createState() => _BotoesState();
+}
+
+class _BotoesState extends State<Botoes> {
+  late GestureDetector botaoLogin;
+  late GestureDetector botaoCadastro;
+
+  @override
+  void initState() {
+    botaoLogin = GestureDetector(
+      onTap: () async {
+        final retorno = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const Login(),
           ),
         );
+        if (!mounted) return;
+        if (retorno != null) {
+          botaoCadastro.onTap!();
+        }
       },
-      child: const Text("login teste"),
+      child: FilledButton(
+        onPressed: () async {
+          final retorno = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Login(),
+            ),
+          );
+          if (!mounted) return;
+          if (retorno != null) {
+            botaoCadastro.onTap!();
+          }
+        },
+        child: const Text("login teste"),
+      ),
     );
-  }
-}
-
-class CadastroBotao extends StatelessWidget {
-  const CadastroBotao({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: () async {
-        bool? retorno = await Navigator.push(
+    botaoCadastro = GestureDetector(
+      onTap: () async {
+        final retorno = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const Cadastro(),
           ),
         );
+        if (!mounted) return;
         if (retorno != null) {
-          if (retorno) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Login(),
-              ),
-            );
-          }
+          botaoLogin.onTap!();
         }
       },
-      child: const Text("cadastro teste"),
+      child: FilledButton(
+        onPressed: () async {
+          final retorno = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Cadastro(),
+            ),
+          );
+          if (!mounted) return;
+          if (retorno != null) {
+            botaoLogin.onTap!();
+          }
+        },
+        child: const Text("cadastro teste"),
+      ),
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        botaoLogin,
+        botaoCadastro,
+      ],
     );
   }
 }

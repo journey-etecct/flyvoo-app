@@ -149,7 +149,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // TODO: tela de login
+                                  Navigator.pop(context, "true");
                                 },
                             ),
                           ],

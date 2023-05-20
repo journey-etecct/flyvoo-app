@@ -193,7 +193,7 @@ class _LoginState extends State<Login> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // TODO: criar conta
+                                  Navigator.pop(context, "true");
                                 },
                             ),
                           ],
