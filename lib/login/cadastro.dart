@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 int _step = 0;
 final _txtNome = TextEditingController();
