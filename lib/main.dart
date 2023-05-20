@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flyvoo/cadastro.dart';
@@ -339,13 +341,23 @@ class CadastroBotao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-      onPressed: () {
-        Navigator.push(
+      onPressed: () async {
+        bool? retorno = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const Cadastro(),
           ),
         );
+        if (retorno != null) {
+          if (retorno) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Login(),
+              ),
+            );
+          }
+        }
       },
       child: const Text("cadastro teste"),
     );

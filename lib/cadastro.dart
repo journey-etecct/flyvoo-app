@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -70,7 +68,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 60,
                       ),
                       Row(
@@ -133,7 +131,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                           child: telas[_step],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 80,
                       ),
                       RichText(
@@ -157,12 +155,12 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 35,
                       ),
                       CupertinoButton(
                         borderRadius: BorderRadius.circular(10),
-                        padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
+                        padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
                         color: tema["primaria"].withOpacity(0.65),
                         onPressed: () {
                           setState(() {
@@ -183,13 +181,13 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                         },
                         child: Text(
                           _step == 0 ? "Próximo" : "Cadastrar",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 25,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       )
                     ],
@@ -248,10 +246,10 @@ class _Tela1State extends State<Tela1> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            autofillHints: [AutofillHints.name],
+            autofillHints: const [AutofillHints.name],
             decoration: InputDecoration(
               labelText: "Nome Completo",
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -288,7 +286,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               labelText: "Email",
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -314,7 +312,7 @@ class _Tela1State extends State<Tela1> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               labelText: "Telefone Pessoal (Celular)",
-              labelStyle: TextStyle(fontSize: 20),
+              labelStyle: const TextStyle(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: tema["primaria"],
@@ -346,7 +344,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               labelText: "Senha",
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
               ),
               suffix: ClipRRect(
@@ -399,7 +397,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               labelText: "Confirmação da Senha",
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -427,6 +425,15 @@ class Tela2 extends StatefulWidget {
 class _Tela2State extends State<Tela2> {
   final List<String> carreiras = [
     "Qual carreira você deseja seguir?",
+    "carreira1",
+    "carreira2",
+    "carreira3",
+    "carreira4",
+    "carreira5",
+    "carreira6",
+    "carreira7",
+    "carreira8",
+    "carreira9",
   ];
   late String carreiraEscolhida;
 
@@ -455,56 +462,82 @@ class _Tela2State extends State<Tela2> {
         children: [
           DropdownButtonFormField(
             value: carreiraEscolhida,
-            elevation: 0,
-            dropdownColor: Colors.transparent,
+            style: TextStyle(
+              color: tema["noFundo"],
+              fontSize: 18,
+            ),
+            elevation: 1,
             validator: (value) {
               if (value != null && value == carreiras.first) {
                 return "*Obrigatório";
               }
               return null;
             },
-            selectedItemBuilder: (context) => [Text("data")],
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
+            selectedItemBuilder: (context) => carreiras
+                .map(
+                  (e) => Text(
+                    carreiraEscolhida,
+                  ),
+                )
+                .toList(),
+            borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/seta.png",
               color: tema["noFundo"],
             ),
-            items: [],
+            items: carreiras
+                .map(
+                  (String carreira) => DropdownMenuItem<String>(
+                    value: carreira,
+                    enabled: carreira != carreiras.first,
+                    child: Text(carreira),
+                  ),
+                )
+                .toList(),
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  carreiraEscolhida = value.toString();
+                  carreiraEscolhida = value;
                 });
               }
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           DropdownButtonFormField(
+            value: peleEscolhida,
+            dropdownColor: tema["fundo"],
+            elevation: 1,
             style: TextStyle(
+              color: tema["noFundo"],
               fontSize: 20,
             ),
-            elevation: 0,
-            dropdownColor: Colors.transparent,
-            value: peleEscolhida,
+            borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/seta.png",
               color: tema["noFundo"],
             ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            selectedItemBuilder: (context) => [Text("data")],
-            items: [],
+            selectedItemBuilder: (context) => etnias
+                .map(
+                  (e) => Text(
+                    e,
+                  ),
+                )
+                .toList(),
+            items: etnias
+                .map(
+                  (String pele) => DropdownMenuItem<String>(
+                    value: pele,
+                    enabled: pele != etnias.first,
+                    child: Text(pele),
+                  ),
+                )
+                .toList(),
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  peleEscolhida = value.toString();
+                  peleEscolhida = value;
                 });
               }
             },
@@ -524,7 +557,7 @@ class _Tela2State extends State<Tela2> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               labelText: "Telefone Profissional (Opcional)",
-              labelStyle: TextStyle(fontSize: 20),
+              labelStyle: const TextStyle(fontSize: 18),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: tema["primaria"],
