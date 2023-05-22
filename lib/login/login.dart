@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: tema["primaria"],
+                              color: tema["primaria"]!,
                             ),
                           ),
                         ),
@@ -128,7 +128,7 @@ class _LoginState extends State<Login> {
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: tema["primaria"],
+                              color: tema["primaria"]!,
                             ),
                           ),
                           suffix: ClipRRect(
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
                       CupertinoButton(
                         borderRadius: BorderRadius.circular(10),
                         padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
-                        color: tema["primaria"].withOpacity(0.65),
+                        color: tema["primaria"]?.withOpacity(0.65),
                         onPressed: () {
                           // TODO: entrar
                           if (_formKey.currentState!.validate()) {

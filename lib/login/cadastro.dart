@@ -82,7 +82,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                                     ? Colors.black.withOpacity(0.2)
                                     : Colors.transparent,
                                 border: Border.all(
-                                  color: tema["primaria"],
+                                  color: tema["primaria"]!,
                                 ),
                               ),
                               child: Image(
@@ -161,7 +161,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                       CupertinoButton(
                         borderRadius: BorderRadius.circular(10),
                         padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
-                        color: tema["primaria"].withOpacity(0.65),
+                        color: tema["primaria"]?.withOpacity(0.65),
                         onPressed: () {
                           setState(() {
                             if (_step == 0) {
@@ -254,7 +254,7 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),
@@ -291,7 +291,7 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),
@@ -315,7 +315,7 @@ class _Tela1State extends State<Tela1> {
               labelStyle: const TextStyle(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),
@@ -372,7 +372,7 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),
@@ -402,7 +402,7 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),
@@ -560,7 +560,7 @@ class _Tela2State extends State<Tela2> {
               labelStyle: const TextStyle(fontSize: 18),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"],
+                  color: tema["primaria"]!,
                 ),
               ),
             ),

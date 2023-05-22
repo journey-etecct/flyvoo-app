@@ -47,7 +47,7 @@ Map<String, List> paletas = {
     const Color(0xffff87ec),
   ]
 };
-Map<String, dynamic> tema = {
+Map<String, Color> tema = {
   "primaria": dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
   "fundo": dark ? const Color(0xff252525) : Colors.white,
   "noFundo": dark ? Colors.white : Colors.black,
@@ -78,30 +78,34 @@ class _FlyvooState extends State<Flyvoo> {
   late VideoPlayerController _controller;
 
   _mudarTema() {
-    setState(() {
-      dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-          Brightness.dark;
-      if (dark) {
-        _controller = VideoPlayerController.asset("assets/background/dark.webm")
-          ..initialize().then(
-            (_) {
-              _controller.play();
-              _controller.setLooping(true);
-              setState(() {});
-            },
-          );
-      } else {
-        _controller =
-            VideoPlayerController.asset("assets/background/light.webm")
-              ..initialize().then(
-                (_) {
-                  _controller.play();
-                  _controller.setLooping(true);
-                  setState(() {});
-                },
-              );
-      }
-    });
+    setState(
+      () {
+        dark =
+            SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+                Brightness.dark;
+        if (dark) {
+          _controller =
+              VideoPlayerController.asset("assets/background/dark.webm")
+                ..initialize().then(
+                  (_) {
+                    _controller.play();
+                    _controller.setLooping(true);
+                    setState(() {});
+                  },
+                );
+        } else {
+          _controller =
+              VideoPlayerController.asset("assets/background/light.webm")
+                ..initialize().then(
+                  (_) {
+                    _controller.play();
+                    _controller.setLooping(true);
+                    setState(() {});
+                  },
+                );
+        }
+      },
+    );
   }
 
   @override
@@ -430,7 +434,7 @@ ThemeData _buildTheme() {
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: tema["primaria"],
+          color: tema["primaria"]!,
         ),
       ),
     ),

@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
             ),
             Container(
               height: 90,
-              color: Colors.black,
+              color: tema["fundo"],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
