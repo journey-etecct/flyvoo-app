@@ -25,6 +25,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/icons/seta.png
   fonts:
     - family: Queensides
       fonts:

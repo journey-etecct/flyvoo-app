@@ -200,7 +200,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       SizedBox(
-                        height: 35,
+                        height: 40,
                       ),
                       CupertinoButton(
                         borderRadius: BorderRadius.circular(10),

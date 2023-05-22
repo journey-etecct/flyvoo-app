@@ -464,7 +464,7 @@ class _Tela2State extends State<Tela2> {
             value: carreiraEscolhida,
             style: TextStyle(
               color: tema["noFundo"],
-              fontSize: 18,
+              fontSize: 17,
             ),
             elevation: 1,
             validator: (value) {
@@ -482,7 +482,7 @@ class _Tela2State extends State<Tela2> {
                 .toList(),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
-              "assets/seta.png",
+              "assets/icons/seta.png",
               color: tema["noFundo"],
             ),
             items: carreiras
@@ -515,7 +515,7 @@ class _Tela2State extends State<Tela2> {
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
-              "assets/seta.png",
+              "assets/icons/seta.png",
               color: tema["noFundo"],
             ),
             selectedItemBuilder: (context) => etnias
