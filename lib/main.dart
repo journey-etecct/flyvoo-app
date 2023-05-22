@@ -82,7 +82,7 @@ class _FlyvooState extends State<Flyvoo> {
       dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.dark;
       if (dark) {
-        _controller = VideoPlayerController.asset("assets/dark.webm")
+        _controller = VideoPlayerController.asset("assets/background/dark.webm")
           ..initialize().then(
             (_) {
               _controller.play();
@@ -91,21 +91,22 @@ class _FlyvooState extends State<Flyvoo> {
             },
           );
       } else {
-        _controller = VideoPlayerController.asset("assets/light.webm")
-          ..initialize().then(
-            (_) {
-              _controller.play();
-              _controller.setLooping(true);
-              setState(() {});
-            },
-          );
+        _controller =
+            VideoPlayerController.asset("assets/background/light.webm")
+              ..initialize().then(
+                (_) {
+                  _controller.play();
+                  _controller.setLooping(true);
+                  setState(() {});
+                },
+              );
       }
     });
   }
 
   @override
   void initState() {
-    _controller = VideoPlayerController.asset("assets/light.webm")
+    _controller = VideoPlayerController.asset("assets/background/light.webm")
       ..initialize().then(
         (_) {
           _controller.play();
@@ -216,7 +217,7 @@ class _FlyvooState extends State<Flyvoo> {
                                         dark ? Colors.white : Colors.black,
                                   };
                                   _controller = VideoPlayerController.asset(
-                                      "assets/light.webm")
+                                      "assets/background/light.webm")
                                     ..initialize().then(
                                       (_) {
                                         _controller.play();
@@ -235,7 +236,7 @@ class _FlyvooState extends State<Flyvoo> {
                                       Brightness.dark;
                                   if (dark) {
                                     _controller = VideoPlayerController.asset(
-                                        "assets/dark.webm")
+                                        "assets/background/dark.webm")
                                       ..initialize().then(
                                         (_) {
                                           _controller.play();
@@ -245,7 +246,7 @@ class _FlyvooState extends State<Flyvoo> {
                                       );
                                   } else {
                                     _controller = VideoPlayerController.asset(
-                                        "assets/light.webm")
+                                        "assets/background/light.webm")
                                       ..initialize().then(
                                         (_) {
                                           _controller.play();

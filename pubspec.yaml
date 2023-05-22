@@ -24,9 +24,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
-    - assets/icons/seta.png
+    - assets/icons/
+    - assets/background/
+    - assets/logo/
   fonts:
     - family: Queensides
       fonts:
-        - asset: assets/queensides.ttf
+        - asset: assets/fonts/queensides.ttf

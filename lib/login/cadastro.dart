@@ -88,8 +88,8 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                               child: Image(
                                 image: AssetImage(
                                   dark
-                                      ? "assets/logodark.png"
-                                      : "assets/logolight.png",
+                                      ? "assets/logo/logodark.png"
+                                      : "assets/logo/logolight.png",
                                 ),
                                 width: 90,
                                 height: 90,

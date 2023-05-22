@@ -49,8 +49,8 @@ class _LoginState extends State<Login> {
                         child: Image(
                           image: AssetImage(
                             dark
-                                ? "assets/logogradientedark.png"
-                                : "assets/logogradientelight.png",
+                                ? "assets/logo/logogradientedark.png"
+                                : "assets/logo/logogradientelight.png",
                           ),
                           width: 266,
                           height: 266,
