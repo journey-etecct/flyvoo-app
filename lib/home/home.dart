@@ -28,7 +28,8 @@ class _HomeState extends State<Home> {
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0xff121212),
-                    blurRadius: 30,
+                    blurRadius: 50,
+                    blurStyle: BlurStyle.solid,
                   ),
                 ],
               ),
