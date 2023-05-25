@@ -24,7 +24,10 @@ class _HomeState extends State<Home> {
             ),
             Container(
               height: 90,
-              color: tema["fundo"],
+              decoration: BoxDecoration(
+                  color: tema["fundo"],
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [BoxShadow(spreadRadius: 2, color: Colors.white)]),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

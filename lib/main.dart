@@ -110,6 +110,13 @@ class _FlyvooState extends State<Flyvoo> {
   }
 
   @override
+  void dispose() {
+    _controllerDark.dispose();
+    _controllerLight.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: _buildTheme(),
