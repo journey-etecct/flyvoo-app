@@ -75,57 +75,38 @@ class Flyvoo extends StatefulWidget {
 }
 
 class _FlyvooState extends State<Flyvoo> {
-  late VideoPlayerController _controller;
+  late VideoPlayerController _controllerLight;
+  late VideoPlayerController _controllerDark;
 
-  _mudarTema() {
-    setState(
-      () {
-        dark =
-            SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-                Brightness.dark;
-        if (dark) {
-          _controller =
-              VideoPlayerController.asset("assets/background/dark.webm")
-                ..initialize().then(
-                  (_) {
-                    _controller.play();
-                    _controller.setLooping(true);
-                    setState(() {});
-                  },
-                );
-        } else {
-          _controller =
-              VideoPlayerController.asset("assets/background/light.webm")
-                ..initialize().then(
-                  (_) {
-                    _controller.play();
-                    _controller.setLooping(true);
-                    setState(() {});
-                  },
-                );
-        }
-      },
-    );
+  void startBothPlayers() async {
+    await _controllerLight.play();
+    await _controllerDark.play();
   }
 
   @override
   void initState() {
-    _controller = VideoPlayerController.asset("assets/background/light.webm")
-      ..initialize().then(
+    dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+        Brightness.dark;
+    _controllerLight = VideoPlayerController.asset(
+      "assets/background/light.webm",
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    )..initialize().then(
         (_) {
-          _controller.play();
-          _controller.setLooping(true);
+          _controllerLight.setLooping(true);
           setState(() {});
         },
       );
-    _mudarTema();
+    _controllerDark = VideoPlayerController.asset(
+      "assets/background/dark.webm",
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    )..initialize().then(
+        (_) {
+          _controllerDark.setLooping(true);
+          setState(() {});
+        },
+      );
+    startBothPlayers();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -136,13 +117,31 @@ class _FlyvooState extends State<Flyvoo> {
         backgroundColor: tema["fundo"],
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
+            AnimatedOpacity(
+              opacity: dark ? 1 : 0,
+              duration: const Duration(milliseconds: 300),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _controllerDark.value.size.width,
+                    height: _controllerDark.value.size.height,
+                    child: VideoPlayer(_controllerDark),
+                  ),
+                ),
+              ),
+            ),
+            AnimatedOpacity(
+              opacity: dark ? 0 : 1,
+              duration: const Duration(milliseconds: 300),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _controllerLight.value.size.width,
+                    height: _controllerLight.value.size.height,
+                    child: VideoPlayer(_controllerLight),
+                  ),
                 ),
               ),
             ),
@@ -196,15 +195,6 @@ class _FlyvooState extends State<Flyvoo> {
                                     "noFundo":
                                         dark ? Colors.white : Colors.black,
                                   };
-                                  _controller = VideoPlayerController.asset(
-                                      "assets/dark.webm")
-                                    ..initialize().then(
-                                      (_) {
-                                        _controller.play();
-                                        _controller.setLooping(true);
-                                        setState(() {});
-                                      },
-                                    );
                                 });
                                 break;
                               case "Modo claro":
@@ -220,15 +210,6 @@ class _FlyvooState extends State<Flyvoo> {
                                     "noFundo":
                                         dark ? Colors.white : Colors.black,
                                   };
-                                  _controller = VideoPlayerController.asset(
-                                      "assets/background/light.webm")
-                                    ..initialize().then(
-                                      (_) {
-                                        _controller.play();
-                                        _controller.setLooping(true);
-                                        setState(() {});
-                                      },
-                                    );
                                 });
                                 break;
                               default:
@@ -238,27 +219,7 @@ class _FlyvooState extends State<Flyvoo> {
                                           .platformDispatcher
                                           .platformBrightness ==
                                       Brightness.dark;
-                                  if (dark) {
-                                    _controller = VideoPlayerController.asset(
-                                        "assets/background/dark.webm")
-                                      ..initialize().then(
-                                        (_) {
-                                          _controller.play();
-                                          _controller.setLooping(true);
-                                          setState(() {});
-                                        },
-                                      );
-                                  } else {
-                                    _controller = VideoPlayerController.asset(
-                                        "assets/background/light.webm")
-                                      ..initialize().then(
-                                        (_) {
-                                          _controller.play();
-                                          _controller.setLooping(true);
-                                          setState(() {});
-                                        },
-                                      );
-                                  }
+
                                   tema = {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)
