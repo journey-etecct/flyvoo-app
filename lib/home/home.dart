@@ -25,22 +25,23 @@ class _HomeState extends State<Home> {
             Container(
               height: 90,
               decoration: BoxDecoration(
-                  color: tema["fundo"],
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [BoxShadow(spreadRadius: 2, color: Colors.white)]),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xff121212),
+                    blurRadius: 30,
+                  ),
+                ],
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                      ),
                       child: Material(
-                        color: Colors.black,
+                        color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
                             debugPrint("aa");
@@ -56,14 +57,11 @@ class _HomeState extends State<Home> {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                      ),
                       child: Material(
-                        color: Colors.black,
+                        color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
                             debugPrint("aa");
@@ -79,14 +77,11 @@ class _HomeState extends State<Home> {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                      ),
                       child: Material(
-                        color: Colors.black,
+                        color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
                             debugPrint("aa");
@@ -102,14 +97,11 @@ class _HomeState extends State<Home> {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                      ),
                       child: Material(
-                        color: Colors.black,
+                        color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
                             debugPrint("aa");
