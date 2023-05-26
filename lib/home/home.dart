@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
+
+int indexHome = 0;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,113 +15,132 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: tema["fundo"],
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 90),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 25,
-            ),
-            Container(
-              height: 90,
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0xff121212),
-                    blurRadius: 50,
-                    blurStyle: BlurStyle.solid,
+    return Container(
+      color: tema["fundo"],
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          backgroundColor: tema["fundo"],
+          body: Stack(
+            children: [
+              PreferredSize(
+                preferredSize: Size(double.infinity, 91),
+                child: Container(
+                  height: 90,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: dark
+                            ? Color.fromARGB(255, 18, 18, 18)
+                            : Colors.transparent,
+                        blurRadius: 100,
+                        spreadRadius: 100,
+                      ),
+                    ],
                   ),
-                ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("aa");
+                            },
+                            child: Image.asset(
+                              "assets/icons/inicial.png",
+                              scale: 1.2,
+                              color: tema["noFundo"],
+                            ),
+                          ),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("aa");
+                            },
+                            child: Image.asset(
+                              "assets/icons/empresas.png",
+                              scale: 1,
+                              color: tema["noFundo"],
+                            ),
+                          ),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("aa");
+                            },
+                            child: Image.asset(
+                              "assets/icons/univcursos.png",
+                              scale: 1.2,
+                              color: tema["noFundo"],
+                            ),
+                          ),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("aa");
+                            },
+                            child: Image.asset(
+                              "assets/icons/mais.png",
+                              scale: 1.2,
+                              color: tema["noFundo"],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Column(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            debugPrint("aa");
-                          },
-                          child: Image.asset(
-                            "assets/icons/inicial.png",
-                            scale: 1.2,
-                            color: tema["noFundo"],
-                          ),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: dark ? 91 : 0,
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            debugPrint("aa");
-                          },
-                          child: Image.asset(
-                            "assets/icons/empresas.png",
-                            scale: 1,
-                            color: tema["noFundo"],
-                          ),
-                        ),
+                  Expanded(
+                    child: Image(
+                      image: AssetImage(
+                        dark
+                            ? "assets/background/esfumadodark.png"
+                            : "assets/background/esfumadolight.png",
                       ),
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            debugPrint("aa");
-                          },
-                          child: Image.asset(
-                            "assets/icons/univcursos.png",
-                            scale: 1.2,
-                            color: tema["noFundo"],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            debugPrint("aa");
-                          },
-                          child: Image.asset(
-                            "assets/icons/mais.png",
-                            scale: 1.2,
-                            color: tema["noFundo"],
-                          ),
-                        ),
-                      ),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              Column(
+                children: [
+                  SizedBox(
+                    height: 91,
+                  ),
+                  Expanded(child: Placeholder()) // TODO: conteúdo
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

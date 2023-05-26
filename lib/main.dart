@@ -226,7 +226,6 @@ class _FlyvooState extends State<Flyvoo> {
                                           .platformDispatcher
                                           .platformBrightness ==
                                       Brightness.dark;
-
                                   tema = {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)

@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_multi_formatter: ^2.11.0
   google_fonts: ^4.0.4
+  path_provider: ^2.0.15
   shared_preferences: ^2.1.1
   video_player: ^2.6.1
 
@@ -27,6 +28,7 @@ flutter:
     - assets/icons/
     - assets/background/
     - assets/logo/
+    - assets/imagens/
   fonts:
     - family: Queensides
       fonts:
