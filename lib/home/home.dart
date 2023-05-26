@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
@@ -8,7 +6,12 @@ import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
 import 'package:flyvoo/main.dart';
 
-List<Widget> telasHome = [Principal(), UnivCursos(), Empresas(), Mais()];
+List<Widget> telasHome = [
+  const Principal(),
+  const UnivCursos(),
+  const Empresas(),
+  const Mais()
+];
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -35,7 +38,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     _index0 = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );
@@ -49,7 +52,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _index0.value = 60;
     _index1 = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );
@@ -62,7 +65,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       });
     _index2 = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );
@@ -75,7 +78,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       });
     _index3 = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );
@@ -114,7 +117,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   boxShadow: [
                     BoxShadow(
                       color: dark
-                          ? Color.fromARGB(255, 18, 18, 18)
+                          ? const Color.fromARGB(255, 18, 18, 18)
                           : Colors.transparent,
                       blurRadius: 100,
                       spreadRadius: 100,
@@ -142,6 +145,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index2.reset();
                               _index3.reset();
                               setState(() {
+                                if (indexHome < 0) {
+                                  _reverse = false;
+                                } else {
+                                  _reverse = true;
+                                }
                                 indexHome = 0;
                               });
                             },
@@ -182,6 +190,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index2.reset();
                               _index3.reset();
                               setState(() {
+                                if (indexHome < 1) {
+                                  _reverse = false;
+                                } else {
+                                  _reverse = true;
+                                }
                                 indexHome = 1;
                               });
                             },
@@ -222,6 +235,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index2.forward();
                               _index3.reset();
                               setState(() {
+                                if (indexHome < 2) {
+                                  _reverse = false;
+                                } else {
+                                  _reverse = true;
+                                }
                                 indexHome = 2;
                               });
                             },
@@ -262,6 +280,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index2.reset();
                               _index3.forward();
                               setState(() {
+                                if (indexHome < 3) {
+                                  _reverse = false;
+                                } else {
+                                  _reverse = true;
+                                }
                                 indexHome = 3;
                               });
                             },
@@ -296,7 +319,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 91,
                   ),
                   Expanded(
@@ -314,7 +337,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 91,
                   ),
                   Expanded(
@@ -334,7 +357,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         );
                       },
                       child: telasHome[indexHome],
-                    ), // TODO: conteúdo
+                    ),
                   ),
                 ],
               ),

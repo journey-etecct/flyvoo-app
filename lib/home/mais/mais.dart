@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class Mais extends StatefulWidget {
@@ -10,6 +12,6 @@ class Mais extends StatefulWidget {
 class _MaisState extends State<Mais> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column();
   }
 }
