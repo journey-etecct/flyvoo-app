@@ -79,9 +79,6 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
-                        onTapOutside: (event) {
-                          _loginKey.currentState!.reset();
-                        },
                         onChanged: (value) {
                           _loginKey.currentState!.validate();
                         },
@@ -110,9 +107,6 @@ class _LoginState extends State<Login> {
                             return "*Obrigatório";
                           }
                           return null;
-                        },
-                        onTapOutside: (event) {
-                          _senhaKey.currentState!.reset();
                         },
                         onChanged: (value) {
                           _senhaKey.currentState!.validate();

@@ -1,7 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/empresas/empresas.dart';
+import 'package:flyvoo/home/mais/mais.dart';
+import 'package:flyvoo/home/principal/principal.dart';
+import 'package:flyvoo/home/univcursos/univcursos.dart';
 import 'package:flyvoo/main.dart';
+
+List<Widget> telasHome = [Principal(), UnivCursos(), Empresas(), Mais()];
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,6 +27,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation<double> _anim2;
   late AnimationController _index3;
   late Animation<double> _anim3;
+  bool _reverse = false;
 
   @override
   void initState() {
@@ -310,7 +318,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     height: 91,
                   ),
                   Expanded(
-                    child: Placeholder(), // TODO: conteúdo
+                    child: PageTransitionSwitcher(
+                      reverse: _reverse,
+                      transitionBuilder: (
+                        Widget child,
+                        Animation<double> primaryAnimation,
+                        Animation<double> secondaryAnimation,
+                      ) {
+                        return SharedAxisTransition(
+                          fillColor: Colors.transparent,
+                          animation: primaryAnimation,
+                          secondaryAnimation: secondaryAnimation,
+                          transitionType: SharedAxisTransitionType.horizontal,
+                          child: child,
+                        );
+                      },
+                      child: telasHome[indexHome],
+                    ), // TODO: conteúdo
                   ),
                 ],
               ),
