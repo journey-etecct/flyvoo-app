@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 
-int indexHome = 0;
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -12,7 +10,86 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
+  late int indexHome;
+  late AnimationController _index0;
+  late Animation<double> _anim0;
+  late AnimationController _index1;
+  late Animation<double> _anim1;
+  late AnimationController _index2;
+  late Animation<double> _anim2;
+  late AnimationController _index3;
+  late Animation<double> _anim3;
+
+  @override
+  void initState() {
+    indexHome = 0;
+
+    _index0 = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim0 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(CurvedAnimation(parent: _index0, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _index0.value = 60;
+    _index1 = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim1 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(CurvedAnimation(parent: _index1, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _index2 = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim2 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(CurvedAnimation(parent: _index2, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _index3 = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim3 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(CurvedAnimation(parent: _index3, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _index0.dispose();
+    _index1.dispose();
+    _index2.dispose();
+    _index3.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,20 +100,23 @@ class _HomeState extends State<Home> {
           backgroundColor: tema["fundo"],
           body: Stack(
             children: [
-              PreferredSize(
-                preferredSize: Size(double.infinity, 91),
-                child: Container(
-                  height: 90,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: dark
-                            ? Color.fromARGB(255, 18, 18, 18)
-                            : Colors.transparent,
-                        blurRadius: 100,
-                        spreadRadius: 100,
-                      ),
-                    ],
+              Container(
+                height: 90,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: dark
+                          ? Color.fromARGB(255, 18, 18, 18)
+                          : Colors.transparent,
+                      blurRadius: 100,
+                      spreadRadius: 100,
+                    ),
+                  ],
+                ),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,13 +127,37 @@ class _HomeState extends State<Home> {
                           height: 60,
                           width: 60,
                           child: InkWell(
+                            splashColor: Colors.transparent,
                             onTap: () {
-                              debugPrint("aa");
+                              _index0.forward();
+                              _index1.reset();
+                              _index2.reset();
+                              _index3.reset();
+                              setState(() {
+                                indexHome = 0;
+                              });
                             },
-                            child: Image.asset(
-                              "assets/icons/inicial.png",
-                              scale: 1.2,
-                              color: tema["noFundo"],
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: indexHome == 0
+                                        ? tema["terciaria"]
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  width: _anim0.value,
+                                  height: _anim0.value,
+                                ),
+                                Image.asset(
+                                  "assets/icons/inicial.png",
+                                  scale: 1.2,
+                                  color: indexHome == 0
+                                      ? tema["secundaria"]
+                                      : tema["noFundo"],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -65,12 +169,35 @@ class _HomeState extends State<Home> {
                           width: 60,
                           child: InkWell(
                             onTap: () {
-                              debugPrint("aa");
+                              _index0.reset();
+                              _index1.forward();
+                              _index2.reset();
+                              _index3.reset();
+                              setState(() {
+                                indexHome = 1;
+                              });
                             },
-                            child: Image.asset(
-                              "assets/icons/empresas.png",
-                              scale: 1,
-                              color: tema["noFundo"],
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: indexHome == 1
+                                        ? tema["terciaria"]
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  width: _anim1.value,
+                                  height: _anim1.value,
+                                ),
+                                Image.asset(
+                                  "assets/icons/univcursos.png",
+                                  scale: 1.2,
+                                  color: indexHome == 1
+                                      ? tema["secundaria"]
+                                      : tema["noFundo"],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -82,12 +209,35 @@ class _HomeState extends State<Home> {
                           width: 60,
                           child: InkWell(
                             onTap: () {
-                              debugPrint("aa");
+                              _index0.reset();
+                              _index1.reset();
+                              _index2.forward();
+                              _index3.reset();
+                              setState(() {
+                                indexHome = 2;
+                              });
                             },
-                            child: Image.asset(
-                              "assets/icons/univcursos.png",
-                              scale: 1.2,
-                              color: tema["noFundo"],
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: indexHome == 2
+                                        ? tema["terciaria"]
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  width: _anim2.value,
+                                  height: _anim2.value,
+                                ),
+                                Image.asset(
+                                  "assets/icons/empresas.png",
+                                  scale: 1.2,
+                                  color: indexHome == 2
+                                      ? tema["secundaria"]
+                                      : tema["noFundo"],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -99,12 +249,35 @@ class _HomeState extends State<Home> {
                           width: 60,
                           child: InkWell(
                             onTap: () {
-                              debugPrint("aa");
+                              _index0.reset();
+                              _index1.reset();
+                              _index2.reset();
+                              _index3.forward();
+                              setState(() {
+                                indexHome = 3;
+                              });
                             },
-                            child: Image.asset(
-                              "assets/icons/mais.png",
-                              scale: 1.2,
-                              color: tema["noFundo"],
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: indexHome == 3
+                                        ? tema["terciaria"]
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  width: _anim3.value,
+                                  height: _anim3.value,
+                                ),
+                                Image.asset(
+                                  "assets/icons/mais.png",
+                                  scale: 1.2,
+                                  color: indexHome == 3
+                                      ? tema["secundaria"]
+                                      : tema["noFundo"],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -116,7 +289,7 @@ class _HomeState extends State<Home> {
               Column(
                 children: [
                   SizedBox(
-                    height: dark ? 91 : 0,
+                    height: 91,
                   ),
                   Expanded(
                     child: Image(
@@ -136,7 +309,9 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 91,
                   ),
-                  Expanded(child: Placeholder()) // TODO: conteúdo
+                  Expanded(
+                    child: Placeholder(), // TODO: conteúdo
+                  ),
                 ],
               ),
             ],

@@ -49,6 +49,8 @@ Map<String, List> paletas = {
 };
 Map<String, Color> tema = {
   "primaria": dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
+  "secundaria": dark ? const Color(0xff31b6b0) : Colors.white,
+  "terciaria": dark ? const Color(0xff096073) : const Color(0xffb83e05),
   "fundo": dark ? const Color(0xff252525) : Colors.white,
   "noFundo": dark ? Colors.white : Colors.black,
 };
@@ -196,6 +198,12 @@ class _FlyvooState extends State<Flyvoo> {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)
                                         : const Color(0xffFB5607),
+                                    "secundaria": dark
+                                        ? const Color(0xff31b6b0)
+                                        : Colors.white,
+                                    "terciaria": dark
+                                        ? const Color(0xff096073)
+                                        : const Color(0xffb83e05),
                                     "fundo": dark
                                         ? const Color(0xff252525)
                                         : Colors.white,
@@ -211,6 +219,12 @@ class _FlyvooState extends State<Flyvoo> {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)
                                         : const Color(0xffFB5607),
+                                    "secundaria": dark
+                                        ? const Color(0xff31b6b0)
+                                        : Colors.white,
+                                    "terciaria": dark
+                                        ? const Color(0xff096073)
+                                        : const Color(0xffb83e05),
                                     "fundo": dark
                                         ? const Color(0xff252525)
                                         : Colors.white,
@@ -230,6 +244,12 @@ class _FlyvooState extends State<Flyvoo> {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)
                                         : const Color(0xffFB5607),
+                                    "secundaria": dark
+                                        ? const Color(0xff31b6b0)
+                                        : Colors.white,
+                                    "terciaria": dark
+                                        ? const Color(0xff096073)
+                                        : const Color(0xffb83e05),
                                     "fundo": dark
                                         ? const Color(0xff252525)
                                         : Colors.white,
