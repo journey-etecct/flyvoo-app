@@ -12,6 +12,7 @@ List<Widget> telasHome = [
   const Empresas(),
   const Mais()
 ];
+late int indexHome;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,7 +22,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  late int indexHome;
   late AnimationController _index0;
   late Animation<double> _anim0;
   late AnimationController _index1;
@@ -113,7 +113,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             children: [
               Container(
                 height: 90,
+                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 decoration: BoxDecoration(
+                  color: !dark ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.circular(!dark ? 25 : 0),
                   boxShadow: [
                     BoxShadow(
                       color: dark
@@ -171,7 +174,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 0
                                       ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      : Colors.white,
                                 ),
                               ],
                             ),
@@ -216,7 +219,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 1
                                       ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      : Colors.white,
                                 ),
                               ],
                             ),
@@ -261,7 +264,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 2
                                       ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      : Colors.white,
                                 ),
                               ],
                             ),
@@ -306,7 +309,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 3
                                       ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      : Colors.white,
                                 ),
                               ],
                             ),

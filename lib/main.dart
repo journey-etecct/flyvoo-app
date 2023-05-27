@@ -49,10 +49,12 @@ Map<String, List> paletas = {
 };
 Map<String, Color> tema = {
   "primaria": dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
-  "secundaria": dark ? const Color(0xff31b6b0) : Colors.white,
-  "terciaria": dark ? const Color(0xff096073) : const Color(0xffb83e05),
+  "secundaria": const Color(0xff31b6b0),
+  "terciaria": const Color(0xff096073),
   "fundo": dark ? const Color(0xff252525) : Colors.white,
   "noFundo": dark ? Colors.white : Colors.black,
+  "texto": dark ? Colors.white : const Color(0xff1E3C87),
+  "botao": dark ? const Color(0xffB8CCFF) : const Color(0xffF0F4FF),
 };
 // fim do tema do aplicativo
 
@@ -64,6 +66,9 @@ final List<String> listModo = <String>[
   "Seguir o sistema"
 ];
 String? valorDropdown = "Seguir o sistema";
+final ValueNotifier<Brightness> notifier = ValueNotifier(
+  dark ? Brightness.dark : Brightness.light,
+);
 
 void main() => runApp(const Flyvoo());
 
@@ -120,185 +125,65 @@ class _FlyvooState extends State<Flyvoo> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: _buildTheme(),
-      home: Scaffold(
-        backgroundColor: tema["fundo"],
-        body: Stack(
-          children: [
-            AnimatedOpacity(
-              opacity: dark ? 1 : 0,
-              duration: const Duration(milliseconds: 300),
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: _controllerDark.value.size.width,
-                    height: _controllerDark.value.size.height,
-                    child: VideoPlayer(_controllerDark),
+    return ValueListenableBuilder(
+      valueListenable: notifier,
+      builder: (context, value, child) => MaterialApp(
+        theme: _buildTheme(value),
+        home: Scaffold(
+          backgroundColor: tema["fundo"],
+          body: Stack(
+            children: [
+              AnimatedOpacity(
+                opacity: dark ? 1 : 0,
+                duration: const Duration(milliseconds: 300),
+                child: SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _controllerDark.value.size.width,
+                      height: _controllerDark.value.size.height,
+                      child: VideoPlayer(_controllerDark),
+                    ),
                   ),
                 ),
               ),
-            ),
-            AnimatedOpacity(
-              opacity: dark ? 0 : 1,
-              duration: const Duration(milliseconds: 300),
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: _controllerLight.value.size.width,
-                    height: _controllerLight.value.size.height,
-                    child: VideoPlayer(_controllerLight),
+              AnimatedOpacity(
+                opacity: dark ? 0 : 1,
+                duration: const Duration(milliseconds: 300),
+                child: SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _controllerLight.value.size.width,
+                      height: _controllerLight.value.size.height,
+                      child: VideoPlayer(_controllerLight),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Teste de tema',
-                    style: TextStyle(
-                      color: tema["primaria"],
-                      fontSize: 20,
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Teste de tema',
+                      style: TextStyle(
+                        color: tema["primaria"],
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Hello World!',
-                    style: TextStyle(
-                      color: tema["noFundo"],
+                    Text(
+                      'Hello World!',
+                      style: TextStyle(
+                        color: tema["noFundo"],
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DropdownButton(
-                        borderRadius: BorderRadius.circular(25),
-                        value: valorDropdown,
-                        items: listModo.map<DropdownMenuItem<String>>(
-                          (valor) {
-                            return DropdownMenuItem<String>(
-                              value: valor,
-                              child: Text(valor),
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (selecionado) {
-                          if (valorDropdown != selecionado) {
-                            setState(() {
-                              valorDropdown = selecionado;
-                            });
-                            switch (selecionado) {
-                              case "Modo escuro":
-                                setState(() {
-                                  dark = true;
-                                  tema = {
-                                    "primaria": dark
-                                        ? const Color(0xff00FFD8)
-                                        : const Color(0xffFB5607),
-                                    "secundaria": dark
-                                        ? const Color(0xff31b6b0)
-                                        : Colors.white,
-                                    "terciaria": dark
-                                        ? const Color(0xff096073)
-                                        : const Color(0xffb83e05),
-                                    "fundo": dark
-                                        ? const Color(0xff252525)
-                                        : Colors.white,
-                                    "noFundo":
-                                        dark ? Colors.white : Colors.black,
-                                  };
-                                });
-                                break;
-                              case "Modo claro":
-                                setState(() {
-                                  dark = false;
-                                  tema = {
-                                    "primaria": dark
-                                        ? const Color(0xff00FFD8)
-                                        : const Color(0xffFB5607),
-                                    "secundaria": dark
-                                        ? const Color(0xff31b6b0)
-                                        : Colors.white,
-                                    "terciaria": dark
-                                        ? const Color(0xff096073)
-                                        : const Color(0xffb83e05),
-                                    "fundo": dark
-                                        ? const Color(0xff252525)
-                                        : Colors.white,
-                                    "noFundo":
-                                        dark ? Colors.white : Colors.black,
-                                  };
-                                });
-                                break;
-                              default:
-                                setState(() {
-                                  dark = SchedulerBinding
-                                          .instance
-                                          .platformDispatcher
-                                          .platformBrightness ==
-                                      Brightness.dark;
-                                  tema = {
-                                    "primaria": dark
-                                        ? const Color(0xff00FFD8)
-                                        : const Color(0xffFB5607),
-                                    "secundaria": dark
-                                        ? const Color(0xff31b6b0)
-                                        : Colors.white,
-                                    "terciaria": dark
-                                        ? const Color(0xff096073)
-                                        : const Color(0xffb83e05),
-                                    "fundo": dark
-                                        ? const Color(0xff252525)
-                                        : Colors.white,
-                                    "noFundo":
-                                        dark ? Colors.white : Colors.black,
-                                  };
-                                });
-                            }
-                          }
-                        },
-                      )
-                      /* Switch(
-                        value: dark,
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              dark = !dark;
-                              if (!dark) {
-                                _controller = VideoPlayerController.asset(
-                                    "assets/light.webm")
-                                  ..initialize().then(
-                                    (_) {
-                                      _controller.play();
-                                      _controller.setLooping(true);
-                                      setState(() {});
-                                    },
-                                  );
-                              } else {
-                                _controller = VideoPlayerController.asset(
-                                    "assets/dark.webm")
-                                  ..initialize().then(
-                                    (_) {
-                                      _controller.play();
-                                      _controller.setLooping(true);
-                                      setState(() {});
-                                    },
-                                  );
-                              }
-                            },
-                          );
-                        },
-                      ), */
-                    ],
-                  ),
-                  const Botoes()
-                ],
+                    const Botoes()
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -410,11 +295,11 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-ThemeData _buildTheme() {
+ThemeData _buildTheme(mode) {
   var baseTheme = ThemeData(
     useMaterial3: true,
+    brightness: mode,
     colorSchemeSeed: tema["primaria"],
-    brightness: dark ? Brightness.dark : Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: TextStyle(
         color: tema["primaria"],
