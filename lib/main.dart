@@ -49,8 +49,12 @@ Map<String, List> paletas = {
 };
 Map<String, Color> tema = {
   "primaria": dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
-  "secundaria": const Color(0xff31b6b0),
-  "terciaria": const Color(0xff096073),
+  "secundaria": dark ? const Color(0xff31b6b0) : Colors.black,
+  "terciaria": dark
+      ? const Color(0xff096073)
+      : const Color(0xff054BFD).withOpacity(
+          0.4,
+        ),
   "fundo": dark ? const Color(0xff252525) : Colors.white,
   "noFundo": dark ? Colors.white : Colors.black,
   "texto": dark ? Colors.white : const Color(0xff1E3C87),

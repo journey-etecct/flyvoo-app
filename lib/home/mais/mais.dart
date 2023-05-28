@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
+
 import 'package:flyvoo/main.dart';
 
 class Mais extends StatefulWidget {
@@ -59,12 +61,17 @@ class _MaisState extends State<Mais> {
                 tema = {
                   "primaria":
                       dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
-                  "secundaria": const Color(0xff31b6b0),
-                  "terciaria": const Color(0xff096073),
+                  "secundaria": dark ? const Color(0xff31b6b0) : Colors.black,
+                  "terciaria": dark
+                      ? const Color(0xff096073)
+                      : const Color(0xff054BFD).withOpacity(
+                          0.4,
+                        ),
                   "fundo": dark ? const Color(0xff252525) : Colors.white,
                   "noFundo": dark ? Colors.white : Colors.black,
                   "texto": dark ? Colors.white : const Color(0xff1E3C87),
-                  "botao": dark ? Color(0xffB8CCFF) : Color(0xffF0F4FF),
+                  "botao":
+                      dark ? const Color(0xffB8CCFF) : const Color(0xffF0F4FF),
                 };
                 notifier.value = dark ? Brightness.dark : Brightness.light;
               });
@@ -104,15 +111,21 @@ class _MaisState extends State<Mais> {
                             "primaria": dark
                                 ? const Color(0xff00FFD8)
                                 : const Color(0xffFB5607),
-                            "secundaria": const Color(0xff31b6b0),
-                            "terciaria": const Color(0xff096073),
+                            "secundaria":
+                                dark ? const Color(0xff31b6b0) : Colors.black,
+                            "terciaria": dark
+                                ? const Color(0xff096073)
+                                : const Color(0xff054BFD).withOpacity(
+                                    0.4,
+                                  ),
                             "fundo":
                                 dark ? const Color(0xff252525) : Colors.white,
                             "noFundo": dark ? Colors.white : Colors.black,
                             "texto":
                                 dark ? Colors.white : const Color(0xff1E3C87),
-                            "botao":
-                                dark ? Color(0xffB8CCFF) : Color(0xffF0F4FF),
+                            "botao": dark
+                                ? const Color(0xffB8CCFF)
+                                : const Color(0xffF0F4FF),
                           };
                           notifier.value =
                               dark ? Brightness.dark : Brightness.light;
@@ -146,7 +159,12 @@ class _MaisState extends State<Mais> {
                         onPressed: () {
                           switch (index) {
                             case 0:
-                              // TODO: tela minha conta
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MinhaConta(),
+                                ),
+                              );
                               break;
                             case 1:
                               // TODO: tela central de ajuda

@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
@@ -111,11 +112,26 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           backgroundColor: tema["fundo"],
           body: Stack(
             children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: Image(
+                      image: AssetImage(
+                        dark
+                            ? "assets/background/esfumadodark.png"
+                            : "assets/background/esfumadolight.png",
+                      ),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  ),
+                ],
+              ),
               Container(
                 height: 90,
-                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 decoration: BoxDecoration(
-                  color: !dark ? Colors.black : Colors.transparent,
+                  color: !dark ? tema["fundo"] : const Color(0xff161616),
                   borderRadius: BorderRadius.circular(!dark ? 25 : 0),
                   boxShadow: [
                     BoxShadow(
@@ -174,7 +190,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 0
                                       ? tema["secundaria"]
-                                      : Colors.white,
+                                      : tema["noFundo"],
                                 ),
                               ],
                             ),
@@ -219,7 +235,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 1
                                       ? tema["secundaria"]
-                                      : Colors.white,
+                                      : tema["noFundo"],
                                 ),
                               ],
                             ),
@@ -264,7 +280,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   scale: 1.2,
                                   color: indexHome == 2
                                       ? tema["secundaria"]
-                                      : Colors.white,
+                                      : tema["noFundo"],
                                 ),
                               ],
                             ),
@@ -305,11 +321,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   height: _anim3.value,
                                 ),
                                 Image.asset(
-                                  "assets/icons/mais.png",
+                                  "assets/icons/config.png",
                                   scale: 1.2,
                                   color: indexHome == 3
                                       ? tema["secundaria"]
-                                      : Colors.white,
+                                      : tema["noFundo"],
                                 ),
                               ],
                             ),
@@ -323,25 +339,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Column(
                 children: [
                   const SizedBox(
-                    height: 91,
-                  ),
-                  Expanded(
-                    child: Image(
-                      image: AssetImage(
-                        dark
-                            ? "assets/background/esfumadodark.png"
-                            : "assets/background/esfumadolight.png",
-                      ),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 91,
+                    height: 101,
                   ),
                   Expanded(
                     child: PageTransitionSwitcher(
