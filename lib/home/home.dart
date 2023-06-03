@@ -30,6 +30,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation<double> _anim2;
   late AnimationController _index3;
   late Animation<double> _anim3;
+  late AnimationController _icon0;
+  late Animation<double> _animIcon0;
+  late AnimationController _icon1;
+  late Animation<double> _animIcon1;
+  late AnimationController _icon2;
+  late Animation<double> _animIcon2;
+  late AnimationController _icon3;
+  late Animation<double> _animIcon3;
   bool _reverse = false;
 
   @override
@@ -86,6 +94,59 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       begin: 30,
       end: 60,
     ).animate(CurvedAnimation(parent: _index3, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _icon0 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon0 = Tween<double>(
+      begin: 1,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _icon0, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _icon0.value = 1.2;
+    _icon1 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon1 = Tween<double>(
+      begin: 1,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _icon1, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _icon2 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon2 = Tween<double>(
+      begin: 1,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _icon2, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {});
+      });
+    _icon3 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon3 = Tween<double>(
+      begin: 1,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _icon3, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
       });
@@ -162,6 +223,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index1.reset();
                               _index2.reset();
                               _index3.reset();
+
+                              _icon0.forward();
+                              _icon1.reset();
+                              _icon2.reset();
+                              _icon3.reset();
                               setState(() {
                                 if (indexHome < 0) {
                                   _reverse = false;
@@ -186,7 +252,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 ),
                                 Image.asset(
                                   "assets/icons/inicial.png",
-                                  scale: 1.2,
+                                  scale: _animIcon0.value,
                                   color: indexHome == 0
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
@@ -207,6 +273,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index1.forward();
                               _index2.reset();
                               _index3.reset();
+
+                              _icon0.reset();
+                              _icon1.forward();
+                              _icon2.reset();
+                              _icon3.reset();
                               setState(() {
                                 if (indexHome < 1) {
                                   _reverse = false;
@@ -231,7 +302,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 ),
                                 Image.asset(
                                   "assets/icons/univcursos.png",
-                                  scale: 1.2,
+                                  scale: _animIcon1.value,
                                   color: indexHome == 1
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
@@ -252,6 +323,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index1.reset();
                               _index2.forward();
                               _index3.reset();
+
+                              _icon0.reset();
+                              _icon1.reset();
+                              _icon2.forward();
+                              _icon3.reset();
                               setState(() {
                                 if (indexHome < 2) {
                                   _reverse = false;
@@ -276,7 +352,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 ),
                                 Image.asset(
                                   "assets/icons/empresas.png",
-                                  scale: 1.2,
+                                  scale: _animIcon2.value,
                                   color: indexHome == 2
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
@@ -297,6 +373,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               _index1.reset();
                               _index2.reset();
                               _index3.forward();
+
+                              _icon0.reset();
+                              _icon1.reset();
+                              _icon2.reset();
+                              _icon3.forward();
                               setState(() {
                                 if (indexHome < 3) {
                                   _reverse = false;
@@ -321,7 +402,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 ),
                                 Image.asset(
                                   "assets/icons/config.png",
-                                  scale: 1.2,
+                                  scale: _animIcon3.value,
                                   color: indexHome == 3
                                       ? tema["secundaria"]
                                       : tema["noFundo"],

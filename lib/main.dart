@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
-import 'login/login.dart';
+import 'package:flyvoo/login/login.dart';
 
 // tema do aplicativo
 Map<String, List> paletas = {
@@ -130,6 +131,10 @@ class _FlyvooState extends State<Flyvoo> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return ValueListenableBuilder(
       valueListenable: notifier,
       builder: (context, value, child) => MaterialApp(

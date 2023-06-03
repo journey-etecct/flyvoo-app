@@ -1,7 +1,13 @@
+<<<<<<< HEAD
+=======
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:animations/animations.dart';
+>>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
-
 import 'package:flyvoo/main.dart';
 
 class Mais extends StatefulWidget {
@@ -13,6 +19,7 @@ class Mais extends StatefulWidget {
 
 class _MaisState extends State<Mais> {
   List<String> botoes = ["Minha Conta", "Central de Ajuda", "Sobre o Flyvoo"];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +57,7 @@ class _MaisState extends State<Mais> {
             ],
           ),
         ),
-        SizedBox(
+        /* SizedBox(
           height: 80,
           child: InkWell(
             onTap: () {
@@ -136,16 +143,14 @@ class _MaisState extends State<Mais> {
               ),
             ),
           ),
-        ),
-        Divider(
-          color: tema["texto"],
-        ),
+        ), */
         Flexible(
           flex: 12,
           child: Container(
             margin: const EdgeInsets.all(10),
             width: double.infinity,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 210,
@@ -153,10 +158,11 @@ class _MaisState extends State<Mais> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.fromLTRB(50, 8, 50, 8),
-                      child: CupertinoButton(
-                        onPressed: () {
+                      child: OpenContainer(
+                        openBuilder: (context, action) {
                           switch (index) {
                             case 0:
+<<<<<<< HEAD
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -164,13 +170,16 @@ class _MaisState extends State<Mais> {
                                 ),
                               );
                               break;
+=======
+                              return MinhaConta(botoes[index]);
+>>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
                             case 1:
-                              // TODO: tela central de ajuda
-                              break;
+                              return MinhaConta(botoes[index]);
                             default:
-                            // TODO: tela sobre o flyvoo
+                              return MinhaConta(botoes[index]);
                           }
                         },
+<<<<<<< HEAD
                         borderRadius: BorderRadius.circular(15),
                         color: tema["botao"],
                         child: Text(
@@ -179,6 +188,27 @@ class _MaisState extends State<Mais> {
                             color: Color(0xff1E3C87),
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
+=======
+                        closedColor: tema["botao"]!,
+                        closedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        openColor: tema["fundo"]!,
+                        transitionDuration: Duration(milliseconds: 500),
+                        closedBuilder: (context, action) => CupertinoButton(
+                          onPressed: () {
+                            action.call();
+                          },
+                          borderRadius: BorderRadius.circular(15),
+                          color: tema["botao"],
+                          child: Text(
+                            botoes[index],
+                            style: TextStyle(
+                              color: const Color(0xff1E3C87),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+>>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
                           ),
                         ),
                       ),
@@ -219,6 +249,7 @@ class _MaisState extends State<Mais> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
+                                  SystemNavigator.pop();
                                 },
                                 child: const Text(
                                   "Sair",
@@ -247,6 +278,9 @@ class _MaisState extends State<Mais> {
             ),
           ),
         ),
+        SizedBox(
+          height: 50,
+        )
       ],
     );
   }
