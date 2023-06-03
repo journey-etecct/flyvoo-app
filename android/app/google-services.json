@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "876266782253",
+    "project_id": "flyvoo",
+    "storage_bucket": "flyvoo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876266782253:android:6b38a5aecd5299738482a4",
+        "android_client_info": {
+          "package_name": "io.journey.flyvoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876266782253-3rid479s0tcms914d81agn9vnogb7gl7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.journey.flyvoo",
+            "certificate_hash": "94b2ce0240d3204de05ef48524f3b33ab655b150"
+          }
+        },
+        {
+          "client_id": "876266782253-81t17blmu83hf775n3toom16pffiobhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXyNWShfRkkkGtNpMR-Lz0OViHO4wxaRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876266782253-81t17blmu83hf775n3toom16pffiobhp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

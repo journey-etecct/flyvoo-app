@@ -8,6 +8,8 @@ import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:flyvoo/login/login.dart';
 
@@ -96,8 +98,15 @@ class _FlyvooState extends State<Flyvoo> {
     await _controllerDark.play();
   }
 
+  _firebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
   @override
   void initState() {
+    _firebase();
     dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
         Brightness.dark;
     _controllerLight = VideoPlayerController.asset(

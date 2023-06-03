@@ -8,10 +8,13 @@ environment:
 
 dependencies:
   animations: ^2.0.7
+  firebase_auth: ^4.6.2
+  firebase_core: ^2.13.1
   flutter:
     sdk: flutter
   flutter_multi_formatter: ^2.11.0
   google_fonts: ^4.0.4
+  google_sign_in: ^5.4.4
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
   video_player: ^2.6.1
