@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
@@ -22,13 +20,13 @@ class _MaisState extends State<Mais> {
         Container(
           decoration: BoxDecoration(
             color: dark
-                ? Color.fromRGBO(43, 74, 128, 0.5)
-                : Color.fromRGBO(184, 204, 255, 50),
+                ? const Color.fromRGBO(43, 74, 128, 0.5)
+                : const Color.fromRGBO(184, 204, 255, 50),
             borderRadius: BorderRadius.circular(15),
           ),
           width: double.infinity,
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(20),
           height: 150,
           child: Row(
             children: [
@@ -36,7 +34,7 @@ class _MaisState extends State<Mais> {
                 "assets/imagens/user.png",
                 color: tema["texto"],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Expanded(
@@ -84,7 +82,7 @@ class _MaisState extends State<Mais> {
                     "assets/icons/lua.png",
                     color: tema["texto"],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -131,7 +129,7 @@ class _MaisState extends State<Mais> {
                               dark ? Brightness.dark : Brightness.light;
                         });
                       },
-                      activeColor: Color(0xff1E3C87),
+                      activeColor: const Color(0xff1E3C87),
                     ),
                   )
                 ],
@@ -145,14 +143,14 @@ class _MaisState extends State<Mais> {
         Flexible(
           flex: 12,
           child: Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             width: double.infinity,
             child: Column(
               children: [
                 SizedBox(
                   height: 210,
                   child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.fromLTRB(50, 8, 50, 8),
                       child: CupertinoButton(
@@ -162,7 +160,7 @@ class _MaisState extends State<Mais> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MinhaConta(),
+                                  builder: (context) => const MinhaConta(),
                                 ),
                               );
                               break;
@@ -177,8 +175,8 @@ class _MaisState extends State<Mais> {
                         color: tema["botao"],
                         child: Text(
                           botoes[index],
-                          style: TextStyle(
-                            color: const Color(0xff1E3C87),
+                          style: const TextStyle(
+                            color: Color(0xff1E3C87),
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -210,7 +208,7 @@ class _MaisState extends State<Mais> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Cancelar",
                                   style: TextStyle(
                                     color: CupertinoColors.systemBlue,
@@ -222,7 +220,7 @@ class _MaisState extends State<Mais> {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Sair",
                                   style: TextStyle(
                                     color: CupertinoColors.systemPink,
@@ -233,8 +231,8 @@ class _MaisState extends State<Mais> {
                           ),
                         );
                       },
-                      color: Color(0xffFF545E),
-                      child: Text(
+                      color: const Color(0xffFF545E),
+                      child: const Text(
                         "Sair",
                         style: TextStyle(
                           color: Colors.white,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/login/cadastro.dart';
+import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
@@ -279,9 +280,24 @@ class _BotoesState extends State<Botoes> {
         FilledButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Home()));
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Home(),
+              ),
+            );
           },
           child: const Text("home teste"),
+        ),
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Google(),
+              ),
+            );
+          },
+          child: const Text("login com google teste"),
         )
       ],
     );

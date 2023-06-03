@@ -14,7 +14,6 @@ dependencies:
   google_fonts: ^4.0.4
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
-  simple_shadow: ^0.3.1
   video_player: ^2.6.1
 
 dev_dependencies:
@@ -24,7 +23,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/icons/
     - assets/background/
