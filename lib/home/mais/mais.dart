@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-=======
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:animations/animations.dart';
->>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -162,33 +160,14 @@ class _MaisState extends State<Mais> {
                         openBuilder: (context, action) {
                           switch (index) {
                             case 0:
-<<<<<<< HEAD
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MinhaConta(),
-                                ),
-                              );
-                              break;
-=======
                               return MinhaConta(botoes[index]);
->>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
+
                             case 1:
                               return MinhaConta(botoes[index]);
                             default:
                               return MinhaConta(botoes[index]);
                           }
                         },
-<<<<<<< HEAD
-                        borderRadius: BorderRadius.circular(15),
-                        color: tema["botao"],
-                        child: Text(
-                          botoes[index],
-                          style: const TextStyle(
-                            color: Color(0xff1E3C87),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-=======
                         closedColor: tema["botao"]!,
                         closedShape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -208,7 +187,6 @@ class _MaisState extends State<Mais> {
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
->>>>>>> 665c6f70de74478329d627e5867657b4e19f10b3
                           ),
                         ),
                       ),
