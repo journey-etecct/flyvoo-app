@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
 import 'package:flyvoo/login/login.dart';
 
 // tema do aplicativo

@@ -4,9 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../main.dart';
 
 int _step = 0;
 final _txtNome = TextEditingController();
