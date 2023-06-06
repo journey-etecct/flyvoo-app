@@ -83,6 +83,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'io.journey.flyvoo'
 }
 
 flutter {
