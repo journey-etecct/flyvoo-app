@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/google.dart';
+import 'package:flyvoo/login/post_teste.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -311,6 +312,17 @@ class _BotoesState extends State<Botoes> {
             );
           },
           child: const Text("login com google teste"),
+        ),
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TesteCoiso(),
+              ),
+            );
+          },
+          child: const Text("teste post"),
         )
       ],
     );
