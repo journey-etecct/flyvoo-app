@@ -55,7 +55,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
         child: Scaffold(
           backgroundColor: tema["fundo"],
           body: Padding(
-            padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+            padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
             child: SingleChildScrollView(
               child: GestureDetector(
                 onTap: () {
@@ -136,13 +136,13 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                       RichText(
                         text: TextSpan(
                           text: "Já possui cadastro? ",
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
                           children: [
                             TextSpan(
                               text: "Clique aqui",
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 color: tema["primaria"],
                                 decoration: TextDecoration.underline,
                               ),
@@ -180,7 +180,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                         },
                         child: Text(
                           _step == 0 ? "Próximo" : "Cadastrar",
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 25,
                             color: Colors.white,
                           ),
@@ -248,7 +248,7 @@ class _Tela1State extends State<Tela1> {
             autofillHints: const [AutofillHints.name],
             decoration: InputDecoration(
               labelText: "Nome Completo",
-              labelStyle: const TextStyle(
+              labelStyle: GoogleFonts.inter(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -285,7 +285,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               labelText: "Email",
-              labelStyle: const TextStyle(
+              labelStyle: GoogleFonts.inter(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -311,7 +311,7 @@ class _Tela1State extends State<Tela1> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               labelText: "Telefone Pessoal (Celular)",
-              labelStyle: const TextStyle(fontSize: 20),
+              labelStyle: GoogleFonts.inter(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: tema["primaria"]!,
@@ -343,7 +343,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               labelText: "Senha",
-              labelStyle: const TextStyle(
+              labelStyle: GoogleFonts.inter(
                 fontSize: 20,
               ),
               suffix: ClipRRect(
@@ -396,7 +396,7 @@ class _Tela1State extends State<Tela1> {
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               labelText: "Confirmação da Senha",
-              labelStyle: const TextStyle(
+              labelStyle: GoogleFonts.inter(
                 fontSize: 20,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -461,7 +461,8 @@ class _Tela2State extends State<Tela2> {
         children: [
           DropdownButtonFormField(
             value: carreiraEscolhida,
-            style: TextStyle(
+            dropdownColor: tema["fundo"],
+            style: GoogleFonts.inter(
               color: tema["noFundo"],
               fontSize: 17,
             ),
@@ -475,7 +476,7 @@ class _Tela2State extends State<Tela2> {
             selectedItemBuilder: (context) => carreiras
                 .map(
                   (e) => Text(
-                    carreiraEscolhida,
+                    e,
                   ),
                 )
                 .toList(),
@@ -508,7 +509,7 @@ class _Tela2State extends State<Tela2> {
             value: peleEscolhida,
             dropdownColor: tema["fundo"],
             elevation: 1,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               color: tema["noFundo"],
               fontSize: 20,
             ),
@@ -556,7 +557,7 @@ class _Tela2State extends State<Tela2> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               labelText: "Telefone Profissional (Opcional)",
-              labelStyle: const TextStyle(fontSize: 18),
+              labelStyle: GoogleFonts.inter(fontSize: 18),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: tema["primaria"]!,

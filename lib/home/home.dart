@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
-import 'package:flyvoo/home/config/mais.dart';
+import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
 import 'package:flyvoo/main.dart';

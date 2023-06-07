@@ -19,6 +19,7 @@ dependencies:
   http: ^1.0.0
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
+  simple_gradient_text: ^1.2.4
   video_player: ^2.6.1
 
 dev_dependencies:

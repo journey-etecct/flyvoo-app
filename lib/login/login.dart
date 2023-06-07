@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -86,9 +87,7 @@ class _LoginState extends State<Login> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: "Email",
-                          labelStyle: TextStyle(
-                            fontSize: 20,
-                          ),
+                          labelStyle: GoogleFonts.inter(),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: tema["primaria"]!,
@@ -116,9 +115,7 @@ class _LoginState extends State<Login> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                           labelText: "Senha",
-                          labelStyle: TextStyle(
-                            fontSize: 20,
-                          ),
+                          labelStyle: GoogleFonts.inter(),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: tema["primaria"]!,
@@ -169,18 +166,18 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       SizedBox(
-                        height: 80,
+                        height: 20,
                       ),
                       RichText(
                         text: TextSpan(
                           text: "Não possui cadastro? ",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
+                          style: GoogleFonts.inter(
+                            color: tema["noFundo"],
                           ),
                           children: [
                             TextSpan(
                               text: "Clique aqui",
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 color: tema["primaria"],
                                 decoration: TextDecoration.underline,
                               ),
@@ -193,13 +190,14 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
                       CupertinoButton(
                         borderRadius: BorderRadius.circular(10),
                         padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
                         color: tema["primaria"]?.withOpacity(0.65),
                         onPressed: () {
+                          TextInput.finishAutofillContext();
                           // TODO: entrar
                           if (_formKey.currentState!.validate()) {
                             debugPrint("ebaa");
@@ -207,7 +205,7 @@ class _LoginState extends State<Login> {
                         },
                         child: Text(
                           "Entrar",
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 25,
                             color: Colors.white,
                           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:flyvoo/login/post_teste.dart';
@@ -63,6 +64,9 @@ Map<String, Color> tema = {
   "noFundo": dark ? Colors.white : Colors.black,
   "texto": dark ? Colors.white : const Color(0xff1E3C87),
   "botao": dark ? const Color(0xffB8CCFF) : const Color(0xffF0F4FF),
+  "textoSecundario": dark
+      ? const Color(0xffd8d8d8)
+      : const Color(0xff404040).withOpacity(0.77),
 };
 // fim do tema do aplicativo
 
@@ -250,7 +254,7 @@ class _BotoesState extends State<Botoes> {
             botaoCadastro.onTap!();
           }
         },
-        child: const Text("login teste"),
+        child: const Text("login"),
       ),
     );
     botaoCadastro = GestureDetector(
@@ -279,7 +283,7 @@ class _BotoesState extends State<Botoes> {
             botaoLogin.onTap!();
           }
         },
-        child: const Text("cadastro teste"),
+        child: const Text("cadastro"),
       ),
     );
     super.initState();
@@ -289,6 +293,17 @@ class _BotoesState extends State<Botoes> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Index(),
+              ),
+            );
+          },
+          child: const Text("index"),
+        ),
         botaoLogin,
         botaoCadastro,
         FilledButton(
@@ -300,7 +315,7 @@ class _BotoesState extends State<Botoes> {
               ),
             );
           },
-          child: const Text("home teste"),
+          child: const Text("home"),
         ),
         FilledButton(
           onPressed: () {
@@ -311,7 +326,7 @@ class _BotoesState extends State<Botoes> {
               ),
             );
           },
-          child: const Text("login com google teste"),
+          child: const Text("login com google"),
         ),
         FilledButton(
           onPressed: () {
@@ -322,7 +337,7 @@ class _BotoesState extends State<Botoes> {
               ),
             );
           },
-          child: const Text("teste post"),
+          child: const Text("teste http.post"),
         )
       ],
     );
