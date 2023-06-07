@@ -5,7 +5,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
+import 'package:flyvoo/home/config/minha_conta/minha_conta.dart';
 import 'package:flyvoo/main.dart';
 
 class Mais extends StatefulWidget {

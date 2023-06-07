@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,12 +32,18 @@ class _TesteCoisoState extends State<TesteCoiso> {
                   ),
                   body: body,
                 )
-                    .then((value) {
-                  debugPrint(value.body);
-                });
+                    .then(
+                  (value) {
+                    Flushbar(
+                      message: "resposta: ${value.body}",
+                      duration: const Duration(seconds: 3),
+                      flushbarStyle: FlushbarStyle.FLOATING,
+                    ).show(context);
+                  },
+                );
               },
               child: const Text(
-                "data",
+                "enviar",
               ),
             ),
           ],
