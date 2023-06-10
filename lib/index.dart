@@ -217,7 +217,7 @@ class BotoesEntrada extends StatelessWidget {
             ),
             SizedBox(
               height: 12,
-            )
+            ),
           ],
         );
       },
