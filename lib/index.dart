@@ -164,7 +164,7 @@ class BotaoIndex {
   BotaoIndex(this.icon, this.text);
 }
 
-List<String> botoesAlerta = ["Cancelar", "Me lembre depois", "Cadastre-se"];
+List<String> botoesAlerta = ["Cancelar", "Me lembre depois", "Criar uma conta"];
 
 class BotoesEntrada extends StatelessWidget {
   const BotoesEntrada({super.key});
