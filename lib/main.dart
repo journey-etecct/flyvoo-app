@@ -5,16 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/index.dart';
-import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:flyvoo/login/post_teste.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flyvoo/login/login.dart';
 
 // tema do aplicativo
 Map<String, List> paletas = {
@@ -331,72 +330,6 @@ class Botoes extends StatefulWidget {
 }
 
 class _BotoesState extends State<Botoes> {
-  late GestureDetector botaoLogin;
-  late GestureDetector botaoCadastro;
-
-  @override
-  void initState() {
-    botaoLogin = GestureDetector(
-      onTap: () async {
-        final retorno = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Login(),
-          ),
-        );
-        if (!mounted) return;
-        if (retorno != null) {
-          botaoCadastro.onTap!();
-        }
-      },
-      child: FilledButton(
-        onPressed: () async {
-          final retorno = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Login(),
-            ),
-          );
-          if (!mounted) return;
-          if (retorno != null) {
-            botaoCadastro.onTap!();
-          }
-        },
-        child: const Text("login"),
-      ),
-    );
-    botaoCadastro = GestureDetector(
-      onTap: () async {
-        final retorno = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Cadastro(),
-          ),
-        );
-        if (!mounted) return;
-        if (retorno != null) {
-          botaoLogin.onTap!();
-        }
-      },
-      child: FilledButton(
-        onPressed: () async {
-          final retorno = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Cadastro(),
-            ),
-          );
-          if (!mounted) return;
-          if (retorno != null) {
-            botaoLogin.onTap!();
-          }
-        },
-        child: const Text("cadastro"),
-      ),
-    );
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -412,8 +345,17 @@ class _BotoesState extends State<Botoes> {
           },
           child: const Text("index"),
         ),
-        botaoLogin,
-        botaoCadastro,
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Termos(),
+              ),
+            );
+          },
+          child: const Text("termos"),
+        ),
         FilledButton(
           onPressed: () {
             Navigator.push(

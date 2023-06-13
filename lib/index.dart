@@ -222,7 +222,7 @@ class BotoesEntrada extends StatelessWidget {
                               "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
                               style: GoogleFonts.inter(),
                             ),
-                            /* actions: [CupertinoDialogAction(child: child)], */
+                            actions: [],
                           ),
                         ),
                       );
