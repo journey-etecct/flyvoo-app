@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/login/cadastro.dart';
 import 'package:flyvoo/login/login.dart';
@@ -70,6 +73,7 @@ class _IndexState extends State<Index> {
                           text: "Bem-vindo(a) ao ",
                           style: GoogleFonts.inter(
                             fontSize: 32,
+                            color: tema["noFundo"],
                           ),
                           children: [
                             TextSpan(
@@ -116,7 +120,7 @@ class _IndexState extends State<Index> {
                 ),
                 children: [
                   TextSpan(
-                    text: "Termos de Uso",
+                    text: "Termos de Uso & Política de Privacidade",
                     style: TextStyle(
                       color: tema["textoSecundario"],
                       decoration: TextDecoration.underline,
@@ -124,22 +128,12 @@ class _IndexState extends State<Index> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        // TODO: termos de uso
-                      },
-                  ),
-                  TextSpan(
-                    text: " & ",
-                  ),
-                  TextSpan(
-                    text: "Política de Privacidade",
-                    style: TextStyle(
-                      color: tema["textoSecundario"],
-                      decoration: TextDecoration.underline,
-                      decorationStyle: TextDecorationStyle.solid,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        // TODO: politica de privacidade
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => Termos(),
+                          ),
+                        );
                       },
                   ),
                   TextSpan(
@@ -158,11 +152,19 @@ class _IndexState extends State<Index> {
   }
 }
 
-List<String> botoes = [
-  "Entrar sem conta",
-  "Entrar como usuário",
-  "Criar uma conta",
+List<BotaoIndex> botoes = [
+  BotaoIndex(AssetImage("assets/icons/seta_dupla.png"), "Continuar sem conta"),
+  BotaoIndex(AssetImage("assets/icons/email.png"), "Continuar como usuário"),
+  BotaoIndex(AssetImage("assets/icons/user.png"), "Criar uma conta"),
 ];
+
+class BotaoIndex {
+  final String text;
+  final AssetImage icon;
+  BotaoIndex(this.icon, this.text);
+}
+
+List<String> botoesAlerta = [];
 
 class BotoesEntrada extends StatelessWidget {
   const BotoesEntrada({super.key});
@@ -176,40 +178,75 @@ class BotoesEntrada extends StatelessWidget {
         return Column(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
               width: double.infinity,
               child: CupertinoButton(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(0xff00FFD8).withOpacity(0.37),
+                borderRadius: BorderRadius.circular(100),
+                color: dark
+                    ? Color(0xff00FFD8).withOpacity(0.37)
+                    : Color(0xffFFD3BD),
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Text(
-                  botoes[index],
-                  style: GoogleFonts.inter(
-                    color: dark ? Colors.white : Color(0xffA93535),
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Image(
+                      image: botoes[index].icon,
+                      width: 30,
+                      color: dark ? Colors.white : Color(0xffA93535),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      botoes[index].text,
+                      style: GoogleFonts.inter(
+                        color: dark ? Colors.white : Color(0xffA93535),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
                 onPressed: () {
                   switch (index) {
                     case 0:
-                      Navigator.push(
+                      showCupertinoDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: CupertinoAlertDialog(
+                            content: Text(
+                              "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
+                              style: GoogleFonts.inter(),
+                            ),
+                            /* actions: [CupertinoDialogAction(child: child)], */
+                          ),
+                        ),
+                      );
+                      /* Navigator.push(
                         context,
                         CupertinoPageRoute(
                           builder: (context) => Home(),
                         ),
-                      );
+                      ); */
                       break;
                     case 1:
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => Login()),
+                        CupertinoPageRoute(
+                          builder: (context) => Login(),
+                        ),
                       );
                       break;
                     default:
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => Cadastro()),
+                        CupertinoPageRoute(
+                          builder: (context) => Cadastro(),
+                        ),
                       );
                   }
                 },

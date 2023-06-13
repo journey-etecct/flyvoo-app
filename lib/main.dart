@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cupertino_will_pop_scope/cupertino_will_pop_scope.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -188,6 +190,112 @@ class _FlyvooState extends State<Flyvoo> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 80,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            dark = !dark;
+                            tema = {
+                              "primaria": dark
+                                  ? const Color(0xff00FFD8)
+                                  : const Color(0xffFB5607),
+                              "secundaria":
+                                  dark ? const Color(0xff31b6b0) : Colors.black,
+                              "terciaria": dark
+                                  ? const Color(0xff096073)
+                                  : const Color(0xff054BFD).withOpacity(
+                                      0.4,
+                                    ),
+                              "fundo":
+                                  dark ? const Color(0xff252525) : Colors.white,
+                              "noFundo": dark ? Colors.white : Colors.black,
+                              "texto":
+                                  dark ? Colors.white : const Color(0xff1E3C87),
+                              "botao": dark
+                                  ? const Color(0xffB8CCFF)
+                                  : const Color(0xffF0F4FF),
+                              "textoSecundario": dark
+                                  ? const Color(0xffd8d8d8)
+                                  : const Color(0xff404040).withOpacity(0.77),
+                            };
+                            notifier.value =
+                                dark ? Brightness.dark : Brightness.light;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/icons/lua.png",
+                                color: tema["texto"],
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Modo escuro",
+                                    style: GoogleFonts.inter(
+                                      color: tema["texto"],
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: CupertinoSwitch(
+                                  value: dark,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      dark = value;
+                                      tema = {
+                                        "primaria": dark
+                                            ? const Color(0xff00FFD8)
+                                            : const Color(0xffFB5607),
+                                        "secundaria": dark
+                                            ? const Color(0xff31b6b0)
+                                            : Colors.black,
+                                        "terciaria": dark
+                                            ? const Color(0xff096073)
+                                            : const Color(0xff054BFD)
+                                                .withOpacity(
+                                                0.4,
+                                              ),
+                                        "fundo": dark
+                                            ? const Color(0xff252525)
+                                            : Colors.white,
+                                        "noFundo":
+                                            dark ? Colors.white : Colors.black,
+                                        "texto": dark
+                                            ? Colors.white
+                                            : const Color(0xff1E3C87),
+                                        "botao": dark
+                                            ? const Color(0xffB8CCFF)
+                                            : const Color(0xffF0F4FF),
+                                        "textoSecundario": dark
+                                            ? const Color(0xffd8d8d8)
+                                            : const Color(0xff404040)
+                                                .withOpacity(0.77),
+                                      };
+                                      notifier.value = dark
+                                          ? Brightness.dark
+                                          : Brightness.light;
+                                    });
+                                  },
+                                  activeColor: const Color(0xff1E3C87),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       'Teste de tema',
                       style: TextStyle(
@@ -318,7 +426,7 @@ class _BotoesState extends State<Botoes> {
           child: const Text("home"),
         ),
         FilledButton(
-          onPressed: () {
+          onPressed: () async {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -360,6 +468,11 @@ ThemeData _buildTheme(mode) {
     useMaterial3: true,
     brightness: mode,
     colorSchemeSeed: tema["primaria"],
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CupertinoWillPopScopePageTransionsBuilder(),
+      },
+    ),
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: TextStyle(
         color: tema["primaria"],

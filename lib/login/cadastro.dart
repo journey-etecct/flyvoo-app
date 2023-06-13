@@ -50,147 +50,143 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
           return true;
         }
       },
-      child: ScrollConfiguration(
-        behavior: MyBehavior(),
-        child: Scaffold(
-          backgroundColor: tema["fundo"],
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  setState(() {});
-                },
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: dark
-                                    ? Colors.black.withOpacity(0.2)
-                                    : Colors.transparent,
-                                border: Border.all(
-                                  color: tema["primaria"]!,
-                                ),
+      child: Scaffold(
+        backgroundColor: tema["fundo"],
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+          child: SingleChildScrollView(
+            child: GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                setState(() {});
+              },
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: dark
+                                  ? Colors.black.withOpacity(0.2)
+                                  : Colors.transparent,
+                              border: Border.all(
+                                color: tema["primaria"]!,
                               ),
-                              child: Image(
-                                image: AssetImage(
-                                  dark
-                                      ? "assets/logo/logodark.png"
-                                      : "assets/logo/logolight.png",
-                                ),
-                                width: 90,
-                                height: 90,
+                            ),
+                            child: Image(
+                              image: AssetImage(
+                                dark
+                                    ? "assets/logo/logodark.png"
+                                    : "assets/logo/logolight.png",
                               ),
+                              width: 90,
+                              height: 90,
                             ),
                           ),
-                          Expanded(
-                            child: Text(
-                              "CADASTRO",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "CADASTRO",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: PageTransitionSwitcher(
+                        reverse: _reversed,
+                        transitionBuilder: (
+                          Widget child,
+                          Animation<double> primaryAnimation,
+                          Animation<double> secondaryAnimation,
+                        ) {
+                          return SharedAxisTransition(
+                            fillColor: Colors.transparent,
+                            animation: primaryAnimation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                            child: child,
+                          );
+                        },
+                        child: telas[_step],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: "Já possui cadastro? ",
+                        style: GoogleFonts.inter(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Clique aqui",
+                            style: GoogleFonts.inter(
+                              color: tema["primaria"],
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pop(context, "true");
+                              },
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(
-                        child: PageTransitionSwitcher(
-                          reverse: _reversed,
-                          transitionBuilder: (
-                            Widget child,
-                            Animation<double> primaryAnimation,
-                            Animation<double> secondaryAnimation,
-                          ) {
-                            return SharedAxisTransition(
-                              fillColor: Colors.transparent,
-                              animation: primaryAnimation,
-                              secondaryAnimation: secondaryAnimation,
-                              transitionType:
-                                  SharedAxisTransitionType.horizontal,
-                              child: child,
-                            );
-                          },
-                          child: telas[_step],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 80,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: "Já possui cadastro? ",
-                          style: GoogleFonts.inter(
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "Clique aqui",
-                              style: GoogleFonts.inter(
-                                color: tema["primaria"],
-                                decoration: TextDecoration.underline,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pop(context, "true");
-                                },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 35,
-                      ),
-                      CupertinoButton(
-                        borderRadius: BorderRadius.circular(10),
-                        padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
-                        color: tema["primaria"]?.withOpacity(0.65),
-                        onPressed: () {
-                          setState(() {
-                            if (_step == 0) {
-                              if (!kDebugMode) {
-                                if (_formKey1.currentState!.validate()) {
-                                  _reversed = false;
-                                  _step++;
-                                }
-                              } else {
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    CupertinoButton(
+                      borderRadius: BorderRadius.circular(10),
+                      padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
+                      color: tema["primaria"]?.withOpacity(0.65),
+                      onPressed: () {
+                        setState(() {
+                          if (_step == 0) {
+                            if (!kDebugMode) {
+                              if (_formKey1.currentState!.validate()) {
                                 _reversed = false;
                                 _step++;
                               }
                             } else {
-                              Navigator.pop(context);
+                              _reversed = false;
+                              _step++;
                             }
-                          });
-                        },
-                        child: Text(
-                          _step == 0 ? "Próximo" : "Cadastrar",
-                          style: GoogleFonts.inter(
-                            fontSize: 25,
-                            color: Colors.white,
-                          ),
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        });
+                      },
+                      child: Text(
+                        _step == 0 ? "Próximo" : "Cadastrar",
+                        style: GoogleFonts.inter(
+                          fontSize: 25,
+                          color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        height: 40,
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    )
+                  ],
                 ),
               ),
             ),
