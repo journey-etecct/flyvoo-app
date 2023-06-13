@@ -164,7 +164,7 @@ class BotaoIndex {
   BotaoIndex(this.icon, this.text);
 }
 
-List<String> botoesAlerta = [];
+List<String> botoesAlerta = ["Cancelar", "Me lembre depois", "Cadastre-se"];
 
 class BotoesEntrada extends StatelessWidget {
   const BotoesEntrada({super.key});
@@ -216,13 +216,53 @@ class BotoesEntrada extends StatelessWidget {
                         context: context,
                         barrierDismissible: false,
                         builder: (context) => BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                           child: CupertinoAlertDialog(
-                            content: Text(
-                              "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
-                              style: GoogleFonts.inter(),
+                            content: Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Text(
+                                "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
+                                style: GoogleFonts.inter(
+                                  fontSize: 17,
+                                ),
+                              ),
                             ),
-                            actions: [],
+                            actions: botoesAlerta
+                                .map<CupertinoDialogAction>(
+                                  (value) => CupertinoDialogAction(
+                                    onPressed: () {
+                                      switch (value) {
+                                        case "Cancelar":
+                                          Navigator.pop(context);
+                                          break;
+                                        case "Me lembre depois":
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) => Home(),
+                                            ),
+                                          );
+                                          break;
+                                        default:
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) => Cadastro(),
+                                            ),
+                                          );
+                                      }
+                                    },
+                                    child: Text(
+                                      value,
+                                      style: GoogleFonts.inter(
+                                        color: CupertinoColors.systemBlue,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           ),
                         ),
                       );

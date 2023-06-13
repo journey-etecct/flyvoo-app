@@ -1,19 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cupertino_will_pop_scope/cupertino_will_pop_scope.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flyvoo/blablabla/termos.dart';
-import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:flyvoo/login/post_teste.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:flyvoo/firebase_options.dart';
 
 // tema do aplicativo
 Map<String, List> paletas = {
@@ -320,16 +318,11 @@ class _FlyvooState extends State<Flyvoo> {
   }
 }
 
-class Botoes extends StatefulWidget {
+class Botoes extends StatelessWidget {
   const Botoes({
     super.key,
   });
 
-  @override
-  State<Botoes> createState() => _BotoesState();
-}
-
-class _BotoesState extends State<Botoes> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -338,7 +331,7 @@ class _BotoesState extends State<Botoes> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (context) => const Index(),
               ),
             );
@@ -349,7 +342,7 @@ class _BotoesState extends State<Botoes> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (context) => const Termos(),
               ),
             );
@@ -357,21 +350,10 @@ class _BotoesState extends State<Botoes> {
           child: const Text("termos"),
         ),
         FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Home(),
-              ),
-            );
-          },
-          child: const Text("home"),
-        ),
-        FilledButton(
           onPressed: () async {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (context) => const Google(),
               ),
             );
@@ -382,7 +364,7 @@ class _BotoesState extends State<Botoes> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (context) => const TesteCoiso(),
               ),
             );
@@ -410,11 +392,6 @@ ThemeData _buildTheme(mode) {
     useMaterial3: true,
     brightness: mode,
     colorSchemeSeed: tema["primaria"],
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: CupertinoWillPopScopePageTransionsBuilder(),
-      },
-    ),
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: TextStyle(
         color: tema["primaria"],

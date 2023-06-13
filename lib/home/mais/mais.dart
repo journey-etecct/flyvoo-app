@@ -219,7 +219,7 @@ class _MaisState extends State<Mais> {
                         showCupertinoDialog(
                           context: context,
                           builder: (context) => BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                             child: CupertinoAlertDialog(
                               content: Text(
                                 "Tem certeza que deseja sair?",

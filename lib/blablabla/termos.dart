@@ -15,9 +15,9 @@ Future getTermos() async {
     Uri.parse(
       "https://api.github.com/repos/oculosdanilo/flyvoo/contents/TERMOS.md",
     ),
-    headers: {"Authorization": token},
+    headers: {"Authorization": "token $token"},
   ).then((value) {
-    debugPrint(value.headers["x-ratelimit-used"]);
+    debugPrint(value.headers["x-ratelimit-remaining"]);
     return jsonDecode(value.body)["content"];
   });
   Uint8List conteudo = base64Decode(
@@ -31,9 +31,9 @@ Future getPolitica() async {
     Uri.parse(
       "https://api.github.com/repos/oculosdanilo/flyvoo/contents/POLITICA.md",
     ),
-    headers: {"Authorization": token},
+    headers: {"Authorization": "token $token"},
   ).then((value) {
-    debugPrint(value.headers["x-ratelimit-used"]);
+    debugPrint(value.headers["x-ratelimit-remaining"]);
     return jsonDecode(value.body)["content"];
   });
   Uint8List conteudo = base64Decode(
