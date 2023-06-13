@@ -16,4 +16,4 @@ A sua privacidade é importante para nós. Esta Política de Privacidade descrev
 
 Esta Política de Privacidade entra em vigor a partir da data de utilização do Aplicativo e se mantém em vigor, a menos que seja atualizada ou substituída por uma versão mais recente.
 
-Ao tocar em Concordar, você aceita os Termos e Política de Privacidade. Você pode também acessar a Central de Segurança e Privacidade se preferir apagar sua conta e desejar obter mais informações.
+Ao clicar em Concordar, você aceita os Termos e Política de Privacidade. Você pode também acessar a Central de Segurança e Privacidade se preferir apagar sua conta e desejar obter mais informações.
