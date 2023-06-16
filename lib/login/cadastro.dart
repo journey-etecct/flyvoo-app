@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:flyvoo/login/login.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -127,9 +128,6 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                         child: telas[_step],
                       ),
                     ),
-                    const SizedBox(
-                      height: 80,
-                    ),
                     RichText(
                       text: TextSpan(
                         text: "Já possui cadastro? ",
@@ -145,7 +143,13 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pop(context, "true");
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const Login(),
+                                  ),
+                                );
                               },
                           ),
                         ],
