@@ -11,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 int _step = 0;
 final _txtNome = TextEditingController();
 final _txtEmail = TextEditingController();
-final _txtTelefone = TextEditingController();
 final _txtSenha = TextEditingController();
 final _txtSenhaConf = TextEditingController();
 final _txtTelefoneE = TextEditingController();
@@ -296,7 +295,7 @@ class _Tela1State extends State<Tela1> {
             ),
             cursorColor: tema["primaria"],
           ),
-          TextFormField(
+          /* TextFormField(
             controller: _txtTelefone,
             keyboardType: TextInputType.phone,
             validator: (value) {
@@ -324,7 +323,7 @@ class _Tela1State extends State<Tela1> {
                 defaultCountryCode: "BR",
               )
             ],
-          ),
+          ), */
           TextFormField(
             controller: _txtSenha,
             enableInteractiveSelection: false,
