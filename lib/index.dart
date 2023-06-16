@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -17,7 +15,7 @@ Shader linearGradient = LinearGradient(
     tema["primaria"]!,
     tema["noFundo"]!,
   ],
-).createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
+).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
 
 class Index extends StatefulWidget {
   const Index({super.key});
@@ -34,7 +32,7 @@ class _IndexState extends State<Index> {
         tema["primaria"]!,
         tema["noFundo"]!,
       ],
-    ).createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
+    ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     super.initState();
   }
 
@@ -64,7 +62,7 @@ class _IndexState extends State<Index> {
                           height: 266,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       RichText(
@@ -93,10 +91,10 @@ class _IndexState extends State<Index> {
                           fontSize: 22,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      BotoesEntrada(),
+                      const BotoesEntrada(),
                     ],
                   ),
                 ),
@@ -131,7 +129,7 @@ class _IndexState extends State<Index> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => Termos(),
+                            builder: (context) => const Termos(),
                           ),
                         );
                       },
@@ -153,9 +151,11 @@ class _IndexState extends State<Index> {
 }
 
 List<BotaoIndex> botoes = [
-  BotaoIndex(AssetImage("assets/icons/seta_dupla.png"), "Continuar sem conta"),
-  BotaoIndex(AssetImage("assets/icons/email.png"), "Continuar como usuário"),
-  BotaoIndex(AssetImage("assets/icons/user.png"), "Criar uma conta"),
+  BotaoIndex(
+      const AssetImage("assets/icons/seta_dupla.png"), "Continuar sem conta"),
+  BotaoIndex(
+      const AssetImage("assets/icons/email.png"), "Continuar como usuário"),
+  BotaoIndex(const AssetImage("assets/icons/user.png"), "Criar uma conta"),
 ];
 
 class BotaoIndex {
@@ -172,37 +172,37 @@ class BotoesEntrada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Column(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               width: double.infinity,
               child: CupertinoButton(
                 borderRadius: BorderRadius.circular(100),
                 color: dark
-                    ? Color(0xff00FFD8).withOpacity(0.37)
-                    : Color(0xffFFD3BD),
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    ? const Color(0xff00FFD8).withOpacity(0.37)
+                    : const Color(0xffFFD3BD),
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Image(
                       image: botoes[index].icon,
                       width: 30,
-                      color: dark ? Colors.white : Color(0xffA93535),
+                      color: dark ? Colors.white : const Color(0xffA93535),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Text(
                       botoes[index].text,
                       style: GoogleFonts.inter(
-                        color: dark ? Colors.white : Color(0xffA93535),
+                        color: dark ? Colors.white : const Color(0xffA93535),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -240,7 +240,8 @@ class BotoesEntrada extends StatelessWidget {
                                           Navigator.push(
                                             context,
                                             CupertinoPageRoute(
-                                              builder: (context) => Home(),
+                                              builder: (context) =>
+                                                  const Home(),
                                             ),
                                           );
                                           break;
@@ -249,7 +250,8 @@ class BotoesEntrada extends StatelessWidget {
                                           Navigator.push(
                                             context,
                                             CupertinoPageRoute(
-                                              builder: (context) => Cadastro(),
+                                              builder: (context) =>
+                                                  const Cadastro(),
                                             ),
                                           );
                                       }
@@ -277,7 +279,7 @@ class BotoesEntrada extends StatelessWidget {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => Login(),
+                          builder: (context) => const Login(),
                         ),
                       );
                       break;
@@ -285,14 +287,14 @@ class BotoesEntrada extends StatelessWidget {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => Cadastro(),
+                          builder: (context) => const Cadastro(),
                         ),
                       );
                   }
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
           ],
