@@ -2,7 +2,6 @@
 
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/login/cadastro/tela1.dart';
@@ -31,6 +30,11 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
     Tela2(_formKey2),
     Tela3(),
   ];
+  List<String> botaoTxt = <String>[
+    "Próximo",
+    "Próximo",
+    "Finalizar",
+  ];
   bool _reversed = false;
 
   @override
@@ -43,7 +47,7 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (_step == 1) {
+        if (_step != 0) {
           setState(() {
             _reversed = true;
             _step--;
@@ -73,45 +77,17 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                     const SizedBox(
                       height: 60,
                     ),
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: dark
-                                  ? Colors.black.withOpacity(0.2)
-                                  : Colors.transparent,
-                              border: Border.all(
-                                color: tema["primaria"]!,
-                              ),
-                            ),
-                            child: Image(
-                              image: AssetImage(
-                                dark
-                                    ? "assets/logo/logodark.png"
-                                    : "assets/logo/logolight.png",
-                              ),
-                              width: 90,
-                              height: 90,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            "CADASTRO",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "CADASTRO",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: tema["texto"],
+                      ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     Expanded(
                       child: PageTransitionSwitcher(
@@ -168,7 +144,23 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                       color: tema["primaria"]?.withOpacity(0.65),
                       onPressed: () {
                         setState(() {
-                          if (_step == 0) {
+                          switch (_step) {
+                            case 0:
+                              if (true /* _formKey1.currentState!.validate() */) {
+                                _reversed = false;
+                                _step++;
+                              }
+                              break;
+                            case 1:
+                              if (true /* _formKey1.currentState!.validate() */) {
+                                _reversed = false;
+                                _step++;
+                              }
+                              break;
+                            default:
+                            // TODO: terminar o cadastro
+                          }
+                          /* if (_step == 0) {
                             if (!kDebugMode) {
                               if (_formKey1.currentState!.validate()) {
                                 _reversed = false;
@@ -180,11 +172,11 @@ class _CadastroState extends State<Cadastro> with TickerProviderStateMixin {
                             }
                           } else {
                             Navigator.pop(context);
-                          }
+                          } */
                         });
                       },
                       child: Text(
-                        _step == 0 ? "Próximo" : "Cadastrar",
+                        botaoTxt[_step],
                         style: GoogleFonts.inter(
                           fontSize: 25,
                           color: Colors.white,

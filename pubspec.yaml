@@ -19,6 +19,7 @@ dependencies:
   google_fonts: ^5.0.0
   google_sign_in: ^6.1.4
   http: ^1.0.0
+  material_symbols_icons: ^4.2661.1
   path_provider: ^2.0.15
   simple_gradient_text: ^1.2.4
   video_player: ^2.6.1
