@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flyvoo/login/cadastro.dart';
+import 'package:flyvoo/login/cadastro/cadastro.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -184,12 +184,12 @@ class _LoginState extends State<Login> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (context) => const Cadastro(),
-                                ),
-                              );
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const Cadastro(),
+                                  ),
+                                );
                               },
                           ),
                         ],

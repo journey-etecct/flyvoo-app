@@ -6,9 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/index.dart';
-import 'package:flyvoo/login/email_teste.dart';
 import 'package:flyvoo/login/google.dart';
-import 'package:flyvoo/login/post_teste.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -360,28 +358,6 @@ class Botoes extends StatelessWidget {
             );
           },
           child: const Text("login com google"),
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const TesteCoiso(),
-              ),
-            );
-          },
-          child: const Text("teste http.post"),
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const EmailTeste(),
-              ),
-            );
-          },
-          child: const Text("teste codigo por email"),
         ),
       ],
     );

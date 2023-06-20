@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
-import 'package:flyvoo/login/cadastro.dart';
+import 'package:flyvoo/login/cadastro/cadastro.dart';
 import 'package:flyvoo/login/login.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
