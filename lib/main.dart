@@ -8,9 +8,11 @@ import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flyvoo/firebase_options.dart';
+import 'package:flutter/services.dart' show PlatformException;
 
 // tema do aplicativo
 Map<String, List> paletas = {
@@ -65,6 +67,10 @@ Map<String, Color> tema = {
   "textoSecundario": dark
       ? const Color(0xffd8d8d8)
       : const Color(0xff404040).withOpacity(0.77),
+  "botaoIndex": dark
+      ? const Color(0xff00FFD8).withOpacity(0.37)
+      : const Color(0xffFFD3BD).withOpacity(0.60),
+  "textoBotaoIndex": dark ? Colors.white : const Color(0xffA93535),
 };
 // fim do tema do aplicativo
 
@@ -104,6 +110,18 @@ class _FlyvooState extends State<Flyvoo> {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+  }
+
+  Future<void> initUniLinks() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      final initialLink = await getInitialLink();
+      // Parse the link and warn the user, if it is not correct,
+      // but keep in mind it could be `null`.
+    } on PlatformException {
+      // Handle exception by warning the user their action did not succeed
+      // return?
+    }
   }
 
   @override
@@ -214,6 +232,11 @@ class _FlyvooState extends State<Flyvoo> {
                               "textoSecundario": dark
                                   ? const Color(0xffd8d8d8)
                                   : const Color(0xff404040).withOpacity(0.77),
+                              "botaoIndex": dark
+                                  ? const Color(0xff00FFD8).withOpacity(0.37)
+                                  : const Color(0xffFFD3BD).withOpacity(0.60),
+                              "textoBotaoIndex":
+                                  dark ? Colors.white : const Color(0xffA93535),
                             };
                             notifier.value =
                                 dark ? Brightness.dark : Brightness.light;
@@ -278,6 +301,14 @@ class _FlyvooState extends State<Flyvoo> {
                                             ? const Color(0xffd8d8d8)
                                             : const Color(0xff404040)
                                                 .withOpacity(0.77),
+                                        "botaoIndex": dark
+                                            ? const Color(0xff00FFD8)
+                                                .withOpacity(0.37)
+                                            : const Color(0xffFFD3BD)
+                                                .withOpacity(0.60),
+                                        "textoBotaoIndex": dark
+                                            ? Colors.white
+                                            : const Color(0xffA93535)
                                       };
                                       notifier.value = dark
                                           ? Brightness.dark

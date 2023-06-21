@@ -45,7 +45,7 @@ class _GoogleState extends State<Google> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("esse(a) aqui é voce? ${account?.displayName}"),
+            Text("esse(a) aqui é voce? ${account?.displayName ?? "eita"}"),
             Image(
               image: NetworkImage(
                 account?.photoUrl ??

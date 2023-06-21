@@ -148,7 +148,9 @@ class Termos extends StatelessWidget {
                   width: double.infinity,
                   child: CupertinoButton(
                     color: dark ? Color(0xff7736AA) : Color(0xffFF6CA1),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     borderRadius: BorderRadius.circular(12),
                     padding: EdgeInsets.only(
                       top: 5,

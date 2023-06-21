@@ -5,10 +5,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
-import 'package:flyvoo/login/cadastro/cadastro.dart';
+import 'package:flyvoo/cadastro/cadastro.dart';
 import 'package:flyvoo/login/login.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -151,153 +152,158 @@ class _IndexState extends State<Index> {
 }
 
 List<BotaoIndex> botoes = [
-  BotaoIndex(
-      const AssetImage("assets/icons/seta_dupla.png"), "Continuar sem conta"),
-  BotaoIndex(
-      const AssetImage("assets/icons/email.png"), "Continuar como usuário"),
-  BotaoIndex(const AssetImage("assets/icons/user.png"), "Criar uma conta"),
+  BotaoIndex(Symbols.keyboard_double_arrow_right, "Continuar sem conta"),
+  BotaoIndex(Symbols.mail_outline, "Continuar como usuário"),
+  BotaoIndex(Symbols.account_circle, "Criar uma conta"),
 ];
 
 class BotaoIndex {
   final String text;
-  final AssetImage icon;
+  final IconData icon;
   BotaoIndex(this.icon, this.text);
 }
 
 List<String> botoesAlerta = ["Cancelar", "Me lembre depois", "Criar uma conta"];
 
-class BotoesEntrada extends StatelessWidget {
+class BotoesEntrada extends StatefulWidget {
   const BotoesEntrada({super.key});
 
+  @override
+  State<BotoesEntrada> createState() => _BotoesEntradaState();
+}
+
+class _BotoesEntradaState extends State<BotoesEntrada> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              width: double.infinity,
-              child: CupertinoButton(
-                borderRadius: BorderRadius.circular(100),
-                color: dark
-                    ? const Color(0xff00FFD8).withOpacity(0.37)
-                    : const Color(0xffFFD3BD),
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Image(
-                      image: botoes[index].icon,
-                      width: 30,
-                      color: dark ? Colors.white : const Color(0xffA93535),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      botoes[index].text,
-                      style: GoogleFonts.inter(
-                        color: dark ? Colors.white : const Color(0xffA93535),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+        return Container(
+          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: tema["fundo"],
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 4,
+                spreadRadius: 0,
+                offset: const Offset(0, 4),
+                color: const Color(0xff000000).withOpacity(0.25),
+              ),
+            ],
+          ),
+          child: CupertinoButton(
+            color: tema["botaoIndex"],
+            borderRadius: BorderRadius.circular(50),
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 20,
                 ),
-                onPressed: () {
-                  switch (index) {
-                    case 0:
-                      showCupertinoDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                          child: CupertinoAlertDialog(
-                            content: Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                              child: Text(
-                                "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
-                                style: GoogleFonts.inter(
-                                  fontSize: 17,
-                                ),
-                              ),
+                Icon(
+                  botoes[index].icon,
+                  color: tema["textoBotaoIndex"],
+                  size: 30,
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  botoes[index].text,
+                  style: GoogleFonts.inter(
+                    color: tema["textoBotaoIndex"],
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            onPressed: () {
+              switch (index) {
+                case 0:
+                  showCupertinoDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                      child: CupertinoAlertDialog(
+                        content: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          child: Text(
+                            "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
+                            style: GoogleFonts.inter(
+                              fontSize: 17,
                             ),
-                            actions: botoesAlerta
-                                .map<CupertinoDialogAction>(
-                                  (value) => CupertinoDialogAction(
-                                    onPressed: () {
-                                      switch (value) {
-                                        case "Cancelar":
-                                          Navigator.pop(context);
-                                          break;
-                                        case "Me lembre depois":
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  const Home(),
-                                            ),
-                                          );
-                                          break;
-                                        default:
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  const Cadastro(),
-                                            ),
-                                          );
-                                      }
-                                    },
-                                    child: Text(
-                                      value,
-                                      style: GoogleFonts.inter(
-                                        color: CupertinoColors.systemBlue,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
                           ),
                         ),
-                      );
-                      /* Navigator.push(
+                        actions: botoesAlerta
+                            .map<CupertinoDialogAction>(
+                              (value) => CupertinoDialogAction(
+                                onPressed: () {
+                                  switch (value) {
+                                    case "Cancelar":
+                                      Navigator.pop(context);
+                                      break;
+                                    case "Me lembre depois":
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => const Home(),
+                                        ),
+                                      );
+                                      break;
+                                    default:
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const Cadastro(),
+                                        ),
+                                      );
+                                  }
+                                },
+                                child: Text(
+                                  value,
+                                  style: GoogleFonts.inter(
+                                    color: CupertinoColors.systemBlue,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  );
+                  /* Navigator.push(
                         context,
                         CupertinoPageRoute(
                           builder: (context) => Home(),
                         ),
                       ); */
-                      break;
-                    case 1:
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => const Login(),
-                        ),
-                      );
-                      break;
-                    default:
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => const Cadastro(),
-                        ),
-                      );
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-          ],
+                  break;
+                case 1:
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                  break;
+                default:
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const Cadastro(),
+                    ),
+                  );
+              }
+            },
+          ),
         );
       },
       itemCount: botoes.length,

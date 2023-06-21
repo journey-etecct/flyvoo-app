@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.6 <3.0.0"
+  sdk: ">=3.0.0-218.1.beta <4.0.0"
 
 dependencies:
   animations: ^2.0.7
@@ -22,6 +22,7 @@ dependencies:
   material_symbols_icons: ^4.2661.1
   path_provider: ^2.0.15
   simple_gradient_text: ^1.2.4
+  uni_links: ^0.5.1
   video_player: ^2.6.1
 
 dev_dependencies:
@@ -40,3 +41,6 @@ flutter:
     - family: Queensides
       fonts:
         - asset: assets/fonts/queensides.ttf
+    - family: Queensides Light
+      fonts:
+        - asset: assets/fonts/queensides_light.ttf
