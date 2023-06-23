@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/cadastro/verificacao/index.dart';
+import 'package:flyvoo/login/login.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -97,6 +100,7 @@ class _CadastroState extends State<Cadastro> {
       ];
     });
     return Scaffold(
+      backgroundColor: tema["fundo"],
       body: Stack(
         children: [
           /* AnimatedOpacity(
@@ -179,7 +183,19 @@ class _CadastroState extends State<Cadastro> {
                           ),
                         ],
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        switch (index) {
+                          case 0:
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => VerificacaoEmail(),
+                              ),
+                            );
+                            break;
+                          default:
+                        }
+                      },
                     ),
                   ),
                   itemCount: _botoes.length,
@@ -201,7 +217,19 @@ class _CadastroState extends State<Cadastro> {
                           color:
                               dark ? tema["primaria"] : tema["textoBotaoIndex"],
                           decoration: TextDecoration.underline,
+                          decorationColor:
+                              dark ? tema["primaria"] : tema["textoBotaoIndex"],
                         ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => Login(),
+                              ),
+                            );
+                          },
                       ),
                     ],
                   ),

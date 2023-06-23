@@ -4,7 +4,6 @@ import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final _txtNome = TextEditingController();
-final _txtEmail = TextEditingController();
 
 class Tela1 extends StatefulWidget {
   final Key formKey;
@@ -64,43 +63,7 @@ class _Tela1State extends State<Tela1> {
             ),
             cursorColor: tema["primaria"],
           ),
-          TextFormField(
-            controller: _txtEmail,
-            textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "*Obrigatório";
-              } else if (!value.contains(
-                RegExp(
-                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                ),
-              ) /* !value.contains("@gmail.com") &&
-                  !value.contains("@etec.sp.gov.br") &&
-                  !value.contains("@outlook.com") &&
-                  !value.contains("@hotmail.com") &&
-                  !value.contains("@yahoo.com") &&
-                  !value.contains("@terra.com.br") */
-                  ) {
-                return "Email inválido";
-              }
-              return null;
-            },
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            autofillHints: const [AutofillHints.email],
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: "Email",
-              labelStyle: GoogleFonts.inter(
-                fontSize: 20,
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: tema["primaria"]!,
-                ),
-              ),
-            ),
-            cursorColor: tema["primaria"],
-          ),
+
           /* TextFormField(
             controller: _txtTelefone,
             keyboardType: TextInputType.phone,
