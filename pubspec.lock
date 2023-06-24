@@ -185,6 +185,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
+  firebase_dynamic_links:
+    dependency: "direct main"
+    description:
+      name: firebase_dynamic_links
+      sha256: "9b984d0abd227a702451a997abcca763f4dbf67e260dad60e5506d55e3eff244"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.3"
+  firebase_dynamic_links_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_dynamic_links_platform_interface
+      sha256: "6ef00a0be18f3231e9727f7c4b31db89dbfa16792098beb850603c30854560ff"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.6+3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -236,10 +252,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: db5efba8106bd784a92c96cfd81716f4e06baab54e37de858488e9a00a764cad
+      sha256: e20ff62b158b96f392bfc8afe29dee1503c94fbea2cbe8186fd59b756b8ae982
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.1.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -348,10 +364,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_symbols_icons
-      sha256: caa06eb33284dec24e1c1793d3cc325cfbb969328ec2dd1795b2fc272400a6a4
+      sha256: "5d6878e052a82cb35149bd76863203fadb41828ba159d37c0b08cf3496e074d1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2661.1"
+    version: "4.2662.0"
   meta:
     dependency: transitive
     description:
@@ -593,10 +609,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "7dacfda1edcca378031db9905ad7d7bd56b29fd1a90b0908b71a52a12c41e36b"
+      sha256: "1414f27dd781737e51afa9711f2ac2ace6ab4498ee98e20863fa5505aa00c58c"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "5.0.4"
   xdg_directories:
     dependency: transitive
     description:

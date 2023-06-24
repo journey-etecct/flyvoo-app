@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
@@ -23,6 +25,41 @@ List<String> botaoTxt = <String>[
 
 class _VerificacaoEmailState extends State<VerificacaoEmail> {
   final _emailKey = GlobalKey<FormFieldState>();
+
+  _cadastroFirebaseEmail(String email, BuildContext context) async {
+    final inst = FirebaseAuth.instance;
+    try {
+      final UserCredential credenciais =
+          await inst.createUserWithEmailAndPassword(
+        email: email,
+        password: "123456",
+      );
+      setState(() {
+        userFlyvoo = credenciais.user;
+      });
+      await userFlyvoo?.sendEmailVerification(
+        ActionCodeSettings(
+          url:
+              "https://flyvoo.page.link/verifyEmail?email=${userFlyvoo?.email}",
+          androidPackageName: "io.journey.flyvoo",
+        ),
+      );
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => EmailEnviado(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      Flushbar(
+        message: "Erro desconhecido. Código: ${e.code}",
+        duration: Duration(seconds: 5),
+        margin: const EdgeInsets.all(20),
+        borderRadius: BorderRadius.circular(50),
+      ).show(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,14 +154,10 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       ],
                     ),
                     child: CupertinoButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_emailKey.currentState!.validate()) {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => EmailEnviado(),
-                            ),
-                          );
+                          // TODO: enviar email
+                          await _cadastroFirebaseEmail(_txtEmail.text, context);
                         }
                       },
                       color: tema["botaoIndex"],

@@ -1,17 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flyvoo/blablabla/termos.dart';
+import 'package:flyvoo/firebase_options.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flyvoo/firebase_options.dart';
 
 // tema do aplicativo
 Map<String, List> paletas = {
@@ -84,8 +87,30 @@ String? valorDropdown = "Seguir o sistema";
 final ValueNotifier<Brightness> notifier = ValueNotifier(
   dark ? Brightness.dark : Brightness.light,
 );
+User? userFlyvoo;
+late StreamSubscription<String?> _sub;
+/* final ValueNotifier<User?> notifierUser = ValueNotifier(); */
 
-void main() => runApp(const Flyvoo());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+/*   
+
+  // Check if you received the link via `getInitialLink` first
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+
+  FirebaseDynamicLinks.instance.onLink.listen(
+    (pendingDynamicLinkData) {
+      // Set up the `onLink` event listener next as it may be received here
+      if (pendingDynamicLinkData != null) {
+        final Uri deepLink = pendingDynamicLinkData.link;
+      }
+    },
+  ); */
+
+  runApp(const Flyvoo());
+}
 
 class Flyvoo extends StatefulWidget {
   const Flyvoo({
@@ -105,25 +130,35 @@ class _FlyvooState extends State<Flyvoo> {
     await _controllerDark.play();
   }
 
-  _firebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
-
   Future<void> initUniLinks() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       final initialLink = await getInitialLink();
-    } on PlatformException {
-      // Handle exception by warning the user their action did not succeed
-      // return?
+      if (initialLink != null) {
+        debugPrint(
+          Uri.parse(
+            Uri.parse(initialLink).queryParameters["afl"]!,
+          ).queryParameters["email"],
+        );
+      }
+    } on PlatformException catch (e) {
+      debugPrint(e.code);
     }
+    _sub = linkStream.listen((String? link) {
+      if (link != null && link.isNotEmpty) {
+        debugPrint(
+          Uri.parse(
+            Uri.parse(link).queryParameters["afl"]!,
+          ).queryParameters["email"],
+        );
+      }
+    }, onError: (err) {
+      debugPrint(err);
+    });
   }
 
   @override
   void initState() {
-    _firebase();
+    initUniLinks();
     dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
         Brightness.dark;
     _controllerLight = VideoPlayerController.asset(
@@ -152,6 +187,7 @@ class _FlyvooState extends State<Flyvoo> {
   void dispose() {
     _controllerDark.dispose();
     _controllerLight.dispose();
+    _sub.cancel();
     super.dispose();
   }
 

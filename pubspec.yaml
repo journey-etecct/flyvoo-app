@@ -12,6 +12,7 @@ dependencies:
   cupertino_will_pop_scope: ^1.2.1
   firebase_auth: ^4.6.2
   firebase_core: ^2.13.1
+  firebase_dynamic_links: ^5.3.3
   flutter:
     sdk: flutter
   flutter_multi_formatter: ^2.11.0

@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="flyvoo.firebaseapp.com" />
+                    android:host="flyvoo.page.link" />
             </intent-filter>
         </activity>
         <activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
