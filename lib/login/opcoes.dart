@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flyvoo/cadastro/opcoes.dart';
 import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
@@ -41,7 +39,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     ClipRRect(
@@ -56,7 +54,7 @@ class _LoginState extends State<Login> {
                         height: 266,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "Flyvoo",
                       style: TextStyle(
                         fontFamily: "Queensides",
@@ -146,7 +144,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Align(
@@ -165,7 +163,7 @@ class _LoginState extends State<Login> {
                               }),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     RichText(
@@ -183,25 +181,21 @@ class _LoginState extends State<Login> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pop(context);
-                                Navigator.push(
+                                Navigator.pushReplacementNamed(
                                   context,
-                                  CupertinoPageRoute(
-                                    builder: (context) =>
-                                        const OpcoesDeCadastro(),
-                                  ),
+                                  "/opcoesCadastro",
                                 );
                               },
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     CupertinoButton(
                       borderRadius: BorderRadius.circular(10),
-                      padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
+                      padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
                       color: tema["primaria"]?.withOpacity(0.65),
                       onPressed: () {
                         TextInput.finishAutofillContext();

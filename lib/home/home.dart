@@ -4,7 +4,7 @@ import 'package:flyvoo/home/empresas/empresas.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 
 List<Widget> telasHome = [
   const Principal(),

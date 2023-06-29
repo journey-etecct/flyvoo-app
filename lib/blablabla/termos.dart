@@ -6,11 +6,11 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/blablabla/token.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-Future getTermos() async {
+Future<String> getTermos() async {
   String conteudoCripto = await http.get(
     Uri.parse(
       "https://api.github.com/repos/oculosdanilo/flyvoo/contents/TERMOS.md",

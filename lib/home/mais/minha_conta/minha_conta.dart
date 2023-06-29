@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});

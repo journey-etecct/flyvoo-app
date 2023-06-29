@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final _txtTelefoneE = TextEditingController();

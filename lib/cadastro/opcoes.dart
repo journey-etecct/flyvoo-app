@@ -1,11 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/cadastro/verificacao/index.dart';
-import 'package:flyvoo/login/login.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 /* import 'package:video_player/video_player.dart'; */ // TODO: video 1
@@ -19,11 +15,11 @@ List<BotaoIndex> _botoes = [
     "Continuar com email",
   ),
   BotaoIndex(
-    (AssetImage("assets/icons/email.png"), null),
+    (const AssetImage("assets/icons/email.png"), null),
     "Continuar com Google",
   ),
   BotaoIndex(
-    (AssetImage("assets/icons/user.png"), null),
+    (const AssetImage("assets/icons/user.png"), null),
     "Continuar com Microsoft",
   ),
 ];
@@ -90,11 +86,11 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
           "Continuar com email",
         ),
         BotaoIndex(
-          (AssetImage("assets/icons/google.png"), null),
+          (const AssetImage("assets/icons/google.png"), null),
           "Continuar com Google",
         ),
         BotaoIndex(
-          (AssetImage("assets/icons/microsoft.png"), null),
+          (const AssetImage("assets/icons/microsoft.png"), null),
           "Continuar com Microsoft",
         ),
       ];
@@ -120,7 +116,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
           Center(
             child: Column(
               children: [
-                Expanded(
+                const Expanded(
                   child: Center(
                     child: Text(
                       "Cadastro",
@@ -170,7 +166,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                                   size: 30,
                                   color: tema["textoBotaoIndex"],
                                 ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           Text(
@@ -186,17 +182,15 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                       onPressed: () {
                         switch (index) {
                           case 0:
-                            Navigator.push(
+                            Navigator.pushNamed(
                               context,
-                              CupertinoPageRoute(
-                                builder: (context) => VerificacaoEmail(),
-                              ),
+                              "/opcoesCadastro/email",
                             );
                             break;
                           case 1:
                             Navigator.popUntil(
                               context,
-                              ModalRoute.withName("/"),
+                              ModalRoute.withName("/index"),
                             );
                             break;
                           default:
@@ -207,7 +201,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                   itemCount: _botoes.length,
                   shrinkWrap: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 70,
                 ),
                 Text.rich(
@@ -228,19 +222,13 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => Login(),
-                              ),
-                            );
+                            Navigator.pushReplacementNamed(context, "/login");
                           },
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
               ],

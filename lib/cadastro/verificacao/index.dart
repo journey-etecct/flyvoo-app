@@ -2,8 +2,8 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
 import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final _txtEmail = TextEditingController();
@@ -43,13 +43,6 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
           androidPackageName: "io.journey.flyvoo",
         ),
       );
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (context) => const EmailEnviado(),
-        ),
-      );
     } on FirebaseAuthException catch (e) {
       Flushbar(
         message: "Erro desconhecido. Código: ${e.code}",
@@ -58,6 +51,13 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
         borderRadius: BorderRadius.circular(50),
       ).show(context);
     }
+  }
+
+  @override
+  void initState() {
+    _txtEmail.text = "";
+    _btnAtivado = true;
+    super.initState();
   }
 
   @override
@@ -166,6 +166,11 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                                   _btnAtivado = false;
                                 });
                                 await _cadastroFirebaseEmail(_txtEmail.text);
+                                if (!mounted) return;
+                                Navigator.pushNamed(
+                                  context,
+                                  "/opcoesCadastro/email/enviado",
+                                );
                               }
                             }
                           : null,

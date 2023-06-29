@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/cadastro/opcoes.dart';
-import 'package:flyvoo/login/login.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/login/opcoes.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -86,7 +85,7 @@ class _IndexState extends State<Index> {
                         ),
                       ),
                       Text(
-                        "Sua jornada começa aqui!",
+                        "Sua jornada começa aqui",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           fontSize: 22,
@@ -127,12 +126,7 @@ class _IndexState extends State<Index> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const Termos(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/termos");
                       },
                   ),
                   TextSpan(
@@ -144,7 +138,7 @@ class _IndexState extends State<Index> {
                 ],
               ),
             ),
-          ), // Ao se _*cadastrar*_, você concorda com os nossos _Termos de Uso_ & _Política de Privacidade_
+          ),
         ],
       ),
     );

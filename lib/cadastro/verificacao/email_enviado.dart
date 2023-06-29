@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/main.dart';
+import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmailEnviado extends StatelessWidget {
@@ -78,7 +78,7 @@ class EmailEnviado extends StatelessWidget {
                   onPressed: () {
                     Navigator.popUntil(
                       context,
-                      ModalRoute.withName("/"),
+                      ModalRoute.withName("/index"),
                     );
                   },
                   color: tema["botaoIndex"],
