@@ -34,14 +34,14 @@ class BotaoIndex {
   BotaoIndex(this.icon, this.text);
 }
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key}) : super(key: key);
+class OpcoesDeCadastro extends StatefulWidget {
+  const OpcoesDeCadastro({Key? key}) : super(key: key);
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<OpcoesDeCadastro> createState() => _OpcoesDeCadastroState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
   /* late VideoPlayerController _controllerLight;
   late VideoPlayerController _controllerDark;
 
@@ -191,6 +191,12 @@ class _CadastroState extends State<Cadastro> {
                               CupertinoPageRoute(
                                 builder: (context) => VerificacaoEmail(),
                               ),
+                            );
+                            break;
+                          case 1:
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName("/"),
                             );
                             break;
                           default:

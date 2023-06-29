@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/firebase_options.dart';
 import 'package:flyvoo/index.dart';
-import 'package:flyvoo/login/google.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
@@ -179,7 +176,6 @@ class _FlyvooState extends State<Flyvoo> {
           setState(() {});
         },
       );
-    startBothPlayers();
     super.initState();
   }
 
@@ -200,6 +196,23 @@ class _FlyvooState extends State<Flyvoo> {
     return ValueListenableBuilder(
       valueListenable: notifier,
       builder: (context, value, child) => MaterialApp(
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case "/":
+              return CupertinoPageRoute(
+                builder: (context) => const Flyvoo(),
+              );
+            case "/index":
+              return CupertinoPageRoute(
+                builder: (context) => const Index(),
+              );
+            case "/termos":
+              return CupertinoPageRoute(
+                builder: (context) => const Termos(),
+              );
+          }
+          return null;
+        },
         theme: _buildTheme(value),
         home: Scaffold(
           backgroundColor: tema["fundo"],
@@ -392,36 +405,15 @@ class Botoes extends StatelessWidget {
       children: [
         FilledButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const Index(),
-              ),
-            );
+            Navigator.pushNamed(context, "/index");
           },
           child: const Text("index"),
         ),
         FilledButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const Termos(),
-              ),
-            );
+            Navigator.pushNamed(context, "/termos");
           },
           child: const Text("termos"),
-        ),
-        FilledButton(
-          onPressed: () async {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const Google(),
-              ),
-            );
-          },
-          child: const Text("login com google"),
         ),
       ],
     );

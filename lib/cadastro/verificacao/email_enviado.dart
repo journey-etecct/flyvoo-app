@@ -76,9 +76,10 @@ class EmailEnviado extends StatelessWidget {
                 ),
                 child: CupertinoButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    Navigator.popUntil(
+                      context,
+                      ModalRoute.withName("/"),
+                    );
                   },
                   color: tema["botaoIndex"],
                   borderRadius: BorderRadius.circular(10),

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +7,7 @@ import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final _txtEmail = TextEditingController();
+bool _btnAtivado = true;
 
 class VerificacaoEmail extends StatefulWidget {
   const VerificacaoEmail({super.key});
@@ -26,7 +25,7 @@ List<String> botaoTxt = <String>[
 class _VerificacaoEmailState extends State<VerificacaoEmail> {
   final _emailKey = GlobalKey<FormFieldState>();
 
-  _cadastroFirebaseEmail(String email, BuildContext context) async {
+  _cadastroFirebaseEmail(String email) async {
     final inst = FirebaseAuth.instance;
     try {
       final UserCredential credenciais =
@@ -48,13 +47,13 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       Navigator.push(
         context,
         CupertinoPageRoute(
-          builder: (context) => EmailEnviado(),
+          builder: (context) => const EmailEnviado(),
         ),
       );
     } on FirebaseAuthException catch (e) {
       Flushbar(
         message: "Erro desconhecido. Código: ${e.code}",
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
         margin: const EdgeInsets.all(20),
         borderRadius: BorderRadius.circular(50),
       ).show(context);
@@ -90,7 +89,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       color: tema["noFundo"],
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 4,
                     child: Text(""),
                   ),
@@ -100,7 +99,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       fontSize: 18,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormField(
@@ -135,12 +134,12 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                     ),
                     cursorColor: tema["primaria"],
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 3,
                     child: Text(""),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: tema["fundo"],
@@ -154,12 +153,22 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       ],
                     ),
                     child: CupertinoButton(
-                      onPressed: () async {
-                        if (_emailKey.currentState!.validate()) {
-                          // TODO: enviar email
-                          await _cadastroFirebaseEmail(_txtEmail.text, context);
-                        }
-                      },
+                      onPressed: _btnAtivado
+                          ? () async {
+                              if (_emailKey.currentState!.validate()) {
+                                Flushbar(
+                                  message: "Conectando...",
+                                  duration: const Duration(seconds: 5),
+                                  margin: const EdgeInsets.all(20),
+                                  borderRadius: BorderRadius.circular(50),
+                                ).show(context);
+                                setState(() {
+                                  _btnAtivado = false;
+                                });
+                                await _cadastroFirebaseEmail(_txtEmail.text);
+                              }
+                            }
+                          : null,
                       color: tema["botaoIndex"],
                       borderRadius: BorderRadius.circular(10),
                       padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),

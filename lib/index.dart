@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/home/home.dart';
-import 'package:flyvoo/cadastro/cadastro.dart';
+import 'package:flyvoo/cadastro/opcoes.dart';
 import 'package:flyvoo/login/login.dart';
 import 'package:flyvoo/main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -262,7 +262,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) =>
-                                              const Cadastro(),
+                                              const OpcoesDeCadastro(),
                                         ),
                                       );
                                   }
@@ -298,7 +298,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => const Cadastro(),
+                      builder: (context) => const OpcoesDeCadastro(),
                     ),
                   );
               }
