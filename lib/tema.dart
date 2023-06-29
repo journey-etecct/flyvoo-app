@@ -1,7 +1,8 @@
 // tema do aplicativo
 import 'package:flutter/material.dart';
+import 'package:system_theme/system_theme.dart';
 
-bool dark = false;
+bool dark = SystemTheme.isDarkMode;
 
 Map<String, List> paletas = {
   "paletaVerde": [
