@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
-/* import 'package:video_player/video_player.dart'; */ // TODO: video 1
-
-final txtSenha = TextEditingController();
-final txtSenhaConf = TextEditingController();
+import 'package:video_player/video_player.dart';
 
 List<BotaoIndex> _botoes = [
   BotaoIndex(
@@ -37,46 +35,12 @@ class OpcoesDeCadastro extends StatefulWidget {
   State<OpcoesDeCadastro> createState() => _OpcoesDeCadastroState();
 }
 
+class Tipo {
+  final String tipo;
+  Tipo(this.tipo);
+}
+
 class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
-  /* late VideoPlayerController _controllerLight;
-  late VideoPlayerController _controllerDark;
-
-  void startBothPlayers() async {
-    await _controllerLight.play();
-    await _controllerDark.play();
-  }
-
-  @override
-  void initState() {
-    _controllerLight = VideoPlayerController.asset(
-      "assets/background/light.webm",
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    )..initialize().then(
-        (_) {
-          _controllerLight.setLooping(true);
-          setState(() {});
-        },
-      );
-    _controllerDark = VideoPlayerController.asset(
-      "assets/background/dark.webm",
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    )..initialize().then(
-        (_) {
-          _controllerDark.setLooping(true);
-          setState(() {});
-        },
-      );
-    startBothPlayers();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controllerDark.dispose();
-    _controllerLight.dispose();
-    super.dispose();
-  } */ // TODO: video 2
-
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -99,20 +63,16 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
       backgroundColor: tema["fundo"],
       body: Stack(
         children: [
-          /* AnimatedOpacity(
-            opacity: dark ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
-            child: SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controllerDark.value.size.width,
-                  height: _controllerDark.value.size.height,
-                  child: VideoPlayer(_controllerDark),
-                ),
+          SizedBox.expand(
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: controllerBG.value.size.width,
+                height: controllerBG.value.size.height,
+                child: VideoPlayer(controllerBG),
               ),
             ),
-          ), */ // TODO: video 3
+          ),
           Center(
             child: Column(
               children: [
@@ -188,12 +148,18 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                             );
                             break;
                           case 1:
-                            Navigator.popUntil(
+                            Navigator.pushNamed(
                               context,
-                              ModalRoute.withName("/index"),
+                              "/cadastro",
+                              arguments: "email",
                             );
                             break;
                           default:
+                            Navigator.pushNamed(
+                              context,
+                              "/cadastro",
+                              arguments: {"email": "sim"},
+                            );
                         }
                       },
                     ),

@@ -9,6 +9,7 @@ environment:
 dependencies:
   animations: ^2.0.7
   another_flushbar: ^1.12.30
+  cached_video_player: ^2.0.4
   firebase_auth: ^4.6.2
   firebase_core: ^2.13.1
   flutter:
@@ -18,9 +19,10 @@ dependencies:
   google_sign_in: ^6.1.4
   http: ^1.0.0
   material_symbols_icons: ^4.2661.1
+  shared_preferences: ^2.1.2
   system_theme: ^2.2.0
   uni_links: ^0.5.1
-  video_player: ^2.6.1
+  video_player: ^2.6.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
@@ -241,9 +242,14 @@ class _MaisState extends State<Mais> {
                                   ),
                                 ),
                                 CupertinoButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                    if (!mounted) return;
                                     Navigator.pop(context);
-                                    Navigator.pop(context);
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      "/index",
+                                    );
                                   },
                                   child: Text(
                                     "Sair",

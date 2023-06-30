@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-final _txtTelefoneE = TextEditingController();
 
 class Tela2 extends StatefulWidget {
   final Key formKey;
@@ -15,7 +12,7 @@ class Tela2 extends StatefulWidget {
 
 class _Tela2State extends State<Tela2> {
   final List<String> carreiras = [
-    "Qual carreira você deseja seguir?",
+    "Qual área você deseja seguir?",
     "carreira1",
     "carreira2",
     "carreira3",
@@ -133,35 +130,6 @@ class _Tela2State extends State<Tela2> {
                 });
               }
             },
-          ),
-          TextFormField(
-            controller: _txtTelefoneE,
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return null;
-              } else if (value.length < 14) {
-                return "Muito curto";
-              }
-              return null;
-            },
-            autofillHints: const [AutofillHints.telephoneNumberNational],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              labelText: "Telefone Profissional (Opcional)",
-              labelStyle: GoogleFonts.inter(fontSize: 18),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: tema["primaria"]!,
-                ),
-              ),
-            ),
-            cursorColor: tema["primaria"],
-            inputFormatters: [
-              PhoneInputFormatter(
-                defaultCountryCode: "BR",
-              )
-            ],
           ),
         ],
       ),

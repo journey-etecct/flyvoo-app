@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flyvoo/cadastro/opcoes.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:flyvoo/cadastro/telas/cadastro.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-final _txtNome = TextEditingController();
 
 class Tela1 extends StatefulWidget {
   final Key formKey;
@@ -25,7 +24,7 @@ class _Tela1State extends State<Tela1> {
       child: Column(
         children: [
           TextFormField(
-            controller: _txtNome,
+            controller: txtNome,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             keyboardType: TextInputType.text,
@@ -63,9 +62,8 @@ class _Tela1State extends State<Tela1> {
             ),
             cursorColor: tema["primaria"],
           ),
-
-          /* TextFormField(
-            controller: _txtTelefone,
+          TextFormField(
+            controller: txtTelefone,
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -78,13 +76,14 @@ class _Tela1State extends State<Tela1> {
             autofillHints: const [AutofillHints.telephoneNumberNational],
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              labelText: "Telefone Pessoal (Celular)",
+              labelText: "Telefone Profissional",
               labelStyle: GoogleFonts.inter(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: tema["primaria"]!,
                 ),
               ),
+              prefixText: "+55 ",
             ),
             cursorColor: tema["primaria"],
             inputFormatters: [
@@ -92,7 +91,7 @@ class _Tela1State extends State<Tela1> {
                 defaultCountryCode: "BR",
               )
             ],
-          ), */
+          ),
           TextFormField(
             controller: txtSenha,
             enableInteractiveSelection: false,
@@ -105,7 +104,6 @@ class _Tela1State extends State<Tela1> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            onChanged: (value) => _senhaConfKey.currentState!.validate(),
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,

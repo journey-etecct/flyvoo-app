@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/cadastro/opcoes.dart';
@@ -12,6 +11,7 @@ import 'package:flyvoo/cadastro/telas/cadastro.dart';
 import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
 import 'package:flyvoo/cadastro/verificacao/index.dart';
 import 'package:flyvoo/firebase_options.dart';
+import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/opcoes.dart';
 import 'package:flyvoo/tema.dart';
@@ -19,28 +19,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
 
+late StreamSubscription<String?> _sub;
+
 // variaveis iniciais
-final List<String> listModo = <String>[
-  "Modo escuro",
-  "Modo claro",
-  "Seguir o sistema"
-];
-String? valorDropdown = "Seguir o sistema";
+late VideoPlayerController controllerBG;
 final ValueNotifier<Brightness> notifier = ValueNotifier(
   dark ? Brightness.dark : Brightness.light,
 );
 User? userFlyvoo;
-late StreamSubscription<String?> _sub;
-/* final ValueNotifier<User?> notifierUser = ValueNotifier(); */
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const Flyvoo());
+  userFlyvoo = FirebaseAuth.instance.currentUser;
+  if (userFlyvoo != null) {
+    runApp(const Flyvoo(Home()));
+  } else {
+    runApp(const Flyvoo(Index()));
+  }
 }
 
 class Flyvoo extends StatefulWidget {
-  const Flyvoo({
+  final Widget home;
+  const Flyvoo(
+    this.home, {
     super.key,
   });
 
@@ -49,34 +51,20 @@ class Flyvoo extends StatefulWidget {
 }
 
 class _FlyvooState extends State<Flyvoo> {
-  late VideoPlayerController _controllerLight;
-  late VideoPlayerController _controllerDark;
-
-  void startBothPlayers() async {
-    await _controllerLight.play();
-    await _controllerDark.play();
-  }
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
       if (initialLink != null) {
-        debugPrint(
-          Uri.parse(
-            Uri.parse(initialLink).queryParameters["afl"]!,
-          ).queryParameters["email"],
-        );
+        navigatorKey.currentState!.pushNamed('/cadastro');
       }
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
     _sub = linkStream.listen((String? link) {
       if (link != null && link.isNotEmpty) {
-        debugPrint(
-          Uri.parse(
-            Uri.parse(link).queryParameters["afl"]!,
-          ).queryParameters["email"],
-        );
+        navigatorKey.currentState!.pushNamed('/cadastro');
       }
     }, onError: (err) {
       debugPrint(err);
@@ -86,33 +74,11 @@ class _FlyvooState extends State<Flyvoo> {
   @override
   void initState() {
     initUniLinks();
-    dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-        Brightness.dark;
-    _controllerLight = VideoPlayerController.asset(
-      "assets/background/light.webm",
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    )..initialize().then(
-        (_) {
-          _controllerLight.setLooping(true);
-          setState(() {});
-        },
-      );
-    _controllerDark = VideoPlayerController.asset(
-      "assets/background/dark.webm",
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    )..initialize().then(
-        (_) {
-          _controllerDark.setLooping(true);
-          setState(() {});
-        },
-      );
     super.initState();
   }
 
   @override
   void dispose() {
-    _controllerDark.dispose();
-    _controllerLight.dispose();
     _sub.cancel();
     super.dispose();
   }
@@ -123,250 +89,61 @@ class _FlyvooState extends State<Flyvoo> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return ValueListenableBuilder(
-      valueListenable: notifier,
-      builder: (context, value, child) => MaterialApp(
-        routes: {"/index": (context) => const Index()},
-        onGenerateRoute: (RouteSettings settings) {
-          switch (settings.name) {
-            case "/":
-              return CupertinoPageRoute(
-                builder: (context) => const Flyvoo(),
-              );
-            case "/index":
-              return CupertinoPageRoute(
-                builder: (context) => const Index(),
-              );
-            case "/opcoesCadastro":
-              return CupertinoPageRoute(
-                builder: (context) => const OpcoesDeCadastro(),
-              );
-            case "/opcoesCadastro/email":
-              return CupertinoPageRoute(
-                builder: (context) => const VerificacaoEmail(),
-              );
-            case "/opcoesCadastro/email/enviado":
-              return CupertinoPageRoute(
-                builder: (context) => const EmailEnviado(),
-              );
-            case "/cadastro":
-              return CupertinoPageRoute(
-                builder: (context) => const Cadastro(),
-              );
-            case "/login":
-              return CupertinoPageRoute(
-                builder: (context) => const Login(),
-              );
-            case "/termos":
-              return CupertinoPageRoute(
-                builder: (context) => const Termos(),
-              );
-          }
-          return null;
-        },
-        theme: _buildTheme(value),
-        home: Scaffold(
-          backgroundColor: tema["fundo"],
-          body: Stack(
-            children: [
-              AnimatedOpacity(
-                opacity: dark ? 1 : 0,
-                duration: const Duration(milliseconds: 300),
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _controllerDark.value.size.width,
-                      height: _controllerDark.value.size.height,
-                      child: VideoPlayer(_controllerDark),
-                    ),
-                  ),
-                ),
-              ),
-              AnimatedOpacity(
-                opacity: dark ? 0 : 1,
-                duration: const Duration(milliseconds: 300),
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _controllerLight.value.size.width,
-                      height: _controllerLight.value.size.height,
-                      child: VideoPlayer(_controllerLight),
-                    ),
-                  ),
-                ),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 80,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            dark = !dark;
-                            tema = {
-                              "primaria": dark
-                                  ? const Color(0xff00FFD8)
-                                  : const Color(0xffFB5607),
-                              "secundaria":
-                                  dark ? const Color(0xff31b6b0) : Colors.black,
-                              "terciaria": dark
-                                  ? const Color(0xff096073)
-                                  : const Color(0xff054BFD).withOpacity(
-                                      0.4,
-                                    ),
-                              "fundo":
-                                  dark ? const Color(0xff252525) : Colors.white,
-                              "noFundo": dark ? Colors.white : Colors.black,
-                              "texto":
-                                  dark ? Colors.white : const Color(0xff1E3C87),
-                              "botao": dark
-                                  ? const Color(0xffB8CCFF)
-                                  : const Color(0xffF0F4FF),
-                              "textoSecundario": dark
-                                  ? const Color(0xffd8d8d8)
-                                  : const Color(0xff404040).withOpacity(0.77),
-                              "botaoIndex": dark
-                                  ? const Color(0xff00FFD8).withOpacity(0.37)
-                                  : const Color(0xffFFD3BD).withOpacity(0.60),
-                              "textoBotaoIndex":
-                                  dark ? Colors.white : const Color(0xffA93535),
-                            };
-                            notifier.value =
-                                dark ? Brightness.dark : Brightness.light;
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/icons/lua.png",
-                                color: tema["texto"],
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Modo escuro",
-                                    style: GoogleFonts.inter(
-                                      color: tema["texto"],
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: CupertinoSwitch(
-                                  value: dark,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      dark = value;
-                                      tema = {
-                                        "primaria": dark
-                                            ? const Color(0xff00FFD8)
-                                            : const Color(0xffFB5607),
-                                        "secundaria": dark
-                                            ? const Color(0xff31b6b0)
-                                            : Colors.black,
-                                        "terciaria": dark
-                                            ? const Color(0xff096073)
-                                            : const Color(0xff054BFD)
-                                                .withOpacity(
-                                                0.4,
-                                              ),
-                                        "fundo": dark
-                                            ? const Color(0xff252525)
-                                            : Colors.white,
-                                        "noFundo":
-                                            dark ? Colors.white : Colors.black,
-                                        "texto": dark
-                                            ? Colors.white
-                                            : const Color(0xff1E3C87),
-                                        "botao": dark
-                                            ? const Color(0xffB8CCFF)
-                                            : const Color(0xffF0F4FF),
-                                        "textoSecundario": dark
-                                            ? const Color(0xffd8d8d8)
-                                            : const Color(0xff404040)
-                                                .withOpacity(0.77),
-                                        "botaoIndex": dark
-                                            ? const Color(0xff00FFD8)
-                                                .withOpacity(0.37)
-                                            : const Color(0xffFFD3BD)
-                                                .withOpacity(0.60),
-                                        "textoBotaoIndex": dark
-                                            ? Colors.white
-                                            : const Color(0xffA93535)
-                                      };
-                                      notifier.value = dark
-                                          ? Brightness.dark
-                                          : Brightness.light;
-                                    });
-                                  },
-                                  activeColor: const Color(0xff1E3C87),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Teste de tema',
-                      style: TextStyle(
-                        color: tema["primaria"],
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      'Hello World!',
-                      style: TextStyle(
-                        color: tema["noFundo"],
-                      ),
-                    ),
-                    const Botoes()
-                  ],
-                ),
-              ),
-            ],
-          ),
+    return WillPopScope(
+      onWillPop: () async {
+        SystemNavigator.pop();
+        return false;
+      },
+      child: ValueListenableBuilder(
+        valueListenable: notifier,
+        builder: (context, value, child) => MaterialApp(
+          routes: {
+            "/index": (context) => const Index(),
+            "/cadastro": (context) => const Cadastro(),
+          }, // NÂO remove essa linha
+          // mesmo que ela seja muito bobinha
+          onGenerateRoute: (RouteSettings settings) {
+            switch (settings.name) {
+              case "/index":
+                return CupertinoPageRoute(
+                  builder: (context) => const Index(),
+                );
+              case "/opcoesCadastro":
+                return CupertinoPageRoute(
+                  builder: (context) => const OpcoesDeCadastro(),
+                );
+              case "/opcoesCadastro/email":
+                return CupertinoPageRoute(
+                  builder: (context) => const VerificacaoEmail(),
+                );
+              case "/opcoesCadastro/email/enviado":
+                return CupertinoPageRoute(
+                  builder: (context) => const EmailEnviado(),
+                );
+              case "/cadastro":
+                return CupertinoPageRoute(
+                  builder: (context) => const Cadastro(),
+                );
+              case "/login":
+                return CupertinoPageRoute(
+                  builder: (context) => const Login(),
+                );
+              case "/home":
+                return CupertinoPageRoute(
+                  builder: (context) => const Home(),
+                );
+              case "/termos":
+                return CupertinoPageRoute(
+                  builder: (context) => const Termos(),
+                );
+            }
+            return null;
+          },
+          theme: _buildTheme(value),
+          home: widget.home,
+          navigatorKey: navigatorKey,
         ),
       ),
-    );
-  }
-}
-
-class Botoes extends StatelessWidget {
-  const Botoes({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FilledButton(
-          onPressed: () {
-            Navigator.pushNamed(context, "/index");
-          },
-          child: const Text("index"),
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.pushNamed(context, "/termos");
-          },
-          child: const Text("termos"),
-        ),
-      ],
     );
   }
 }

@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/home/home.dart';
-import 'package:flyvoo/cadastro/opcoes.dart';
-import 'package:flyvoo/login/opcoes.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:video_player/video_player.dart';
 
+bool _iniciado = false;
 Shader linearGradient = LinearGradient(
   colors: <Color>[
     tema["primaria"]!,
@@ -27,6 +28,21 @@ class Index extends StatefulWidget {
 class _IndexState extends State<Index> {
   @override
   void initState() {
+    dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+        Brightness.dark;
+    if (!_iniciado) {
+      controllerBG = VideoPlayerController.asset(
+        dark ? "assets/background/dark.webm" : "assets/background/dark.webm",
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      )..initialize().then(
+          (_) {
+            controllerBG.setLooping(true);
+            setState(() {});
+          },
+        );
+      controllerBG.play();
+      _iniciado = true;
+    }
     linearGradient = LinearGradient(
       colors: <Color>[
         tema["primaria"]!,
@@ -40,104 +56,119 @@ class _IndexState extends State<Index> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tema["fundo"],
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image(
-                          image: AssetImage(
-                            dark
-                                ? "assets/logo/logogradientedark.png"
-                                : "assets/logo/logogradientelight.png",
-                          ),
-                          width: 266,
-                          height: 266,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          text: "Bem-vindo(a) ao ",
-                          style: GoogleFonts.inter(
-                            fontSize: 32,
-                            color: tema["noFundo"],
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "Flyvoo!",
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                foreground: Paint()..shader = linearGradient,
+          SizedBox.expand(
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: controllerBG.value.size.width,
+                height: controllerBG.value.size.height,
+                child: VideoPlayer(controllerBG),
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Image(
+                              image: AssetImage(
+                                dark
+                                    ? "assets/logo/logogradientedark.png"
+                                    : "assets/logo/logogradientelight.png",
                               ),
-                            )
-                          ],
+                              width: 266,
+                              height: 266,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: "Bem-vindo(a) ao ",
+                              style: GoogleFonts.inter(
+                                fontSize: 32,
+                                color: tema["noFundo"],
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Flyvoo!",
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold,
+                                    foreground: Paint()
+                                      ..shader = linearGradient,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Text(
+                            "Sua jornada começa aqui",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 22,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const BotoesEntrada(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: tema["noFundo"],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: "Ao usar o aplicativo, você concorda com nossos ",
+                    style: GoogleFonts.inter(
+                      color: tema["textoSecundario"],
+                      fontSize: 15,
+                      height: 1.3,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Termos de Uso & Política de Privacidade",
+                        style: TextStyle(
+                          color: tema["textoSecundario"],
+                          decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.solid,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushNamed(context, "/termos");
+                          },
+                      ),
+                      TextSpan(
+                        text: ".",
+                        style: TextStyle(
+                          color: tema["textoSecundario"],
                         ),
                       ),
-                      Text(
-                        "Sua jornada começa aqui",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          fontSize: 22,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const BotoesEntrada(),
                     ],
                   ),
                 ),
               ),
-            ),
-          ),
-          Divider(
-            color: tema["noFundo"],
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                text: "Ao usar o aplicativo, você concorda com nossos ",
-                style: GoogleFonts.inter(
-                  color: tema["textoSecundario"],
-                  fontSize: 15,
-                  height: 1.3,
-                  fontWeight: FontWeight.w300,
-                ),
-                children: [
-                  TextSpan(
-                    text: "Termos de Uso & Política de Privacidade",
-                    style: TextStyle(
-                      color: tema["textoSecundario"],
-                      decoration: TextDecoration.underline,
-                      decorationStyle: TextDecorationStyle.solid,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.pushNamed(context, "/termos");
-                      },
-                  ),
-                  TextSpan(
-                    text: ".",
-                    style: TextStyle(
-                      color: tema["textoSecundario"],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            ],
           ),
         ],
       ),
@@ -242,25 +273,19 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                                       Navigator.pop(context);
                                       break;
                                     case "Me lembre depois":
-                                      Navigator.pop(context);
-                                      Navigator.push(
+                                      Navigator.popAndPushNamed(
                                         context,
-                                        CupertinoPageRoute(
-                                          builder: (context) => const Home(),
-                                        ),
+                                        "/home",
                                       );
                                       break;
                                     default:
-                                      Navigator.pop(context);
-                                      Navigator.push(
+                                      Navigator.popAndPushNamed(
                                         context,
-                                        CupertinoPageRoute(
-                                          builder: (context) =>
-                                              const OpcoesDeCadastro(),
-                                        ),
+                                        "/opcoesCadastro",
                                       );
                                   }
                                 },
+                                isDefaultAction: value == botoesAlerta.last,
                                 child: Text(
                                   value,
                                   style: GoogleFonts.inter(
@@ -273,27 +298,17 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                       ),
                     ),
                   );
-                  /* Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => Home(),
-                        ),
-                      ); */
                   break;
                 case 1:
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    CupertinoPageRoute(
-                      builder: (context) => const Login(),
-                    ),
+                    "/login",
                   );
                   break;
                 default:
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    CupertinoPageRoute(
-                      builder: (context) => const OpcoesDeCadastro(),
-                    ),
+                    "/opcoesCadastro",
                   );
               }
             },
