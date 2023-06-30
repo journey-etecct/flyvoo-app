@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 final _txtEmail = TextEditingController();
@@ -43,13 +45,73 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
           androidPackageName: "io.journey.flyvoo",
         ),
       );
+      final SharedPreferences instS = await SharedPreferences.getInstance();
+      await instS.setBool("cadastroTerminado", false);
+      if (userFlyvoo != null) {
+        if (!mounted) return;
+        Navigator.pushNamed(
+          context,
+          "/opcoesCadastro/email/enviado",
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      Flushbar(
-        message: "Erro desconhecido. Código: ${e.code}",
-        duration: const Duration(seconds: 5),
-        margin: const EdgeInsets.all(20),
-        borderRadius: BorderRadius.circular(50),
-      ).show(context);
+      setState(() {
+        _btnAtivado = true;
+      });
+      if (e.code == "email-already-in-use") {
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta já existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja fazer login?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/login");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Entrar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Flushbar(
+          message: "Erro desconhecido. Código: ${e.code}",
+          duration: const Duration(seconds: 5),
+          margin: const EdgeInsets.all(20),
+          borderRadius: BorderRadius.circular(50),
+        ).show(context);
+      }
     }
   }
 
@@ -155,14 +217,17 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: tema["fundo"],
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            blurRadius: 4,
-                            spreadRadius: 0,
-                            offset: const Offset(0, 5),
-                            color: const Color(0xff000000).withOpacity(0.25),
-                          ),
-                        ],
+                        boxShadow: _btnAtivado
+                            ? <BoxShadow>[
+                                BoxShadow(
+                                  blurRadius: 4,
+                                  spreadRadius: 0,
+                                  offset: const Offset(0, 5),
+                                  color:
+                                      const Color(0xff000000).withOpacity(0.25),
+                                ),
+                              ]
+                            : [],
                       ),
                       child: CupertinoButton(
                         onPressed: _btnAtivado
@@ -178,21 +243,21 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                                     _btnAtivado = false;
                                   });
                                   await _cadastroFirebaseEmail(_txtEmail.text);
-                                  if (!mounted) return;
-                                  Navigator.pushNamed(
-                                    context,
-                                    "/opcoesCadastro/email/enviado",
-                                  );
                                 }
                               }
                             : null,
                         color: tema["botaoIndex"],
+                        disabledColor: dark
+                            ? const Color(0xff007AFF).withOpacity(0.15)
+                            : const Color(0xffFB5607).withOpacity(0.30),
                         borderRadius: BorderRadius.circular(10),
                         padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                         child: Text(
                           "Próximo",
                           style: GoogleFonts.inter(
-                            color: tema["textoBotaoIndex"],
+                            color: _btnAtivado
+                                ? tema["textoBotaoIndex"]
+                                : CupertinoColors.systemGrey2,
                             fontSize: 25,
                           ),
                         ),

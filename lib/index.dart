@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:video_player/video_player.dart';
 
-bool _iniciado = false;
+bool iniciado = false;
 Shader linearGradient = LinearGradient(
   colors: <Color>[
     tema["primaria"]!,
@@ -19,7 +19,8 @@ Shader linearGradient = LinearGradient(
 ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
 
 class Index extends StatefulWidget {
-  const Index({super.key});
+  final bool cadastroTerminado;
+  const Index(this.cadastroTerminado, {super.key});
 
   @override
   State<Index> createState() => _IndexState();
@@ -30,7 +31,7 @@ class _IndexState extends State<Index> {
   void initState() {
     dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
         Brightness.dark;
-    if (!_iniciado) {
+    if (!iniciado) {
       controllerBG = VideoPlayerController.asset(
         dark ? "assets/background/dark.webm" : "assets/background/dark.webm",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
@@ -41,7 +42,7 @@ class _IndexState extends State<Index> {
           },
         );
       controllerBG.play();
-      _iniciado = true;
+      iniciado = true;
     }
     linearGradient = LinearGradient(
       colors: <Color>[
@@ -50,6 +51,45 @@ class _IndexState extends State<Index> {
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     super.initState();
+    if (!widget.cadastroTerminado) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Text(
+              "Cadastro não finalizado",
+              style: GoogleFonts.inter(),
+            ),
+            content: Text(
+              "Deseja continuar o seu cadastro?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () =>
+                    Navigator.popAndPushNamed(context, "/cadastro"),
+                child: Text(
+                  "OK",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override

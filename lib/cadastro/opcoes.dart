@@ -151,14 +151,14 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                             Navigator.pushNamed(
                               context,
                               "/cadastro",
-                              arguments: "email",
+                              arguments: "google",
                             );
                             break;
                           default:
                             Navigator.pushNamed(
                               context,
                               "/cadastro",
-                              arguments: {"email": "sim"},
+                              arguments: "microsoft",
                             );
                         }
                       },

@@ -16,6 +16,7 @@ import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/opcoes.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
 
@@ -32,10 +33,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   userFlyvoo = FirebaseAuth.instance.currentUser;
-  if (userFlyvoo != null) {
-    runApp(const Flyvoo(Home()));
+  final instS = await SharedPreferences.getInstance();
+  if (instS.getBool("cadastroTerminado") != null) {
+    if (!instS.getBool("cadastroTerminado")!) {
+      runApp(const Flyvoo(Index(false)));
+    } else {
+      runApp(const Flyvoo(Home()));
+    }
   } else {
-    runApp(const Flyvoo(Index()));
+    runApp(const Flyvoo(Index(true)));
   }
 }
 
@@ -57,14 +63,14 @@ class _FlyvooState extends State<Flyvoo> {
     try {
       final initialLink = await getInitialLink();
       if (initialLink != null) {
-        navigatorKey.currentState!.pushNamed('/cadastro');
+        navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
     _sub = linkStream.listen((String? link) {
       if (link != null && link.isNotEmpty) {
-        navigatorKey.currentState!.pushNamed('/cadastro');
+        navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     }, onError: (err) {
       debugPrint(err);
@@ -89,60 +95,57 @@ class _FlyvooState extends State<Flyvoo> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return WillPopScope(
-      onWillPop: () async {
-        SystemNavigator.pop();
-        return false;
-      },
-      child: ValueListenableBuilder(
-        valueListenable: notifier,
-        builder: (context, value, child) => MaterialApp(
-          routes: {
-            "/index": (context) => const Index(),
-            "/cadastro": (context) => const Cadastro(),
-          }, // NÂO remove essa linha
-          // mesmo que ela seja muito bobinha
-          onGenerateRoute: (RouteSettings settings) {
-            switch (settings.name) {
-              case "/index":
-                return CupertinoPageRoute(
-                  builder: (context) => const Index(),
-                );
-              case "/opcoesCadastro":
-                return CupertinoPageRoute(
-                  builder: (context) => const OpcoesDeCadastro(),
-                );
-              case "/opcoesCadastro/email":
-                return CupertinoPageRoute(
-                  builder: (context) => const VerificacaoEmail(),
-                );
-              case "/opcoesCadastro/email/enviado":
-                return CupertinoPageRoute(
-                  builder: (context) => const EmailEnviado(),
-                );
-              case "/cadastro":
-                return CupertinoPageRoute(
-                  builder: (context) => const Cadastro(),
-                );
-              case "/login":
-                return CupertinoPageRoute(
-                  builder: (context) => const Login(),
-                );
-              case "/home":
-                return CupertinoPageRoute(
-                  builder: (context) => const Home(),
-                );
-              case "/termos":
-                return CupertinoPageRoute(
-                  builder: (context) => const Termos(),
-                );
-            }
-            return null;
-          },
-          theme: _buildTheme(value),
-          home: widget.home,
-          navigatorKey: navigatorKey,
-        ),
+    return ValueListenableBuilder(
+      valueListenable: notifier,
+      builder: (context, value, child) => MaterialApp(
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case "/index":
+              return CupertinoPageRoute(
+                builder: (context) => const Index(true),
+                settings: const RouteSettings(name: "/index"),
+              );
+            case "/opcoesCadastro":
+              return CupertinoPageRoute(
+                builder: (context) => const OpcoesDeCadastro(),
+                settings: settings,
+              );
+            case "/opcoesCadastro/email":
+              return CupertinoPageRoute(
+                builder: (context) => const VerificacaoEmail(),
+                settings: settings,
+              );
+            case "/opcoesCadastro/email/enviado":
+              return CupertinoPageRoute(
+                builder: (context) => const EmailEnviado(),
+                settings: settings,
+              );
+            case "/cadastro":
+              return CupertinoPageRoute(
+                builder: (context) => const Cadastro(),
+                settings: settings,
+              );
+            case "/login":
+              return CupertinoPageRoute(
+                builder: (context) => const Login(),
+                settings: settings,
+              );
+            case "/home":
+              return CupertinoPageRoute(
+                builder: (context) => const Home(),
+                settings: settings,
+              );
+            case "/termos":
+              return CupertinoPageRoute(
+                builder: (context) => const Termos(),
+                settings: settings,
+              );
+          }
+          return null;
+        },
+        theme: _buildTheme(value),
+        home: widget.home,
+        navigatorKey: navigatorKey,
       ),
     );
   }

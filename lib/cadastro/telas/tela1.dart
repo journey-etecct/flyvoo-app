@@ -5,8 +5,7 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Tela1 extends StatefulWidget {
-  final Key formKey;
-  const Tela1(this.formKey, {super.key});
+  const Tela1({super.key});
 
   @override
   State<Tela1> createState() => _Tela1State();
@@ -20,7 +19,7 @@ class _Tela1State extends State<Tela1> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formKey,
+      key: formKey1,
       child: Column(
         children: [
           TextFormField(

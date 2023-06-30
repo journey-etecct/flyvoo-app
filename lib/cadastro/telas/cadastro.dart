@@ -5,29 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/telas/tela1.dart';
 import 'package:flyvoo/cadastro/telas/tela2.dart';
 import 'package:flyvoo/cadastro/telas/tela3.dart';
+import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
-final _formKey1 = GlobalKey<FormState>();
-final _formKey2 = GlobalKey<FormState>();
+final formKey1 = GlobalKey<FormState>();
+final formKey2 = GlobalKey<FormState>();
 final txtNome = TextEditingController();
 final txtTelefone = TextEditingController();
 final txtSenha = TextEditingController();
 final txtSenhaConf = TextEditingController();
-List<Widget> telas = <Widget>[
-  Tela1(_formKey1),
-  Tela2(_formKey2),
-  const Tela3(),
+late String carreiraEscolhida;
+late String peleEscolhida;
+DateTime? nascimento;
+List<Widget> telas = const <Widget>[
+  Tela1(),
+  Tela2(),
+  Tela3(),
 ];
-List<String> botaoTxt = <String>[
+List<String> botaoTxt = const <String>[
   "Próximo",
   "Próximo",
   "Finalizar",
 ];
 bool _reversed = false;
 int _step = 0;
+bool _btnAtivado = true;
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -40,6 +45,19 @@ class _CadastroState extends State<Cadastro> {
   @override
   void initState() {
     _step = 0;
+    if (!iniciado) {
+      controllerBG = VideoPlayerController.asset(
+        dark ? "assets/background/dark.webm" : "assets/background/dark.webm",
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      )..initialize().then(
+          (_) {
+            controllerBG.setLooping(true);
+            setState(() {});
+          },
+        );
+      controllerBG.play();
+      iniciado = true;
+    }
     super.initState();
   }
 
@@ -51,6 +69,7 @@ class _CadastroState extends State<Cadastro> {
           setState(() {
             _reversed = true;
             _step--;
+            _btnAtivado = true;
           });
           return false;
         } else {
@@ -97,7 +116,7 @@ class _CadastroState extends State<Cadastro> {
               ],
             ),
           );
-          return true;
+          return false;
         }
       },
       child: Scaffold(
@@ -162,13 +181,6 @@ class _CadastroState extends State<Cadastro> {
                             child: telas[_step],
                           ),
                         ),
-                        Text(
-                          ModalRoute.of(context)
-                                  ?.settings
-                                  .arguments
-                                  .toString() ??
-                              "",
-                        ),
                         const SizedBox(
                           height: 35,
                         ),
@@ -176,59 +188,60 @@ class _CadastroState extends State<Cadastro> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: tema["fundo"],
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 4,
-                                spreadRadius: 0,
-                                offset: const Offset(0, 5),
-                                color: const Color(
-                                  0xff000000,
-                                ).withOpacity(0.25),
-                              ),
-                            ],
+                            boxShadow: _btnAtivado
+                                ? <BoxShadow>[
+                                    BoxShadow(
+                                      blurRadius: 4,
+                                      spreadRadius: 0,
+                                      offset: const Offset(0, 5),
+                                      color: const Color(
+                                        0xff000000,
+                                      ).withOpacity(0.25),
+                                    ),
+                                  ]
+                                : [],
                           ),
                           child: CupertinoButton(
                             borderRadius: BorderRadius.circular(10),
                             padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                             color: tema["botaoIndex"],
-                            onPressed: () {
-                              setState(() {
-                                switch (_step) {
-                                  case 0:
-                                    if (true /* _formKey1.currentState!.validate() */) {
-                                      _reversed = false;
-                                      _step++;
-                                    }
-                                    break;
-                                  case 1:
-                                    if (true /* _formKey1.currentState!.validate() */) {
-                                      _reversed = false;
-                                      _step++;
-                                    }
-                                    break;
-                                  default:
-                                  // TODO: terminar o cadastro
-                                }
-                                /* if (_step == 0) {
-                                  if (!kDebugMode) {
-                                    if (_formKey1.currentState!.validate()) {
-                                      _reversed = false;
-                                      _step++;
-                                    }
-                                  } else {
-                                    _reversed = false;
-                                    _step++;
+                            disabledColor: dark
+                                ? const Color(0xff007AFF).withOpacity(0.15)
+                                : const Color(0xffFB5607).withOpacity(0.30),
+                            onPressed: _btnAtivado
+                                ? () {
+                                    setState(() {
+                                      switch (_step) {
+                                        case 0:
+                                          if (formKey1.currentState!
+                                              .validate()) {
+                                            _reversed = false;
+                                            _step++;
+                                          }
+                                          break;
+                                        case 1:
+                                          if (formKey2.currentState!
+                                              .validate()) {
+                                            _reversed = false;
+                                            _step++;
+                                          }
+                                          setState(() {
+                                            _btnAtivado = false;
+                                          });
+                                          break;
+                                        default:
+                                        // TODO: terminar o cadastro
+                                      }
+                                    });
                                   }
-                                } else {
-                                  Navigator.pop(context);
-                                } */
-                              });
-                            },
+                                : null,
                             child: Text(
                               botaoTxt[_step],
                               style: GoogleFonts.inter(
                                 fontSize: 25,
-                                color: tema["textoBotaoIndex"],
+                                color: _btnAtivado
+                                    ? tema["textoBotaoIndex"]
+                                    : CupertinoColors.systemGrey2,
                               ),
                             ),
                           ),

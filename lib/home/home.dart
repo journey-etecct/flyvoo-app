@@ -43,7 +43,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     indexHome = 0;
-
     _index0 = AnimationController(
       vsync: this,
       duration: const Duration(
@@ -156,9 +155,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void dispose() {
     _index0.dispose();
+    _icon0.dispose();
     _index1.dispose();
+    _icon1.dispose();
     _index2.dispose();
+    _icon2.dispose();
     _index3.dispose();
+    _icon3.dispose();
     super.dispose();
   }
 
