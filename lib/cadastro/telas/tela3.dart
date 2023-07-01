@@ -1,10 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/cadastro/telas/cadastro.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+final ImagePicker picker = ImagePicker();
 
 class Tela3 extends StatefulWidget {
   const Tela3({super.key});
@@ -14,6 +21,38 @@ class Tela3 extends StatefulWidget {
 }
 
 class _Tela3State extends State<Tela3> {
+  Future<CroppedFile?> _pegarImagem() async {
+    XFile? sim = await picker.pickImage(source: ImageSource.gallery);
+    if (!mounted) return null;
+    if (sim == null) {
+      return null;
+    } else {
+      CroppedFile? imgCortada = await ImageCropper().cropImage(
+        sourcePath: sim.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: '✂️Cortando...',
+            hideBottomControls: true,
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Theme.of(context).colorScheme.onPrimary,
+            initAspectRatio: CropAspectRatioPreset.original,
+            activeControlsWidgetColor: Theme.of(context).colorScheme.onPrimary,
+            statusBarColor: Theme.of(context).colorScheme.primary,
+            lockAspectRatio: true,
+          ),
+        ],
+      );
+      if (imgCortada == null) {
+        return null;
+      } else {
+        return imgCortada;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -36,7 +75,12 @@ class _Tela3State extends State<Tela3> {
                   ),
                   actions: [
                     CupertinoActionSheetAction(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () async {
+                        var cortado = await _pegarImagem();
+                        if (cortado != null) {
+                          userImg = File(cortado.path);
+                        }
+                      },
                       child: Text(
                         "Galeria",
                         style: GoogleFonts.inter(
@@ -45,7 +89,7 @@ class _Tela3State extends State<Tela3> {
                       ),
                     ),
                     CupertinoActionSheetAction(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () async {},
                       child: Text(
                         "Câmera",
                         style: GoogleFonts.inter(

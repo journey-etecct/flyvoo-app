@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +22,7 @@ final txtSenhaConf = TextEditingController();
 late String carreiraEscolhida;
 late String peleEscolhida;
 DateTime? nascimento;
+File? userImg;
 List<Widget> telas = const <Widget>[
   Tela1(),
   Tela2(),

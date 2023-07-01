@@ -31,9 +31,15 @@ User? userFlyvoo;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  //pegar situação de login
   userFlyvoo = FirebaseAuth.instance.currentUser;
   final instS = await SharedPreferences.getInstance();
+
+  //pagina inicial de acordo com a situação de login
   if (instS.getBool("cadastroTerminado") != null) {
     if (!instS.getBool("cadastroTerminado")!) {
       runApp(const Flyvoo(Index(false)));

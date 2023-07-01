@@ -18,6 +18,7 @@ dependencies:
   google_fonts: ^5.0.0
   google_sign_in: ^6.1.4
   http: ^1.0.0
+  image_cropper: ^5.0.0
   image_picker: ^1.0.0
   material_symbols_icons: ^4.2661.1
   shared_preferences: ^2.1.2
