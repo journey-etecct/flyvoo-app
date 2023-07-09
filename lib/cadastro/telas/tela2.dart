@@ -44,6 +44,13 @@ class _Tela2State extends State<Tela2> {
   }
 
   @override
+  void initState() {
+    carreiraEscolhida ??= carreiras.first;
+    peleEscolhida ??= etnias.first;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey2,
@@ -139,6 +146,25 @@ class _Tela2State extends State<Tela2> {
               ),
             ),
           ),
+          nascimento == null
+              ? Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "*Obrigatório",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const Row(),
+
           /* DropdownButtonFormField(
             icon: const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 3, 0),

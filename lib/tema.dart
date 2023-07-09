@@ -1,8 +1,9 @@
 // tema do aplicativo
 import 'package:flutter/material.dart';
-import 'package:system_theme/system_theme.dart';
+import 'package:flutter/scheduler.dart';
 
-bool dark = SystemTheme.isDarkMode;
+bool dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+    Brightness.dark;
 
 Map<String, List> paletas = {
   "paletaVerde": [

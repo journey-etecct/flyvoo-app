@@ -21,13 +21,15 @@ class Tela3 extends StatefulWidget {
 }
 
 class _Tela3State extends State<Tela3> {
-  Future<CroppedFile?> _pegarImagem() async {
-    XFile? sim = await picker.pickImage(source: ImageSource.gallery);
+  Future<File?> _pegarImagemGaleria() async {
+    XFile? sim = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
     if (!mounted) return null;
     if (sim == null) {
       return null;
     } else {
-      CroppedFile? imgCortada = await ImageCropper().cropImage(
+      var imgCortada = await ImageCropper().cropImage(
         sourcePath: sim.path,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
@@ -36,11 +38,10 @@ class _Tela3State extends State<Tela3> {
           AndroidUiSettings(
             toolbarTitle: '✂️Cortando...',
             hideBottomControls: true,
-            toolbarColor: Theme.of(context).colorScheme.primary,
-            toolbarWidgetColor: Theme.of(context).colorScheme.onPrimary,
-            initAspectRatio: CropAspectRatioPreset.original,
-            activeControlsWidgetColor: Theme.of(context).colorScheme.onPrimary,
-            statusBarColor: Theme.of(context).colorScheme.primary,
+            toolbarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            toolbarWidgetColor: tema["textoBotaoIndex"],
+            initAspectRatio: CropAspectRatioPreset.square,
+            statusBarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
             lockAspectRatio: true,
           ),
         ],
@@ -48,7 +49,41 @@ class _Tela3State extends State<Tela3> {
       if (imgCortada == null) {
         return null;
       } else {
-        return imgCortada;
+        return File(imgCortada.path);
+      }
+    }
+  }
+
+  Future<File?> _pegarImagemCamera() async {
+    XFile? sim = await picker.pickImage(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.front,
+    );
+    if (!mounted) return null;
+    if (sim == null) {
+      return null;
+    } else {
+      var imgCortada = await ImageCropper().cropImage(
+        sourcePath: sim.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: '✂️Cortando...',
+            hideBottomControls: true,
+            toolbarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            toolbarWidgetColor: tema["textoBotaoIndex"],
+            initAspectRatio: CropAspectRatioPreset.square,
+            statusBarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            lockAspectRatio: true,
+          ),
+        ],
+      );
+      if (imgCortada == null) {
+        return null;
+      } else {
+        return File(imgCortada.path);
       }
     }
   }
@@ -76,9 +111,14 @@ class _Tela3State extends State<Tela3> {
                   actions: [
                     CupertinoActionSheetAction(
                       onPressed: () async {
-                        var cortado = await _pegarImagem();
+                        var cortado = await _pegarImagemGaleria();
                         if (cortado != null) {
-                          userImg = File(cortado.path);
+                          setState(() {
+                            userImg = cortado;
+                            btnAtivado = true;
+                          });
+                          if (!mounted) return;
+                          Navigator.pop(context);
                         }
                       },
                       child: Text(
@@ -89,7 +129,17 @@ class _Tela3State extends State<Tela3> {
                       ),
                     ),
                     CupertinoActionSheetAction(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        var cortado = await _pegarImagemCamera();
+                        if (cortado != null) {
+                          setState(() {
+                            userImg = cortado;
+                            btnAtivado = true;
+                          });
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                        }
+                      },
                       child: Text(
                         "Câmera",
                         style: GoogleFonts.inter(
@@ -104,12 +154,21 @@ class _Tela3State extends State<Tela3> {
             child: Stack(
               alignment: Alignment.bottomRight,
               children: [
-                Image(
-                  image: AssetImage("assets/icons/user.png"),
-                  color: tema["texto"],
-                  width: 180,
-                  fit: BoxFit.cover,
-                ),
+                userImg != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image(
+                          image: FileImage(userImg!),
+                          width: 200,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Image(
+                        image: AssetImage("assets/icons/user.png"),
+                        color: tema["texto"],
+                        width: 200,
+                        fit: BoxFit.cover,
+                      ),
                 Container(
                   width: 65,
                   height: 65,

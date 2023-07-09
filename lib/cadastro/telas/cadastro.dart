@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/telas/tela1.dart';
@@ -19,8 +20,8 @@ final txtNome = TextEditingController();
 final txtTelefone = TextEditingController();
 final txtSenha = TextEditingController();
 final txtSenhaConf = TextEditingController();
-late String carreiraEscolhida;
-late String peleEscolhida;
+String? carreiraEscolhida;
+String? peleEscolhida;
 DateTime? nascimento;
 File? userImg;
 List<Widget> telas = const <Widget>[
@@ -35,7 +36,7 @@ List<String> botaoTxt = const <String>[
 ];
 bool _reversed = false;
 int _step = 0;
-bool _btnAtivado = true;
+bool btnAtivado = true;
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -72,7 +73,7 @@ class _CadastroState extends State<Cadastro> {
           setState(() {
             _reversed = true;
             _step--;
-            _btnAtivado = true;
+            btnAtivado = true;
           });
           return false;
         } else {
@@ -191,7 +192,7 @@ class _CadastroState extends State<Cadastro> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: tema["fundo"],
-                            boxShadow: _btnAtivado
+                            boxShadow: btnAtivado
                                 ? <BoxShadow>[
                                     BoxShadow(
                                       blurRadius: 4,
@@ -211,38 +212,54 @@ class _CadastroState extends State<Cadastro> {
                             disabledColor: dark
                                 ? const Color(0xff007AFF).withOpacity(0.15)
                                 : const Color(0xffFB5607).withOpacity(0.30),
-                            onPressed: _btnAtivado
-                                ? () {
-                                    setState(() {
-                                      switch (_step) {
-                                        case 0:
+                            onPressed: btnAtivado
+                                ? () async {
+                                    switch (_step) {
+                                      case 0:
+                                        setState(() {
                                           if (formKey1.currentState!
                                               .validate()) {
                                             _reversed = false;
                                             _step++;
                                           }
-                                          break;
-                                        case 1:
-                                          if (formKey2.currentState!
-                                              .validate()) {
-                                            _reversed = false;
-                                            _step++;
+                                        });
+                                        break;
+                                      case 1:
+                                        setState(() {
+                                          if (nascimento != null) {
+                                            if (formKey2.currentState!
+                                                .validate()) {
+                                              _reversed = false;
+                                              _step++;
+                                              if (userImg == null) {
+                                                btnAtivado = false;
+                                              }
+                                            }
                                           }
-                                          setState(() {
-                                            _btnAtivado = false;
-                                          });
-                                          break;
-                                        default:
-                                        // TODO: terminar o cadastro
-                                      }
-                                    });
+                                        });
+                                        break;
+                                      default:
+                                        await userFlyvoo
+                                            ?.updateDisplayName(txtNome.text);
+                                        await userFlyvoo
+                                            ?.updatePassword(txtSenha.text);
+                                        var ref = FirebaseDatabase.instance
+                                            .ref("users/${userFlyvoo?.email}");
+                                        await ref.update({
+                                          "telefone": txtTelefone.text,
+                                          "nascimento":
+                                              "${nascimento?.day};${nascimento?.month};${nascimento?.year}",
+                                          "area": carreiraEscolhida,
+                                        });
+                                      // TODO: terminar o cadastro
+                                    }
                                   }
                                 : null,
                             child: Text(
                               botaoTxt[_step],
                               style: GoogleFonts.inter(
                                 fontSize: 25,
-                                color: _btnAtivado
+                                color: btnAtivado
                                     ? tema["textoBotaoIndex"]
                                     : CupertinoColors.systemGrey2,
                               ),
