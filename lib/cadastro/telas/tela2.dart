@@ -17,13 +17,21 @@ final List<String> carreiras = [
   "carreira9",
 ];
 
-final List<String> etnias = [
-  "Cor de Pele",
-  "Amarelo",
-  "Branco",
-  "Pardo",
-  "Indígena",
-  "Preto"
+final List<String> sexos = [
+  "Sexo",
+  "Masculino",
+  "Feminino",
+  "Não Binário",
+  "Prefiro não dizer",
+];
+
+final List<String> pronomes = [
+  "Pronomes (opcional)",
+  "ele/dele",
+  "ela/dela",
+  "elu/delu",
+  "el/del",
+  "outro",
 ];
 
 class Tela2 extends StatefulWidget {
@@ -46,7 +54,8 @@ class _Tela2State extends State<Tela2> {
   @override
   void initState() {
     carreiraEscolhida ??= carreiras.first;
-    peleEscolhida ??= etnias.first;
+    sexoEscolhido ??= sexos.first;
+    pronomesEscolhidos ??= pronomes.first;
     super.initState();
   }
 
@@ -198,7 +207,7 @@ class _Tela2State extends State<Tela2> {
             height: 15,
           ),
           DropdownButtonFormField(
-            value: peleEscolhida,
+            value: sexoEscolhido,
             dropdownColor: tema["fundo"],
             elevation: 1,
             style: GoogleFonts.inter(
@@ -210,7 +219,7 @@ class _Tela2State extends State<Tela2> {
               "assets/icons/seta.png",
               color: tema["noFundo"],
             ),
-            selectedItemBuilder: (context) => etnias
+            selectedItemBuilder: (context) => sexos
                 .map(
                   (e) => Text(
                     e,
@@ -218,16 +227,16 @@ class _Tela2State extends State<Tela2> {
                 )
                 .toList(),
             validator: (value) {
-              if (value == etnias.first) {
+              if (value == sexos.first) {
                 return "*Obrigatório";
               }
               return null;
             },
-            items: etnias
+            items: sexos
                 .map(
                   (String pele) => DropdownMenuItem<String>(
                     value: pele,
-                    enabled: pele != etnias.first,
+                    enabled: pele != sexos.first,
                     child: Text(pele),
                   ),
                 )
@@ -235,7 +244,47 @@ class _Tela2State extends State<Tela2> {
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  peleEscolhida = value;
+                  sexoEscolhido = value;
+                });
+              }
+            },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          DropdownButtonFormField(
+            value: pronomesEscolhidos,
+            dropdownColor: tema["fundo"],
+            elevation: 1,
+            style: GoogleFonts.inter(
+              color: tema["noFundo"],
+              fontSize: 20,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            icon: Image.asset(
+              "assets/icons/seta.png",
+              color: tema["noFundo"],
+            ),
+            selectedItemBuilder: (context) => pronomes
+                .map(
+                  (e) => Text(
+                    e,
+                  ),
+                )
+                .toList(),
+            items: pronomes
+                .map(
+                  (String pele) => DropdownMenuItem<String>(
+                    value: pele,
+                    enabled: pele != pronomes.first,
+                    child: Text(pele),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  pronomesEscolhidos = value;
                 });
               }
             },

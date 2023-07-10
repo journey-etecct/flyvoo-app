@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -38,10 +36,12 @@ class _Tela3State extends State<Tela3> {
           AndroidUiSettings(
             toolbarTitle: '✂️Cortando...',
             hideBottomControls: true,
-            toolbarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            toolbarColor:
+                dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             toolbarWidgetColor: tema["textoBotaoIndex"],
             initAspectRatio: CropAspectRatioPreset.square,
-            statusBarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            statusBarColor:
+                dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             lockAspectRatio: true,
           ),
         ],
@@ -72,10 +72,12 @@ class _Tela3State extends State<Tela3> {
           AndroidUiSettings(
             toolbarTitle: '✂️Cortando...',
             hideBottomControls: true,
-            toolbarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            toolbarColor:
+                dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             toolbarWidgetColor: tema["textoBotaoIndex"],
             initAspectRatio: CropAspectRatioPreset.square,
-            statusBarColor: dark ? Color(0xff157567) : Color(0xffffe1d0),
+            statusBarColor:
+                dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             lockAspectRatio: true,
           ),
         ],
@@ -113,12 +115,35 @@ class _Tela3State extends State<Tela3> {
                       onPressed: () async {
                         var cortado = await _pegarImagemGaleria();
                         if (cortado != null) {
-                          setState(() {
-                            userImg = cortado;
-                            btnAtivado = true;
-                          });
                           if (!mounted) return;
                           Navigator.pop(context);
+                          setState(() {
+                            userImg = cortado.renameSync(
+                                "/data/user/0/io.journey.flyvoo/cache/profile.jpg");
+                            btnAtivado = true;
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Text(
+                                "Imagem enviada com sucesso!",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              actions: [
+                                CupertinoDialogAction(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "OK",
+                                    style: GoogleFonts.inter(
+                                      color: CupertinoColors.systemBlue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       child: Text(
@@ -132,12 +157,35 @@ class _Tela3State extends State<Tela3> {
                       onPressed: () async {
                         var cortado = await _pegarImagemCamera();
                         if (cortado != null) {
-                          setState(() {
-                            userImg = cortado;
-                            btnAtivado = true;
-                          });
                           if (!mounted) return;
                           Navigator.pop(context);
+                          setState(() {
+                            userImg = cortado.renameSync("profile.jpg");
+                            btnAtivado = true;
+                          });
+                          setState(() {});
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Text(
+                                "Imagem enviada com sucesso!",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              actions: [
+                                CupertinoDialogAction(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "OK",
+                                    style: GoogleFonts.inter(
+                                      color: CupertinoColors.systemBlue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       child: Text(
@@ -164,7 +212,7 @@ class _Tela3State extends State<Tela3> {
                         ),
                       )
                     : Image(
-                        image: AssetImage("assets/icons/user.png"),
+                        image: const AssetImage("assets/icons/user.png"),
                         color: tema["texto"],
                         width: 200,
                         fit: BoxFit.cover,
@@ -186,7 +234,7 @@ class _Tela3State extends State<Tela3> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Text(

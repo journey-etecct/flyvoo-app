@@ -40,14 +40,18 @@ Future<void> main() async {
   final instS = await SharedPreferences.getInstance();
 
   //pagina inicial de acordo com a situação de login
-  if (instS.getBool("cadastroTerminado") != null) {
-    if (!instS.getBool("cadastroTerminado")!) {
-      runApp(const Flyvoo(Index(false)));
-    } else {
-      runApp(const Flyvoo(Home()));
-    }
-  } else {
+  if (userFlyvoo == null) {
     runApp(const Flyvoo(Index(true)));
+  } else {
+    if (instS.getBool("cadastroTerminado") != null) {
+      if (!instS.getBool("cadastroTerminado")!) {
+        runApp(const Flyvoo(Index(false)));
+      } else {
+        runApp(const Flyvoo(Home()));
+      }
+    } else {
+      runApp(const Flyvoo(Index(true)));
+    }
   }
 }
 
