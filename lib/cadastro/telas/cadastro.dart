@@ -288,13 +288,18 @@ class _CadastroState extends State<Cadastro> {
                                         SharedPreferences inst =
                                             await SharedPreferences
                                                 .getInstance();
+                                        inst.setBool(
+                                          "cadastroTerminado",
+                                          true,
+                                        );
                                         Reference instSt =
                                             FirebaseStorage.instance.ref(
                                           "users/${inst.getString("userid")}",
                                         );
                                         await instSt.putFile(userImg!);
                                         userFlyvoo?.updatePhotoURL(
-                                            "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F91c09a21-3432-43e4-859f-86e8781fd180.jpg?alt=media");
+                                          "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${inst.getString("userid")}?alt=media",
+                                        );
                                         Navigator.popUntil(
                                           context,
                                           (route) => route.isFirst,
