@@ -308,7 +308,6 @@ class _CadastroState extends State<Cadastro> {
                                           context,
                                           "/home",
                                         );
-                                      // TODO: terminar o cadastro
                                     }
                                   }
                                 : null,
