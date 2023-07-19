@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/cadastro/opcoes.dart';
 import 'package:flyvoo/cadastro/telas/cadastro.dart';
@@ -30,7 +31,8 @@ final ValueNotifier<Brightness> notifier = ValueNotifier(
 User? userFlyvoo;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  var widgetsbinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsbinding);
 
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

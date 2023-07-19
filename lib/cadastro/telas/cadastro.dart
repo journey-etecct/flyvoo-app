@@ -15,7 +15,6 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 
 final formKey1 = GlobalKey<FormState>();
@@ -51,14 +50,6 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  Future<String> _criarIDusuario() async {
-    const uuid = Uuid();
-    var inst = await SharedPreferences.getInstance();
-    var id = uuid.v4();
-    inst.setString("userid", id);
-    return id;
-  }
-
   @override
   void initState() {
     _step = 0;
@@ -274,7 +265,7 @@ class _CadastroState extends State<Cadastro> {
                                         await userFlyvoo
                                             ?.updatePassword(txtSenha.text);
                                         var ref = FirebaseDatabase.instance.ref(
-                                          "users/${await _criarIDusuario()}",
+                                          "users/${userFlyvoo?.uid}",
                                         );
                                         await ref.update({
                                           "email": userFlyvoo?.email,
@@ -294,11 +285,11 @@ class _CadastroState extends State<Cadastro> {
                                         );
                                         Reference instSt =
                                             FirebaseStorage.instance.ref(
-                                          "users/${inst.getString("userid")}",
+                                          "users/${userFlyvoo?.uid}",
                                         );
                                         await instSt.putFile(userImg!);
                                         userFlyvoo?.updatePhotoURL(
-                                          "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${inst.getString("userid")}?alt=media",
+                                          "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
                                         );
                                         Navigator.popUntil(
                                           context,

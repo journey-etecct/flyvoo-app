@@ -160,7 +160,7 @@ class _Tela3State extends State<Tela3> {
                           if (!mounted) return;
                           Navigator.pop(context);
                           setState(() {
-                            userImg = cortado.renameSync("profile.jpg");
+                            userImg = cortado;
                             btnAtivado = true;
                           });
                           setState(() {});

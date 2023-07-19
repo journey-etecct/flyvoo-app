@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -50,6 +51,7 @@ class _IndexState extends State<Index> {
         tema["noFundo"]!,
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
+    FlutterNativeSplash.remove();
     super.initState();
     if (!widget.cadastroTerminado) {
       SchedulerBinding.instance.addPostFrameCallback(

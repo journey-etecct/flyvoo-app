@@ -30,8 +30,6 @@ final List<String> pronomes = [
   "ele/dele",
   "ela/dela",
   "elu/delu",
-  "el/del",
-  "outro",
 ];
 
 class Tela2 extends StatefulWidget {
