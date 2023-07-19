@@ -158,6 +158,7 @@ class _FlyvooState extends State<Flyvoo> {
         theme: _buildTheme(value),
         home: widget.home,
         navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
