@@ -40,6 +40,9 @@ Future<void> main() async {
   //pegar situação de login
   userFlyvoo = FirebaseAuth.instance.currentUser;
   final instS = await SharedPreferences.getInstance();
+  dark = instS.getBool("dark") ??
+      WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.dark;
 
   //pagina inicial de acordo com a situação de login
   if (userFlyvoo == null) {

@@ -30,11 +30,9 @@ class Index extends StatefulWidget {
 class _IndexState extends State<Index> {
   @override
   void initState() {
-    dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-        Brightness.dark;
     if (!iniciado) {
       controllerBG = VideoPlayerController.asset(
-        dark ? "assets/background/dark.webm" : "assets/background/dark.webm",
+        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
       )..initialize().then(
           (_) {
