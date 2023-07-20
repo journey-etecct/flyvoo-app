@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
@@ -20,20 +25,16 @@ class _MinhaContaState extends State<MinhaConta> {
         child: Scaffold(
           body: Stack(
             children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Image(
-                      image: AssetImage(
-                        dark
-                            ? "assets/background/esfumadodark.png"
-                            : "assets/background/esfumadolight.png",
-                      ),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
+              SizedBox.expand(
+                child: Image(
+                  image: AssetImage(
+                    dark
+                        ? "assets/background/esfumadodark.png"
+                        : "assets/background/esfumadolight.png",
                   ),
-                ],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
               Column(
                 children: [
@@ -50,28 +51,34 @@ class _MinhaContaState extends State<MinhaConta> {
                     width: double.infinity,
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.all(20),
-                    height: 165,
+                    height: 180,
                     child: Row(
                       children: [
                         Align(
                           alignment: Alignment.topCenter,
-                          child: Image.asset(
-                            "assets/imagens/user.png", // TODO: imagem do usuário
-                            color: tema["texto"],
+                          child: ClipOval(
+                            child: Image(
+                              width: 100,
+                              image: CachedNetworkImageProvider(
+                                userFlyvoo!.photoURL!,
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Expanded(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                dark
-                                    ? "Jongkook Casabranca"
-                                    : "Mamila Castanha", // TODO: nome
-                                style: TextStyle(
+                                userFlyvoo!.displayName!,
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
                                   color: tema["texto"],
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
@@ -79,29 +86,58 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               Expanded(
                                 child: Text(
-                                  "MamilaCastanha@gmail.com", // TODO: email
-                                  style: TextStyle(
+                                  userFlyvoo!.email!,
+                                  style: GoogleFonts.inter(
                                     color: tema["texto"],
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              CupertinoButton(
-                                color: CupertinoColors.systemPink,
-                                onPressed: () {
-                                  // TODO: editar perfil
-                                },
-                                padding: EdgeInsets.fromLTRB(23, 5, 23, 5),
-                                child: Text(
-                                  "Editar perfil",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  34,
+                                  0,
+                                  34,
+                                  0,
+                                ),
+                                child: OpenContainer(
+                                  closedColor: CupertinoColors.systemPink,
+                                  closedShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(7),
                                   ),
+                                  tappable: false,
+                                  closedBuilder: (context, action) => Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: CupertinoButton(
+                                      color: Colors.transparent,
+                                      onPressed: () {
+                                        action.call();
+                                      },
+                                      padding: EdgeInsets.fromLTRB(
+                                        23,
+                                        5,
+                                        23,
+                                        5,
+                                      ),
+                                      child: Text(
+                                        "Editar perfil",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  openColor: tema["fundo"]!,
+                                  openBuilder: (context, retorno) =>
+                                      EditarPerfil(),
                                 ),
                               ),
                             ],
@@ -118,7 +154,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         children: [
                           Text(
                             "Configurações Gerais",
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               color: tema["texto"],
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
