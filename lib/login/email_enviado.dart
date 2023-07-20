@@ -5,8 +5,8 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
-class EmailEnviado extends StatelessWidget {
-  const EmailEnviado({super.key});
+class EmailEnviadoSenha extends StatelessWidget {
+  const EmailEnviadoSenha({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class EmailEnviado extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Email de verificação enviado",
+                          "Email de recuperção enviado",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: "Queensides",
@@ -64,7 +64,7 @@ class EmailEnviado extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: Text(
-                            "Um email com um link de confirmação foi enviado. Cheque sua caixa de entrada e a caixa de spam para continuar seu cadastro.",
+                            "Um email com um link de recuperação de senha foi enviado. Cheque sua caixa de entrada e a caixa de spam para mudar sua senha.",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                               fontSize: 17,

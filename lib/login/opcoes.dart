@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:async';
 
 import 'package:another_flushbar/flushbar.dart';
@@ -16,11 +14,11 @@ import 'package:video_player/video_player.dart';
 
 List<BotaoIndex> _botoes = [
   BotaoIndex(
-    AssetImage("assets/icons/google.png"),
+    const AssetImage("assets/icons/google.png"),
     "Continuar com Google",
   ),
   BotaoIndex(
-    AssetImage("assets/icons/microsoft.png"),
+    const AssetImage("assets/icons/microsoft.png"),
     "Continuar com Microsoft",
   ),
 ];
@@ -95,7 +93,7 @@ class _LoginState extends State<Login> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Center(
                       child: Text(
                         "Entrar",
@@ -221,7 +219,7 @@ class _LoginState extends State<Login> {
                                     }),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           Container(
@@ -285,7 +283,7 @@ class _LoginState extends State<Login> {
                                                         .colorScheme
                                                         .onPrimary,
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
                                                   Text(
@@ -319,7 +317,7 @@ class _LoginState extends State<Login> {
                                                         .colorScheme
                                                         .onError,
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
                                                   Text(
@@ -353,7 +351,7 @@ class _LoginState extends State<Login> {
                                                         .colorScheme
                                                         .onPrimary,
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
                                                   Flexible(
@@ -387,13 +385,13 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -401,7 +399,7 @@ class _LoginState extends State<Login> {
                           color: tema["noFundo"],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -410,7 +408,7 @@ class _LoginState extends State<Login> {
                           fontSize: 20,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -418,13 +416,13 @@ class _LoginState extends State<Login> {
                           color: tema["noFundo"],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                     ],
                   ),
                   ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => Container(
                       margin: const EdgeInsets.fromLTRB(60, 0, 60, 10),
                       width: double.infinity,

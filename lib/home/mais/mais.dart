@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -37,16 +39,21 @@ class _MaisState extends State<Mais> {
           child: Row(
             children: [
               ClipOval(
-                child: Image.network(
-                  userFlyvoo!.photoURL!,
-                ),
+                child: userFlyvoo != null
+                    ? Image.network(
+                        userFlyvoo!.photoURL!,
+                      )
+                    : Image.asset(
+                        "assets/icons/user.png",
+                        color: tema["texto"],
+                      ),
               ),
               const SizedBox(
                 width: 20,
               ),
               Expanded(
                 child: Text(
-                  userFlyvoo!.displayName!,
+                  userFlyvoo != null ? userFlyvoo!.displayName! : "Usuário",
                   style: GoogleFonts.inter(
                     color: tema["texto"],
                     fontSize: 19,
@@ -180,6 +187,7 @@ class _MaisState extends State<Mais> {
                             closedShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
+                            tappable: false,
                             openColor: tema["fundo"]!,
                             transitionDuration:
                                 const Duration(milliseconds: 500),
@@ -187,7 +195,78 @@ class _MaisState extends State<Mais> {
                               width: double.infinity,
                               child: CupertinoButton(
                                 onPressed: () {
-                                  action.call();
+                                  switch (index) {
+                                    case 0:
+                                      if (userFlyvoo == null) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                              sigmaX: 2,
+                                              sigmaY: 2,
+                                            ),
+                                            child: CupertinoAlertDialog(
+                                              content: Text(
+                                                "Para acessar isso, você precisa se cadastrar",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text(
+                                                    "Cancelar",
+                                                    style: GoogleFonts.inter(
+                                                      color: CupertinoColors
+                                                          .systemBlue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                CupertinoDialogAction(
+                                                  onPressed: () =>
+                                                      Navigator.popAndPushNamed(
+                                                    context,
+                                                    "/login",
+                                                  ),
+                                                  child: Text(
+                                                    "Entrar como usuário",
+                                                    style: GoogleFonts.inter(
+                                                      color: CupertinoColors
+                                                          .systemBlue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                CupertinoDialogAction(
+                                                  isDefaultAction: true,
+                                                  onPressed: () =>
+                                                      Navigator.popAndPushNamed(
+                                                    context,
+                                                    "/opcoesCadastro",
+                                                  ),
+                                                  child: Text(
+                                                    "Criar uma conta",
+                                                    style: GoogleFonts.inter(
+                                                      color: CupertinoColors
+                                                          .systemBlue,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        action.call();
+                                      }
+                                      break;
+                                    case 1:
+                                      action.call();
+                                      break;
+                                    default:
+                                      action.call();
+                                  }
                                 },
                                 borderRadius: BorderRadius.circular(15),
                                 color: tema["botao"],
@@ -244,8 +323,14 @@ class _MaisState extends State<Mais> {
                                 CupertinoButton(
                                   onPressed: () async {
                                     await FirebaseAuth.instance.signOut();
+                                    setState(() {
+                                      userFlyvoo = null;
+                                    });
                                     if (!mounted) return;
-                                    Navigator.pop(context);
+                                    Navigator.popUntil(
+                                      context,
+                                      (route) => route.isFirst,
+                                    );
                                     Navigator.pushReplacementNamed(
                                       context,
                                       "/index",
