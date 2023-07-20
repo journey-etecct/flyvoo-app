@@ -30,19 +30,21 @@ class Index extends StatefulWidget {
 class _IndexState extends State<Index> {
   @override
   void initState() {
-    if (!iniciado) {
-      controllerBG = VideoPlayerController.asset(
-        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
-        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-      )..initialize().then(
-          (_) {
-            controllerBG.setLooping(true);
-            setState(() {});
-          },
-        );
-      controllerBG.play();
-      iniciado = true;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (!iniciado) {
+        controllerBG = VideoPlayerController.asset(
+          dark ? "assets/background/dark.webm" : "assets/background/light.webm",
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        )..initialize().then(
+            (_) {
+              controllerBG.setLooping(true);
+              setState(() {});
+            },
+          );
+        await controllerBG.play();
+        iniciado = true;
+      }
+    });
     linearGradient = LinearGradient(
       colors: <Color>[
         tema["primaria"]!,

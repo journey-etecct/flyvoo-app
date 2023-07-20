@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ class Mais extends StatefulWidget {
 
 class _MaisState extends State<Mais> {
   List<String> botoes = ["Minha Conta", "Central de Ajuda", "Sobre o Flyvoo"];
+  final _keyImg = GlobalKey<State>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,16 @@ class _MaisState extends State<Mais> {
               ClipOval(
                 child: userFlyvoo != null
                     ? FadeInImage(
-                        placeholder: AssetImage("assetName"),
-                        image: AssetImage("assetName"),
-                      ) // TODO: imagem carregandinho eba
+                        key: _keyImg,
+                        fadeInDuration: const Duration(milliseconds: 100),
+                        fadeOutDuration: const Duration(milliseconds: 100),
+                        placeholder: const AssetImage(
+                          "assets/background/loading.gif",
+                        ),
+                        image: CachedNetworkImageProvider(
+                          userFlyvoo!.photoURL!,
+                        ),
+                      )
                     : Image.asset(
                         "assets/icons/user.png",
                         color: tema["texto"],

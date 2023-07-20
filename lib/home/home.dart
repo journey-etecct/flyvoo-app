@@ -261,7 +261,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   Symbols.mountain_flag_rounded,
                                   size: _animIcon0.value,
                                   /* scale: _animIcon1.value, */
-                                  color: indexHome == 1
+                                  color: indexHome == 0
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),
@@ -363,7 +363,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   Bootstrap.briefcase,
                                   size: _animIcon2.value,
                                   /* scale: _animIcon1.value, */
-                                  color: indexHome == 1
+                                  color: indexHome == 2
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),
@@ -414,7 +414,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   Symbols.settings_rounded,
                                   size: _animIcon3.value,
                                   /* scale: _animIcon1.value, */
-                                  color: indexHome == 1
+                                  color: indexHome == 3
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),
