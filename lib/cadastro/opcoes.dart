@@ -13,11 +13,11 @@ List<BotaoIndex> _botoes = [
     "Continuar com email",
   ),
   BotaoIndex(
-    (const AssetImage("assets/icons/email.png"), null),
+    (const AssetImage("assets/icons/google.png"), null),
     "Continuar com Google",
   ),
   BotaoIndex(
-    (const AssetImage("assets/icons/user.png"), null),
+    (const AssetImage("assets/icons/microsoft.png"), null),
     "Continuar com Microsoft",
   ),
 ];
@@ -35,30 +35,9 @@ class OpcoesDeCadastro extends StatefulWidget {
   State<OpcoesDeCadastro> createState() => _OpcoesDeCadastroState();
 }
 
-class Tipo {
-  final String tipo;
-  Tipo(this.tipo);
-}
-
 class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      _botoes = [
-        BotaoIndex(
-          (null, Symbols.mail_outline_rounded),
-          "Continuar com email",
-        ),
-        BotaoIndex(
-          (const AssetImage("assets/icons/google.png"), null),
-          "Continuar com Google",
-        ),
-        BotaoIndex(
-          (const AssetImage("assets/icons/microsoft.png"), null),
-          "Continuar com Microsoft",
-        ),
-      ];
-    });
     return Scaffold(
       backgroundColor: tema["fundo"],
       body: Stack(
@@ -81,7 +60,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                     child: Text(
                       "Cadastro",
                       style: TextStyle(
-                        fontFamily: "Queensides Light",
+                        fontFamily: "Queensides",
                         fontSize: 60,
                       ),
                     ),

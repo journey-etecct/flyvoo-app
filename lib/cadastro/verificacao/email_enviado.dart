@@ -46,7 +46,7 @@ class EmailEnviado extends StatelessWidget {
                           "Email de verificação enviado",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "Queensides Light",
+                            fontFamily: "Queensides",
                             fontSize: 32,
                           ),
                         ),

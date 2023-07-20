@@ -15,6 +15,7 @@ import 'package:flyvoo/firebase_options.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/opcoes.dart';
+import 'package:flyvoo/login/recuperacao.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -143,6 +144,11 @@ class _FlyvooState extends State<Flyvoo> {
             case "/login":
               return CupertinoPageRoute(
                 builder: (context) => const Login(),
+                settings: settings,
+              );
+            case "/login/recuperacao":
+              return CupertinoPageRoute(
+                builder: (context) => const Recuperacao(),
                 settings: settings,
               );
             case "/home":

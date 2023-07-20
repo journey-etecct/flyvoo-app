@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -35,18 +36,17 @@ class _MaisState extends State<Mais> {
           height: 150,
           child: Row(
             children: [
-              Image.asset(
-                "assets/imagens/user.png",
-                color: tema["texto"],
+              ClipOval(
+                child: Image.network(
+                  userFlyvoo!.photoURL!,
+                ),
               ),
               const SizedBox(
                 width: 20,
               ),
               Expanded(
                 child: Text(
-                  dark
-                      ? "Jongkook Casabranca"
-                      : "Mamila Castanha", // TODO: nome
+                  userFlyvoo!.displayName!,
                   style: GoogleFonts.inter(
                     color: tema["texto"],
                     fontSize: 19,

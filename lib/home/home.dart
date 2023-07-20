@@ -1,10 +1,13 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
 import 'package:flyvoo/tema.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 List<Widget> telasHome = [
   const Principal(),
@@ -103,13 +106,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
     _animIcon0 = Tween<double>(
-      begin: 1,
-      end: 1.2,
+      begin: 45,
+      end: 35,
     ).animate(CurvedAnimation(parent: _icon0, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
       });
-    _icon0.value = 1.2;
+    _icon0.value = 35;
     _icon1 = AnimationController(
       vsync: this,
       duration: const Duration(
@@ -117,8 +120,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
     _animIcon1 = Tween<double>(
-      begin: 1,
-      end: 1.2,
+      begin: 50,
+      end: 40,
     ).animate(CurvedAnimation(parent: _icon1, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
@@ -130,8 +133,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
     _animIcon2 = Tween<double>(
-      begin: 1,
-      end: 1.2,
+      begin: 40,
+      end: 30,
     ).animate(CurvedAnimation(parent: _icon2, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
@@ -143,12 +146,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
     _animIcon3 = Tween<double>(
-      begin: 1,
-      end: 1.2,
+      begin: 50,
+      end: 40,
     ).animate(CurvedAnimation(parent: _icon3, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
       });
+    FlutterNativeSplash.remove();
     super.initState();
   }
 
@@ -253,10 +257,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   width: _anim0.value,
                                   height: _anim0.value,
                                 ),
-                                Image.asset(
-                                  "assets/icons/inicial.png",
-                                  scale: _animIcon0.value,
-                                  color: indexHome == 0
+                                Icon(
+                                  Symbols.mountain_flag_rounded,
+                                  size: _animIcon0.value,
+                                  /* scale: _animIcon1.value, */
+                                  color: indexHome == 1
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),
@@ -303,9 +308,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   width: _anim1.value,
                                   height: _anim1.value,
                                 ),
-                                Image.asset(
-                                  "assets/icons/univcursos.png",
-                                  scale: _animIcon1.value,
+                                Icon(
+                                  Symbols.school_rounded,
+                                  size: _animIcon1.value,
+                                  /* scale: _animIcon1.value, */
                                   color: indexHome == 1
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
@@ -353,10 +359,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   width: _anim2.value,
                                   height: _anim2.value,
                                 ),
-                                Image.asset(
-                                  "assets/icons/empresas.png",
-                                  scale: _animIcon2.value,
-                                  color: indexHome == 2
+                                Icon(
+                                  Bootstrap.briefcase,
+                                  size: _animIcon2.value,
+                                  /* scale: _animIcon1.value, */
+                                  color: indexHome == 1
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),
@@ -403,10 +410,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   width: _anim3.value,
                                   height: _anim3.value,
                                 ),
-                                Image.asset(
-                                  "assets/icons/config.png",
-                                  scale: _animIcon3.value,
-                                  color: indexHome == 3
+                                Icon(
+                                  Symbols.settings_rounded,
+                                  size: _animIcon3.value,
+                                  /* scale: _animIcon1.value, */
+                                  color: indexHome == 1
                                       ? tema["secundaria"]
                                       : tema["noFundo"],
                                 ),

@@ -1,3 +1,9 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'dart:async';
+
+import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +11,25 @@ import 'package:flutter/services.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:video_player/video_player.dart';
+
+List<BotaoIndex> _botoes = [
+  BotaoIndex(
+    AssetImage("assets/icons/google.png"),
+    "Continuar com Google",
+  ),
+  BotaoIndex(
+    AssetImage("assets/icons/microsoft.png"),
+    "Continuar com Microsoft",
+  ),
+];
+
+class BotaoIndex {
+  final String text;
+  final AssetImage icon;
+  BotaoIndex(this.icon, this.text);
+}
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -19,206 +44,644 @@ class _LoginState extends State<Login> {
   final _loginKey = GlobalKey<FormFieldState>();
   final _senhaKey = GlobalKey<FormFieldState>();
   final _formKey = GlobalKey<FormState>();
+  final _txtEmail = TextEditingController();
+  final _txtSenha = TextEditingController();
+  bool _btnAtivado = true;
+  late StreamSubscription _sub;
+
+  @override
+  void initState() {
+    _btnAtivado = true;
+    _sub = FirebaseAuth.instance.authStateChanges().listen((event) {
+      if (event != null) {
+        setState(() {
+          userFlyvoo = event;
+        });
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, "/home");
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: Scaffold(
-        backgroundColor: tema["fundo"],
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  setState(() {});
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: Image(
-                        image: AssetImage(
-                          dark
-                              ? "assets/logo/logogradientedark.png"
-                              : "assets/logo/logogradientelight.png",
-                        ),
-                        width: 266,
-                        height: 266,
-                      ),
-                    ),
-                    const Text(
-                      "Flyvoo",
-                      style: TextStyle(
-                        fontFamily: "Queensides",
-                        fontSize: 50,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      key: _loginKey,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "*Obrigatório";
-                        } else if (!value.contains("@gmail.com") &&
-                            !value.contains("@etec.sp.gov.br") &&
-                            !value.contains("@outlook.com") &&
-                            !value.contains("@hotmail.com")) {
-                          return "Email inválido";
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        _loginKey.currentState!.validate();
-                      },
-                      cursorColor: tema["primaria"],
-                      autofillHints: const [AutofillHints.email],
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: GoogleFonts.inter(),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tema["primaria"]!,
-                          ),
+    return Scaffold(
+      backgroundColor: tema["fundo"],
+      body: Stack(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: controllerBG.value.size.width,
+                height: controllerBG.value.size.height,
+                child: VideoPlayer(controllerBG),
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "Entrar",
+                        style: TextStyle(
+                          fontFamily: "Queensides",
+                          fontSize: 60,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      key: _senhaKey,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "*Obrigatório";
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        _senhaKey.currentState!.validate();
-                      },
-                      cursorColor: tema["primaria"],
-                      autofillHints: const [AutofillHints.password],
-                      obscureText: _txtEscondido,
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: InputDecoration(
-                        labelText: "Senha",
-                        labelStyle: GoogleFonts.inter(),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tema["primaria"]!,
-                          ),
-                        ),
-                        suffix: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              child: Icon(
-                                _iconeOlho,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  if (_txtEscondido) {
-                                    _iconeOlho = Icons.visibility_off_rounded;
-                                    _txtEscondido = false;
-                                  } else {
-                                    _iconeOlho = Icons.visibility_rounded;
-                                    _txtEscondido = true;
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Esqueceu a senha?",
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
-                              color: tema["primaria"],
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // TODO: mudar senha
-                              }),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: "Não possui cadastro? ",
-                        style: GoogleFonts.inter(
-                          color: tema["noFundo"],
-                        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          TextSpan(
-                            text: "Clique aqui",
-                            style: GoogleFonts.inter(
-                              color: tema["primaria"],
-                              decoration: TextDecoration.underline,
+                          TextFormField(
+                            key: _loginKey,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "*Obrigatório";
+                              } else if (!value.contains(
+                                RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                                ),
+                              )) {
+                                return "Email inválido";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              _loginKey.currentState!.validate();
+                            },
+                            controller: _txtEmail,
+                            cursorColor: tema["primaria"],
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: "Email",
+                              labelStyle: GoogleFonts.inter(),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: tema["primaria"]!,
+                                ),
+                              ),
                             ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  "/opcoesCadastro",
-                                );
-                              },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            key: _senhaKey,
+                            controller: _txtSenha,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "*Obrigatório";
+                              } else if (value.length < 8) {
+                                return "A senha tem mais de 8 caracteres.";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              _senhaKey.currentState!.validate();
+                            },
+                            cursorColor: tema["primaria"],
+                            autofillHints: const [AutofillHints.password],
+                            obscureText: _txtEscondido,
+                            keyboardType: TextInputType.visiblePassword,
+                            decoration: InputDecoration(
+                              labelText: "Senha",
+                              labelStyle: GoogleFonts.inter(),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: tema["primaria"]!,
+                                ),
+                              ),
+                              suffix: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    child: Icon(
+                                      _iconeOlho,
+                                      size: 20,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        if (_txtEscondido) {
+                                          _iconeOlho =
+                                              Icons.visibility_off_rounded;
+                                          _txtEscondido = false;
+                                        } else {
+                                          _iconeOlho = Icons.visibility_rounded;
+                                          _txtEscondido = true;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: RichText(
+                              text: TextSpan(
+                                  text: "Esqueceu a senha?",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 15,
+                                    color: tema["primaria"],
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        "/login/recuperacao",
+                                      );
+                                    }),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: tema["fundo"],
+                              boxShadow: _btnAtivado
+                                  ? <BoxShadow>[
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 5),
+                                        color: const Color(
+                                          0xff000000,
+                                        ).withOpacity(0.25),
+                                      ),
+                                    ]
+                                  : [],
+                            ),
+                            child: CupertinoButton(
+                              borderRadius: BorderRadius.circular(10),
+                              padding:
+                                  const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                              color: tema["botaoIndex"],
+                              disabledColor: dark
+                                  ? const Color(0xff007AFF).withOpacity(0.15)
+                                  : const Color(0xffFB5607).withOpacity(0.30),
+                              onPressed: _btnAtivado
+                                  ? () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          _btnAtivado = false;
+                                        });
+                                        TextInput.finishAutofillContext();
+                                        try {
+                                          await FirebaseAuth.instance
+                                              .signInWithEmailAndPassword(
+                                            email: _txtEmail.text,
+                                            password: _txtSenha.text,
+                                          );
+                                        } on FirebaseException catch (e) {
+                                          setState(() {
+                                            _btnAtivado = true;
+                                          });
+                                          if (e.code == "user-not-found") {
+                                            Flushbar(
+                                              duration:
+                                                  const Duration(seconds: 5),
+                                              margin: const EdgeInsets.all(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              messageText: Row(
+                                                children: [
+                                                  Icon(
+                                                    Symbols.error_rounded,
+                                                    fill: 1,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Usuário não existe",
+                                                    style: GoogleFonts.inter(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ).show(context);
+                                          } else if (e.code ==
+                                              "wrong-password") {
+                                            Flushbar(
+                                              duration:
+                                                  const Duration(seconds: 5),
+                                              margin: const EdgeInsets.all(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              messageText: Row(
+                                                children: [
+                                                  Icon(
+                                                    Symbols.error_rounded,
+                                                    fill: 1,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onError,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Senha incorreta",
+                                                    style: GoogleFonts.inter(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onError,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ).show(context);
+                                          } else if (e.code ==
+                                              "too-many-requests") {
+                                            Flushbar(
+                                              duration:
+                                                  const Duration(seconds: 5),
+                                              margin: const EdgeInsets.all(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              messageText: Row(
+                                                children: [
+                                                  Icon(
+                                                    Symbols.error_rounded,
+                                                    fill: 1,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                      "Muitas tentativas, tente novamente mais tarde.",
+                                                      style: GoogleFonts.inter(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onPrimary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ).show(context);
+                                          }
+                                        }
+                                      }
+                                    }
+                                  : null,
+                              child: Text(
+                                "Entrar",
+                                style: GoogleFonts.inter(
+                                  fontSize: 25,
+                                  color: tema["textoBotaoIndex"],
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CupertinoButton(
-                      borderRadius: BorderRadius.circular(10),
-                      padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
-                      color: tema["primaria"]?.withOpacity(0.65),
-                      onPressed: () {
-                        TextInput.finishAutofillContext();
-                        // TODO: entrar
-                        if (_formKey.currentState!.validate()) {
-                          debugPrint("ebaa");
-                        }
-                      },
-                      child: Text(
-                        "Entrar",
-                        style: GoogleFonts.inter(
-                          fontSize: 25,
-                          color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: tema["noFundo"],
                         ),
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "ou",
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: tema["noFundo"],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Container(
+                      margin: const EdgeInsets.fromLTRB(60, 0, 60, 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: tema["fundo"],
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            blurRadius: 4,
+                            spreadRadius: 0,
+                            offset: const Offset(0, 4),
+                            color: const Color(0xff000000).withOpacity(0.25),
+                          ),
+                        ],
+                      ),
+                      child: CupertinoButton(
+                        borderRadius: BorderRadius.circular(100),
+                        color: tema["botaoIndex"],
+                        padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image(
+                                image: _botoes[index].icon,
+                                height: 29,
+                                color: tema["textoBotaoIndex"],
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              _botoes[index].text,
+                              style: GoogleFonts.inter(
+                                color: tema["textoBotaoIndex"],
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          switch (index) {
+                            case 0:
+                              Navigator.pushNamed(
+                                context,
+                                "/cadastro",
+                                arguments: "google",
+                              );
+                              break;
+                            default:
+                              Navigator.pushNamed(
+                                context,
+                                "/cadastro",
+                                arguments: "microsoft",
+                              );
+                          }
+                        },
+                      ),
                     ),
-                  ],
-                ),
+                    itemCount: _botoes.length,
+                    shrinkWrap: true,
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Text.rich(
+                    style: GoogleFonts.inter(
+                      color: tema["noFundo"],
+                    ),
+                    TextSpan(
+                      text: "Não possui cadastro? ",
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: "Clique aqui",
+                          style: GoogleFonts.inter(
+                            color: dark
+                                ? tema["primaria"]
+                                : tema["textoBotaoIndex"],
+                            decoration: TextDecoration.underline,
+                            decorationColor: dark
+                                ? tema["primaria"]
+                                : tema["textoBotaoIndex"],
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                "/opcoesCadastro",
+                              );
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                ],
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
+/* TextFormField(
+                    key: _loginKey,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "*Obrigatório";
+                      } else if (!value.contains("@gmail.com") &&
+                          !value.contains("@etec.sp.gov.br") &&
+                          !value.contains("@outlook.com") &&
+                          !value.contains("@hotmail.com")) {
+                        return "Email inválido";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      _loginKey.currentState!.validate();
+                    },
+                    cursorColor: tema["primaria"],
+                    autofillHints: const [AutofillHints.email],
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      labelStyle: GoogleFonts.inter(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: tema["primaria"]!,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    key: _senhaKey,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "*Obrigatório";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      _senhaKey.currentState!.validate();
+                    },
+                    cursorColor: tema["primaria"],
+                    autofillHints: const [AutofillHints.password],
+                    obscureText: _txtEscondido,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: InputDecoration(
+                      labelText: "Senha",
+                      labelStyle: GoogleFonts.inter(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: tema["primaria"]!,
+                        ),
+                      ),
+                      suffix: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            child: Icon(
+                              _iconeOlho,
+                              size: 20,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                if (_txtEscondido) {
+                                  _iconeOlho =
+                                      Icons.visibility_off_rounded;
+                                  _txtEscondido = false;
+                                } else {
+                                  _iconeOlho = Icons.visibility_rounded;
+                                  _txtEscondido = true;
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RichText(
+                      text: TextSpan(
+                          text: "Esqueceu a senha?",
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            color: tema["primaria"],
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // TODO: mudar senha
+                            }),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: "Não possui cadastro? ",
+                      style: GoogleFonts.inter(
+                        color: tema["noFundo"],
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "Clique aqui",
+                          style: GoogleFonts.inter(
+                            color: tema["primaria"],
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                "/opcoesCadastro",
+                              );
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CupertinoButton(
+                    borderRadius: BorderRadius.circular(10),
+                    padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
+                    color: tema["primaria"]?.withOpacity(0.65),
+                    onPressed: () {
+                      TextInput.finishAutofillContext();
+                      // TODO: entrar
+                      if (_formKey.currentState!.validate()) {
+                        debugPrint("ebaa");
+                      }
+                    },
+                    child: Text(
+                      "Entrar",
+                      style: GoogleFonts.inter(
+                        fontSize: 25,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ), */
