@@ -40,9 +40,10 @@ class _MaisState extends State<Mais> {
             children: [
               ClipOval(
                 child: userFlyvoo != null
-                    ? Image.network(
-                        userFlyvoo!.photoURL!,
-                      )
+                    ? FadeInImage(
+                        placeholder: AssetImage("assetName"),
+                        image: AssetImage("assetName"),
+                      ) // TODO: imagem carregandinho eba
                     : Image.asset(
                         "assets/icons/user.png",
                         color: tema["texto"],
