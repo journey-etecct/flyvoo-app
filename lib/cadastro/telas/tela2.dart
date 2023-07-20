@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flyvoo/cadastro/telas/cadastro.dart';
+import 'package:flyvoo/cadastro/cadastro.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';

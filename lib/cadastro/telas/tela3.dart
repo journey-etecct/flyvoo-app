@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/cadastro/telas/cadastro.dart';
+import 'package:flyvoo/cadastro/cadastro.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -118,8 +118,7 @@ class _Tela3State extends State<Tela3> {
                           if (!mounted) return;
                           Navigator.pop(context);
                           setState(() {
-                            userImg = cortado.renameSync(
-                                "/data/user/0/io.journey.flyvoo/cache/profile.jpg");
+                            userImg = cortado;
                             btnAtivado = true;
                           });
                           showDialog(

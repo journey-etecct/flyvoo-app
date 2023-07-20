@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/blablabla/termos.dart';
 import 'package:flyvoo/cadastro/opcoes.dart';
-import 'package:flyvoo/cadastro/telas/cadastro.dart';
+import 'package:flyvoo/cadastro/cadastro.dart';
 import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
 import 'package:flyvoo/cadastro/verificacao/index.dart';
 import 'package:flyvoo/firebase_options.dart';
