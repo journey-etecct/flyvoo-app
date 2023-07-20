@@ -1,17 +1,33 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/telas/tela3.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+final _txtNome = TextEditingController();
+final _txtTelefone = TextEditingController();
+final _txtSexo = TextEditingController();
+final _txtPronome = TextEditingController();
+late DataSnapshot userInfo;
+List<String> _listaCampos = [
+  "Nome",
+  "Email",
+  "Telefone",
+  "Sexo",
+  "Pronomes",
+];
 
 class EditarPerfil extends StatefulWidget {
   const EditarPerfil({super.key});
@@ -22,6 +38,22 @@ class EditarPerfil extends StatefulWidget {
 
 class _EditarPerfilState extends State<EditarPerfil> {
   File? _imgEscolhida;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        final inst = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}");
+        userInfo = await inst.get();
+        setState(() {
+          _txtNome.text = userFlyvoo!.displayName!;
+          _txtTelefone.text = userInfo.child("telefone").value.toString();
+          _txtSexo.text = userInfo.child("sexo").value.toString();
+          _txtPronome.text = userInfo.child("pronomes").value.toString();
+        });
+      },
+    );
+    super.initState();
+  }
 
   Future<File?> _pegarImagemGaleria() async {
     XFile? sim = await picker.pickImage(
@@ -251,7 +283,14 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ),
               ),
               Expanded(
-                child: Column(),
+                child: ListView.builder(
+                  itemBuilder: (context, index) => CampoEdicao(
+                    campo: _listaCampos[index],
+                    index: index,
+                  ),
+                  itemCount: _listaCampos.length,
+                  shrinkWrap: true,
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -275,7 +314,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     width: 129,
                     child: CupertinoButton(
                       borderRadius: BorderRadius.circular(10),
-                      onPressed: () {},
+                      onPressed: () => Navigator.pop(context),
                       color: Colors.white,
                       padding: EdgeInsets.all(0),
                       child: Text(
@@ -334,15 +373,215 @@ class _EditarPerfilState extends State<EditarPerfil> {
 }
 
 class CampoEdicao extends StatefulWidget {
-  const CampoEdicao({super.key});
+  final String campo;
+  final int index;
+  const CampoEdicao({super.key, required this.campo, required this.index});
 
   @override
   State<CampoEdicao> createState() => _CampoEdicaoState();
 }
 
 class _CampoEdicaoState extends State<CampoEdicao> {
+  String _camposSwitch() {
+    switch (widget.index) {
+      case 0:
+        return _txtNome.text;
+      case 1:
+        return userFlyvoo!.email!;
+      case 2:
+        return _txtTelefone.text;
+      case 3:
+        return _txtSexo.text;
+      case 4:
+        return _txtPronome.text;
+      default:
+        return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return InkWell(
+      onTap: widget.campo != "Email"
+          ? () {
+              showDialog(
+                context: context,
+                builder: (context) => BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                  child: Theme(
+                    data: ThemeData(
+                      useMaterial3: true,
+                      colorScheme: ColorScheme.fromSeed(
+                        seedColor: Color(0xff0000ff),
+                        brightness: dark ? Brightness.dark : Brightness.light,
+                      ),
+                    ),
+                    child: AlertDialog(
+                      alignment: Alignment.bottomCenter,
+                      backgroundColor: tema["fundo"],
+                      title: Text(widget.campo),
+                      content: switch (widget.index) {
+                        0 => TextFormField(
+                            controller: _txtNome,
+                            textInputAction: TextInputAction.next,
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.text,
+                            maxLength: 255,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "*Obrigatório";
+                              } else if (value.contains(
+                                RegExp(
+                                  r'''[!@#<>?":,.'_/`~;[\]\\|=+)(*&^%0-9-]''',
+                                ),
+                              )) {
+                                return "Nome inválido";
+                              } else if (!value.contains(
+                                RegExp(
+                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}){1,10}$',
+                                ),
+                              )) {
+                                return "Insira seu nome completo";
+                              }
+                              return null;
+                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            autofillHints: const [AutofillHints.name],
+                            cursorColor: ColorScheme.fromSeed(
+                              seedColor: Color(0xff0000ff),
+                              brightness:
+                                  dark ? Brightness.dark : Brightness.light,
+                            ).primary,
+                          ),
+                        _ => TextFormField(
+                            controller: _txtNome,
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.text,
+                            maxLength: 255,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "*Obrigatório";
+                              } else if (value.contains(
+                                RegExp(
+                                  r'''[!@#<>?":,.'_/`~;[\]\\|=+)(*&^%0-9-]''',
+                                ),
+                              )) {
+                                return "Nome inválido";
+                              } else if (!value.contains(
+                                RegExp(
+                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}){1,10}$',
+                                ),
+                              )) {
+                                return "Insira seu nome completo";
+                              }
+                              return null;
+                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            autofillHints: const [AutofillHints.name],
+                            decoration: InputDecoration(
+                              labelText: "Nome Completo",
+                              labelStyle: GoogleFonts.inter(
+                                fontSize: 20,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: tema["primaria"]!,
+                                ),
+                              ),
+                            ),
+                            cursorColor: tema["primaria"],
+                          ),
+                      },
+                      /* TextField(
+                        controller: switch (widget.index) {
+                          0 => _txtNome,
+                          2 => _txtTelefone,
+                          3 => _txtSexo,
+                          4 => _txtPronome,
+                          _ => _txtNome
+                        },
+
+                      ), */
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text("Cancelar"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("OK"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+          : null,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
+      child: Container(
+        width: double.infinity,
+        height: 66,
+        margin: EdgeInsets.only(
+          left: 25,
+          right: 25,
+          bottom: 10,
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: tema["texto"]!,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.campo,
+                      style: GoogleFonts.inter(
+                        color: tema["texto"],
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      _camposSwitch(),
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                      style: GoogleFonts.inter(
+                        color: tema["texto"],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            widget.campo != "Email"
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
+                    child: Icon(
+                      Bootstrap.pencil_fill,
+                      color: tema["texto"],
+                    ),
+                  )
+                : Row(),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -106,6 +106,9 @@ class _MinhaContaState extends State<MinhaConta> {
                                   0,
                                 ),
                                 child: OpenContainer(
+                                  transitionDuration: Duration(
+                                    milliseconds: 500,
+                                  ),
                                   closedColor: CupertinoColors.systemPink,
                                   closedShape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(7),
