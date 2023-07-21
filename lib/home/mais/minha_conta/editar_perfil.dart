@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flyvoo/cadastro/telas/tela3.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -16,17 +17,33 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+String? sexoEscolhido;
+String? pronomesEscolhidos;
 final _txtNome = TextEditingController();
 final _txtTelefone = TextEditingController();
 final _txtSexo = TextEditingController();
 final _txtPronome = TextEditingController();
 late DataSnapshot userInfo;
+bool carregando = true;
 List<String> _listaCampos = [
   "Nome",
   "Email",
   "Telefone",
   "Sexo",
   "Pronomes",
+];
+final List<String> sexos = [
+  "Sexo",
+  "Masculino",
+  "Feminino",
+  "Não Binário",
+  "Prefiro não dizer",
+];
+final List<String> pronomes = [
+  "Pronomes (opcional)",
+  "ele/dele",
+  "ela/dela",
+  "elu/delu",
 ];
 
 class EditarPerfil extends StatefulWidget {
@@ -38,20 +55,27 @@ class EditarPerfil extends StatefulWidget {
 
 class _EditarPerfilState extends State<EditarPerfil> {
   File? _imgEscolhida;
+
+  _pegarInfo() async {
+    setState(() {
+      carregando = true;
+    });
+    final inst = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}");
+    userInfo = await inst.get();
+    setState(() {
+      _txtNome.text = userFlyvoo!.displayName!;
+      _txtTelefone.text = userInfo.child("telefone").value.toString();
+      _txtSexo.text = userInfo.child("sexo").value.toString();
+      sexoEscolhido = userInfo.child("sexo").value.toString();
+      _txtPronome.text = userInfo.child("pronomes").value.toString();
+      pronomesEscolhidos = userInfo.child("pronomes").value.toString();
+      carregando = false;
+    });
+  }
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) async {
-        final inst = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}");
-        userInfo = await inst.get();
-        setState(() {
-          _txtNome.text = userFlyvoo!.displayName!;
-          _txtTelefone.text = userInfo.child("telefone").value.toString();
-          _txtSexo.text = userInfo.child("sexo").value.toString();
-          _txtPronome.text = userInfo.child("pronomes").value.toString();
-        });
-      },
-    );
+    _pegarInfo();
     super.initState();
   }
 
@@ -283,14 +307,20 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) => CampoEdicao(
-                    campo: _listaCampos[index],
-                    index: index,
-                  ),
-                  itemCount: _listaCampos.length,
-                  shrinkWrap: true,
-                ),
+                child: !carregando
+                    ? ListView.builder(
+                        itemBuilder: (context, index) => CampoEdicao(
+                          campo: _listaCampos[index],
+                          index: index,
+                        ),
+                        itemCount: _listaCampos.length,
+                        shrinkWrap: true,
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                          color: tema["texto"],
+                        ),
+                      ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -382,6 +412,9 @@ class CampoEdicao extends StatefulWidget {
 }
 
 class _CampoEdicaoState extends State<CampoEdicao> {
+  final _keyNome = GlobalKey<FormFieldState>();
+  final _keyTelefone = GlobalKey<FormFieldState>();
+
   String _camposSwitch() {
     switch (widget.index) {
       case 0:
@@ -399,12 +432,25 @@ class _CampoEdicaoState extends State<CampoEdicao> {
     }
   }
 
+  TextEditingController _txtCamposSwitch() {
+    switch (widget.index) {
+      case 0:
+        return _txtNome;
+      case 2:
+        return _txtTelefone;
+      default:
+        return TextEditingController();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: widget.campo != "Email"
           ? () {
+              var txtAntigo = _camposSwitch();
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) => BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
@@ -422,8 +468,8 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                       title: Text(widget.campo),
                       content: switch (widget.index) {
                         0 => TextFormField(
+                            key: _keyNome,
                             controller: _txtNome,
-                            textInputAction: TextInputAction.next,
                             textCapitalization: TextCapitalization.words,
                             keyboardType: TextInputType.text,
                             maxLength: 255,
@@ -453,6 +499,117 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                               brightness:
                                   dark ? Brightness.dark : Brightness.light,
                             ).primary,
+                          ),
+                        2 => TextFormField(
+                            key: _keyTelefone,
+                            controller: _txtTelefone,
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "*Obrigatório";
+                              } else if (value.length < 14) {
+                                return "Muito curto";
+                              }
+                              return null;
+                            },
+                            autofillHints: const [
+                              AutofillHints.telephoneNumberNational
+                            ],
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            decoration: InputDecoration(
+                              prefixText: "+55 ",
+                            ),
+                            cursorColor: ColorScheme.fromSeed(
+                              seedColor: Color(0xff0000ff),
+                              brightness:
+                                  dark ? Brightness.dark : Brightness.light,
+                            ).primary,
+                            inputFormatters: [
+                              PhoneInputFormatter(
+                                defaultCountryCode: "BR",
+                              ),
+                            ],
+                          ),
+                        3 => DropdownButtonFormField(
+                            value: sexoEscolhido,
+                            dropdownColor: tema["fundo"],
+                            elevation: 1,
+                            style: GoogleFonts.inter(
+                              color: tema["noFundo"],
+                              fontSize: 20,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            icon: Image.asset(
+                              "assets/icons/seta.png",
+                              color: tema["noFundo"],
+                            ),
+                            selectedItemBuilder: (context) => sexos
+                                .map(
+                                  (e) => Text(
+                                    e,
+                                  ),
+                                )
+                                .toList(),
+                            validator: (value) {
+                              if (value == sexos.first) {
+                                return "*Obrigatório";
+                              }
+                              return null;
+                            },
+                            items: sexos
+                                .map(
+                                  (String pele) => DropdownMenuItem<String>(
+                                    value: pele,
+                                    enabled: pele != sexos.first,
+                                    child: Text(pele),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  sexoEscolhido = value;
+                                });
+                              }
+                            },
+                          ),
+                        4 => DropdownButtonFormField(
+                            value: pronomesEscolhidos,
+                            dropdownColor: tema["fundo"],
+                            elevation: 1,
+                            style: GoogleFonts.inter(
+                              color: tema["noFundo"],
+                              fontSize: 20,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            icon: Image.asset(
+                              "assets/icons/seta.png",
+                              color: tema["noFundo"],
+                            ),
+                            selectedItemBuilder: (context) => pronomes
+                                .map(
+                                  (e) => Text(
+                                    e,
+                                  ),
+                                )
+                                .toList(),
+                            items: pronomes
+                                .map(
+                                  (String pele) => DropdownMenuItem<String>(
+                                    value: pele,
+                                    enabled: pele != pronomes.first,
+                                    child: Text(pele),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  pronomesEscolhidos = value;
+                                });
+                              }
+                            },
                           ),
                         _ => TextFormField(
                             controller: _txtNome,
@@ -506,12 +663,37 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                       ), */
                       actions: [
                         ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await Future.delayed(
+                              Duration(
+                                milliseconds: 500,
+                              ),
+                            );
+                            setState(() {
+                              _txtCamposSwitch().text = txtAntigo;
+                              if (widget.index == 3) {
+                                sexoEscolhido = txtAntigo;
+                              }
+                              if (widget.index == 4) {
+                                pronomesEscolhidos = txtAntigo;
+                              }
+                            });
+                          },
                           child: Text("Cancelar"),
                         ),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.pop(context);
+                            setState(() {
+                              _txtCamposSwitch().text = _txtCamposSwitch().text;
+                              if (widget.index == 3) {
+                                _txtSexo.text = sexoEscolhido!;
+                              }
+                              if (widget.index == 4) {
+                                _txtPronome.text = pronomesEscolhidos!;
+                              }
+                            });
                           },
                           child: Text("OK"),
                         ),
