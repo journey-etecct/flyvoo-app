@@ -77,8 +77,8 @@ flutter_native_splash:
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
   # see the Android 12 section below.
-  branding: assets/logo/branding_light.png
-  branding_dark: assets/logo/branding_dark.png
+  branding: assets/logo/branding_light_and11.png
+  branding_dark: assets/logo/branding_dark_and11.png
   # To position the branding image at the bottom of the screen you can use bottom, bottomRight,
   # and bottomLeft. The default values is bottom if not specified or specified something else.
   branding_mode: bottom
@@ -105,10 +105,10 @@ flutter_native_splash:
     image_dark: assets/logo/logosplashdark.png
     # Splash screen background color.
     color: "#eeeeee"
-    color_dark: "#252525"
+    color_dark: "#000000"
     # App icon background color.
     icon_background_color: "#ffffff"
-    icon_background_color_dark: "#000000"
+    icon_background_color_dark: "#252525"
     # The branding property allows you to specify an image used as branding in the splash screen.
     branding: assets/logo/branding_light.png
     branding_dark: assets/logo/branding_dark.png

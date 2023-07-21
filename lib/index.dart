@@ -28,23 +28,20 @@ class Index extends StatefulWidget {
 }
 
 class _IndexState extends State<Index> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (!iniciado) {
-        controllerBG = VideoPlayerController.asset(
-          dark ? "assets/background/dark.webm" : "assets/background/light.webm",
-          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-        )..initialize().then(
-            (_) {
-              controllerBG.setLooping(true);
-              setState(() {});
-            },
-          );
-        await controllerBG.play();
-        iniciado = true;
-      }
-    });
+  init() async {
+    if (!iniciado) {
+      controllerBG = VideoPlayerController.asset(
+        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      )..initialize().then(
+          (_) {
+            controllerBG.setLooping(true);
+            setState(() {});
+          },
+        );
+      await controllerBG.play();
+      iniciado = true;
+    }
     linearGradient = LinearGradient(
       colors: <Color>[
         tema["primaria"]!,
@@ -52,6 +49,11 @@ class _IndexState extends State<Index> {
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     FlutterNativeSplash.remove();
+  }
+
+  @override
+  void initState() {
+    init();
     super.initState();
     if (!widget.cadastroTerminado) {
       SchedulerBinding.instance.addPostFrameCallback(

@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/cadastro/telas/tela1.dart';
 import 'package:flyvoo/cadastro/telas/tela2.dart';
 import 'package:flyvoo/cadastro/telas/tela3.dart';
@@ -50,12 +51,10 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  @override
-  void initState() {
-    _step = 0;
+  init() async {
     if (!iniciado) {
       controllerBG = VideoPlayerController.asset(
-        dark ? "assets/background/dark.webm" : "assets/background/dark.webm",
+        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
       )..initialize().then(
           (_) {
@@ -63,9 +62,22 @@ class _CadastroState extends State<Cadastro> {
             setState(() {});
           },
         );
-      controllerBG.play();
+      await controllerBG.play();
       iniciado = true;
     }
+    linearGradient = LinearGradient(
+      colors: <Color>[
+        tema["primaria"]!,
+        tema["noFundo"]!,
+      ],
+    ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  void initState() {
+    init();
+    _step = 0;
     super.initState();
   }
 
