@@ -34,12 +34,10 @@ class _IndexState extends State<Index> {
       controllerBG = VideoPlayerController.asset(
         dark ? "assets/background/dark.webm" : "assets/background/light.webm",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-      )..initialize().then(
-          (_) {
-            controllerBG.setLooping(true);
-            setState(() {});
-          },
-        );
+      );
+      await controllerBG.initialize();
+      await controllerBG.setLooping(true);
+      setState(() {});
       await controllerBG.play();
       iniciado = true;
     }
@@ -321,10 +319,13 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                                       var inst =
                                           await SharedPreferences.getInstance();
                                       setState(() {
-                                        inst.setString(
-                                          "email",
-                                          userFlyvoo!.email!,
-                                        );
+                                        if (userFlyvoo != null) {
+                                          inst.setString(
+                                            "email",
+                                            userFlyvoo!.email!,
+                                          );
+                                        }
+
                                         userFlyvoo = null;
                                       });
                                       if (!mounted) return;

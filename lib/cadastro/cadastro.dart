@@ -11,6 +11,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/cadastro/telas_email/tela1.dart';
 import 'package:flyvoo/cadastro/telas_email/tela2.dart';
 import 'package:flyvoo/cadastro/telas_email/tela3.dart';
+import 'package:flyvoo/cadastro/telas_google/tela1.dart';
+import 'package:flyvoo/cadastro/telas_google/tela2.dart';
+import 'package:flyvoo/cadastro/telas_google/tela3.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -34,6 +37,11 @@ List<Widget> telas = const <Widget>[
   Tela2(),
   Tela3(),
 ];
+List<Widget> telasGoogle = const <Widget>[
+  TelaGoogle1(),
+  TelaGoogle2(),
+  TelaGoogle3(),
+];
 List<String> botaoTxt = const <String>[
   "Próximo",
   "Próximo",
@@ -56,14 +64,14 @@ class _CadastroState extends State<Cadastro> {
       controllerBG = VideoPlayerController.asset(
         dark ? "assets/background/dark.webm" : "assets/background/light.webm",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-      )..initialize().then(
-          (_) {
-            controllerBG.setLooping(true);
-            setState(() {});
-          },
-        );
+      );
+      await controllerBG.initialize();
+      await controllerBG.setLooping(true);
+      setState(() {});
       await controllerBG.play();
-      iniciado = true;
+      setState(() {
+        iniciado = true;
+      });
     }
     linearGradient = LinearGradient(
       colors: <Color>[
@@ -84,6 +92,7 @@ class _CadastroState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
+    final argumento = ModalRoute.of(context)!.settings.arguments.toString();
     return WillPopScope(
       onWillPop: () async {
         if (_step != 0) {
@@ -93,7 +102,7 @@ class _CadastroState extends State<Cadastro> {
             btnAtivado = true;
           });
           return false;
-        } else {
+        } else if (argumento == "email") {
           showDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
@@ -140,6 +149,9 @@ class _CadastroState extends State<Cadastro> {
             ),
           );
           return false;
+        } else {
+          await FirebaseAuth.instance.currentUser?.delete();
+          return true;
         }
       },
       child: Scaffold(
@@ -201,7 +213,11 @@ class _CadastroState extends State<Cadastro> {
                                 child: child,
                               );
                             },
-                            child: telas[_step],
+                            child: switch (argumento) {
+                              "email" => telas[_step],
+                              "google" => telasGoogle[_step],
+                              _ => telas[_step],
+                            },
                           ),
                         ),
                         const SizedBox(

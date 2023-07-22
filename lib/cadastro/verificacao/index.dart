@@ -138,40 +138,41 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 60,
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Text(
+                    "CADASTRO",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: tema["noFundo"],
                     ),
-                    Text(
-                      "CADASTRO",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: tema["noFundo"],
-                      ),
+                  ),
+                  const Expanded(
+                    flex: 4,
+                    child: Text(""),
+                  ),
+                  Text(
+                    "Primeiro, insira seu email:\n(Ele é único e precisará ser verificado)",
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
                     ),
-                    const Expanded(
-                      flex: 4,
-                      child: Text(""),
-                    ),
-                    Text(
-                      "Primeiro, insira seu email:",
-                      style: GoogleFonts.inter(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, right: 40),
+                    child: TextFormField(
                       key: _emailKey,
                       controller: _txtEmail,
                       textInputAction: TextInputAction.go,
@@ -208,63 +209,63 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       ),
                       cursorColor: tema["primaria"],
                     ),
-                    const Expanded(
-                      flex: 3,
-                      child: Text(""),
+                  ),
+                  const Expanded(
+                    flex: 3,
+                    child: Text(""),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: tema["fundo"],
+                      boxShadow: _btnAtivado
+                          ? <BoxShadow>[
+                              BoxShadow(
+                                blurRadius: 4,
+                                spreadRadius: 0,
+                                offset: const Offset(0, 5),
+                                color:
+                                    const Color(0xff000000).withOpacity(0.25),
+                              ),
+                            ]
+                          : [],
                     ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: tema["fundo"],
-                        boxShadow: _btnAtivado
-                            ? <BoxShadow>[
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  spreadRadius: 0,
-                                  offset: const Offset(0, 5),
-                                  color:
-                                      const Color(0xff000000).withOpacity(0.25),
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: CupertinoButton(
-                        onPressed: _btnAtivado
-                            ? () async {
-                                if (_emailKey.currentState!.validate()) {
-                                  Flushbar(
-                                    message: "Conectando...",
-                                    duration: const Duration(seconds: 5),
-                                    margin: const EdgeInsets.all(20),
-                                    borderRadius: BorderRadius.circular(50),
-                                  ).show(context);
-                                  setState(() {
-                                    _btnAtivado = false;
-                                  });
-                                  await _cadastroFirebaseEmail(_txtEmail.text);
-                                }
+                    child: CupertinoButton(
+                      onPressed: _btnAtivado
+                          ? () async {
+                              if (_emailKey.currentState!.validate()) {
+                                Flushbar(
+                                  message: "Conectando...",
+                                  duration: const Duration(seconds: 5),
+                                  margin: const EdgeInsets.all(20),
+                                  borderRadius: BorderRadius.circular(50),
+                                ).show(context);
+                                setState(() {
+                                  _btnAtivado = false;
+                                });
+                                await _cadastroFirebaseEmail(_txtEmail.text);
                               }
-                            : null,
-                        color: tema["botaoIndex"],
-                        disabledColor: dark
-                            ? const Color(0xff007AFF).withOpacity(0.15)
-                            : const Color(0xffFB5607).withOpacity(0.30),
-                        borderRadius: BorderRadius.circular(10),
-                        padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                        child: Text(
-                          "Próximo",
-                          style: GoogleFonts.inter(
-                            color: _btnAtivado
-                                ? tema["textoBotaoIndex"]
-                                : CupertinoColors.systemGrey2,
-                            fontSize: 25,
-                          ),
+                            }
+                          : null,
+                      color: tema["botaoIndex"],
+                      disabledColor: dark
+                          ? const Color(0xff007AFF).withOpacity(0.15)
+                          : const Color(0xffFB5607).withOpacity(0.30),
+                      borderRadius: BorderRadius.circular(10),
+                      padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                      child: Text(
+                        "Próximo",
+                        style: GoogleFonts.inter(
+                          color: _btnAtivado
+                              ? tema["textoBotaoIndex"]
+                              : CupertinoColors.systemGrey2,
+                          fontSize: 25,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -38,22 +38,142 @@ class OpcoesDeCadastro extends StatefulWidget {
 }
 
 class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
-  Future<UserCredential> signInWithGoogle() async {
+  bool _btnGoogle = true;
+  Future<UserCredential?> signInWithGoogle() async {
+    setState(() {
+      _btnGoogle = false;
+    });
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) {
+      return null;
+    }
+
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final emails = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+      googleUser.email,
+    ); // [] ou [google.com] ou [microsoft.com]
+    if (emails.isNotEmpty) {
+      if (!mounted) return null;
+      showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Column(
+            children: [
+              const Icon(Symbols.error_circle_rounded_error),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Essa conta já existe",
+                style: GoogleFonts.inter(),
+              ),
+            ],
+          ),
+          content: Text(
+            "Deseja fazer login?",
+            style: GoogleFonts.inter(),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "Cancelar",
+                style: GoogleFonts.inter(
+                  color: CupertinoColors.systemBlue,
+                ),
+              ),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamed(context, "/login");
+              },
+              isDefaultAction: true,
+              child: Text(
+                "Entrar",
+                style: GoogleFonts.inter(
+                  color: CupertinoColors.systemBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      return null;
+    }
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    try {
+      final cr = await FirebaseAuth.instance.signInWithCredential(credential);
+      return cr;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "account-exists-with-different-credential") {
+        if (!mounted) return null;
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta já existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja fazer login?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/login");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Entrar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return null;
+    }
+  }
+
+  @override
+  void initState() {
+    _btnGoogle = true;
+    super.initState();
   }
 
   @override
@@ -107,6 +227,35 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                       borderRadius: BorderRadius.circular(100),
                       color: tema["botaoIndex"],
                       padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+                      onPressed: switch (index) {
+                        0 => () => Navigator.pushNamed(
+                              context,
+                              "/opcoesCadastro/email",
+                            ),
+                        1 => _btnGoogle
+                            ? () async {
+                                UserCredential? cr = await signInWithGoogle();
+                                if (cr != null) {
+                                  userFlyvoo = cr.user;
+                                  if (!mounted) return;
+                                  Navigator.pushNamed(
+                                    context,
+                                    "/cadastro",
+                                    arguments: "google",
+                                  );
+                                } else {
+                                  setState(() {
+                                    _btnGoogle = true;
+                                  });
+                                }
+                              }
+                            : null,
+                        _ => () async => Navigator.pushNamed(
+                              context,
+                              "/cadastro",
+                              arguments: "microsoft",
+                            ),
+                      },
                       child: Row(
                         children: [
                           const SizedBox(
@@ -139,31 +288,6 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                           ),
                         ],
                       ),
-                      onPressed: () async {
-                        switch (index) {
-                          case 0:
-                            Navigator.pushNamed(
-                              context,
-                              "/opcoesCadastro/email",
-                            );
-                            break;
-                          case 1:
-                            userFlyvoo = (await signInWithGoogle()).user;
-                            if (!mounted) return;
-                            Navigator.pushNamed(
-                              context,
-                              "/cadastro",
-                              arguments: "google",
-                            );
-                            break;
-                          default:
-                            Navigator.pushNamed(
-                              context,
-                              "/cadastro",
-                              arguments: "microsoft",
-                            );
-                        }
-                      },
                     ),
                   ),
                   itemCount: _botoes.length,

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,27 +43,11 @@ class _LoginState extends State<Login> {
   final _txtEmail = TextEditingController();
   final _txtSenha = TextEditingController();
   bool _btnAtivado = true;
-  late StreamSubscription _sub;
 
   @override
   void initState() {
     _btnAtivado = true;
-    _sub = FirebaseAuth.instance.authStateChanges().listen((event) {
-      if (event != null) {
-        setState(() {
-          userFlyvoo = event;
-        });
-        Navigator.popUntil(context, (route) => route.isFirst);
-        Navigator.pushReplacementNamed(context, "/home");
-      }
-    });
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _sub.cancel();
-    super.dispose();
   }
 
   @override
@@ -255,10 +237,22 @@ class _LoginState extends State<Login> {
                                         });
                                         TextInput.finishAutofillContext();
                                         try {
-                                          await FirebaseAuth.instance
+                                          final cr = await FirebaseAuth.instance
                                               .signInWithEmailAndPassword(
                                             email: _txtEmail.text,
                                             password: _txtSenha.text,
+                                          );
+                                          setState(() {
+                                            userFlyvoo = cr.user;
+                                          });
+                                          if (!mounted) return;
+                                          Navigator.popUntil(
+                                            context,
+                                            (route) => route.isFirst,
+                                          );
+                                          Navigator.pushReplacementNamed(
+                                            context,
+                                            "/home",
                                           );
                                         } on FirebaseException catch (e) {
                                           setState(() {
@@ -358,9 +352,9 @@ class _LoginState extends State<Login> {
                                                     child: Text(
                                                       "Muitas tentativas, tente novamente mais tarde.",
                                                       style: GoogleFonts.inter(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onPrimary,
+                                                        color: Theme.of(
+                                                          context,
+                                                        ).colorScheme.onPrimary,
                                                       ),
                                                     ),
                                                   ),
