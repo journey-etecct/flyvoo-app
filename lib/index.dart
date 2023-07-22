@@ -9,6 +9,7 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 bool iniciado = false;
@@ -311,12 +312,22 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                         actions: botoesAlerta
                             .map<CupertinoDialogAction>(
                               (value) => CupertinoDialogAction(
-                                onPressed: () {
+                                onPressed: () async {
                                   switch (value) {
                                     case "Cancelar":
                                       Navigator.pop(context);
                                       break;
                                     case "Me lembre depois":
+                                      var inst =
+                                          await SharedPreferences.getInstance();
+                                      setState(() {
+                                        inst.setString(
+                                          "email",
+                                          userFlyvoo!.email!,
+                                        );
+                                        userFlyvoo = null;
+                                      });
+                                      if (!mounted) return;
                                       Navigator.popAndPushNamed(
                                         context,
                                         "/home",

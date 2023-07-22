@@ -1,14 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:flyvoo/cadastro/telas/tela3.dart';
+import 'package:flyvoo/cadastro/telas_email/tela3.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,7 +39,7 @@ final List<String> sexos = [
   "Prefiro não dizer",
 ];
 final List<String> pronomes = [
-  "Pronomes (opcional)",
+  "Nenhum",
   "ele/dele",
   "ela/dela",
   "elu/delu",
@@ -55,12 +54,19 @@ class EditarPerfil extends StatefulWidget {
 
 class _EditarPerfilState extends State<EditarPerfil> {
   File? _imgEscolhida;
+  bool _btnAtivado = true;
+  final inst = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}");
+  final instSt = FirebaseStorage.instance.ref("users/${userFlyvoo!.uid}");
+
+  Future _deleteImageFromCache() async {
+    String url = userFlyvoo!.photoURL!;
+    await CachedNetworkImage.evictFromCache(url);
+  }
 
   _pegarInfo() async {
     setState(() {
       carregando = true;
     });
-    final inst = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}");
     userInfo = await inst.get();
     setState(() {
       _txtNome.text = userFlyvoo!.displayName!;
@@ -346,7 +352,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       borderRadius: BorderRadius.circular(10),
                       onPressed: () => Navigator.pop(context),
                       color: Colors.white,
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       child: Text(
                         "Cancelar",
                         style: GoogleFonts.inter(
@@ -356,7 +362,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 40,
                   ),
                   Container(
@@ -375,9 +381,55 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     height: 43,
                     width: 129,
                     child: CupertinoButton(
-                      onPressed: () {},
-                      padding: EdgeInsets.all(0),
-                      color: Color(0xffF81B50),
+                      onPressed: _btnAtivado
+                          ? () async {
+                              setState(() {
+                                _btnAtivado = false;
+                              });
+                              if (_imgEscolhida != null) {
+                                await instSt.putFile(_imgEscolhida!);
+                                await _deleteImageFromCache();
+                              }
+                              await userFlyvoo
+                                  ?.updateDisplayName(_txtNome.text);
+                              await inst.update({
+                                "telefone": _txtTelefone.text,
+                                "sexo": _txtSexo.text,
+                                "pronomes": _txtPronome.text,
+                              });
+                              setState(() {
+                                _btnAtivado = true;
+                              });
+                              if (!mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  content: Text(
+                                    "Informações atualizadas com sucesso",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "OK",
+                                        style: GoogleFonts.inter(
+                                          color: CupertinoColors.systemBlue,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          : null,
+                      padding: const EdgeInsets.all(0),
+                      color: const Color(0xffF81B50),
                       borderRadius: BorderRadius.circular(10),
                       child: Text(
                         "Salvar",
@@ -391,7 +443,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],
@@ -458,7 +510,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                     data: ThemeData(
                       useMaterial3: true,
                       colorScheme: ColorScheme.fromSeed(
-                        seedColor: Color(0xff0000ff),
+                        seedColor: const Color(0xff0000ff),
                         brightness: dark ? Brightness.dark : Brightness.light,
                       ),
                     ),
@@ -495,7 +547,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                                 AutovalidateMode.onUserInteraction,
                             autofillHints: const [AutofillHints.name],
                             cursorColor: ColorScheme.fromSeed(
-                              seedColor: Color(0xff0000ff),
+                              seedColor: const Color(0xff0000ff),
                               brightness:
                                   dark ? Brightness.dark : Brightness.light,
                             ).primary,
@@ -517,11 +569,11 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                             ],
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixText: "+55 ",
                             ),
                             cursorColor: ColorScheme.fromSeed(
-                              seedColor: Color(0xff0000ff),
+                              seedColor: const Color(0xff0000ff),
                               brightness:
                                   dark ? Brightness.dark : Brightness.light,
                             ).primary,
@@ -598,7 +650,6 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                                 .map(
                                   (String pele) => DropdownMenuItem<String>(
                                     value: pele,
-                                    enabled: pele != pronomes.first,
                                     child: Text(pele),
                                   ),
                                 )
@@ -666,7 +717,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                           onPressed: () async {
                             Navigator.pop(context);
                             await Future.delayed(
-                              Duration(
+                              const Duration(
                                 milliseconds: 500,
                               ),
                             );
@@ -680,7 +731,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                               }
                             });
                           },
-                          child: Text("Cancelar"),
+                          child: const Text("Cancelar"),
                         ),
                         ElevatedButton(
                           onPressed: () async {
@@ -695,7 +746,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                               }
                             });
                           },
-                          child: Text("OK"),
+                          child: const Text("OK"),
                         ),
                       ],
                     ),
@@ -710,7 +761,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
       child: Container(
         width: double.infinity,
         height: 66,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: 25,
           right: 25,
           bottom: 10,
@@ -760,7 +811,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                       color: tema["texto"],
                     ),
                   )
-                : Row(),
+                : const Row(),
           ],
         ),
       ),

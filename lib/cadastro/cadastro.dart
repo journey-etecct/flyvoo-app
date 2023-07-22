@@ -8,9 +8,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flyvoo/cadastro/telas/tela1.dart';
-import 'package:flyvoo/cadastro/telas/tela2.dart';
-import 'package:flyvoo/cadastro/telas/tela3.dart';
+import 'package:flyvoo/cadastro/telas_email/tela1.dart';
+import 'package:flyvoo/cadastro/telas_email/tela2.dart';
+import 'package:flyvoo/cadastro/telas_email/tela3.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -77,6 +77,7 @@ class _CadastroState extends State<Cadastro> {
   @override
   void initState() {
     init();
+    userFlyvoo = FirebaseAuth.instance.currentUser;
     _step = 0;
     super.initState();
   }
@@ -120,6 +121,8 @@ class _CadastroState extends State<Cadastro> {
                       await userFlyvoo?.delete();
                     }
                     await FirebaseAuth.instance.signOut();
+                    final instS = await SharedPreferences.getInstance();
+                    await instS.remove("cadastroTerminado");
                     if (!mounted) return;
                     Navigator.popUntil(
                       context,

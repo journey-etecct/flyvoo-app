@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:video_player/video_player.dart';
 
@@ -36,6 +38,24 @@ class OpcoesDeCadastro extends StatefulWidget {
 }
 
 class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +87,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                   ),
                 ),
                 ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => Container(
                     margin: const EdgeInsets.fromLTRB(60, 0, 60, 10),
                     width: double.infinity,
@@ -118,7 +139,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                           ),
                         ],
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         switch (index) {
                           case 0:
                             Navigator.pushNamed(
@@ -127,6 +148,8 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                             );
                             break;
                           case 1:
+                            userFlyvoo = (await signInWithGoogle()).user;
+                            if (!mounted) return;
                             Navigator.pushNamed(
                               context,
                               "/cadastro",

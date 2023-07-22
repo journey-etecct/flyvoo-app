@@ -47,18 +47,14 @@ Future<void> main() async {
           Brightness.dark;
 
   //pagina inicial de acordo com a situação de login
-  if (userFlyvoo == null) {
-    runApp(const Flyvoo(Index(true)));
-  } else {
-    if (instS.getBool("cadastroTerminado") != null) {
-      if (!instS.getBool("cadastroTerminado")!) {
-        runApp(const Flyvoo(Index(false)));
-      } else {
-        runApp(const Flyvoo(Home()));
-      }
+  if (instS.getBool("cadastroTerminado") != null) {
+    if (!instS.getBool("cadastroTerminado")!) {
+      runApp(const Flyvoo(Index(false)));
     } else {
-      runApp(const Flyvoo(Index(true)));
+      runApp(const Flyvoo(Home()));
     }
+  } else {
+    runApp(const Flyvoo(Index(true)));
   }
 }
 

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -69,12 +67,12 @@ class Termos extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(
+            physics: const BouncingScrollPhysics(
               decelerationRate: ScrollDecelerationRate.fast,
             ),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 ClipRRect(
@@ -88,7 +86,7 @@ class Termos extends StatelessWidget {
                     width: 100,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -96,7 +94,9 @@ class Termos extends StatelessWidget {
                   child: Text(
                     "Bem-vindo! Ao utilizar o aplicativo, você concorda em cumprir estes Termos de Uso:",
                     style: GoogleFonts.inter(
-                      color: dark ? Color(0xffD271F4) : Color(0xffFF577F),
+                      color: dark
+                          ? const Color(0xffD271F4)
+                          : const Color(0xffFF577F),
                       fontWeight: FontWeight.w600,
                       fontSize: 25,
                       height: 1.1,
@@ -104,7 +104,7 @@ class Termos extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -122,7 +122,9 @@ class Termos extends StatelessWidget {
                   child: Text(
                     "Política de Privacidade",
                     style: GoogleFonts.inter(
-                      color: dark ? Color(0xffD271F4) : Color(0xffFF577F),
+                      color: dark
+                          ? const Color(0xffD271F4)
+                          : const Color(0xffFF577F),
                       fontWeight: FontWeight.w600,
                       fontSize: 25,
                       height: 1.1,
@@ -130,7 +132,7 @@ class Termos extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -147,12 +149,14 @@ class Termos extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(30, 0, 30, 20),
                   width: double.infinity,
                   child: CupertinoButton(
-                    color: dark ? Color(0xff7736AA) : Color(0xffFF6CA1),
+                    color: dark
+                        ? const Color(0xff7736AA)
+                        : const Color(0xffFF6CA1),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     borderRadius: BorderRadius.circular(12),
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 5,
                       bottom: 5,
                     ),
