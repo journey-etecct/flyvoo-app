@@ -9,6 +9,7 @@ import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Mais extends StatefulWidget {
   const Mais({super.key});
@@ -42,6 +43,7 @@ class _MaisState extends State<Mais> {
                 child: userFlyvoo != null
                     ? FadeInImage(
                         key: _keyImg,
+                        fit: BoxFit.cover,
                         fadeInDuration: const Duration(milliseconds: 100),
                         fadeOutDuration: const Duration(milliseconds: 100),
                         placeholder: const AssetImage(
@@ -330,6 +332,9 @@ class _MaisState extends State<Mais> {
                                 ),
                                 CupertinoButton(
                                   onPressed: () async {
+                                    final inst =
+                                        await SharedPreferences.getInstance();
+                                    inst.remove("cadastroTerminado");
                                     await FirebaseAuth.instance.signOut();
                                     setState(() {
                                       userFlyvoo = null;

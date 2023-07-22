@@ -97,12 +97,6 @@ class _FlyvooState extends State<Flyvoo> {
   }
 
   @override
-  void dispose() {
-    _sub.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

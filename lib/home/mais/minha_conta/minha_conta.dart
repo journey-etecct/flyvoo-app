@@ -59,6 +59,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           child: ClipOval(
                             child: Image(
                               width: 100,
+                              fit: BoxFit.cover,
                               image: CachedNetworkImageProvider(
                                 userFlyvoo!.photoURL!,
                               ),
@@ -81,7 +82,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                 style: GoogleFonts.inter(
                                   color: tema["texto"],
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               Expanded(

@@ -63,7 +63,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
     await CachedNetworkImage.evictFromCache(url);
   }
 
-  _pegarInfo() async {
+  void _pegarInfo() async {
     setState(() {
       carregando = true;
     });
@@ -389,6 +389,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
                               if (_imgEscolhida != null) {
                                 await instSt.putFile(_imgEscolhida!);
                                 await _deleteImageFromCache();
+                                if (userFlyvoo!.providerData.first.providerId !=
+                                    "password") {
+                                  await userFlyvoo!.updatePhotoURL(
+                                    "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                                  );
+                                }
                               }
                               await userFlyvoo
                                   ?.updateDisplayName(_txtNome.text);

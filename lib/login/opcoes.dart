@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:video_player/video_player.dart';
 
@@ -43,11 +44,91 @@ class _LoginState extends State<Login> {
   final _txtEmail = TextEditingController();
   final _txtSenha = TextEditingController();
   bool _btnAtivado = true;
+  bool _btnGoogle = true;
 
   @override
   void initState() {
     _btnAtivado = true;
+    _btnGoogle = true;
     super.initState();
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    setState(() {
+      _btnGoogle = false;
+    });
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      return null;
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final emails = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+      googleUser.email,
+    ); // [] ou [google.com] ou [microsoft.com]
+    if (emails.isEmpty) {
+      if (!mounted) return null;
+      showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Column(
+            children: [
+              const Icon(Symbols.error_circle_rounded_error),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Essa conta não existe",
+                style: GoogleFonts.inter(),
+              ),
+            ],
+          ),
+          content: Text(
+            "Deseja se cadastrar?",
+            style: GoogleFonts.inter(),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "Cancelar",
+                style: GoogleFonts.inter(
+                  color: CupertinoColors.systemBlue,
+                ),
+              ),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamed(context, "/cadastro");
+              },
+              isDefaultAction: true,
+              child: Text(
+                "Criar uma conta",
+                style: GoogleFonts.inter(
+                  color: CupertinoColors.systemBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      return null;
+    }
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   @override
@@ -436,6 +517,35 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(100),
                         color: tema["botaoIndex"],
                         padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+                        onPressed: switch (index) {
+                          0 => _btnGoogle
+                              ? () async {
+                                  UserCredential? cr = await signInWithGoogle();
+                                  if (cr != null) {
+                                    userFlyvoo = cr.user;
+                                    if (!mounted) return;
+                                    Navigator.popUntil(
+                                      context,
+                                      (route) => route.isFirst,
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      "/home",
+                                    );
+                                  } else {
+                                    setState(() {
+                                      _btnGoogle = true;
+                                    });
+                                  }
+                                }
+                              : null,
+                          _ => () async {
+                              Navigator.pushNamed(
+                                context,
+                                "/home",
+                              );
+                            },
+                        },
                         child: Row(
                           children: [
                             const SizedBox(
@@ -462,23 +572,24 @@ class _LoginState extends State<Login> {
                             ),
                           ],
                         ),
-                        onPressed: () {
-                          switch (index) {
+                        /* switch (index) {
                             case 0:
-                              Navigator.pushNamed(
-                                context,
-                                "/cadastro",
-                                arguments: "google",
-                              );
+                              final cr = await signInWithGoogle();
+                              if (cr != null) {
+                                if (!mounted) return;
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  "/home",
+                                );
+                              }
+
                               break;
                             default:
-                              Navigator.pushNamed(
+                              Navigator.pushReplacementNamed(
                                 context,
-                                "/cadastro",
-                                arguments: "microsoft",
+                                "/home",
                               );
-                          }
-                        },
+                          } */
                       ),
                     ),
                     itemCount: _botoes.length,

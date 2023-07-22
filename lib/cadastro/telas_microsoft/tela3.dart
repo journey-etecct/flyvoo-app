@@ -12,14 +12,14 @@ import 'package:material_symbols_icons/symbols.dart';
 
 final ImagePicker picker = ImagePicker();
 
-class TelaGoogle3 extends StatefulWidget {
-  const TelaGoogle3({super.key});
+class TelaMicrosoft3 extends StatefulWidget {
+  const TelaMicrosoft3({super.key});
 
   @override
-  State<TelaGoogle3> createState() => _TelaGoogle3State();
+  State<TelaMicrosoft3> createState() => _TelaMicrosoft3State();
 }
 
-class _TelaGoogle3State extends State<TelaGoogle3> {
+class _TelaMicrosoft3State extends State<TelaMicrosoft3> {
   Future<File?> _pegarImagemGaleria() async {
     XFile? sim = await picker.pickImage(
       source: ImageSource.gallery,

@@ -5,14 +5,14 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TelaGoogle1 extends StatefulWidget {
-  const TelaGoogle1({super.key});
+class TelaMicrosoft1 extends StatefulWidget {
+  const TelaMicrosoft1({super.key});
 
   @override
-  State<TelaGoogle1> createState() => _TelaGoogle1State();
+  State<TelaMicrosoft1> createState() => _TelaMicrosoft1State();
 }
 
-class _TelaGoogle1State extends State<TelaGoogle1> {
+class _TelaMicrosoft1State extends State<TelaMicrosoft1> {
   @override
   void initState() {
     txtNome.text = userFlyvoo!.displayName!;

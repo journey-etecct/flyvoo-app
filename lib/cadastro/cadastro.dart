@@ -266,7 +266,8 @@ class _CadastroState extends State<Cadastro> {
                                                 .validate()) {
                                               _reversed = false;
                                               _step++;
-                                              if (userImg == null) {
+                                              if (userImg == null &&
+                                                  argumento == "email") {
                                                 btnAtivado = false;
                                               }
                                             }
@@ -284,28 +285,33 @@ class _CadastroState extends State<Cadastro> {
                                           borderRadius:
                                               BorderRadius.circular(50),
                                         ).show(context);
-                                        await userFlyvoo
-                                            ?.reauthenticateWithCredential(
-                                          EmailAuthProvider.credential(
-                                            email: userFlyvoo!.email!,
-                                            password: "123456",
-                                          ),
-                                        );
+                                        if (argumento == "email") {
+                                          await userFlyvoo
+                                              ?.reauthenticateWithCredential(
+                                            EmailAuthProvider.credential(
+                                              email: userFlyvoo!.email!,
+                                              password: "123456",
+                                            ),
+                                          );
+                                          await userFlyvoo
+                                              ?.updatePassword(txtSenha.text);
+                                        }
                                         await userFlyvoo
                                             ?.updateDisplayName(txtNome.text);
-                                        await userFlyvoo
-                                            ?.updatePassword(txtSenha.text);
+
                                         var ref = FirebaseDatabase.instance.ref(
-                                          "users/${userFlyvoo?.uid}",
+                                          "users/${userFlyvoo!.uid}",
                                         );
                                         await ref.update({
-                                          "email": userFlyvoo?.email,
                                           "telefone": txtTelefone.text,
                                           "nascimento":
                                               "${nascimento?.day};${nascimento?.month};${nascimento?.year}",
                                           "area": carreiraEscolhida,
                                           "sexo": sexoEscolhido,
-                                          "pronomes": pronomesEscolhidos,
+                                          "pronomes": pronomesEscolhidos ==
+                                                  "Pronomes (opcional)"
+                                              ? null
+                                              : pronomesEscolhidos,
                                         });
                                         SharedPreferences inst =
                                             await SharedPreferences
@@ -314,13 +320,25 @@ class _CadastroState extends State<Cadastro> {
                                           "cadastroTerminado",
                                           true,
                                         );
-                                        Reference instSt =
-                                            FirebaseStorage.instance.ref(
-                                          "users/${userFlyvoo?.uid}",
-                                        );
-                                        await instSt.putFile(userImg!);
-                                        userFlyvoo?.updatePhotoURL(
-                                          "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                                        if (argumento == "email") {
+                                          Reference instSt =
+                                              FirebaseStorage.instance.ref(
+                                            "users/${userFlyvoo?.uid}",
+                                          );
+                                          await instSt.putFile(userImg!);
+                                        } else if (userImg != null) {
+                                          Reference instSt =
+                                              FirebaseStorage.instance.ref(
+                                            "users/${userFlyvoo?.uid}",
+                                          );
+                                          await instSt.putFile(userImg!);
+                                        }
+                                        await userFlyvoo?.updatePhotoURL(
+                                          argumento == "email"
+                                              ? "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media"
+                                              : userImg == null
+                                                  ? userFlyvoo!.photoURL
+                                                  : "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
                                         );
                                         Navigator.popUntil(
                                           context,

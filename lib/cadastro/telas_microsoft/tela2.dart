@@ -32,14 +32,14 @@ final List<String> pronomes = [
   "elu/delu",
 ];
 
-class TelaGoogle2 extends StatefulWidget {
-  const TelaGoogle2({super.key});
+class TelaMicrosoft2 extends StatefulWidget {
+  const TelaMicrosoft2({super.key});
 
   @override
-  State<TelaGoogle2> createState() => _TelaGoogle2State();
+  State<TelaMicrosoft2> createState() => _TelaMicrosoft2State();
 }
 
-class _TelaGoogle2State extends State<TelaGoogle2> {
+class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
   String _formatarDiaEMes(String insert) {
     final numero = int.parse(insert);
     if (numero < 10) {
