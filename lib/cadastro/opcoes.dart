@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
@@ -170,6 +171,66 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
     }
   }
 
+  Future<UserCredential?> signInWithMicrosoft() async {
+    final microsoftProvider = MicrosoftAuthProvider();
+    try {
+      final cr =
+          await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+      return cr;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "account-exists-with-different-credential") {
+        if (!mounted) return null;
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta já existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja fazer login?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/login");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Entrar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return null;
+    }
+    /* cr.user.email */
+  }
+
   @override
   void initState() {
     _btnGoogle = true;
@@ -250,11 +311,9 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                                 }
                               }
                             : null,
-                        _ => () async => Navigator.pushNamed(
-                              context,
-                              "/cadastro",
-                              arguments: "microsoft",
-                            ),
+                        _ => () {
+                            signInWithMicrosoft();
+                          },
                       },
                       child: Row(
                         children: [

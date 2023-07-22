@@ -33,6 +33,15 @@
                     android:scheme="https"
                     android:host="flyvoo.page.link" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="flyvoo.firebaseapp.com"
+                    android:pathPrefix="/__/auth/handler" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

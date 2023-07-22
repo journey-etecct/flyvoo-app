@@ -75,14 +75,26 @@ class _FlyvooState extends State<Flyvoo> {
   Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
-      if (initialLink != null) {
+      if (initialLink?.contains(
+            "https://flyvoo.firebaseapp.com/__/auth/handler",
+          ) ??
+          false) {
+        navigatorKey.currentState!
+            .pushNamed('/cadastro', arguments: "microsoft");
+      } else if (initialLink != null) {
         navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
     _sub = linkStream.listen((String? link) {
-      if (link != null && link.isNotEmpty) {
+      if (link?.contains(
+            "https://flyvoo.firebaseapp.com/__/auth/handler",
+          ) ??
+          false) {
+        navigatorKey.currentState!
+            .pushNamed('/cadastro', arguments: "microsoft");
+      } else if (link != null) {
         navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     }, onError: (err) {
