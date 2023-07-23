@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _LoginState extends State<Login> {
   final _txtSenha = TextEditingController();
   bool _btnAtivado = true;
   bool _btnGoogle = true;
+  bool _btnMicrosoft = true;
 
   @override
   void initState() {
@@ -105,11 +107,47 @@ class _LoginState extends State<Login> {
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.pushNamed(context, "/cadastro");
+                Navigator.pushNamed(context, "/opcoesCadastro");
               },
               isDefaultAction: true,
               child: Text(
                 "Criar uma conta",
+                style: GoogleFonts.inter(
+                  color: CupertinoColors.systemBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      return null;
+    } else if (emails.contains("microsoft.com")) {
+      if (!mounted) return null;
+      showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Column(
+            children: [
+              const Icon(Symbols.error_circle_rounded_error),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Essa conta existe com outro tipo de credencial",
+                style: GoogleFonts.inter(),
+              ),
+            ],
+          ),
+          content: Text(
+            "Tente novamente com a opção Microsoft ou com Email",
+            style: GoogleFonts.inter(),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              isDefaultAction: true,
+              child: Text(
+                "OK",
                 style: GoogleFonts.inter(
                   color: CupertinoColors.systemBlue,
                 ),
@@ -129,6 +167,108 @@ class _LoginState extends State<Login> {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential?> signInWithMicrosoft() async {
+    setState(() {
+      _btnMicrosoft = false;
+    });
+    final microsoftProvider = MicrosoftAuthProvider();
+    try {
+      final cr =
+          await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+      final info = await FirebaseDatabase.instance.ref("users/").get();
+      if (!info.child("${cr.user?.uid}").exists) {
+        if (!mounted) return null;
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta não existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja se cadastrar?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/opcoesCadastro");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Criar uma conta",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+        return null;
+      } else {
+        return cr;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "account-exists-with-different-credential") {
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta existe com outro tipo de credencial",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Tente novamente com a opção Microsoft ou com Email",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "OK",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return null;
+    }
   }
 
   @override
@@ -522,7 +662,9 @@ class _LoginState extends State<Login> {
                               ? () async {
                                   UserCredential? cr = await signInWithGoogle();
                                   if (cr != null) {
-                                    userFlyvoo = cr.user;
+                                    setState(() {
+                                      userFlyvoo = cr.user;
+                                    });
                                     if (!mounted) return;
                                     Navigator.popUntil(
                                       context,
@@ -539,12 +681,30 @@ class _LoginState extends State<Login> {
                                   }
                                 }
                               : null,
-                          _ => () async {
-                              Navigator.pushNamed(
-                                context,
-                                "/home",
-                              );
-                            },
+                          _ => _btnMicrosoft
+                              ? () async {
+                                  UserCredential? cr =
+                                      await signInWithMicrosoft();
+                                  if (cr != null) {
+                                    setState(() {
+                                      userFlyvoo = cr.user;
+                                    });
+                                    if (!mounted) return;
+                                    Navigator.popUntil(
+                                      context,
+                                      (route) => route.isFirst,
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      "/home",
+                                    );
+                                  } else {
+                                    setState(() {
+                                      _btnMicrosoft = true;
+                                    });
+                                  }
+                                }
+                              : null,
                         },
                         child: Row(
                           children: [

@@ -23,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
 
+// ignore: unused_element
 late StreamSubscription<String?> _sub;
 
 // variaveis iniciais
@@ -75,26 +76,14 @@ class _FlyvooState extends State<Flyvoo> {
   Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
-      if (initialLink?.contains(
-            "https://flyvoo.firebaseapp.com/__/auth/handler",
-          ) ??
-          false) {
-        navigatorKey.currentState!
-            .pushNamed('/cadastro', arguments: "microsoft");
-      } else if (initialLink != null) {
+      if (initialLink != null) {
         navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
     _sub = linkStream.listen((String? link) {
-      if (link?.contains(
-            "https://flyvoo.firebaseapp.com/__/auth/handler",
-          ) ??
-          false) {
-        navigatorKey.currentState!
-            .pushNamed('/cadastro', arguments: "microsoft");
-      } else if (link != null) {
+      if (link != null && link.isNotEmpty) {
         navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
       }
     }, onError: (err) {

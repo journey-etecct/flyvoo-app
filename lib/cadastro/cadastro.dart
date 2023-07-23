@@ -14,6 +14,9 @@ import 'package:flyvoo/cadastro/telas_email/tela3.dart';
 import 'package:flyvoo/cadastro/telas_google/tela1.dart';
 import 'package:flyvoo/cadastro/telas_google/tela2.dart';
 import 'package:flyvoo/cadastro/telas_google/tela3.dart';
+import 'package:flyvoo/cadastro/telas_microsoft/tela1.dart';
+import 'package:flyvoo/cadastro/telas_microsoft/tela2.dart';
+import 'package:flyvoo/cadastro/telas_microsoft/tela3.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -41,6 +44,11 @@ List<Widget> telasGoogle = const <Widget>[
   TelaGoogle1(),
   TelaGoogle2(),
   TelaGoogle3(),
+];
+List<Widget> telasMicrosoft = const <Widget>[
+  TelaMicrosoft1(),
+  TelaMicrosoft2(),
+  TelaMicrosoft3(),
 ];
 List<String> botaoTxt = const <String>[
   "Próximo",
@@ -85,8 +93,17 @@ class _CadastroState extends State<Cadastro> {
   @override
   void initState() {
     init();
+    txtNome.text = "";
+    txtSenha.text = "";
+    txtSenhaConf.text = "";
+    txtTelefone.text = "";
+    sexoEscolhido = null;
+    carreiraEscolhida = null;
+    pronomesEscolhidos = null;
+    nascimento = null;
     userFlyvoo = FirebaseAuth.instance.currentUser;
     _step = 0;
+    btnAtivado = true;
     super.initState();
   }
 
@@ -150,6 +167,8 @@ class _CadastroState extends State<Cadastro> {
           );
           return false;
         } else {
+          final inst = await SharedPreferences.getInstance();
+          inst.remove("cadastroTerminado");
           await FirebaseAuth.instance.currentUser?.delete();
           return true;
         }
@@ -216,7 +235,7 @@ class _CadastroState extends State<Cadastro> {
                             child: switch (argumento) {
                               "email" => telas[_step],
                               "google" => telasGoogle[_step],
-                              _ => telas[_step],
+                              _ => telasMicrosoft[_step],
                             },
                           ),
                         ),
@@ -267,7 +286,8 @@ class _CadastroState extends State<Cadastro> {
                                               _reversed = false;
                                               _step++;
                                               if (userImg == null &&
-                                                  argumento == "email") {
+                                                  userFlyvoo!.photoURL ==
+                                                      null) {
                                                 btnAtivado = false;
                                               }
                                             }
@@ -298,7 +318,6 @@ class _CadastroState extends State<Cadastro> {
                                         }
                                         await userFlyvoo
                                             ?.updateDisplayName(txtNome.text);
-
                                         var ref = FirebaseDatabase.instance.ref(
                                           "users/${userFlyvoo!.uid}",
                                         );
@@ -310,7 +329,7 @@ class _CadastroState extends State<Cadastro> {
                                           "sexo": sexoEscolhido,
                                           "pronomes": pronomesEscolhidos ==
                                                   "Pronomes (opcional)"
-                                              ? null
+                                              ? "Nenhum"
                                               : pronomesEscolhidos,
                                         });
                                         SharedPreferences inst =
@@ -340,6 +359,10 @@ class _CadastroState extends State<Cadastro> {
                                                   ? userFlyvoo!.photoURL
                                                   : "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
                                         );
+                                        setState(() {
+                                          userFlyvoo =
+                                              FirebaseAuth.instance.currentUser;
+                                        });
                                         Navigator.popUntil(
                                           context,
                                           (route) => route.isFirst,

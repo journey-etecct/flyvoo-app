@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
@@ -40,6 +40,8 @@ class OpcoesDeCadastro extends StatefulWidget {
 
 class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
   bool _btnGoogle = true;
+  bool _btnMicrosoft = true;
+
   Future<UserCredential?> signInWithGoogle() async {
     setState(() {
       _btnGoogle = false;
@@ -172,14 +174,67 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
   }
 
   Future<UserCredential?> signInWithMicrosoft() async {
+    setState(() {
+      _btnMicrosoft = false;
+    });
     final microsoftProvider = MicrosoftAuthProvider();
     try {
       final cr =
           await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
-      return cr;
+      final info = await FirebaseDatabase.instance.ref("users/").get();
+      if (info.child("${cr.user?.uid}").exists) {
+        if (!mounted) return null;
+        showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta já existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja fazer login?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/login");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Entrar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+        return null;
+      } else {
+        return cr;
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == "account-exists-with-different-credential") {
-        if (!mounted) return null;
         showDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
@@ -228,12 +283,12 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
       }
       return null;
     }
-    /* cr.user.email */
   }
 
   @override
   void initState() {
     _btnGoogle = true;
+    _btnMicrosoft = true;
     super.initState();
   }
 
@@ -311,9 +366,27 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                                 }
                               }
                             : null,
-                        _ => () {
-                            signInWithMicrosoft();
-                          },
+                        _ => _btnMicrosoft
+                            ? () async {
+                                final cr = await signInWithMicrosoft();
+                                if (cr != null) {
+                                  userFlyvoo = cr.user;
+                                  setState(() {
+                                    _btnMicrosoft = true;
+                                  });
+                                  if (!mounted) return;
+                                  Navigator.pushNamed(
+                                    context,
+                                    "/cadastro",
+                                    arguments: "microsoft",
+                                  );
+                                } else {
+                                  setState(() {
+                                    _btnMicrosoft = true;
+                                  });
+                                }
+                              }
+                            : null,
                       },
                       child: Row(
                         children: [

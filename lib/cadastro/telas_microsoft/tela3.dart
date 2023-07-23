@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/cadastro.dart';
@@ -211,11 +212,26 @@ class _TelaMicrosoft3State extends State<TelaMicrosoft3> {
                         ),
                       )
                     : ClipOval(
-                        child: Image.network(
-                          userFlyvoo!.photoURL!,
+                        child: userFlyvoo!.photoURL != null
+                            ? CachedNetworkImage(
+                                imageUrl: userFlyvoo!.photoURL!,
+                                width: 200,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                "assets/icons/user.png",
+                                width: 200,
+                                fit: BoxFit.cover,
+                                color: tema["texto"],
+                              ),
+                        /* Image(
+                          image: userFlyvoo!.photoURL != null
+                              ? CachedNetworkImageProvider(
+                                  userFlyvoo!.photoURL!)
+                              : AssetImage("assets") as ImageProvider,
                           width: 200,
                           fit: BoxFit.cover,
-                        ),
+                        ), */
                       ),
                 Container(
                   width: 65,
