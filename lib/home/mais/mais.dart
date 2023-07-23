@@ -13,6 +13,8 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+bool? password;
+
 class Mais extends StatefulWidget {
   const Mais({super.key});
 
@@ -199,6 +201,7 @@ class _MaisState extends State<Mais> {
                             closedShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
+                            onClosed: (data) => setState(() {}),
                             tappable: false,
                             openColor: tema["fundo"]!,
                             transitionDuration:
@@ -206,7 +209,7 @@ class _MaisState extends State<Mais> {
                             closedBuilder: (context, action) => SizedBox(
                               width: double.infinity,
                               child: CupertinoButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   switch (index) {
                                     case 0:
                                       if (userFlyvoo == null) {

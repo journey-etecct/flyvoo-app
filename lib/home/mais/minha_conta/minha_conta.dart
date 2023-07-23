@@ -1,14 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
@@ -37,28 +35,21 @@ class _MinhaContaState extends State<MinhaConta> {
                   width: double.infinity,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(
-                    Symbols.arrow_back,
-                  ),
-                ),
-              ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                       color: dark
-                          ? Color.fromRGBO(43, 74, 128, 0.5)
-                          : Color.fromRGBO(184, 204, 255, 50),
+                          ? const Color.fromRGBO(43, 74, 128, 0.5)
+                          : const Color.fromRGBO(184, 204, 255, 50),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     width: double.infinity,
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(20),
                     height: 180,
                     child: Row(
                       children: [
@@ -74,7 +65,7 @@ class _MinhaContaState extends State<MinhaConta> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
@@ -104,7 +95,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Padding(
@@ -115,7 +106,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                   0,
                                 ),
                                 child: OpenContainer(
-                                  transitionDuration: Duration(
+                                  transitionDuration: const Duration(
                                     milliseconds: 500,
                                   ),
                                   closedColor: CupertinoColors.systemPink,
@@ -130,7 +121,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                       onPressed: () {
                                         action.call();
                                       },
-                                      padding: EdgeInsets.fromLTRB(
+                                      padding: const EdgeInsets.fromLTRB(
                                         23,
                                         5,
                                         23,
@@ -149,7 +140,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                   ),
                                   openColor: tema["fundo"]!,
                                   openBuilder: (context, retorno) =>
-                                      EditarPerfil(),
+                                      const EditarPerfil(),
                                 ),
                               ),
                             ],
@@ -159,9 +150,15 @@ class _MinhaContaState extends State<MinhaConta> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {}, // TODO: config gerais
+                    onTap: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        "/home/configGerais",
+                      );
+                      setState(() {});
+                    },
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       child: Row(
                         children: [
                           Text(
@@ -172,7 +169,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               fontSize: 18,
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: SizedBox(),
                           ),
                           Image.asset(
@@ -184,7 +181,7 @@ class _MinhaContaState extends State<MinhaConta> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Text(
                       "Segurança e Privacidade",
                       style: GoogleFonts.inter(
@@ -193,39 +190,46 @@ class _MinhaContaState extends State<MinhaConta> {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {}, // TODO: alterar senha
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Alterar senha",
-                            style: GoogleFonts.inter(
-                              color: tema["texto"],
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
+                  password ?? false
+                      ? InkWell(
+                          onTap: () {}, // TODO: alterar senha
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Alterar senha",
+                                  style: GoogleFonts.inter(
+                                    color: tema["texto"],
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const Expanded(
+                                  child: SizedBox(),
+                                ),
+                                Image.asset(
+                                  "assets/icons/seta2.png",
+                                  color: tema["texto"],
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: SizedBox(),
-                          ),
-                          Image.asset(
-                            "assets/icons/seta2.png",
-                            color: tema["texto"],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 2,
-                    color: tema["texto"]!.withOpacity(0.5),
-                  ),
+                        )
+                      : const SizedBox(),
+                  password ?? false
+                      ? Divider(
+                          height: 2,
+                          color: tema["texto"]!.withOpacity(0.5),
+                        )
+                      : const SizedBox(),
                   InkWell(
-                    onTap: () {}, // TODO: termos
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      "/home/termosdeuso",
+                    ),
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       child: Row(
                         children: [
                           Text(
@@ -236,7 +240,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               fontSize: 18,
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: SizedBox(),
                           ),
                           Image.asset(
@@ -252,9 +256,12 @@ class _MinhaContaState extends State<MinhaConta> {
                     color: tema["texto"]!.withOpacity(0.5),
                   ),
                   InkWell(
-                    onTap: () {}, // TODO: política
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      "/home/politica",
+                    ),
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       child: Row(
                         children: [
                           Text(
@@ -265,7 +272,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               fontSize: 18,
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: SizedBox(),
                           ),
                           Image.asset(
@@ -283,22 +290,60 @@ class _MinhaContaState extends State<MinhaConta> {
                   InkWell(
                     onTap: () {}, // TODO: excluir conta
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       width: double.infinity,
                       child: Text(
                         "Excluir conta",
                         style: GoogleFonts.inter(
-                          color: dark ? Color(0xffFF545E) : Color(0xffF81B50),
+                          color: dark
+                              ? const Color(0xffFF545E)
+                              : const Color(0xffF81B50),
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
-                  )
+                  ),
                 ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 5),
+                        color: const Color(
+                          0xff000000,
+                        ).withOpacity(0.25),
+                      ),
+                    ],
+                  ),
+                  height: 43,
+                  width: 129,
+                  margin: const EdgeInsets.only(
+                    bottom: 50,
+                  ),
+                  child: CupertinoButton(
+                    borderRadius: BorderRadius.circular(10),
+                    onPressed: () => Navigator.pop(context),
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(0),
+                    child: Text(
+                      "Voltar",
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

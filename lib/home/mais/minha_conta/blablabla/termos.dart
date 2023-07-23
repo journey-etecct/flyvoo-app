@@ -23,23 +23,8 @@ Future<String> getTermos() async {
   return utf8.decode(conteudo);
 }
 
-Future getPolitica() async {
-  String conteudoCripto = await http.get(
-    Uri.parse(
-      "https://api.github.com/repos/oculosdanilo/flyvoo/contents/POLITICA.md",
-    ),
-    headers: {"Authorization": "token $token"},
-  ).then((value) {
-    return jsonDecode(value.body)["content"];
-  });
-  Uint8List conteudo = base64Decode(
-    conteudoCripto.replaceAll(RegExp(r'\s+'), ''),
-  );
-  return utf8.decode(conteudo);
-}
-
-class Termos extends StatelessWidget {
-  const Termos({super.key});
+class TermosDeUso extends StatelessWidget {
+  const TermosDeUso({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +75,7 @@ class Termos extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Text(
-                    "Bem-vindo! Ao utilizar o aplicativo, você concorda em cumprir estes Termos de Uso:",
+                    "Termos de Uso",
                     style: GoogleFonts.inter(
                       color: dark
                           ? const Color(0xffD271F4)
@@ -109,34 +94,6 @@ class Termos extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: FutureBuilder(
                     future: getTermos(),
-                    builder: (context, value) {
-                      return Text(value.requireData);
-                    },
-                    initialData: "Carregando...",
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Text(
-                    "Política de Privacidade",
-                    style: GoogleFonts.inter(
-                      color: dark
-                          ? const Color(0xffD271F4)
-                          : const Color(0xffFF577F),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25,
-                      height: 1.1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: FutureBuilder(
-                    future: getPolitica(),
                     builder: (context, value) {
                       return Text(value.requireData);
                     },

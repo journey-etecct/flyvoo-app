@@ -10,6 +10,7 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 List<BotaoIndex> _botoes = [
@@ -475,6 +476,12 @@ class _LoginState extends State<Login> {
                                             context,
                                             "/home",
                                           );
+                                          final inst = await SharedPreferences
+                                              .getInstance();
+                                          inst.setBool(
+                                            "cadastroTerminado",
+                                            true,
+                                          );
                                         } on FirebaseException catch (e) {
                                           setState(() {
                                             _btnAtivado = true;
@@ -674,6 +681,12 @@ class _LoginState extends State<Login> {
                                       context,
                                       "/home",
                                     );
+                                    final inst =
+                                        await SharedPreferences.getInstance();
+                                    inst.setBool(
+                                      "cadastroTerminado",
+                                      true,
+                                    );
                                   } else {
                                     setState(() {
                                       _btnGoogle = true;
@@ -697,6 +710,12 @@ class _LoginState extends State<Login> {
                                     Navigator.pushReplacementNamed(
                                       context,
                                       "/home",
+                                    );
+                                    final inst =
+                                        await SharedPreferences.getInstance();
+                                    inst.setBool(
+                                      "cadastroTerminado",
+                                      true,
                                     );
                                   } else {
                                     setState(() {

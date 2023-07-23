@@ -1,10 +1,12 @@
 import 'package:animations/animations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -43,9 +45,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation<double> _animIcon3;
   bool _reverse = false;
 
+  _password() async {
+    password = (await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+          userFlyvoo!.email!,
+        ))
+            .first ==
+        "password";
+  }
+
   @override
   void initState() {
     indexHome = 0;
+    _password();
     _index0 = AnimationController(
       vsync: this,
       duration: const Duration(

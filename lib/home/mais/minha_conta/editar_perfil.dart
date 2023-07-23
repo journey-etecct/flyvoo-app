@@ -358,6 +358,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,
+                          color: Colors.black,
                         ),
                       ),
                     ),

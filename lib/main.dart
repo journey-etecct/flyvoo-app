@@ -13,6 +13,10 @@ import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
 import 'package:flyvoo/cadastro/verificacao/index.dart';
 import 'package:flyvoo/firebase_options.dart';
 import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/home/mais/mais.dart';
+import 'package:flyvoo/home/mais/minha_conta/blablabla/politica.dart';
+import 'package:flyvoo/home/mais/minha_conta/blablabla/termos.dart';
+import 'package:flyvoo/home/mais/minha_conta/config_gerais.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/email_enviado.dart';
 import 'package:flyvoo/login/opcoes.dart';
@@ -46,6 +50,13 @@ Future<void> main() async {
   dark = instS.getBool("dark") ??
       WidgetsBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.dark;
+  if (userFlyvoo != null) {
+    password = (await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+          userFlyvoo!.email!,
+        ))
+            .first ==
+        "password";
+  }
 
   //pagina inicial de acordo com a situação de login
   if (instS.getBool("cadastroTerminado") != null) {
@@ -153,6 +164,21 @@ class _FlyvooState extends State<Flyvoo> {
                 builder: (context) => const Home(),
                 settings: settings,
               );
+            case "/home/termosdeuso":
+              return CupertinoPageRoute(
+                builder: (context) => const TermosDeUso(),
+                settings: settings,
+              );
+            case "/home/politica":
+              return CupertinoPageRoute(
+                builder: (context) => const Politica(),
+                settings: settings,
+              );
+            case "/home/configGerais":
+              return CupertinoPageRoute(
+                builder: (context) => const ConfigGerais(),
+                settings: settings,
+              );
             case "/termos":
               return CupertinoPageRoute(
                 builder: (context) => const Termos(),
@@ -161,7 +187,7 @@ class _FlyvooState extends State<Flyvoo> {
           }
           return null;
         },
-        theme: _buildTheme(value),
+        theme: buildTheme(value),
         home: widget.home,
         navigatorKey: navigatorKey,
       ),
@@ -180,7 +206,7 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-ThemeData _buildTheme(mode) {
+ThemeData buildTheme(mode) {
   var baseTheme = ThemeData(
     useMaterial3: true,
     brightness: mode,
