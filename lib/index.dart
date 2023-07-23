@@ -191,7 +191,7 @@ class _IndexState extends State<Index> {
                     children: [
                       TextSpan(
                         text: "Termos de Uso & Política de Privacidade",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: tema["textoSecundario"],
                           decoration: TextDecoration.underline,
                           decorationStyle: TextDecorationStyle.solid,
@@ -203,7 +203,7 @@ class _IndexState extends State<Index> {
                       ),
                       TextSpan(
                         text: ".",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: tema["textoSecundario"],
                         ),
                       ),

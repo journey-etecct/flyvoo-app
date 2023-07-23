@@ -163,7 +163,7 @@ class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "*Obrigatório",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: Theme.of(context).colorScheme.error,
                         ),
                       ),

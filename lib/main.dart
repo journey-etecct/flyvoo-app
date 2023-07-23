@@ -186,7 +186,7 @@ ThemeData _buildTheme(mode) {
     brightness: mode,
     colorSchemeSeed: tema["primaria"],
     inputDecorationTheme: InputDecorationTheme(
-      floatingLabelStyle: TextStyle(
+      floatingLabelStyle: GoogleFonts.inter(
         color: tema["primaria"],
       ),
       focusedBorder: UnderlineInputBorder(

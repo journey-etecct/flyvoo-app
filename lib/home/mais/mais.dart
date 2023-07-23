@@ -5,7 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/mais/central_de_ajuda/central_de_ajuda.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
+import 'package:flyvoo/home/mais/sobre_o_flyvoo/sobre_o_flyvoo.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -188,9 +190,9 @@ class _MaisState extends State<Mais> {
                                 case 0:
                                   return const MinhaConta();
                                 case 1:
-                                  return const MinhaConta();
+                                  return const CentralDeAjuda();
                                 default:
-                                  return const MinhaConta();
+                                  return const SobreOFlyvoo();
                               }
                             },
                             closedColor: tema["botao"]!,

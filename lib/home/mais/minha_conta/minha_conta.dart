@@ -8,6 +8,7 @@ import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
@@ -36,11 +37,18 @@ class _MinhaContaState extends State<MinhaConta> {
                   width: double.infinity,
                 ),
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 50,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Symbols.arrow_back,
                   ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
                     decoration: BoxDecoration(
                       color: dark
@@ -151,7 +159,7 @@ class _MinhaContaState extends State<MinhaConta> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {}, // TODO: config gerais
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
                       child: Row(
@@ -160,7 +168,7 @@ class _MinhaContaState extends State<MinhaConta> {
                             "Configurações Gerais",
                             style: GoogleFonts.inter(
                               color: tema["texto"],
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
                           ),
@@ -175,6 +183,121 @@ class _MinhaContaState extends State<MinhaConta> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Text(
+                      "Segurança e Privacidade",
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {}, // TODO: alterar senha
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Alterar senha",
+                            style: GoogleFonts.inter(
+                              color: tema["texto"],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: tema["texto"],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: tema["texto"]!.withOpacity(0.5),
+                  ),
+                  InkWell(
+                    onTap: () {}, // TODO: termos
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Termos de Uso",
+                            style: GoogleFonts.inter(
+                              color: tema["texto"],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: tema["texto"],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: tema["texto"]!.withOpacity(0.5),
+                  ),
+                  InkWell(
+                    onTap: () {}, // TODO: política
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Política de Privacidade",
+                            style: GoogleFonts.inter(
+                              color: tema["texto"],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: tema["texto"],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: tema["texto"]!.withOpacity(0.5),
+                  ),
+                  InkWell(
+                    onTap: () {}, // TODO: excluir conta
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      width: double.infinity,
+                      child: Text(
+                        "Excluir conta",
+                        style: GoogleFonts.inter(
+                          color: dark ? Color(0xffFF545E) : Color(0xffF81B50),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ],
