@@ -2,10 +2,12 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class Recuperacao extends StatefulWidget {
@@ -59,8 +61,28 @@ class _RecuperacaoState extends State<Recuperacao> {
     }
   }
 
+  _init() async {
+    if (!iniciado) {
+      controllerBG = VideoPlayerController.asset(
+        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      );
+      await controllerBG.initialize();
+      await controllerBG.setLooping(true);
+      setState(() {});
+      final inst = await SharedPreferences.getInstance();
+      if (inst.getBool("animacoes") ?? true) {
+        await controllerBG.play();
+      }
+      setState(() {
+        iniciado = true;
+      });
+    }
+  }
+
   @override
   void initState() {
+    _init();
     _btnAtivado = true;
     super.initState();
   }
@@ -93,7 +115,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                       height: 60,
                     ),
                     Text(
-                      "CADASTRO",
+                      "RECUPERAÇÃO",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
@@ -106,7 +128,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                       child: Text(""),
                     ),
                     Text(
-                      "Para recuperar sua conta, precisaremos do seu email  para enviarmos um link para mudar sua senha:",
+                      "Para recuperar sua conta, precisaremos do seu email para enviarmos um link para mudar sua senha:",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontSize: 17,
@@ -154,7 +176,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                     ),
                     const Expanded(
                       flex: 3,
-                      child: Text(""),
+                      child: SizedBox(),
                     ),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),

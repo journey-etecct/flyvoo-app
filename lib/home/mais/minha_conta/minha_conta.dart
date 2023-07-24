@@ -192,8 +192,34 @@ class _MinhaContaState extends State<MinhaConta> {
                   ),
                   password ?? false
                       ? InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, "/home/alterarSenha");
+                          onTap: () async {
+                            final retorno = await Navigator.pushNamed(
+                                context, "/home/alterarSenha");
+                            if ((retorno as bool?) ?? false) {
+                              if (!mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  content: Text(
+                                    "Senha alterada com sucesso",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        "OK",
+                                        style: GoogleFonts.inter(
+                                          color: CupertinoColors.systemBlue,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),

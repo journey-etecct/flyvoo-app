@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
@@ -61,7 +59,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
           SizedBox.expand(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Padding(
@@ -74,7 +72,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 60,
                 ),
                 SizedBox(
