@@ -30,28 +30,29 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   init() async {
-    if (!iniciado) {
-      controllerBG = VideoPlayerController.asset(
-        dark ? "assets/background/dark.webm" : "assets/background/light.webm",
-        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-      );
-      await controllerBG.initialize();
-      await controllerBG.setLooping(true);
-      setState(() {});
+    controllerBG = VideoPlayerController.asset(
+      dark ? "assets/background/dark.webm" : "assets/background/light.webm",
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
+    await controllerBG.initialize();
+    await controllerBG.setLooping(true);
+    setState(() {});
+    final inst = await SharedPreferences.getInstance();
+    if (inst.getBool("animacoes") ?? true) {
       await controllerBG.play();
-      iniciado = true;
     }
+    iniciado = true;
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  void initState() {
     linearGradient = LinearGradient(
       colors: <Color>[
         tema["primaria"]!,
         tema["noFundo"]!,
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
-    FlutterNativeSplash.remove();
-  }
-
-  @override
-  void initState() {
     init();
     super.initState();
     if (!widget.cadastroTerminado) {

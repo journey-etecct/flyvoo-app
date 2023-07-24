@@ -192,7 +192,9 @@ class _MinhaContaState extends State<MinhaConta> {
                   ),
                   password ?? false
                       ? InkWell(
-                          onTap: () {}, // TODO: alterar senha
+                          onTap: () {
+                            Navigator.pushNamed(context, "/home/alterarSenha");
+                          },
                           child: Container(
                             margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                             child: Row(

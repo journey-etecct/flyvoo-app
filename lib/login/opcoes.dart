@@ -334,7 +334,10 @@ class _LoginState extends State<Login> {
                             },
                             controller: _txtEmail,
                             cursorColor: tema["primaria"],
-                            autofillHints: const [AutofillHints.email],
+                            autofillHints: const [
+                              AutofillHints.email,
+                              AutofillHints.username,
+                            ],
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               labelText: "Email",
@@ -457,7 +460,6 @@ class _LoginState extends State<Login> {
                                         setState(() {
                                           _btnAtivado = false;
                                         });
-                                        TextInput.finishAutofillContext();
                                         try {
                                           final cr = await FirebaseAuth.instance
                                               .signInWithEmailAndPassword(
@@ -475,6 +477,9 @@ class _LoginState extends State<Login> {
                                           Navigator.pushReplacementNamed(
                                             context,
                                             "/home",
+                                          );
+                                          TextInput.finishAutofillContext(
+                                            shouldSave: true,
                                           );
                                           final inst = await SharedPreferences
                                               .getInstance();

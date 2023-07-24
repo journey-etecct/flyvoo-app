@@ -282,10 +282,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       children: [
                         ClipOval(
                           child: _imgEscolhida == null
-                              ? CachedNetworkImage(
-                                  imageUrl: userFlyvoo!.photoURL!,
+                              ? Image(
                                   width: 200,
                                   fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                    userFlyvoo!.photoURL!,
+                                  ),
                                 )
                               : Image.file(
                                   _imgEscolhida!,

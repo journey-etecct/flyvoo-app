@@ -5,6 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+bool _notificacoes = true;
+bool _som = true;
+bool _vibracao = true;
+bool _animcoes = true;
+late SharedPreferences instS;
 
 class ConfigGerais extends StatefulWidget {
   const ConfigGerais({super.key});
@@ -14,6 +22,25 @@ class ConfigGerais extends StatefulWidget {
 }
 
 class _ConfigGeraisState extends State<ConfigGerais> {
+  _setDark(dark) async {
+    final inst = await SharedPreferences.getInstance();
+    inst.setBool("dark", dark);
+  }
+
+  _shp() async {
+    instS = await SharedPreferences.getInstance();
+    _notificacoes = instS.getBool("notificacoes") ?? true;
+    _som = instS.getBool("som") ?? true;
+    _vibracao = instS.getBool("vibracao") ?? true;
+    _animcoes = instS.getBool("animacoes") ?? true;
+  }
+
+  @override
+  void initState() {
+    _shp();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +75,193 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                   ),
                 ),
                 SizedBox(
-                  height: 80,
+                  height: 60,
+                ),
+                SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: () async {
+                      await instS.setBool("notificacoes", !_notificacoes);
+                      setState(() {
+                        _notificacoes = !_notificacoes;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Symbols.notifications_rounded,
+                            size: 30,
+                            color: tema["texto"],
+                            fill: 1,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Notificações",
+                                style: GoogleFonts.inter(
+                                  color: tema["texto"],
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CupertinoSwitch(
+                              value: _notificacoes,
+                              onChanged: (value) async {
+                                await instS.setBool("notificacoes", value);
+                                setState(() {
+                                  _notificacoes = value;
+                                });
+                              },
+                              activeColor: const Color(0xff1E3C87),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 2,
+                  color: tema["texto"]!.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: _notificacoes
+                        ? () async {
+                            await instS.setBool("som", !_som);
+                            setState(() {
+                              _som = !_som;
+                            });
+                          }
+                        : null,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(60, 0, 30, 0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Symbols.volume_up_rounded,
+                            size: 30,
+                            color: tema["texto"],
+                            fill: 1,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Som",
+                                style: GoogleFonts.inter(
+                                  color: tema["texto"],
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CupertinoSwitch(
+                              value: _som,
+                              onChanged: _notificacoes
+                                  ? (value) async {
+                                      await instS.setBool("som", value);
+                                      setState(() {
+                                        _som = value;
+                                      });
+                                    }
+                                  : null,
+                              activeColor: const Color(0xff1E3C87),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 2,
+                  color: tema["texto"]!.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: _notificacoes
+                        ? () async {
+                            await instS.setBool("vibracao", !_vibracao);
+                            setState(() {
+                              _vibracao = !_vibracao;
+                            });
+                          }
+                        : null,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(60, 0, 30, 0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Symbols.vibration_rounded,
+                            size: 30,
+                            color: tema["texto"],
+                            fill: 1,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Vibração",
+                                style: GoogleFonts.inter(
+                                  color: tema["texto"],
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CupertinoSwitch(
+                              value: _vibracao,
+                              onChanged: _notificacoes
+                                  ? (value) async {
+                                      await instS.setBool("vibracao", value);
+                                      setState(() {
+                                        _vibracao = value;
+                                      });
+                                    }
+                                  : null,
+                              activeColor: const Color(0xff1E3C87),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 2,
+                  color: tema["texto"]!.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 60,
                   child: InkWell(
                     onTap: () {
                       setState(() {
                         dark = !dark;
-                        Theme.of(context).textTheme.apply();
                         tema = {
                           "primaria": dark
                               ? const Color(0xff00FFD8)
@@ -76,10 +284,15 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           "textoSecundario": dark
                               ? const Color(0xffd8d8d8)
                               : const Color(0xff404040).withOpacity(0.77),
+                          "botaoIndex": dark
+                              ? const Color(0xff00FFD8).withOpacity(0.37)
+                              : const Color(0xffFFD3BD).withOpacity(0.60),
+                          "textoBotaoIndex":
+                              dark ? Colors.white : const Color(0xffA93535),
                         };
                         notifier.value =
                             dark ? Brightness.dark : Brightness.light;
-                        buildTheme(notifier.value);
+                        _setDark(dark);
                       });
                     },
                     child: Padding(
@@ -100,8 +313,8 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                 "Modo escuro",
                                 style: GoogleFonts.inter(
                                   color: tema["texto"],
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -113,7 +326,6 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               onChanged: (value) {
                                 setState(() {
                                   dark = value;
-                                  Theme.of(context).textTheme.apply();
                                   tema = {
                                     "primaria": dark
                                         ? const Color(0xff00FFD8)
@@ -141,10 +353,66 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                         ? const Color(0xffd8d8d8)
                                         : const Color(0xff404040)
                                             .withOpacity(0.77),
+                                    "botaoIndex": dark
+                                        ? const Color(0xff00FFD8)
+                                            .withOpacity(0.37)
+                                        : const Color(0xffFFD3BD)
+                                            .withOpacity(0.60),
+                                    "textoBotaoIndex": dark
+                                        ? Colors.white
+                                        : const Color(0xffA93535),
                                   };
                                   notifier.value =
                                       dark ? Brightness.dark : Brightness.light;
-                                  buildTheme(notifier.value);
+                                  _setDark(dark);
+                                });
+                              },
+                              activeColor: const Color(0xff1E3C87),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 2,
+                  color: tema["texto"]!.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: () async {
+                      await instS.setBool("animacoes", !_animcoes);
+                      setState(() {
+                        _animcoes = !_animcoes;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Animações de fundo",
+                                style: GoogleFonts.inter(
+                                  color: tema["texto"],
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CupertinoSwitch(
+                              value: _animcoes,
+                              onChanged: (value) async {
+                                await instS.setBool("animacoes", value);
+                                setState(() {
+                                  _animcoes = value;
                                 });
                               },
                               activeColor: const Color(0xff1E3C87),
@@ -180,9 +448,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
               ),
               child: CupertinoButton(
                 borderRadius: BorderRadius.circular(10),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 color: Colors.white,
                 padding: const EdgeInsets.all(0),
                 child: Text(

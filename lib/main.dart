@@ -14,6 +14,7 @@ import 'package:flyvoo/cadastro/verificacao/index.dart';
 import 'package:flyvoo/firebase_options.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/mais/mais.dart';
+import 'package:flyvoo/home/mais/minha_conta/alterar_senha.dart';
 import 'package:flyvoo/home/mais/minha_conta/blablabla/politica.dart';
 import 'package:flyvoo/home/mais/minha_conta/blablabla/termos.dart';
 import 'package:flyvoo/home/mais/minha_conta/config_gerais.dart';
@@ -117,6 +118,9 @@ class _FlyvooState extends State<Flyvoo> {
     return ValueListenableBuilder(
       valueListenable: notifier,
       builder: (context, value, child) => MaterialApp(
+        navigatorObservers: [
+          HeroController(),
+        ],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case "/index":
@@ -177,6 +181,11 @@ class _FlyvooState extends State<Flyvoo> {
             case "/home/configGerais":
               return CupertinoPageRoute(
                 builder: (context) => const ConfigGerais(),
+                settings: settings,
+              );
+            case "/home/alterarSenha":
+              return CupertinoPageRoute(
+                builder: (context) => const AlterarSenha(),
                 settings: settings,
               );
             case "/termos":
