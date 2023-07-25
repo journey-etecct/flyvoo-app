@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:emailjs/emailjs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +66,7 @@ class _FeedbackECState extends State<FeedbackEC> {
             ),
             Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 120,
                 ),
                 Text(
@@ -90,13 +88,13 @@ class _FeedbackECState extends State<FeedbackEC> {
                     color: dark ? Colors.white : const Color(0xFF871E1E),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(
+                    physics: const BouncingScrollPhysics(
                       decelerationRate: ScrollDecelerationRate.fast,
                     ),
                     itemCount: listaOpcoes.length,
@@ -114,7 +112,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                               });
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: 11,
                                 horizontal: 16,
                               ),
@@ -141,7 +139,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                                       });
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Text(
@@ -156,13 +154,13 @@ class _FeedbackECState extends State<FeedbackEC> {
                             ),
                           ),
                           AnimatedContainer(
-                            duration: Duration(milliseconds: 400),
+                            duration: const Duration(milliseconds: 400),
                             curve: Curves.easeOutCirc,
                             width: double.infinity,
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                               top: 8,
                             ),
-                            padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                             height: _escolhido == listaOpcoes[index] ? 170 : 0,
                             decoration: ShapeDecoration(
                               color: dark ? Colors.black : Colors.white,
@@ -175,7 +173,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                               child: AnimatedOpacity(
                                 opacity:
                                     _escolhido == listaOpcoes[index] ? 1 : 0,
-                                duration: Duration(milliseconds: 100),
+                                duration: const Duration(milliseconds: 100),
                                 curve: Curves.easeOutCirc,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -187,7 +185,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                                         fontSize: 15,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     TextField(
@@ -222,7 +220,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                   ),
                 ),
                 AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.only(
                     left: 36,
                     right: 36,
@@ -273,7 +271,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                             : null
                         : null,
                     color: dark ? const Color(0xFFCD2F2F) : Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 11),
+                    padding: const EdgeInsets.symmetric(vertical: 11),
                     borderRadius: BorderRadius.circular(12),
                     disabledColor: CupertinoColors.systemGrey6,
                     child: Text(
@@ -282,7 +280,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                         color: _escolhido != null
                             ? dark
                                 ? Colors.white
-                                : Color(0xFF990000)
+                                : const Color(0xFF990000)
                             : CupertinoColors.inactiveGray,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
