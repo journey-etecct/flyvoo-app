@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:emailjs/emailjs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,17 @@ class Mais extends StatefulWidget {
 class _MaisState extends State<Mais> {
   List<String> botoes = ["Minha Conta", "Central de Ajuda", "Sobre o Flyvoo"];
   final _keyImg = GlobalKey<State>();
+
+  @override
+  void initState() {
+    EmailJS.init(
+      Options(
+        publicKey: "txpn0Dh7Ok8gIiqbw",
+        privateKey: "GJvud1QPKrN3Dkom4LDbd",
+      ),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

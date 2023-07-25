@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:animations/animations.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,8 +32,8 @@ class AlterarSenha extends StatefulWidget {
 
 class _AlterarSenhaState extends State<AlterarSenha> {
   final List<Widget> _listaTelas = [
-    InserirSenha(),
-    MudarSenha(),
+    const InserirSenha(),
+    const MudarSenha(),
   ];
   bool _reversed = false;
   int _step = 0;
@@ -61,6 +59,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
         setState(() {});
       },
       child: Scaffold(
+        backgroundColor: tema["fundo"],
         body: Stack(
           children: [
             SizedBox.expand(
@@ -146,7 +145,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                               blurRadius: 20,
                               spreadRadius: 0,
                               offset: const Offset(0, 3),
-                              color: Color(0xffF81B50).withOpacity(
+                              color: const Color(0xffF81B50).withOpacity(
                                 0.5,
                               ),
                             ),
@@ -391,7 +390,7 @@ class _InserirSenhaState extends State<InserirSenha> {
       children: [
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 32,
             ),
             ClipOval(
@@ -434,12 +433,12 @@ class _InserirSenhaState extends State<InserirSenha> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 32,
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Text(
@@ -451,7 +450,7 @@ class _InserirSenhaState extends State<InserirSenha> {
             letterSpacing: -0.41,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Padding(
@@ -514,7 +513,7 @@ class _InserirSenhaState extends State<InserirSenha> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 100,
         ),
       ],
@@ -544,7 +543,7 @@ class _MudarSenhaState extends State<MudarSenha> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             left: 38,
             right: 30,
             top: 21,
@@ -697,7 +696,7 @@ class _MudarSenhaState extends State<MudarSenha> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         ),
       ],

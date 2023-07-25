@@ -316,12 +316,19 @@ class _MinhaContaState extends State<MinhaConta> {
                     color: tema["texto"]!.withOpacity(0.5),
                   ),
                   InkWell(
-                    onTap: () {}, // TODO: excluir conta
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      "/excluirConta",
+                    ),
+                    onLongPress: () => Navigator.pushNamed(
+                      context,
+                      "/excluirConta/feedback",
+                    ), // TODO: deletar no modo release
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       width: double.infinity,
                       child: Text(
-                        "Excluir conta",
+                        "Excluir minha conta",
                         style: GoogleFonts.inter(
                           color: dark
                               ? const Color(0xffFF545E)
@@ -379,4 +386,38 @@ class _MinhaContaState extends State<MinhaConta> {
       ),
     );
   }
+}
+
+class SlideUpRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideUpRoute(this.page)
+      : super(
+          reverseTransitionDuration: const Duration(milliseconds: 400),
+          transitionDuration: const Duration(milliseconds: 700),
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.fastOutSlowIn,
+                reverseCurve: Curves.fastEaseInToSlowEaseOut,
+              ),
+            ),
+            child: child,
+          ),
+        );
 }

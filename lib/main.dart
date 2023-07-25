@@ -18,6 +18,10 @@ import 'package:flyvoo/home/mais/minha_conta/alterar_senha.dart';
 import 'package:flyvoo/home/mais/minha_conta/blablabla/politica.dart';
 import 'package:flyvoo/home/mais/minha_conta/blablabla/termos.dart';
 import 'package:flyvoo/home/mais/minha_conta/config_gerais.dart';
+import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
+import 'package:flyvoo/home/mais/minha_conta/excluir_conta/excluir_conta.dart';
+import 'package:flyvoo/home/mais/minha_conta/excluir_conta/feedback.dart';
+import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/index.dart';
 import 'package:flyvoo/login/email_enviado.dart';
 import 'package:flyvoo/login/opcoes.dart';
@@ -118,6 +122,24 @@ class _FlyvooState extends State<Flyvoo> {
     return ValueListenableBuilder(
       valueListenable: notifier,
       builder: (context, value, child) => MaterialApp(
+        builder: (context, child) {
+          return Container(
+            color: tema["fundo"],
+            child: SafeArea(
+              child: Banner(
+                message: "DEMO",
+                textStyle: TextStyle(
+                  color: tema["fundo"],
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+                color: tema["texto"]!,
+                location: BannerLocation.topEnd,
+                child: child,
+              ),
+            ),
+          );
+        },
         navigatorObservers: [
           HeroController(),
         ],
@@ -168,6 +190,11 @@ class _FlyvooState extends State<Flyvoo> {
                 builder: (context) => const Home(),
                 settings: settings,
               );
+            case "/home/editarPerfil":
+              return CupertinoPageRoute(
+                builder: (context) => const EditarPerfil(),
+                settings: settings,
+              );
             case "/home/termosdeuso":
               return CupertinoPageRoute(
                 builder: (context) => const TermosDeUso(),
@@ -188,6 +215,15 @@ class _FlyvooState extends State<Flyvoo> {
                 builder: (context) => const AlterarSenha(),
                 settings: settings,
               );
+            case "/excluirConta":
+              return SlideUpRoute(
+                const ExcluirConta(),
+              );
+            case "/excluirConta/feedback":
+              return CupertinoPageRoute(
+                builder: (context) => const FeedbackEC(),
+                settings: settings,
+              );
             case "/termos":
               return CupertinoPageRoute(
                 builder: (context) => const Termos(),
@@ -199,6 +235,7 @@ class _FlyvooState extends State<Flyvoo> {
         theme: buildTheme(value),
         home: widget.home,
         navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
