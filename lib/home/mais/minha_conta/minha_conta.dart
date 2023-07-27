@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -44,9 +42,9 @@ class MinhaConta extends StatefulWidget {
 
 class _MinhaContaState extends State<MinhaConta> {
   List<Widget> lista = [
-    Tela1(),
-    Tela2(),
-    Tela3(),
+    const Tela1(),
+    const Tela2(),
+    const Tela3(),
   ];
 
   @override
@@ -83,7 +81,7 @@ class _MinhaContaState extends State<MinhaConta> {
                   maxHeight: double.infinity,
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Container(
@@ -370,7 +368,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         height: 2,
                         color: tema["texto"]!.withOpacity(0.5),
                       ),
-                      !feedbackEnviado ? futureFeedback() : SizedBox(),
+                      !feedbackEnviado ? futureFeedback() : const SizedBox(),
                       InkWell(
                         onTap: () => Navigator.pushNamed(
                           context,
@@ -508,10 +506,10 @@ class _MinhaContaState extends State<MinhaConta> {
                 ],
               );
             } else {
-              return SizedBox();
+              return const SizedBox();
             }
           } else {
-            return SizedBox();
+            return const SizedBox();
           }
         });
   }
@@ -536,7 +534,7 @@ class _MinhaContaState extends State<MinhaConta> {
         ),
         child: StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
-            title: Text("Muito obrigado pelo feedback!"),
+            title: const Text("Muito obrigado pelo feedback!"),
             content: PageTransitionSwitcher(
               reverse: _reversed,
               transitionBuilder: (
@@ -647,14 +645,14 @@ class Tela1 extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        const Text(
           "A equipe inteira do Journey agradece seu tempo para nos dar uma nota🥰\nPara começar, o que você está achando do app até agora?",
         ),
         TextField(
           controller: _txtMensagem1,
           minLines: 1,
           maxLines: 3,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: "Escreva aqui...",
           ),
         ),
@@ -673,14 +671,14 @@ class Tela2 extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        const Text(
           "Se você pudesse mudar alguma coisa no app, o que mudaria ou adicionaria?",
         ),
         TextField(
           controller: _txtMensagem2,
           minLines: 1,
           maxLines: 3,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: "Escreva aqui...",
           ),
         ),
@@ -699,10 +697,10 @@ class Tela3 extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        const Text(
           "Por favor, nos deixe uma nota sobre sua experiência até agora😊",
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         RatingBar.builder(
@@ -710,27 +708,27 @@ class Tela3 extends StatelessWidget {
           itemBuilder: (context, index) {
             switch (index) {
               case 0:
-                return Icon(
+                return const Icon(
                   Symbols.sentiment_very_dissatisfied_rounded,
                   color: Colors.red,
                 );
               case 1:
-                return Icon(
+                return const Icon(
                   Symbols.sentiment_dissatisfied_rounded,
                   color: Colors.orange,
                 );
               case 2:
-                return Icon(
+                return const Icon(
                   Symbols.sentiment_neutral_rounded,
                   color: Colors.amber,
                 );
               case 3:
-                return Icon(
+                return const Icon(
                   Symbols.sentiment_satisfied_rounded,
                   color: Colors.lightGreen,
                 );
               default:
-                return Icon(
+                return const Icon(
                   Symbols.sentiment_very_satisfied_rounded,
                   color: Colors.green,
                 );
