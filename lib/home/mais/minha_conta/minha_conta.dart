@@ -3,14 +3,37 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:emailjs/emailjs.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
+final _txtMensagem1 = TextEditingController();
+final _txtMensagem2 = TextEditingController();
+double? _nota;
+bool feedbackEnviado = false;
+late Future<DataSnapshot> _userInfo;
+int _step = 0;
+bool _reversed = false;
+List<String> _listaBotao = [
+  "Próximo",
+  "Próximo",
+  "ENVIAR",
+];
+List<String> _listaBotaoCancelar = [
+  "Cancelar",
+  "Voltar",
+  "Voltar",
+];
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
@@ -20,8 +43,18 @@ class MinhaConta extends StatefulWidget {
 }
 
 class _MinhaContaState extends State<MinhaConta> {
-  final _txtMensagem1 = TextEditingController();
-  final _txtMensagem2 = TextEditingController();
+  List<Widget> lista = [
+    Tela1(),
+    Tela2(),
+    Tela3(),
+  ];
+
+  @override
+  void initState() {
+    _userInfo = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -337,46 +370,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         height: 2,
                         color: tema["texto"]!.withOpacity(0.5),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          final resposta = await showDialog(
-                            context: context,
-                            builder: (context) => BackdropFilter(
-                              filter: ImageFilter.blur(
-                                sigmaX: 2,
-                                sigmaY: 2,
-                              ),
-                              child: alertaFeedback(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Nos dê um feedback!",
-                                style: GoogleFonts.inter(
-                                  color: tema["texto"],
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              const Expanded(
-                                child: SizedBox(),
-                              ),
-                              Image.asset(
-                                "assets/icons/seta2.png",
-                                color: tema["texto"],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        height: 2,
-                        color: tema["texto"]!.withOpacity(0.5),
-                      ),
+                      !feedbackEnviado ? futureFeedback() : SizedBox(),
                       InkWell(
                         onTap: () => Navigator.pushNamed(
                           context,
@@ -451,6 +445,81 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
+  FutureBuilder<DataSnapshot> futureFeedback() {
+    return FutureBuilder<DataSnapshot>(
+        future: _userInfo,
+        builder: (context, data) {
+          if (data.hasData && data.connectionState == ConnectionState.done) {
+            if (data.data!.child("feedback").value == null) {
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      final resposta = await showDialog<bool?>(
+                        context: context,
+                        builder: (context) => BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 2,
+                            sigmaY: 2,
+                          ),
+                          child: alertaFeedback(),
+                        ),
+                      );
+                      if (resposta != null && resposta) {
+                        if (!mounted) return;
+                        setState(() {
+                          feedbackEnviado = true;
+                        });
+                        Flushbar(
+                          duration: const Duration(seconds: 5),
+                          margin: const EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(50),
+                          message: "Feedback enviado com sucesso!",
+                        ).show(context);
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Nos dê um feedback!",
+                            style: GoogleFonts.inter(
+                              color: tema["texto"],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: tema["texto"],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: tema["texto"]!.withOpacity(0.5),
+                  ),
+                ],
+              );
+            } else {
+              return SizedBox();
+            }
+          } else {
+            return SizedBox();
+          }
+        });
+  }
+
+  String _formatarNome(String nome) {
+    return nome.replaceRange(5, null, "*");
+  }
+
   GestureDetector alertaFeedback() {
     return GestureDetector(
       onTap: () {
@@ -461,46 +530,226 @@ class _MinhaContaState extends State<MinhaConta> {
         data: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(
             seedColor: tema["texto"]!,
+            brightness: dark ? Brightness.dark : Brightness.light,
           ),
           useMaterial3: true,
         ),
-        child: AlertDialog(
-          title: Text("Muito obrigado!"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "A equipe inteira do Journey agradece seu tempo para nos dar uma nota🥰\nPara começar, o que você está achando do app até agora?",
-              ),
-              TextField(
-                controller: _txtMensagem1,
-                minLines: 1,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: "Escreva aqui...",
+        child: StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: Text("Muito obrigado pelo feedback!"),
+            content: PageTransitionSwitcher(
+              reverse: _reversed,
+              transitionBuilder: (
+                Widget child,
+                Animation<double> primaryAnimation,
+                Animation<double> secondaryAnimation,
+              ) {
+                return SharedAxisTransition(
+                  fillColor: Colors.transparent,
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
+                  transitionType: SharedAxisTransitionType.horizontal,
+                  child: child,
+                );
+              },
+              child: lista[_step],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  switch (_step) {
+                    case 0:
+                      _txtMensagem1.text = "";
+                      _txtMensagem2.text = "";
+                      Navigator.pop(context);
+                      break;
+                    case 1:
+                      setState(() {
+                        _reversed = true;
+                        --_step;
+                      });
+                      break;
+                    default:
+                      setState(() {
+                        _reversed = true;
+                        --_step;
+                      });
+                  }
+                },
+                child: Text(
+                  _listaBotaoCancelar[_step],
                 ),
               ),
-              Text("Agora sobre "),
-              TextField(
-                controller: _txtMensagem2,
-                minLines: 1,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: "Escreva aqui...",
+              ElevatedButton(
+                onPressed: () async {
+                  switch (_step) {
+                    case 0:
+                      if (_txtMensagem1.text != "") {
+                        setState(() {
+                          _reversed = false;
+                          ++_step;
+                        });
+                      }
+                      break;
+                    case 1:
+                      if (_txtMensagem2.text != "") {
+                        setState(() {
+                          _reversed = false;
+                          ++_step;
+                        });
+                      }
+                      break;
+                    default:
+                      if (_nota != null) {
+                        Navigator.pop<bool>(context, true);
+                        EmailJS.send(
+                          "service_4znv29e",
+                          "template_xvzp5qu",
+                          {
+                            "mensagem1": _txtMensagem1.text,
+                            "mensagem2": _txtMensagem2.text,
+                            "nota": _nota,
+                            "nome": _formatarNome(userFlyvoo!.displayName!),
+                          },
+                        );
+                        FirebaseDatabase.instance
+                            .ref(
+                              "users/${userFlyvoo!.uid}/feedback",
+                            )
+                            .set(true);
+                        setState(() {
+                          _userInfo = FirebaseDatabase.instance
+                              .ref("users/${userFlyvoo!.uid}")
+                              .get();
+                        });
+                      }
+                  }
+                },
+                child: Text(
+                  _listaBotao[_step],
                 ),
               ),
             ],
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class Tela1 extends StatelessWidget {
+  const Tela1({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "A equipe inteira do Journey agradece seu tempo para nos dar uma nota🥰\nPara começar, o que você está achando do app até agora?",
+        ),
+        TextField(
+          controller: _txtMensagem1,
+          minLines: 1,
+          maxLines: 3,
+          decoration: InputDecoration(
+            labelText: "Escreva aqui...",
           ),
         ),
-      ),
+      ],
+    );
+  }
+}
+
+class Tela2 extends StatelessWidget {
+  const Tela2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Se você pudesse mudar alguma coisa no app, o que mudaria ou adicionaria?",
+        ),
+        TextField(
+          controller: _txtMensagem2,
+          minLines: 1,
+          maxLines: 3,
+          decoration: InputDecoration(
+            labelText: "Escreva aqui...",
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Tela3 extends StatelessWidget {
+  const Tela3({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Por favor, nos deixe uma nota sobre sua experiência até agora😊",
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        RatingBar.builder(
+          glow: false,
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return Icon(
+                  Symbols.sentiment_very_dissatisfied_rounded,
+                  color: Colors.red,
+                );
+              case 1:
+                return Icon(
+                  Symbols.sentiment_dissatisfied_rounded,
+                  color: Colors.orange,
+                );
+              case 2:
+                return Icon(
+                  Symbols.sentiment_neutral_rounded,
+                  color: Colors.amber,
+                );
+              case 3:
+                return Icon(
+                  Symbols.sentiment_satisfied_rounded,
+                  color: Colors.lightGreen,
+                );
+              default:
+                return Icon(
+                  Symbols.sentiment_very_satisfied_rounded,
+                  color: Colors.green,
+                );
+            }
+          },
+          onRatingUpdate: (valor) {
+            _nota = valor;
+          },
+        ),
+      ],
     );
   }
 }
 
 class SlideUpRoute extends PageRouteBuilder {
   final Widget page;
-  SlideUpRoute(this.page)
-      : super(
+  SlideUpRoute(
+    this.page,
+  ) : super(
           reverseTransitionDuration: const Duration(milliseconds: 400),
           transitionDuration: const Duration(milliseconds: 700),
           pageBuilder: (
