@@ -30,7 +30,7 @@ class _MaisState extends State<Mais> {
   @override
   void initState() {
     EmailJS.init(
-      Options(
+      const Options(
         publicKey: "txpn0Dh7Ok8gIiqbw",
         privateKey: "GJvud1QPKrN3Dkom4LDbd",
       ),
