@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 Future<String> getTermos() async {
   String conteudoCripto = await http.get(
     Uri.parse(
-      "https://api.github.com/repos/oculosdanilo/flyvoo/contents/TERMOS.md",
+      "https://api.github.com/repos/journey-etecct/flyvoo-app/contents/TERMOS.md",
     ),
     headers: {"Authorization": "token $token"},
   ).then((value) {
@@ -26,7 +26,7 @@ Future<String> getTermos() async {
 Future getPolitica() async {
   String conteudoCripto = await http.get(
     Uri.parse(
-      "https://api.github.com/repos/oculosdanilo/flyvoo/contents/POLITICA.md",
+      "https://api.github.com/repos/journey-etecct/flyvoo-app/contents/POLITICA.md",
     ),
     headers: {"Authorization": "token $token"},
   ).then((value) {
