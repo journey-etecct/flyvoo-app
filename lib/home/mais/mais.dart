@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/central_de_ajuda/central_de_ajuda.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
+import 'package:flyvoo/home/mais/pub_key_ejs.dart';
 import 'package:flyvoo/home/mais/sobre_o_flyvoo/sobre_o_flyvoo.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -31,7 +32,7 @@ class _MaisState extends State<Mais> {
   void initState() {
     super.initState();
     EmailJS.init(
-      const Options(
+      Options(
         publicKey: pubKey[0],
         privateKey: pubKey[1],
       ),
