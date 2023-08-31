@@ -378,6 +378,7 @@ class _CadastroState extends State<Cadastro> {
                                           userFlyvoo =
                                               FirebaseAuth.instance.currentUser;
                                         });
+                                        if (!mounted) return;
                                         Navigator.popUntil(
                                           context,
                                           (route) => route.isFirst,

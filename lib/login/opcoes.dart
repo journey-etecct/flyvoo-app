@@ -492,6 +492,7 @@ class _LoginState extends State<Login> {
                                             _btnAtivado = true;
                                           });
                                           if (e.code == "user-not-found") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
@@ -526,6 +527,7 @@ class _LoginState extends State<Login> {
                                             ).show(context);
                                           } else if (e.code ==
                                               "wrong-password") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
@@ -560,6 +562,7 @@ class _LoginState extends State<Login> {
                                             ).show(context);
                                           } else if (e.code ==
                                               "too-many-requests") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),

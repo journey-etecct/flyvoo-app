@@ -59,6 +59,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
         _btnAtivado = true;
       });
       if (e.code == "email-already-in-use") {
+        if (!mounted) return;
         showDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
@@ -105,6 +106,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
           ),
         );
       } else {
+        if (!mounted) return;
         Flushbar(
           message: "Erro desconhecido. Código: ${e.code}",
           duration: const Duration(seconds: 5),

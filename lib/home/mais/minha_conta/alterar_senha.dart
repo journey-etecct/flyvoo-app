@@ -178,6 +178,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                                           });
                                         } on FirebaseAuthException catch (e) {
                                           if (e.code == "wrong-password") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
@@ -212,6 +213,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                                             ).show(context);
                                           } else if (e.code ==
                                               "too-many-requests") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
@@ -247,6 +249,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                                               ),
                                             ).show(context);
                                           } else {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
@@ -308,6 +311,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                                           Navigator.pop(context, true);
                                         } on FirebaseAuthException catch (e) {
                                           if (e.code == "weak-password") {
+                                            if (!mounted) return;
                                             Flushbar(
                                               duration:
                                                   const Duration(seconds: 5),
