@@ -144,9 +144,9 @@ class _MinhaContaState extends State<MinhaConta> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                      34,
+                                      30,
                                       0,
-                                      34,
+                                      30,
                                       0,
                                     ),
                                     child: OpenContainer(
