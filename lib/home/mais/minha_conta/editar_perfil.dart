@@ -155,314 +155,327 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: tema["fundo"],
-      body: Stack(
-        children: [
-          SizedBox.expand(
-            child: Image(
-              image: AssetImage(
-                dark
-                    ? "assets/background/esfumadodark.png"
-                    : "assets/background/esfumadolight.png",
+    return WillPopScope(
+      onWillPop: () async {
+        if (_btnAtivado) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: tema["fundo"],
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: Image(
+                image: AssetImage(
+                  dark
+                      ? "assets/background/esfumadodark.png"
+                      : "assets/background/esfumadolight.png",
+                ),
+                fit: BoxFit.cover,
+                width: double.infinity,
               ),
-              fit: BoxFit.cover,
-              width: double.infinity,
             ),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 10),
-                child: Center(
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) => CupertinoActionSheet(
-                          cancelButton: CupertinoActionSheetAction(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              "Cancelar",
-                              style: GoogleFonts.inter(
-                                color: CupertinoColors.systemBlue,
-                              ),
-                            ),
+            Column(
+              children: [
+                foto(context),
+                Expanded(
+                  child: !carregando
+                      ? ListView.builder(
+                          itemBuilder: (context, index) => CampoEdicao(
+                            campo: _listaCampos[index],
+                            index: index,
                           ),
-                          actions: [
-                            CupertinoActionSheetAction(
-                              onPressed: () async {
-                                var cortado = await _pegarImagemGaleria();
-                                if (cortado != null) {
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                  setState(() {
-                                    _imgEscolhida = cortado;
-                                  });
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => CupertinoAlertDialog(
-                                      content: Text(
-                                        "Imagem enviada com sucesso!",
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text(
-                                            "OK",
-                                            style: GoogleFonts.inter(
-                                              color: CupertinoColors.systemBlue,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "Galeria",
-                                style: GoogleFonts.inter(
-                                  color: CupertinoColors.systemBlue,
-                                ),
-                              ),
-                            ),
-                            CupertinoActionSheetAction(
-                              onPressed: () async {
-                                var cortado = await _pegarImagemCamera();
-                                if (cortado != null) {
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                  setState(() {
-                                    _imgEscolhida = cortado;
-                                  });
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => CupertinoAlertDialog(
-                                      content: Text(
-                                        "Imagem enviada com sucesso!",
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text(
-                                            "OK",
-                                            style: GoogleFonts.inter(
-                                              color: CupertinoColors.systemBlue,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "Câmera",
-                                style: GoogleFonts.inter(
-                                  color: CupertinoColors.systemBlue,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        ClipOval(
-                          child: _imgEscolhida == null
-                              ? Image(
-                                  width: 200,
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(
-                                    userFlyvoo!.photoURL!,
-                                  ),
-                                )
-                              : Image.file(
-                                  _imgEscolhida!,
-                                  width: 200,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                        Container(
-                          width: 65,
-                          height: 65,
-                          decoration: BoxDecoration(
+                          itemCount: _listaCampos.length,
+                          shrinkWrap: true,
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(
                             color: tema["texto"],
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Icon(
-                            Symbols.camera_alt,
-                            color: dark ? Colors.black : Colors.white,
-                            size: 35,
-                            opticalSize: 35,
                           ),
                         ),
-                      ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            blurRadius: 4,
+                            spreadRadius: 0,
+                            offset: const Offset(0, 5),
+                            color: const Color(
+                              0xff000000,
+                            ).withOpacity(0.25),
+                          ),
+                        ],
+                      ),
+                      height: 43,
+                      width: 129,
+                      child: CupertinoButton(
+                        borderRadius: BorderRadius.circular(10),
+                        onPressed: () => Navigator.pop(context),
+                        color: Colors.white,
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          "Cancelar",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 40,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            blurRadius: 4,
+                            spreadRadius: 0,
+                            offset: const Offset(0, 5),
+                            color: const Color(
+                              0xff000000,
+                            ).withOpacity(0.25),
+                          ),
+                        ],
+                      ),
+                      height: 43,
+                      width: 129,
+                      child: CupertinoButton(
+                        onPressed: _btnAtivado
+                            ? () async {
+                                setState(() {
+                                  _btnAtivado = false;
+                                });
+                                if (_imgEscolhida != null) {
+                                  await instSt.putFile(_imgEscolhida!);
+                                  await _deleteImageFromCache();
+                                  if (userFlyvoo!
+                                          .providerData.first.providerId !=
+                                      "password") {
+                                    await userFlyvoo!.updatePhotoURL(
+                                      "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                                    );
+                                  }
+                                }
+                                await userFlyvoo
+                                    ?.updateDisplayName(_txtNome.text);
+                                setState(() {
+                                  userFlyvoo =
+                                      FirebaseAuth.instance.currentUser;
+                                });
+                                await inst.update({
+                                  "telefone": _txtTelefone.text,
+                                  "sexo": _txtSexo.text,
+                                  "pronomes": _txtPronome.text,
+                                });
+                                setState(() {
+                                  _btnAtivado = true;
+                                });
+                                if (!mounted) return;
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                    content: Text(
+                                      "Informações atualizadas com sucesso",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        isDefaultAction: true,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.inter(
+                                            color: CupertinoColors.systemBlue,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            : null,
+                        padding: const EdgeInsets.all(0),
+                        color: const Color(0xffF81B50),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Text(
+                          "Salvar",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding foto(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 60, 0, 10),
+      child: Center(
+        child: InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: () {
+            showCupertinoModalPopup(
+              context: context,
+              builder: (context) => CupertinoActionSheet(
+                cancelButton: CupertinoActionSheetAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: !carregando
-                    ? ListView.builder(
-                        itemBuilder: (context, index) => CampoEdicao(
-                          campo: _listaCampos[index],
-                          index: index,
-                        ),
-                        itemCount: _listaCampos.length,
-                        shrinkWrap: true,
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(
-                          color: tema["texto"],
-                        ),
-                      ),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 5),
-                          color: const Color(
-                            0xff000000,
-                          ).withOpacity(0.25),
-                        ),
-                      ],
-                    ),
-                    height: 43,
-                    width: 129,
-                    child: CupertinoButton(
-                      borderRadius: BorderRadius.circular(10),
-                      onPressed: () => Navigator.pop(context),
-                      color: Colors.white,
-                      padding: const EdgeInsets.all(0),
-                      child: Text(
-                        "Cancelar",
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 5),
-                          color: const Color(
-                            0xff000000,
-                          ).withOpacity(0.25),
-                        ),
-                      ],
-                    ),
-                    height: 43,
-                    width: 129,
-                    child: CupertinoButton(
-                      onPressed: _btnAtivado
-                          ? () async {
-                              setState(() {
-                                _btnAtivado = false;
-                              });
-                              if (_imgEscolhida != null) {
-                                await instSt.putFile(_imgEscolhida!);
-                                await _deleteImageFromCache();
-                                if (userFlyvoo!.providerData.first.providerId !=
-                                    "password") {
-                                  await userFlyvoo!.updatePhotoURL(
-                                    "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
-                                  );
-                                }
-                              }
-                              await userFlyvoo
-                                  ?.updateDisplayName(_txtNome.text);
-                              setState(() {
-                                userFlyvoo = FirebaseAuth.instance.currentUser;
-                              });
-                              await inst.update({
-                                "telefone": _txtTelefone.text,
-                                "sexo": _txtSexo.text,
-                                "pronomes": _txtPronome.text,
-                              });
-                              setState(() {
-                                _btnAtivado = true;
-                              });
-                              if (!mounted) return;
-                              showDialog(
-                                context: context,
-                                builder: (context) => CupertinoAlertDialog(
-                                  content: Text(
-                                    "Informações atualizadas com sucesso",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                    ),
+                actions: [
+                  CupertinoActionSheetAction(
+                    onPressed: () async {
+                      var cortado = await _pegarImagemGaleria();
+                      if (cortado != null) {
+                        if (!mounted) return;
+                        Navigator.pop(context);
+                        setState(() {
+                          _imgEscolhida = cortado;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            content: Text(
+                              "Imagem enviada com sucesso!",
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                              ),
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(
+                                  "OK",
+                                  style: GoogleFonts.inter(
+                                    color: CupertinoColors.systemBlue,
                                   ),
-                                  actions: [
-                                    CupertinoDialogAction(
-                                      isDefaultAction: true,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "OK",
-                                        style: GoogleFonts.inter(
-                                          color: CupertinoColors.systemBlue,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
-                              );
-                            }
-                          : null,
-                      padding: const EdgeInsets.all(0),
-                      color: const Color(0xffF81B50),
-                      borderRadius: BorderRadius.circular(10),
-                      child: Text(
-                        "Salvar",
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Galeria",
+                      style: GoogleFonts.inter(
+                        color: CupertinoColors.systemBlue,
+                      ),
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () async {
+                      var cortado = await _pegarImagemCamera();
+                      if (cortado != null) {
+                        if (!mounted) return;
+                        Navigator.pop(context);
+                        setState(() {
+                          _imgEscolhida = cortado;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            content: Text(
+                              "Imagem enviada com sucesso!",
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                              ),
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(
+                                  "OK",
+                                  style: GoogleFonts.inter(
+                                    color: CupertinoColors.systemBlue,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Câmera",
+                      style: GoogleFonts.inter(
+                        color: CupertinoColors.systemBlue,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              )
+            );
+          },
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              ClipOval(
+                child: _imgEscolhida == null
+                    ? Image(
+                        width: 200,
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                          userFlyvoo!.photoURL!,
+                        ),
+                      )
+                    : Image.file(
+                        _imgEscolhida!,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+              Container(
+                width: 65,
+                height: 65,
+                decoration: BoxDecoration(
+                  color: tema["texto"],
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Icon(
+                  Symbols.camera_alt,
+                  color: dark ? Colors.black : Colors.white,
+                  size: 35,
+                  opticalSize: 35,
+                ),
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

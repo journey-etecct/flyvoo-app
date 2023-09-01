@@ -150,7 +150,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.volume_up_rounded,
                             size: 30,
-                            color: tema["texto"],
+                            color: _notificacoes ? tema["texto"] : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -162,7 +162,9 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Som",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: _notificacoes
+                                      ? tema["texto"]
+                                      : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -211,7 +213,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.vibration_rounded,
                             size: 30,
-                            color: tema["texto"],
+                            color: _notificacoes ? tema["texto"] : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -223,7 +225,9 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Vibração",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: _notificacoes
+                                      ? tema["texto"]
+                                      : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),

@@ -126,18 +126,16 @@ class _FlyvooState extends State<Flyvoo> {
         builder: (context, child) {
           return Container(
             color: tema["fundo"],
-            child: SafeArea(
-              child: Banner(
-                message: "DEMO",
-                textStyle: TextStyle(
-                  color: tema["fundo"],
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                ),
-                color: tema["texto"]!,
-                location: BannerLocation.topEnd,
-                child: child,
+            child: Banner(
+              message: "DEMO",
+              textStyle: TextStyle(
+                color: tema["fundo"],
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
               ),
+              color: tema["texto"]!,
+              location: BannerLocation.topEnd,
+              child: child,
             ),
           );
         },

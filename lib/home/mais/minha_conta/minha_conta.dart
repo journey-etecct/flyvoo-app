@@ -89,7 +89,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           color: dark
                               ? const Color.fromRGBO(43, 74, 128, 0.5)
                               : const Color.fromRGBO(184, 204, 255, 50),
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         width: double.infinity,
                         margin: const EdgeInsets.all(10),
@@ -155,7 +155,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                       ),
                                       closedColor: CupertinoColors.systemPink,
                                       closedShape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7),
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
                                       tappable: false,
                                       onClosed: (data) => setState(() {}),
@@ -168,9 +168,9 @@ class _MinhaContaState extends State<MinhaConta> {
                                           },
                                           padding: const EdgeInsets.fromLTRB(
                                             23,
-                                            5,
+                                            0,
                                             23,
-                                            5,
+                                            0,
                                           ),
                                           child: Text(
                                             "Editar perfil",

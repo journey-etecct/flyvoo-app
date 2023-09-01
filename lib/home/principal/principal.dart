@@ -13,6 +13,9 @@ class Principal extends StatefulWidget {
 class _PrincipalState extends State<Principal> {
   Future _init() async {
     OneSignal.initialize("8ae86c8a-3e2e-4ca6-b474-ef5c641a0e22");
+    if (!OneSignal.Notifications.permission) {
+      await OneSignal.Notifications.requestPermission(true);
+    }
     debugPrint(OneSignal.Notifications.permission.toString());
   }
 

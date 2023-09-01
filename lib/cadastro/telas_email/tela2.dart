@@ -112,6 +112,7 @@ class _Tela2State extends State<Tela2> {
           InkWell(
             onTap: () async {
               nascimento = await showDatePicker(
+                errorInvalidText: "Formato inválido",
                 helpText: "Selecione seu dia de nascimento",
                 cancelText: "Cancelar",
                 context: context,

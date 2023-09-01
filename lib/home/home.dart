@@ -60,11 +60,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     indexHome = 0;
     if (!internetIniciado) {
       InternetConnectionChecker().onStatusChange.listen((status) {
-        switch (status) {
-          case InternetConnectionStatus.disconnected:
-            Navigator.pushNamed(context, "/semInternet");
-            break;
-          default:
+        if (status == InternetConnectionStatus.disconnected) {
+          Navigator.pushNamed(context, "/semInternet");
         }
       });
       internetIniciado = true;

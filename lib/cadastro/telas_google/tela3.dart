@@ -213,8 +213,13 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                       )
                     : ClipOval(
                         child: userFlyvoo!.photoURL != null
-                            ? CachedNetworkImage(
-                                imageUrl: userFlyvoo!.photoURL!,
+                            ? FadeInImage(
+                                placeholder: const AssetImage(
+                                  "assets/background/loading.gif",
+                                ),
+                                image: CachedNetworkImageProvider(
+                                  userFlyvoo!.photoURL!,
+                                ),
                                 width: 200,
                                 fit: BoxFit.cover,
                               )

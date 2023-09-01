@@ -58,11 +58,8 @@ class _IndexState extends State<Index> {
     init();
     if (!internetIniciado) {
       InternetConnectionChecker().onStatusChange.listen((status) {
-        switch (status) {
-          case InternetConnectionStatus.disconnected:
-            Navigator.pushNamed(context, "/semInternet");
-            break;
-          default:
+        if (status == InternetConnectionStatus.disconnected) {
+          Navigator.pushNamed(context, "/semInternet");
         }
       });
       internetIniciado = true;
