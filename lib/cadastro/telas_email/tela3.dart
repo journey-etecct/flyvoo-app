@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -121,26 +122,29 @@ class _Tela3State extends State<Tela3> {
                             userImg = cortado;
                             btnAtivado = true;
                           });
-                          showDialog(
+                          showCupertinoDialog(
                             context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Text(
-                                "Imagem enviada com sucesso!",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              actions: [
-                                CupertinoDialogAction(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    "OK",
-                                    style: GoogleFonts.inter(
-                                      color: CupertinoColors.systemBlue,
-                                    ),
+                            builder: (context) => BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                              child: CupertinoAlertDialog(
+                                content: Text(
+                                  "Imagem enviada com sucesso!",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
                                   ),
                                 ),
-                              ],
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "OK",
+                                      style: GoogleFonts.inter(
+                                        color: CupertinoColors.systemBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }
@@ -162,29 +166,32 @@ class _Tela3State extends State<Tela3> {
                             userImg = cortado;
                             btnAtivado = true;
                           });
-                          setState(() {});
-                          showDialog(
+                          await showCupertinoDialog(
                             context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Text(
-                                "Imagem enviada com sucesso!",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              actions: [
-                                CupertinoDialogAction(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    "OK",
-                                    style: GoogleFonts.inter(
-                                      color: CupertinoColors.systemBlue,
-                                    ),
+                            builder: (context) => BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                              child: CupertinoAlertDialog(
+                                content: Text(
+                                  "Imagem enviada com sucesso!",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
                                   ),
                                 ),
-                              ],
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "OK",
+                                      style: GoogleFonts.inter(
+                                        color: CupertinoColors.systemBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
+                          setState(() {});
                         }
                       },
                       child: Text(

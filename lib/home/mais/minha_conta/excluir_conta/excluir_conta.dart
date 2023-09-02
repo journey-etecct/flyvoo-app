@@ -196,14 +196,14 @@ class _ExcluirContaState extends State<ExcluirConta> {
                           width: double.infinity,
                           child: CupertinoButton(
                             onPressed: () async {
-                              final decisao = await showDialog(
+                              final decisao = await showCupertinoDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (context) => alertaDelete1(context),
                               );
                               if (decisao) {
                                 if (!mounted) return;
-                                final decisaoFinal = await showDialog(
+                                final decisaoFinal = await showCupertinoDialog(
                                   barrierDismissible: false,
                                   context: context,
                                   builder: (context) => alertaDelete2(context),
@@ -306,7 +306,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                           ),
                         ),
                         TextSpan(
-                          text: "mudar sua senha.\n\n",
+                          text: "mudar sua senha.",
                           style: TextStyle(
                             color: ThemeData.from(
                               useMaterial3: true,
@@ -338,7 +338,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
               ),
               TextSpan(
                 text:
-                    "Se estiver tendo problema com outra coisa, você pode sempre ",
+                    "\n\nSe estiver tendo problema com outra coisa, você pode sempre ",
                 style: GoogleFonts.inter(color: tema["noFundo"]),
               ),
               TextSpan(

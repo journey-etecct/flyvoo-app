@@ -368,7 +368,7 @@ class PessoaInfo extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: CupertinoButton(
                   onPressed: () {
-                    showDialog(
+                    showCupertinoDialog(
                       context: context,
                       builder: (context) => BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),

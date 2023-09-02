@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,49 +64,52 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
     ); // [] ou [google.com] ou [microsoft.com]
     if (emails.isNotEmpty) {
       if (!mounted) return null;
-      showDialog(
+      showCupertinoDialog(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: Column(
-            children: [
-              const Icon(Symbols.error_circle_rounded_error),
-              const SizedBox(
-                height: 10,
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(Symbols.error_circle_rounded_error),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Essa conta já existe",
+                  style: GoogleFonts.inter(),
+                ),
+              ],
+            ),
+            content: Text(
+              "Deseja fazer login?",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
               ),
-              Text(
-                "Essa conta já existe",
-                style: GoogleFonts.inter(),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, "/login");
+                },
+                isDefaultAction: true,
+                child: Text(
+                  "Entrar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
               ),
             ],
           ),
-          content: Text(
-            "Deseja fazer login?",
-            style: GoogleFonts.inter(),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Cancelar",
-                style: GoogleFonts.inter(
-                  color: CupertinoColors.systemBlue,
-                ),
-              ),
-            ),
-            CupertinoDialogAction(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.pushNamed(context, "/login");
-              },
-              isDefaultAction: true,
-              child: Text(
-                "Entrar",
-                style: GoogleFonts.inter(
-                  color: CupertinoColors.systemBlue,
-                ),
-              ),
-            ),
-          ],
         ),
       );
       return null;
@@ -123,49 +128,52 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
     } on FirebaseAuthException catch (e) {
       if (e.code == "account-exists-with-different-credential") {
         if (!mounted) return null;
-        showDialog(
+        showCupertinoDialog(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta já existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja fazer login?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
-                Text(
-                  "Essa conta já existe",
-                  style: GoogleFonts.inter(),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Entrar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: Text(
-              "Deseja fazer login?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/login");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Entrar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
         );
       }
@@ -184,49 +192,52 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
       final info = await FirebaseDatabase.instance.ref("users/").get();
       if (info.child("${cr.user?.uid}").exists) {
         if (!mounted) return null;
-        showDialog(
+        showCupertinoDialog(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta já existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja fazer login?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
-                Text(
-                  "Essa conta já existe",
-                  style: GoogleFonts.inter(),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Entrar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: Text(
-              "Deseja fazer login?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/login");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Entrar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
         );
         return null;
@@ -235,49 +246,52 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == "account-exists-with-different-credential") {
-        showDialog(
+        showCupertinoDialog(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta já existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja fazer login?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
-                Text(
-                  "Essa conta já existe",
-                  style: GoogleFonts.inter(),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Entrar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: Text(
-              "Deseja fazer login?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/login");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Entrar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
         );
       }

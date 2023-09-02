@@ -242,7 +242,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     context, "/home/alterarSenha");
                                 if ((retorno as bool?) ?? false) {
                                   if (!mounted) return;
-                                  showDialog(
+                                  showCupertinoDialog(
                                     context: context,
                                     builder: (context) => BackdropFilter(
                                       filter: ImageFilter.blur(
@@ -454,7 +454,7 @@ class _MinhaContaState extends State<MinhaConta> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      final resposta = await showDialog<bool?>(
+                      final resposta = await showCupertinoDialog<bool?>(
                         context: context,
                         builder: (context) => BackdropFilter(
                           filter: ImageFilter.blur(

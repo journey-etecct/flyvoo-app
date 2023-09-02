@@ -124,18 +124,23 @@ class _FlyvooState extends State<Flyvoo> {
       valueListenable: notifier,
       builder: (context, value, child) => MaterialApp(
         builder: (context, child) {
-          return Container(
-            color: tema["fundo"],
-            child: Banner(
-              message: "DEMO",
-              textStyle: TextStyle(
-                color: tema["fundo"],
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
+          return DefaultTextStyle(
+            style: GoogleFonts.inter(
+              letterSpacing: -0.41,
+            ),
+            child: Container(
+              color: tema["fundo"],
+              child: Banner(
+                message: "DEMO",
+                textStyle: TextStyle(
+                  color: tema["fundo"],
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+                color: tema["texto"]!,
+                location: BannerLocation.topEnd,
+                child: child,
               ),
-              color: tema["texto"]!,
-              location: BannerLocation.topEnd,
-              child: child,
             ),
           );
         },
@@ -240,7 +245,7 @@ class _FlyvooState extends State<Flyvoo> {
           }
           return null;
         },
-        theme: buildTheme(value),
+        theme: buildTheme(value, context),
         home: widget.home,
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
@@ -260,7 +265,7 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-ThemeData buildTheme(mode) {
+ThemeData buildTheme(mode, context) {
   var baseTheme = ThemeData(
     useMaterial3: true,
     brightness: mode,

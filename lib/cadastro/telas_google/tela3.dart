@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -123,26 +124,29 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                             userImg = cortado;
                             btnAtivado = true;
                           });
-                          showDialog(
+                          showCupertinoDialog(
                             context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Text(
-                                "Imagem enviada com sucesso!",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              actions: [
-                                CupertinoDialogAction(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    "OK",
-                                    style: GoogleFonts.inter(
-                                      color: CupertinoColors.systemBlue,
-                                    ),
+                            builder: (context) => BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                              child: CupertinoAlertDialog(
+                                content: Text(
+                                  "Imagem enviada com sucesso!",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
                                   ),
                                 ),
-                              ],
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "OK",
+                                      style: GoogleFonts.inter(
+                                        color: CupertinoColors.systemBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }
@@ -164,29 +168,32 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                             userImg = cortado;
                             btnAtivado = true;
                           });
-                          setState(() {});
-                          showDialog(
+                          await showCupertinoDialog(
                             context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Text(
-                                "Imagem enviada com sucesso!",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              actions: [
-                                CupertinoDialogAction(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    "OK",
-                                    style: GoogleFonts.inter(
-                                      color: CupertinoColors.systemBlue,
-                                    ),
+                            builder: (context) => BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                              child: CupertinoAlertDialog(
+                                content: Text(
+                                  "Imagem enviada com sucesso!",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
                                   ),
                                 ),
-                              ],
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "OK",
+                                      style: GoogleFonts.inter(
+                                        color: CupertinoColors.systemBlue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
+                          setState(() {});
                         }
                       },
                       child: Text(
@@ -229,14 +236,6 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                                 fit: BoxFit.cover,
                                 color: tema["texto"],
                               ),
-                        /* Image(
-                          image: userFlyvoo!.photoURL != null
-                              ? CachedNetworkImageProvider(
-                                  userFlyvoo!.photoURL!)
-                              : AssetImage("assets") as ImageProvider,
-                          width: 200,
-                          fit: BoxFit.cover,
-                        ), */
                       ),
                 Container(
                   width: 65,

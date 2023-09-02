@@ -13,8 +13,8 @@ class FeedbackEC extends StatefulWidget {
 
 class _FeedbackECState extends State<FeedbackEC> {
   List<String> listaOpcoes = [
-    "Já achei o que queria com o app",
-    "Não achei o que queria com o app",
+    "Já achei o que queria no app",
+    "Não achei o que queria no app",
     "Está ocupando muita memória",
     "Faltou informações profundas",
     "Achei um outro app melhor",
@@ -54,13 +54,16 @@ class _FeedbackECState extends State<FeedbackEC> {
                 width: double.infinity,
               ),
             ),
-            CupertinoButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Pular",
-                style: GoogleFonts.inter(
-                  color: tema["texto"],
-                  fontSize: 18,
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: CupertinoButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Pular",
+                  style: GoogleFonts.inter(
+                    color: tema["texto"],
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
@@ -112,10 +115,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                               });
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 11,
-                                horizontal: 16,
-                              ),
+                              padding: const EdgeInsets.fromLTRB(16, 11, 0, 11),
                               decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),

@@ -91,99 +91,6 @@ class _MaisState extends State<Mais> {
             ],
           ),
         ),
-        /* SizedBox(
-          height: 80,
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                dark = !dark;
-                tema = {
-                  "primaria":
-                      dark ? const Color(0xff00FFD8) : const Color(0xffFB5607),
-                  "secundaria": dark ? const Color(0xff31b6b0) : Colors.black,
-                  "terciaria": dark
-                      ? const Color(0xff096073)
-                      : const Color(0xff054BFD).withOpacity(
-                          0.4,
-                        ),
-                  "fundo": dark ? const Color(0xff252525) : Colors.white,
-                  "noFundo": dark ? Colors.white : Colors.black,
-                  "texto": dark ? Colors.white : const Color(0xff1E3C87),
-                  "botao":
-                      dark ? const Color(0xffB8CCFF) : const Color(0xffF0F4FF),
-                  "textoSecundario": dark
-                      ? const Color(0xffd8d8d8)
-                      : const Color(0xff404040).withOpacity(0.77),
-                };
-                notifier.value = dark ? Brightness.dark : Brightness.light;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/icons/lua.png",
-                    color: tema["texto"],
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Modo escuro",
-                        style: GoogleFonts.inter(
-                          color: tema["texto"],
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CupertinoSwitch(
-                      value: dark,
-                      onChanged: (value) {
-                        setState(() {
-                          dark = value;
-                          tema = {
-                            "primaria": dark
-                                ? const Color(0xff00FFD8)
-                                : const Color(0xffFB5607),
-                            "secundaria":
-                                dark ? const Color(0xff31b6b0) : Colors.black,
-                            "terciaria": dark
-                                ? const Color(0xff096073)
-                                : const Color(0xff054BFD).withOpacity(
-                                    0.4,
-                                  ),
-                            "fundo":
-                                dark ? const Color(0xff252525) : Colors.white,
-                            "noFundo": dark ? Colors.white : Colors.black,
-                            "texto":
-                                dark ? Colors.white : const Color(0xff1E3C87),
-                            "botao": dark
-                                ? const Color(0xffB8CCFF)
-                                : const Color(0xffF0F4FF),
-                            "textoSecundario": dark
-                                ? const Color(0xffd8d8d8)
-                                : const Color(0xff404040).withOpacity(0.77),
-                          };
-                          notifier.value =
-                              dark ? Brightness.dark : Brightness.light;
-                        });
-                      },
-                      activeColor: const Color(0xff1E3C87),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ), */
         Expanded(
           child: Container(
             margin: const EdgeInsets.all(10),
@@ -221,94 +128,7 @@ class _MaisState extends State<Mais> {
                                 const Duration(milliseconds: 500),
                             closedBuilder: (context, action) => SizedBox(
                               width: double.infinity,
-                              child: CupertinoButton(
-                                onPressed: () async {
-                                  switch (index) {
-                                    case 0:
-                                      if (userFlyvoo == null) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => BackdropFilter(
-                                            filter: ImageFilter.blur(
-                                              sigmaX: 2,
-                                              sigmaY: 2,
-                                            ),
-                                            child: CupertinoAlertDialog(
-                                              content: Text(
-                                                "Para acessar isso, você precisa se cadastrar",
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                              actions: [
-                                                CupertinoDialogAction(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: Text(
-                                                    "Cancelar",
-                                                    style: GoogleFonts.inter(
-                                                      color: CupertinoColors
-                                                          .systemBlue,
-                                                    ),
-                                                  ),
-                                                ),
-                                                CupertinoDialogAction(
-                                                  onPressed: () =>
-                                                      Navigator.popAndPushNamed(
-                                                    context,
-                                                    "/login",
-                                                  ),
-                                                  child: Text(
-                                                    "Entrar como usuário",
-                                                    style: GoogleFonts.inter(
-                                                      color: CupertinoColors
-                                                          .systemBlue,
-                                                    ),
-                                                  ),
-                                                ),
-                                                CupertinoDialogAction(
-                                                  isDefaultAction: true,
-                                                  onPressed: () =>
-                                                      Navigator.popAndPushNamed(
-                                                    context,
-                                                    "/opcoesCadastro",
-                                                  ),
-                                                  child: Text(
-                                                    "Criar uma conta",
-                                                    style: GoogleFonts.inter(
-                                                      color: CupertinoColors
-                                                          .systemBlue,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        action.call();
-                                      }
-                                      break;
-                                    case 1:
-                                      action.call();
-                                      break;
-                                    default:
-                                      action.call();
-                                  }
-                                },
-                                borderRadius: BorderRadius.circular(15),
-                                color: tema["botao"],
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                                child: Text(
-                                  botoes[index],
-                                  style: GoogleFonts.inter(
-                                    color: const Color(0xff1E3C87),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 19,
-                                  ),
-                                ),
-                              ),
+                              child: botaoAcaoMais(index, context, action),
                             ),
                           ),
                         ),
@@ -399,6 +219,91 @@ class _MaisState extends State<Mais> {
           height: 50,
         )
       ],
+    );
+  }
+
+  CupertinoButton botaoAcaoMais(
+      int index, BuildContext context, VoidCallback action) {
+    return CupertinoButton(
+      onPressed: () async {
+        switch (index) {
+          case 0:
+            if (userFlyvoo == null) {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 2,
+                    sigmaY: 2,
+                  ),
+                  child: CupertinoAlertDialog(
+                    content: Text(
+                      "Para acessar isso, você precisa se cadastrar",
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                      ),
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          "Cancelar",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemBlue,
+                          ),
+                        ),
+                      ),
+                      CupertinoDialogAction(
+                        onPressed: () => Navigator.popAndPushNamed(
+                          context,
+                          "/login",
+                        ),
+                        child: Text(
+                          "Entrar como usuário",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemBlue,
+                          ),
+                        ),
+                      ),
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () => Navigator.popAndPushNamed(
+                          context,
+                          "/opcoesCadastro",
+                        ),
+                        child: Text(
+                          "Criar uma conta",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemBlue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              action.call();
+            }
+            break;
+          case 1:
+            action.call();
+            break;
+          default:
+            action.call();
+        }
+      },
+      borderRadius: BorderRadius.circular(15),
+      color: tema["botao"],
+      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+      child: Text(
+        botoes[index],
+        style: GoogleFonts.inter(
+          color: const Color(0xff1E3C87),
+          fontWeight: FontWeight.bold,
+          fontSize: 19,
+        ),
+      ),
     );
   }
 }

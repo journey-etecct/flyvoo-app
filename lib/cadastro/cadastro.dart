@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:animations/animations.dart';
 import 'package:another_flushbar/flushbar.dart';
@@ -132,49 +133,52 @@ class _CadastroState extends State<Cadastro> {
           });
           return false;
         } else if (argumento == "email") {
-          showDialog(
+          showCupertinoDialog(
             context: context,
-            builder: (context) => CupertinoAlertDialog(
-              title: Text(
-                "Tem certeza que deseja sair da etapa de cadastro?",
-                style: GoogleFonts.inter(),
-              ),
-              content: Text(
-                "Sua conta será removida e você precisará verificar seu email novamente.",
-                style: GoogleFonts.inter(),
-              ),
-              actions: [
-                CupertinoDialogAction(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    "Cancelar",
-                    style: GoogleFonts.inter(
-                      color: CupertinoColors.systemBlue,
+            builder: (context) => BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: CupertinoAlertDialog(
+                title: Text(
+                  "Tem certeza que deseja sair da etapa de cadastro?",
+                  style: GoogleFonts.inter(),
+                ),
+                content: Text(
+                  "Sua conta será removida e você precisará verificar seu email novamente.",
+                  style: GoogleFonts.inter(),
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancelar",
+                      style: GoogleFonts.inter(
+                        color: CupertinoColors.systemBlue,
+                      ),
                     ),
                   ),
-                ),
-                CupertinoDialogAction(
-                  onPressed: () async {
-                    if (userFlyvoo != null) {
-                      await userFlyvoo?.delete();
-                    }
-                    await FirebaseAuth.instance.signOut();
-                    final instS = await SharedPreferences.getInstance();
-                    await instS.remove("cadastroTerminado");
-                    if (!mounted) return;
-                    Navigator.popUntil(
-                      context,
-                      (route) => route.isFirst,
-                    );
-                  },
-                  child: Text(
-                    "Sair",
-                    style: GoogleFonts.inter(
-                      color: CupertinoColors.systemPink,
+                  CupertinoDialogAction(
+                    onPressed: () async {
+                      if (userFlyvoo != null) {
+                        await userFlyvoo?.delete();
+                      }
+                      await FirebaseAuth.instance.signOut();
+                      final instS = await SharedPreferences.getInstance();
+                      await instS.remove("cadastroTerminado");
+                      if (!mounted) return;
+                      Navigator.popUntil(
+                        context,
+                        (route) => route.isFirst,
+                      );
+                    },
+                    child: Text(
+                      "Sair",
+                      style: GoogleFonts.inter(
+                        color: CupertinoColors.systemPink,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
           return false;
@@ -271,132 +275,7 @@ class _CadastroState extends State<Cadastro> {
                                   ]
                                 : [],
                           ),
-                          child: CupertinoButton(
-                            borderRadius: BorderRadius.circular(10),
-                            padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                            color: tema["botaoIndex"],
-                            disabledColor: dark
-                                ? const Color(0xff007AFF).withOpacity(0.15)
-                                : const Color(0xffFB5607).withOpacity(0.30),
-                            onPressed: btnAtivado
-                                ? () async {
-                                    switch (_step) {
-                                      case 0:
-                                        setState(() {
-                                          if (formKey1.currentState!
-                                              .validate()) {
-                                            _reversed = false;
-                                            _step++;
-                                          }
-                                        });
-                                        break;
-                                      case 1:
-                                        setState(() {
-                                          if (nascimento != null) {
-                                            if (formKey2.currentState!
-                                                .validate()) {
-                                              _reversed = false;
-                                              _step++;
-                                              if (userImg == null &&
-                                                  userFlyvoo!.photoURL ==
-                                                      null) {
-                                                btnAtivado = false;
-                                              }
-                                            }
-                                          }
-                                        });
-                                        break;
-                                      default:
-                                        setState(() {
-                                          btnAtivado = false;
-                                        });
-                                        Flushbar(
-                                          message: "Conectando...",
-                                          duration: const Duration(seconds: 10),
-                                          margin: const EdgeInsets.all(20),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ).show(context);
-                                        if (argumento == "email") {
-                                          await userFlyvoo
-                                              ?.reauthenticateWithCredential(
-                                            EmailAuthProvider.credential(
-                                              email: userFlyvoo!.email!,
-                                              password: "123456",
-                                            ),
-                                          );
-                                          await userFlyvoo
-                                              ?.updatePassword(txtSenha.text);
-                                        }
-                                        await userFlyvoo
-                                            ?.updateDisplayName(txtNome.text);
-                                        var ref = FirebaseDatabase.instance.ref(
-                                          "users/${userFlyvoo!.uid}",
-                                        );
-                                        await ref.update({
-                                          "telefone": txtTelefone.text,
-                                          "nascimento":
-                                              "${nascimento?.day};${nascimento?.month};${nascimento?.year}",
-                                          "area": carreiraEscolhida,
-                                          "sexo": sexoEscolhido,
-                                          "pronomes": pronomesEscolhidos ==
-                                                  "Pronomes (opcional)"
-                                              ? "Nenhum"
-                                              : pronomesEscolhidos,
-                                        });
-                                        SharedPreferences inst =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        inst.setBool(
-                                          "cadastroTerminado",
-                                          true,
-                                        );
-                                        if (argumento == "email") {
-                                          Reference instSt =
-                                              FirebaseStorage.instance.ref(
-                                            "users/${userFlyvoo?.uid}",
-                                          );
-                                          await instSt.putFile(userImg!);
-                                        } else if (userImg != null) {
-                                          Reference instSt =
-                                              FirebaseStorage.instance.ref(
-                                            "users/${userFlyvoo?.uid}",
-                                          );
-                                          await instSt.putFile(userImg!);
-                                        }
-                                        await userFlyvoo?.updatePhotoURL(
-                                          argumento == "email"
-                                              ? "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media"
-                                              : userImg == null
-                                                  ? userFlyvoo!.photoURL
-                                                  : "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
-                                        );
-                                        setState(() {
-                                          userFlyvoo =
-                                              FirebaseAuth.instance.currentUser;
-                                        });
-                                        if (!mounted) return;
-                                        Navigator.popUntil(
-                                          context,
-                                          (route) => route.isFirst,
-                                        );
-                                        Navigator.pushReplacementNamed(
-                                          context,
-                                          "/home",
-                                        );
-                                    }
-                                  }
-                                : null,
-                            child: Text(
-                              botaoTxt[_step],
-                              style: GoogleFonts.inter(
-                                fontSize: 25,
-                                color: btnAtivado
-                                    ? tema["textoBotaoIndex"]
-                                    : CupertinoColors.systemGrey2,
-                              ),
-                            ),
-                          ),
+                          child: botaoNext(context, argumento),
                         ),
                         const SizedBox(
                           height: 40,
@@ -408,6 +287,122 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  CupertinoButton botaoNext(BuildContext context, String argumento) {
+    return CupertinoButton(
+      borderRadius: BorderRadius.circular(10),
+      padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+      color: tema["botaoIndex"],
+      disabledColor: dark
+          ? const Color(0xff007AFF).withOpacity(0.15)
+          : const Color(0xffFB5607).withOpacity(0.30),
+      onPressed: btnAtivado
+          ? () async {
+              switch (_step) {
+                case 0:
+                  setState(() {
+                    if (formKey1.currentState!.validate()) {
+                      _reversed = false;
+                      _step++;
+                    }
+                  });
+                  break;
+                case 1:
+                  setState(() {
+                    if (nascimento != null) {
+                      if (formKey2.currentState!.validate()) {
+                        _reversed = false;
+                        _step++;
+                        if (userImg == null && userFlyvoo!.photoURL == null) {
+                          btnAtivado = false;
+                        }
+                      }
+                    }
+                  });
+                  break;
+                default:
+                  setState(() {
+                    btnAtivado = false;
+                  });
+                  Flushbar(
+                    message: "Conectando...",
+                    duration: const Duration(seconds: 10),
+                    margin: const EdgeInsets.all(20),
+                    borderRadius: BorderRadius.circular(50),
+                  ).show(context);
+                  if (argumento == "email") {
+                    await userFlyvoo?.reauthenticateWithCredential(
+                      EmailAuthProvider.credential(
+                        email: userFlyvoo!.email!,
+                        password: "123456",
+                      ),
+                    );
+                    await userFlyvoo?.updatePassword(txtSenha.text);
+                  }
+                  await userFlyvoo?.updateDisplayName(txtNome.text);
+                  var ref = FirebaseDatabase.instance.ref(
+                    "users/${userFlyvoo!.uid}",
+                  );
+                  await ref.update({
+                    "telefone": txtTelefone.text,
+                    "nascimento":
+                        "${nascimento?.day};${nascimento?.month};${nascimento?.year}",
+                    "area": carreiraEscolhida,
+                    "sexo": sexoEscolhido,
+                    "pronomes": pronomesEscolhidos == "Pronomes (opcional)"
+                        ? "Nenhum"
+                        : pronomesEscolhidos,
+                  });
+                  SharedPreferences inst =
+                      await SharedPreferences.getInstance();
+                  inst.setBool(
+                    "cadastroTerminado",
+                    true,
+                  );
+                  if (argumento == "email") {
+                    Reference instSt = FirebaseStorage.instance.ref(
+                      "users/${userFlyvoo?.uid}",
+                    );
+                    await instSt.putFile(userImg!);
+                  } else if (userImg != null) {
+                    Reference instSt = FirebaseStorage.instance.ref(
+                      "users/${userFlyvoo?.uid}",
+                    );
+                    await instSt.putFile(userImg!);
+                  }
+                  await userFlyvoo?.updatePhotoURL(
+                    argumento == "email"
+                        ? "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media"
+                        : userImg == null
+                            ? userFlyvoo!.photoURL
+                            : "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                  );
+                  setState(() {
+                    userFlyvoo = FirebaseAuth.instance.currentUser;
+                  });
+                  if (!mounted) return;
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                  Navigator.pushReplacementNamed(
+                    context,
+                    "/home",
+                  );
+              }
+            }
+          : null,
+      child: Text(
+        botaoTxt[_step],
+        style: GoogleFonts.inter(
+          fontSize: 25,
+          color: btnAtivado
+              ? tema["textoBotaoIndex"]
+              : CupertinoColors.systemGrey2,
         ),
       ),
     );

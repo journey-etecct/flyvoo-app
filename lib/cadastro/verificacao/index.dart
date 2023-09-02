@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,49 +62,52 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       });
       if (e.code == "email-already-in-use") {
         if (!mounted) return;
-        showDialog(
+        showCupertinoDialog(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta já existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja fazer login?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
-                Text(
-                  "Essa conta já existe",
-                  style: GoogleFonts.inter(),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Entrar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: Text(
-              "Deseja fazer login?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/login");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Entrar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
         );
       } else {

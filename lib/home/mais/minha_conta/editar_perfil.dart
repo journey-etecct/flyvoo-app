@@ -250,78 +250,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       ),
                       height: 43,
                       width: 129,
-                      child: CupertinoButton(
-                        onPressed: _btnAtivado
-                            ? () async {
-                                setState(() {
-                                  _btnAtivado = false;
-                                });
-                                if (_imgEscolhida != null) {
-                                  await instSt.putFile(_imgEscolhida!);
-                                  await _deleteImageFromCache();
-                                  if (userFlyvoo!
-                                          .providerData.first.providerId !=
-                                      "password") {
-                                    await userFlyvoo!.updatePhotoURL(
-                                      "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
-                                    );
-                                  }
-                                }
-                                await userFlyvoo
-                                    ?.updateDisplayName(_txtNome.text);
-                                setState(() {
-                                  userFlyvoo =
-                                      FirebaseAuth.instance.currentUser;
-                                });
-                                await inst.update({
-                                  "telefone": _txtTelefone.text,
-                                  "sexo": _txtSexo.text,
-                                  "pronomes": _txtPronome.text,
-                                });
-                                setState(() {
-                                  _btnAtivado = true;
-                                });
-                                if (!mounted) return;
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => CupertinoAlertDialog(
-                                    content: Text(
-                                      "Informações atualizadas com sucesso",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "OK",
-                                          style: GoogleFonts.inter(
-                                            color: CupertinoColors.systemBlue,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            : null,
-                        padding: const EdgeInsets.all(0),
-                        color: const Color(0xffF81B50),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Text(
-                          "Salvar",
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      child: botaoSalvar(context),
                     ),
                   ],
                 ),
@@ -331,6 +260,80 @@ class _EditarPerfilState extends State<EditarPerfil> {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  CupertinoButton botaoSalvar(BuildContext context) {
+    return CupertinoButton(
+      onPressed: _btnAtivado
+          ? () async {
+              setState(() {
+                _btnAtivado = false;
+              });
+              if (_imgEscolhida != null) {
+                await instSt.putFile(_imgEscolhida!);
+                await _deleteImageFromCache();
+                if (userFlyvoo!.providerData.first.providerId != "password") {
+                  await userFlyvoo!.updatePhotoURL(
+                    "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                  );
+                }
+              }
+              await userFlyvoo?.updateDisplayName(_txtNome.text);
+              setState(() {
+                userFlyvoo = FirebaseAuth.instance.currentUser;
+              });
+              await inst.update({
+                "telefone": _txtTelefone.text,
+                "sexo": _txtSexo.text,
+                "pronomes": _txtPronome.text,
+              });
+              setState(() {
+                _btnAtivado = true;
+              });
+              if (!mounted) return;
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                  child: CupertinoAlertDialog(
+                    content: Text(
+                      "Informações atualizadas com sucesso",
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                      ),
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "OK",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemBlue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          : null,
+      padding: const EdgeInsets.all(0),
+      color: const Color(0xffF81B50),
+      borderRadius: BorderRadius.circular(10),
+      child: Text(
+        "Salvar",
+        style: GoogleFonts.inter(
+          fontWeight: FontWeight.w600,
+          fontSize: 20,
+          color: Colors.white,
         ),
       ),
     );
@@ -366,26 +369,29 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         setState(() {
                           _imgEscolhida = cortado;
                         });
-                        showDialog(
+                        showCupertinoDialog(
                           context: context,
-                          builder: (context) => CupertinoAlertDialog(
-                            content: Text(
-                              "Imagem enviada com sucesso!",
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                              ),
-                            ),
-                            actions: [
-                              CupertinoDialogAction(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  "OK",
-                                  style: GoogleFonts.inter(
-                                    color: CupertinoColors.systemBlue,
-                                  ),
+                          builder: (context) => BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                            child: CupertinoAlertDialog(
+                              content: Text(
+                                "Imagem enviada com sucesso!",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
                                 ),
                               ),
-                            ],
+                              actions: [
+                                CupertinoDialogAction(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "OK",
+                                    style: GoogleFonts.inter(
+                                      color: CupertinoColors.systemBlue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }
@@ -406,26 +412,29 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         setState(() {
                           _imgEscolhida = cortado;
                         });
-                        showDialog(
+                        showCupertinoDialog(
                           context: context,
-                          builder: (context) => CupertinoAlertDialog(
-                            content: Text(
-                              "Imagem enviada com sucesso!",
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                              ),
-                            ),
-                            actions: [
-                              CupertinoDialogAction(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  "OK",
-                                  style: GoogleFonts.inter(
-                                    color: CupertinoColors.systemBlue,
-                                  ),
+                          builder: (context) => BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                            child: CupertinoAlertDialog(
+                              content: Text(
+                                "Imagem enviada com sucesso!",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
                                 ),
                               ),
-                            ],
+                              actions: [
+                                CupertinoDialogAction(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "OK",
+                                    style: GoogleFonts.inter(
+                                      color: CupertinoColors.systemBlue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }
@@ -528,7 +537,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
       onTap: widget.campo != "Email"
           ? () {
               var txtAntigo = _camposSwitch();
-              showDialog(
+              showCupertinoDialog(
                 barrierDismissible: false,
                 context: context,
                 builder: (context) => BackdropFilter(

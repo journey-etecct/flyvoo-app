@@ -66,39 +66,42 @@ class _IndexState extends State<Index> {
     }
     if (!widget.cadastroTerminado) {
       SchedulerBinding.instance.addPostFrameCallback(
-        (_) => showDialog(
+        (_) => showCupertinoDialog(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: Text(
-              "Cadastro não finalizado",
-              style: GoogleFonts.inter(),
-            ),
-            content: Text(
-              "Deseja continuar o seu cadastro?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Text(
+                "Cadastro não finalizado",
+                style: GoogleFonts.inter(),
+              ),
+              content: Text(
+                "Deseja continuar o seu cadastro?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
                   ),
                 ),
-              ),
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                onPressed: () =>
-                    Navigator.popAndPushNamed(context, "/cadastro"),
-                child: Text(
-                  "OK",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  onPressed: () =>
+                      Navigator.popAndPushNamed(context, "/cadastro"),
+                  child: Text(
+                    "OK",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -272,116 +275,120 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
               ),
             ],
           ),
-          child: CupertinoButton(
-            color: tema["botaoIndex"],
-            borderRadius: BorderRadius.circular(50),
-            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 20,
-                ),
-                Icon(
-                  botoes[index].icon,
-                  color: tema["textoBotaoIndex"],
-                  size: 30,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  botoes[index].text,
-                  style: GoogleFonts.inter(
-                    color: tema["textoBotaoIndex"],
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {
-              switch (index) {
-                case 0:
-                  showCupertinoDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                      child: CupertinoAlertDialog(
-                        content: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                          child: Text(
-                            "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
-                            style: GoogleFonts.inter(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        actions: botoesAlerta
-                            .map<CupertinoDialogAction>(
-                              (value) => CupertinoDialogAction(
-                                onPressed: () async {
-                                  switch (value) {
-                                    case "Cancelar":
-                                      Navigator.pop(context);
-                                      break;
-                                    case "Me lembre depois":
-                                      var inst =
-                                          await SharedPreferences.getInstance();
-                                      setState(() {
-                                        if (userFlyvoo != null) {
-                                          inst.setString(
-                                            "email",
-                                            userFlyvoo!.email!,
-                                          );
-                                        }
-
-                                        userFlyvoo = null;
-                                      });
-                                      if (!mounted) return;
-                                      Navigator.popAndPushNamed(
-                                        context,
-                                        "/home",
-                                      );
-                                      break;
-                                    default:
-                                      Navigator.popAndPushNamed(
-                                        context,
-                                        "/opcoesCadastro",
-                                      );
-                                  }
-                                },
-                                isDefaultAction: value == botoesAlerta.last,
-                                child: Text(
-                                  value,
-                                  style: GoogleFonts.inter(
-                                    color: CupertinoColors.systemBlue,
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  );
-                  break;
-                case 1:
-                  Navigator.pushNamed(
-                    context,
-                    "/login",
-                  );
-                  break;
-                default:
-                  Navigator.pushNamed(
-                    context,
-                    "/opcoesCadastro",
-                  );
-              }
-            },
-          ),
+          child: botaoEntrada(index, context),
         );
       },
       itemCount: botoes.length,
+    );
+  }
+
+  CupertinoButton botaoEntrada(int index, BuildContext context) {
+    return CupertinoButton(
+      color: tema["botaoIndex"],
+      borderRadius: BorderRadius.circular(50),
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 20,
+          ),
+          Icon(
+            botoes[index].icon,
+            color: tema["textoBotaoIndex"],
+            size: 30,
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Text(
+            botoes[index].text,
+            style: GoogleFonts.inter(
+              color: tema["textoBotaoIndex"],
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+      onPressed: () {
+        switch (index) {
+          case 0:
+            showCupertinoDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                  content: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Text(
+                      "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                  actions: botoesAlerta
+                      .map<CupertinoDialogAction>(
+                        (value) => CupertinoDialogAction(
+                          onPressed: () async {
+                            switch (value) {
+                              case "Cancelar":
+                                Navigator.pop(context);
+                                break;
+                              case "Me lembre depois":
+                                var inst =
+                                    await SharedPreferences.getInstance();
+                                setState(() {
+                                  if (userFlyvoo != null) {
+                                    inst.setString(
+                                      "email",
+                                      userFlyvoo!.email!,
+                                    );
+                                  }
+                                  userFlyvoo = null;
+                                });
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  "/home",
+                                );
+                                break;
+                              default:
+                                Navigator.popAndPushNamed(
+                                  context,
+                                  "/opcoesCadastro",
+                                );
+                            }
+                          },
+                          isDefaultAction: value == botoesAlerta.last,
+                          child: Text(
+                            value,
+                            style: GoogleFonts.inter(
+                              color: CupertinoColors.systemBlue,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            );
+            break;
+          case 1:
+            Navigator.pushNamed(
+              context,
+              "/login",
+            );
+            break;
+          default:
+            Navigator.pushNamed(
+              context,
+              "/opcoesCadastro",
+            );
+        }
+      },
     );
   }
 }

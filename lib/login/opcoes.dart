@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -76,114 +78,11 @@ class _LoginState extends State<Login> {
     ); // [] ou [google.com] ou [microsoft.com]
     if (emails.isEmpty) {
       if (!mounted) return null;
-      showDialog(
+      showCupertinoDialog(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: Column(
-            children: [
-              const Icon(Symbols.error_circle_rounded_error),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Essa conta não existe",
-                style: GoogleFonts.inter(),
-              ),
-            ],
-          ),
-          content: Text(
-            "Deseja se cadastrar?",
-            style: GoogleFonts.inter(),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Cancelar",
-                style: GoogleFonts.inter(
-                  color: CupertinoColors.systemBlue,
-                ),
-              ),
-            ),
-            CupertinoDialogAction(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.pushNamed(context, "/opcoesCadastro");
-              },
-              isDefaultAction: true,
-              child: Text(
-                "Criar uma conta",
-                style: GoogleFonts.inter(
-                  color: CupertinoColors.systemBlue,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-      return null;
-    } else if (emails.contains("microsoft.com")) {
-      if (!mounted) return null;
-      showDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: Column(
-            children: [
-              const Icon(Symbols.error_circle_rounded_error),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Essa conta existe com outro tipo de credencial",
-                style: GoogleFonts.inter(),
-              ),
-            ],
-          ),
-          content: Text(
-            "Tente novamente com a opção Microsoft ou com Email",
-            style: GoogleFonts.inter(),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              onPressed: () => Navigator.pop(context),
-              isDefaultAction: true,
-              child: Text(
-                "OK",
-                style: GoogleFonts.inter(
-                  color: CupertinoColors.systemBlue,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-      return null;
-    }
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  Future<UserCredential?> signInWithMicrosoft() async {
-    setState(() {
-      _btnMicrosoft = false;
-    });
-    final microsoftProvider = MicrosoftAuthProvider();
-    try {
-      final cr =
-          await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
-      final info = await FirebaseDatabase.instance.ref("users/").get();
-      if (!info.child("${cr.user?.uid}").exists) {
-        if (!mounted) return null;
-        showDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: CupertinoAlertDialog(
             title: Column(
               children: [
                 const Icon(Symbols.error_circle_rounded_error),
@@ -225,16 +124,16 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
-        );
-        return null;
-      } else {
-        return cr;
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "account-exists-with-different-credential") {
-        showDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(
+        ),
+      );
+      return null;
+    } else if (emails.contains("microsoft.com")) {
+      if (!mounted) return null;
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: CupertinoAlertDialog(
             title: Column(
               children: [
                 const Icon(Symbols.error_circle_rounded_error),
@@ -253,9 +152,7 @@ class _LoginState extends State<Login> {
             ),
             actions: [
               CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 isDefaultAction: true,
                 child: Text(
                   "OK",
@@ -265,6 +162,123 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ],
+          ),
+        ),
+      );
+      return null;
+    }
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential?> signInWithMicrosoft() async {
+    setState(() {
+      _btnMicrosoft = false;
+    });
+    final microsoftProvider = MicrosoftAuthProvider();
+    try {
+      final cr =
+          await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+      final info = await FirebaseDatabase.instance.ref("users/").get();
+      if (!info.child("${cr.user?.uid}").exists) {
+        if (!mounted) return null;
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta não existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja se cadastrar?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/opcoesCadastro");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Criar uma conta",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        return null;
+      } else {
+        return cr;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "account-exists-with-different-credential") {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta existe com outro tipo de credencial",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Tente novamente com a opção Microsoft ou com Email",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "OK",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       }
