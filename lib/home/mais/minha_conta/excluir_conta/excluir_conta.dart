@@ -406,68 +406,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                 "Tão triste te ver partir assim...",
                 style: GoogleFonts.inter(),
               ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Para continuar com a exclusão da sua conta, informe sua senha abaixo:",
-                  ),
-                  TextFormField(
-                    key: _keySenha,
-                    controller: _txtSenha,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "*Obrigatório";
-                      } else if (value.length < 8) {
-                        return "A senha tem mais de 8 caracteres.";
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _keySenha.currentState!.validate();
-                    },
-                    cursorColor: tema["texto"],
-                    autofillHints: const [AutofillHints.password],
-                    obscureText: _txtEscondido,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      labelText: "Senha",
-                      labelStyle: GoogleFonts.inter(),
-                      floatingLabelStyle: TextStyle(
-                        color: tema["texto"],
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: tema["texto"]!,
-                        ),
-                      ),
-                      suffix: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            child: Icon(
-                              _iconeOlho,
-                              size: 20,
-                            ),
-                            onTap: () {
-                              setStateDialogo(() {
-                                if (_txtEscondido) {
-                                  _iconeOlho = Icons.visibility_off_rounded;
-                                  _txtEscondido = false;
-                                } else {
-                                  _iconeOlho = Icons.visibility_rounded;
-                                  _txtEscondido = true;
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              content: conteudo(setStateDialogo),
               actions: [
                 FilledButton(
                   onPressed: () {
@@ -617,6 +556,195 @@ class _ExcluirContaState extends State<ExcluirConta> {
           ),
         );
       },
+    );
+  }
+
+  Column conteudo(StateSetter setStateDialogo) {
+    List<Widget> google = <Widget>[
+      const Text(
+        "Para continuar com a exclusão da sua conta, confirme sua conta abaixo:",
+      ),
+      const SizedBox(
+        height: 15,
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: CupertinoButton(
+              borderRadius: BorderRadius.circular(100),
+              color: ColorScheme.fromSeed(
+                seedColor: Colors.red,
+                brightness: Brightness.dark,
+              ).primary,
+              padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+              onPressed: () async {
+                try {
+                  final cr = await userFlyvoo!
+                      .reauthenticateWithProvider(GoogleAuthProvider());
+                  setStateDialogo(() {
+                    userFlyvoo = cr.user;
+                  });
+                } on FirebaseAuthException catch (e) {
+                  if (!mounted) return;
+                  if (e.code == "user-mismatch") {
+                    Flushbar(
+                      duration: const Duration(seconds: 5),
+                      margin: const EdgeInsets.all(20),
+                      borderRadius: BorderRadius.circular(50),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      messageText: Row(
+                        children: [
+                          Icon(
+                            Symbols.error_rounded,
+                            fill: 1,
+                            color: Theme.of(context).colorScheme.onError,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Usuário incorreto",
+                            style: GoogleFonts.inter(
+                              color: Theme.of(context).colorScheme.onError,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).show(context);
+                  } else {
+                    Flushbar(
+                      duration: const Duration(seconds: 5),
+                      margin: const EdgeInsets.all(20),
+                      borderRadius: BorderRadius.circular(50),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      messageText: Row(
+                        children: [
+                          Icon(
+                            Symbols.error_rounded,
+                            fill: 1,
+                            color: Theme.of(context).colorScheme.onError,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Erro desconhecido: ${e.code}",
+                            style: GoogleFonts.inter(
+                              color: Theme.of(context).colorScheme.onError,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).show(context);
+                  }
+                }
+              },
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image(
+                      image: const AssetImage("assets/icons/google.png"),
+                      height: 29,
+                      color: ColorScheme.fromSeed(
+                        seedColor: Colors.red,
+                        brightness: Brightness.dark,
+                      ).onPrimary,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    "Confirmar",
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
+
+    List<Widget> email = <Widget>[
+      const Text(
+        "sim",
+      ),
+      TextFormField(
+        key: _keySenha,
+        controller: _txtSenha,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "*Obrigatório";
+          } else if (value.length < 8) {
+            return "A senha tem mais de 8 caracteres.";
+          }
+          return null;
+        },
+        onChanged: (value) {
+          _keySenha.currentState!.validate();
+        },
+        cursorColor: tema["texto"],
+        autofillHints: const [AutofillHints.password],
+        obscureText: _txtEscondido,
+        keyboardType: TextInputType.visiblePassword,
+        decoration: InputDecoration(
+          labelText: "Senha",
+          labelStyle: GoogleFonts.inter(),
+          floatingLabelStyle: TextStyle(
+            color: tema["texto"],
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: tema["texto"]!,
+            ),
+          ),
+          suffix: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                child: Icon(
+                  _iconeOlho,
+                  size: 20,
+                ),
+                onTap: () {
+                  setStateDialogo(() {
+                    if (_txtEscondido) {
+                      _iconeOlho = Icons.visibility_off_rounded;
+                      _txtEscondido = false;
+                    } else {
+                      _iconeOlho = Icons.visibility_rounded;
+                      _txtEscondido = true;
+                    }
+                  });
+                },
+              ),
+            ),
+          ),
+        ),
+      )
+    ];
+
+    List<Widget> microsoft = <Widget>[];
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: google,
+      /* userFlyvoo!.providerData.first.providerId ==
+              EmailAuthProvider.PROVIDER_ID
+          ? email
+          : userFlyvoo!.providerData.first.providerId ==
+                  GoogleAuthProvider.PROVIDER_ID
+              ? google
+              : microsoft */
     );
   }
 }
