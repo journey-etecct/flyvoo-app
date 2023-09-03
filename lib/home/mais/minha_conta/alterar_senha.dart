@@ -153,220 +153,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                         ),
                         height: 43,
                         width: 150,
-                        child: CupertinoButton(
-                          onPressed: _btnAtivado
-                              ? () async {
-                                  switch (_step) {
-                                    case 0:
-                                      if (_keySenha.currentState!.validate()) {
-                                        setState(() {
-                                          _btnAtivado = false;
-                                        });
-                                        try {
-                                          final cr = await userFlyvoo!
-                                              .reauthenticateWithCredential(
-                                            EmailAuthProvider.credential(
-                                              email: userFlyvoo!.email!,
-                                              password: _txtSenha.text,
-                                            ),
-                                          );
-                                          setState(() {
-                                            userFlyvoo = cr.user;
-                                            _btnAtivado = true;
-                                            _reversed = false;
-                                            _step = 1;
-                                          });
-                                        } on FirebaseAuthException catch (e) {
-                                          if (e.code == "wrong-password") {
-                                            if (!mounted) return;
-                                            Flushbar(
-                                              duration:
-                                                  const Duration(seconds: 5),
-                                              margin: const EdgeInsets.all(20),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              messageText: Row(
-                                                children: [
-                                                  Icon(
-                                                    Symbols.error_rounded,
-                                                    fill: 1,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    "Senha incorreta",
-                                                    style: GoogleFonts.inter(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onError,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ).show(context);
-                                          } else if (e.code ==
-                                              "too-many-requests") {
-                                            if (!mounted) return;
-                                            Flushbar(
-                                              duration:
-                                                  const Duration(seconds: 5),
-                                              margin: const EdgeInsets.all(20),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              messageText: Row(
-                                                children: [
-                                                  Icon(
-                                                    Symbols.error_rounded,
-                                                    fill: 1,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Flexible(
-                                                    child: Text(
-                                                      "Muitas tentativas, tente novamente mais tarde.",
-                                                      style: GoogleFonts.inter(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onError,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ).show(context);
-                                          } else {
-                                            if (!mounted) return;
-                                            Flushbar(
-                                              duration:
-                                                  const Duration(seconds: 5),
-                                              margin: const EdgeInsets.all(20),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              messageText: Row(
-                                                children: [
-                                                  Icon(
-                                                    Symbols.error_rounded,
-                                                    fill: 1,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Flexible(
-                                                    child: Text(
-                                                      "Erro desconhecido: ${e.code}",
-                                                      style: GoogleFonts.inter(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onError,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ).show(context);
-                                          }
-                                          setState(() {
-                                            _btnAtivado = true;
-                                          });
-                                        }
-                                      }
-                                      break;
-                                    default:
-                                      if (_keyNovaSenha.currentState!
-                                              .validate() &&
-                                          _keyNovaSenhaConf.currentState!
-                                              .validate()) {
-                                        setState(() {
-                                          _btnAtivado = false;
-                                        });
-                                        try {
-                                          await userFlyvoo!.updatePassword(
-                                            _txtNovaSenha.text,
-                                          );
-                                          TextInput.finishAutofillContext();
-                                          setState(() {
-                                            _btnAtivado = true;
-                                          });
-                                          if (!mounted) return;
-                                          Navigator.pop(context, true);
-                                        } on FirebaseAuthException catch (e) {
-                                          if (e.code == "weak-password") {
-                                            if (!mounted) return;
-                                            Flushbar(
-                                              duration:
-                                                  const Duration(seconds: 5),
-                                              margin: const EdgeInsets.all(20),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              messageText: Row(
-                                                children: [
-                                                  Icon(
-                                                    Symbols.error_rounded,
-                                                    fill: 1,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onError,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Flexible(
-                                                    child: Text(
-                                                      "Senha fraca, tente novamente com uma senha mais forte",
-                                                      style: GoogleFonts.inter(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onError,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ).show(context);
-                                          }
-                                          setState(() {
-                                            _btnAtivado = true;
-                                          });
-                                        }
-                                      }
-                                  }
-                                }
-                              : null,
-                          padding: const EdgeInsets.all(0),
-                          color: const Color(0xffF81B50),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Text(
-                            _botoes[1][_step],
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        child: botaoNext(context),
                       ),
                     ],
                   ),
@@ -374,6 +161,190 @@ class _AlterarSenhaState extends State<AlterarSenha> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  CupertinoButton botaoNext(BuildContext context) {
+    return CupertinoButton(
+      onPressed: _btnAtivado
+          ? () async {
+              switch (_step) {
+                case 0:
+                  if (_keySenha.currentState!.validate()) {
+                    setState(() {
+                      _btnAtivado = false;
+                    });
+                    try {
+                      final cr = await userFlyvoo!.reauthenticateWithCredential(
+                        EmailAuthProvider.credential(
+                          email: userFlyvoo!.email!,
+                          password: _txtSenha.text,
+                        ),
+                      );
+                      setState(() {
+                        userFlyvoo = cr.user;
+                        _btnAtivado = true;
+                        _reversed = false;
+                        _step = 1;
+                      });
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == "wrong-password") {
+                        if (!mounted) return;
+                        Flushbar(
+                          duration: const Duration(seconds: 5),
+                          margin: const EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(50),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          messageText: Row(
+                            children: [
+                              Icon(
+                                Symbols.error_rounded,
+                                fill: 1,
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Senha incorreta",
+                                style: GoogleFonts.inter(
+                                  color: Theme.of(context).colorScheme.onError,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).show(context);
+                      } else if (e.code == "too-many-requests") {
+                        if (!mounted) return;
+                        Flushbar(
+                          duration: const Duration(seconds: 5),
+                          margin: const EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(50),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          messageText: Row(
+                            children: [
+                              Icon(
+                                Symbols.error_rounded,
+                                fill: 1,
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "Muitas tentativas, tente novamente mais tarde.",
+                                  style: GoogleFonts.inter(
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).show(context);
+                      } else {
+                        if (!mounted) return;
+                        Flushbar(
+                          duration: const Duration(seconds: 5),
+                          margin: const EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(50),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          messageText: Row(
+                            children: [
+                              Icon(
+                                Symbols.error_rounded,
+                                fill: 1,
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "Erro desconhecido: ${e.code}",
+                                  style: GoogleFonts.inter(
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).show(context);
+                      }
+                      setState(() {
+                        _btnAtivado = true;
+                      });
+                    }
+                  }
+                  break;
+                default:
+                  if (_keyNovaSenha.currentState!.validate() &&
+                      _keyNovaSenhaConf.currentState!.validate()) {
+                    setState(() {
+                      _btnAtivado = false;
+                    });
+                    try {
+                      await userFlyvoo!.updatePassword(
+                        _txtNovaSenha.text,
+                      );
+                      TextInput.finishAutofillContext();
+                      setState(() {
+                        _btnAtivado = true;
+                      });
+                      if (!mounted) return;
+                      Navigator.pop(context, true);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == "weak-password") {
+                        if (!mounted) return;
+                        Flushbar(
+                          duration: const Duration(seconds: 5),
+                          margin: const EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(50),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          messageText: Row(
+                            children: [
+                              Icon(
+                                Symbols.error_rounded,
+                                fill: 1,
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "Senha fraca, tente novamente com uma senha mais forte",
+                                  style: GoogleFonts.inter(
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).show(context);
+                      }
+                      setState(() {
+                        _btnAtivado = true;
+                      });
+                    }
+                  }
+              }
+            }
+          : null,
+      padding: const EdgeInsets.all(0),
+      color: const Color(0xffF81B50),
+      borderRadius: BorderRadius.circular(10),
+      child: Text(
+        _botoes[1][_step],
+        style: GoogleFonts.inter(
+          fontWeight: FontWeight.w600,
+          fontSize: 20,
+          color: Colors.white,
         ),
       ),
     );

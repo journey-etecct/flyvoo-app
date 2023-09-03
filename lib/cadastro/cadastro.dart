@@ -60,6 +60,7 @@ List<String> botaoTxt = const <String>[
 bool _reversed = false;
 int _step = 0;
 bool btnAtivado = true;
+late Function setStateBotao;
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -258,24 +259,29 @@ class _CadastroState extends State<Cadastro> {
                         const SizedBox(
                           height: 35,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: tema["fundo"],
-                            boxShadow: btnAtivado
-                                ? <BoxShadow>[
-                                    BoxShadow(
-                                      blurRadius: 4,
-                                      spreadRadius: 0,
-                                      offset: const Offset(0, 5),
-                                      color: const Color(
-                                        0xff000000,
-                                      ).withOpacity(0.25),
-                                    ),
-                                  ]
-                                : [],
-                          ),
-                          child: botaoNext(context, argumento),
+                        StatefulBuilder(
+                          builder: (context, setStateCoiso) {
+                            setStateBotao = setStateCoiso;
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: tema["fundo"],
+                                boxShadow: btnAtivado
+                                    ? <BoxShadow>[
+                                        BoxShadow(
+                                          blurRadius: 4,
+                                          spreadRadius: 0,
+                                          offset: const Offset(0, 5),
+                                          color: const Color(
+                                            0xff000000,
+                                          ).withOpacity(0.25),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: botaoNext(context, argumento),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 40,
@@ -347,7 +353,7 @@ class _CadastroState extends State<Cadastro> {
                   var ref = FirebaseDatabase.instance.ref(
                     "users/${userFlyvoo!.uid}",
                   );
-                  await ref.update({
+                  await ref.set({
                     "telefone": txtTelefone.text,
                     "nascimento":
                         "${nascimento?.day};${nascimento?.month};${nascimento?.year}",

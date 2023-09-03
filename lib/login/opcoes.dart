@@ -261,7 +261,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
               content: Text(
-                "Tente novamente com a opção Microsoft ou com Email",
+                "Tente novamente com a opção Google ou com Email",
                 style: GoogleFonts.inter(),
               ),
               actions: [

@@ -120,9 +120,8 @@ class _Tela3State extends State<Tela3> {
                           Navigator.pop(context);
                           setState(() {
                             userImg = cortado;
-                            btnAtivado = true;
                           });
-                          showCupertinoDialog(
+                          await showCupertinoDialog(
                             context: context,
                             builder: (context) => BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
@@ -147,6 +146,9 @@ class _Tela3State extends State<Tela3> {
                               ),
                             ),
                           );
+                          setStateBotao(() {
+                            btnAtivado = true;
+                          });
                         }
                       },
                       child: Text(

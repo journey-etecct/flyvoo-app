@@ -8,6 +8,7 @@ import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,12 +25,17 @@ class ExcluirConta extends StatefulWidget {
 }
 
 class _ExcluirContaState extends State<ExcluirConta> {
-  bool _btnAivado = true;
+  bool _btnAtivado = true;
+  bool _confirmado = false;
+
+  String provider() {
+    return userFlyvoo!.providerData.first.providerId;
+  }
 
   @override
   void initState() {
     super.initState();
-    _btnAivado = true;
+    _btnAtivado = provider() == "password";
   }
 
   @override
@@ -413,7 +419,8 @@ class _ExcluirContaState extends State<ExcluirConta> {
                     setState(() {
                       _txtSenha.text = "";
                       _txtEscondido = true;
-                      _btnAivado = true;
+                      _btnAtivado = provider() == "password";
+                      _confirmado = false;
                     });
                     Navigator.pop(
                       context,
@@ -423,11 +430,11 @@ class _ExcluirContaState extends State<ExcluirConta> {
                   child: const Text("CANCELAR A EXCLUSÃO"),
                 ),
                 OutlinedButton(
-                  onPressed: _btnAivado
+                  onPressed: _btnAtivado
                       ? () async {
                           if (_keySenha.currentState!.validate()) {
                             setStateDialogo(() {
-                              _btnAivado = false;
+                              _btnAtivado = false;
                             });
                             try {
                               final cr = await userFlyvoo!
@@ -441,7 +448,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                                 userFlyvoo = cr.user;
                                 _txtSenha.text = "";
                                 _txtEscondido = true;
-                                _btnAivado = true;
+                                _btnAtivado = true;
                               });
                               if (!mounted) return;
                               Navigator.pop<bool>(
@@ -543,7 +550,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                                 ).show(context);
                               }
                               setStateDialogo(() {
-                                _btnAivado = true;
+                                _btnAtivado = true;
                               });
                             }
                           }
@@ -567,9 +574,20 @@ class _ExcluirContaState extends State<ExcluirConta> {
       const SizedBox(
         height: 15,
       ),
-      Row(
+      Stack(
+        alignment: Alignment.centerLeft,
         children: [
-          Expanded(
+          Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Symbols.check,
+              color: !_confirmado ? Colors.transparent : null,
+            ),
+          ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+            width: _confirmado ? 230 : 500,
             child: CupertinoButton(
               borderRadius: BorderRadius.circular(100),
               color: ColorScheme.fromSeed(
@@ -579,11 +597,22 @@ class _ExcluirContaState extends State<ExcluirConta> {
               padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
               onPressed: () async {
                 try {
-                  final cr = await userFlyvoo!
-                      .reauthenticateWithProvider(GoogleAuthProvider());
-                  setStateDialogo(() {
-                    userFlyvoo = cr.user;
-                  });
+                  final googleUser = await GoogleSignIn().signInSilently();
+                  if (googleUser != null) {
+                    final GoogleSignInAuthentication googleAuth =
+                        await googleUser.authentication;
+                    final cr = await userFlyvoo!.reauthenticateWithCredential(
+                      GoogleAuthProvider.credential(
+                        accessToken: googleAuth.accessToken,
+                        idToken: googleAuth.idToken,
+                      ),
+                    );
+                    setStateDialogo(() {
+                      userFlyvoo = cr.user;
+                      _confirmado = true;
+                      _btnAtivado = true;
+                    });
+                  }
                 } on FirebaseAuthException catch (e) {
                   if (!mounted) return;
                   if (e.code == "user-mismatch") {
@@ -627,10 +656,12 @@ class _ExcluirContaState extends State<ExcluirConta> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            "Erro desconhecido: ${e.code}",
-                            style: GoogleFonts.inter(
-                              color: Theme.of(context).colorScheme.onError,
+                          Expanded(
+                            child: Text(
+                              "Erro desconhecido: ${e.code}",
+                              style: GoogleFonts.inter(
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
                             ),
                           ),
                         ],
@@ -733,11 +764,139 @@ class _ExcluirContaState extends State<ExcluirConta> {
       )
     ];
 
-    List<Widget> microsoft = <Widget>[];
+    List<Widget> microsoft = <Widget>[
+      const Text(
+        "Para continuar com a exclusão da sua conta, confirme sua conta abaixo:",
+      ),
+      const SizedBox(
+        height: 15,
+      ),
+      Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Symbols.check,
+              color: !_confirmado ? Colors.transparent : null,
+            ),
+          ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+            width: _confirmado ? 230 : 500,
+            child: CupertinoButton(
+              borderRadius: BorderRadius.circular(100),
+              color: ColorScheme.fromSeed(
+                seedColor: Colors.red,
+                brightness: Brightness.dark,
+              ).primary,
+              padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+              onPressed: () async {
+                try {
+                  final mauthpro = MicrosoftAuthProvider();
+                  final cr = await userFlyvoo!.reauthenticateWithProvider(
+                    mauthpro,
+                  );
+                  setStateDialogo(() {
+                    userFlyvoo = cr.user;
+                    _confirmado = true;
+                    _btnAtivado = true;
+                  });
+                } on FirebaseAuthException catch (e) {
+                  if (!mounted) return;
+                  if (e.code == "user-mismatch") {
+                    Flushbar(
+                      duration: const Duration(seconds: 5),
+                      margin: const EdgeInsets.all(20),
+                      borderRadius: BorderRadius.circular(50),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      messageText: Row(
+                        children: [
+                          Icon(
+                            Symbols.error_rounded,
+                            fill: 1,
+                            color: Theme.of(context).colorScheme.onError,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Usuário incorreto",
+                            style: GoogleFonts.inter(
+                              color: Theme.of(context).colorScheme.onError,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).show(context);
+                  } else {
+                    Flushbar(
+                      duration: const Duration(seconds: 5),
+                      margin: const EdgeInsets.all(20),
+                      borderRadius: BorderRadius.circular(50),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      messageText: Row(
+                        children: [
+                          Icon(
+                            Symbols.error_rounded,
+                            fill: 1,
+                            color: Theme.of(context).colorScheme.onError,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Erro desconhecido: ${e.code}",
+                              style: GoogleFonts.inter(
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).show(context);
+                  }
+                }
+              },
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image(
+                      image: const AssetImage("assets/icons/microsoft.png"),
+                      height: 29,
+                      color: ColorScheme.fromSeed(
+                        seedColor: Colors.red,
+                        brightness: Brightness.dark,
+                      ).onPrimary,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    "Confirmar",
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: google,
+      children: microsoft,
       /* userFlyvoo!.providerData.first.providerId ==
               EmailAuthProvider.PROVIDER_ID
           ? email

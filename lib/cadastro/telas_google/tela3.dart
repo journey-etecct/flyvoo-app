@@ -166,7 +166,6 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                           Navigator.pop(context);
                           setState(() {
                             userImg = cortado;
-                            btnAtivado = true;
                           });
                           await showCupertinoDialog(
                             context: context,
@@ -193,7 +192,9 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                               ),
                             ),
                           );
-                          setState(() {});
+                          setStateBotao(() {
+                            btnAtivado = true;
+                          });
                         }
                       },
                       child: Text(
