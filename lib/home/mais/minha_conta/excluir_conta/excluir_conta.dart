@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,117 @@ class _ExcluirContaState extends State<ExcluirConta> {
 
   String provider() {
     return userFlyvoo!.providerData.first.providerId;
+  }
+
+  Future<void> verificar(Function setStateDialogo) async {
+    if (_keySenha.currentState!.validate()) {
+      setStateDialogo(() {
+        _btnAtivado = false;
+      });
+      try {
+        final cr = await userFlyvoo!.reauthenticateWithCredential(
+          EmailAuthProvider.credential(
+            email: userFlyvoo!.email!,
+            password: _txtSenha.text,
+          ),
+        );
+        setStateDialogo(() {
+          userFlyvoo = cr.user;
+          _txtSenha.text = "";
+          _txtEscondido = true;
+          _btnAtivado = true;
+        });
+        if (!mounted) return;
+        Navigator.pop<bool>(
+          context,
+          true,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "wrong-password") {
+          Flushbar(
+            duration: const Duration(seconds: 5),
+            margin: const EdgeInsets.all(20),
+            borderRadius: BorderRadius.circular(50),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            messageText: Row(
+              children: [
+                Icon(
+                  Symbols.error_rounded,
+                  fill: 1,
+                  color: Theme.of(context).colorScheme.onError,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Senha incorreta",
+                  style: GoogleFonts.inter(
+                    color: Theme.of(context).colorScheme.onError,
+                  ),
+                ),
+              ],
+            ),
+          ).show(context);
+        } else if (e.code == "too-many-requests") {
+          Flushbar(
+            duration: const Duration(seconds: 5),
+            margin: const EdgeInsets.all(20),
+            borderRadius: BorderRadius.circular(50),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            messageText: Row(
+              children: [
+                Icon(
+                  Symbols.error_rounded,
+                  fill: 1,
+                  color: Theme.of(context).colorScheme.onError,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: Text(
+                    "Muitas tentativas, tente novamente mais tarde.",
+                    style: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onError,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ).show(context);
+        } else {
+          Flushbar(
+            duration: const Duration(seconds: 5),
+            margin: const EdgeInsets.all(20),
+            borderRadius: BorderRadius.circular(50),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            messageText: Row(
+              children: [
+                Icon(
+                  Symbols.error_rounded,
+                  fill: 1,
+                  color: Theme.of(context).colorScheme.onError,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    "Erro desconhecido: ${e.code}",
+                    style: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onError,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ).show(context);
+        }
+        setStateDialogo(() {
+          _btnAtivado = true;
+        });
+      }
+    }
   }
 
   @override
@@ -215,6 +327,11 @@ class _ExcluirContaState extends State<ExcluirConta> {
                                   builder: (context) => alertaDelete2(context),
                                 );
                                 if (decisaoFinal) {
+                                  await FirebaseDatabase.instance
+                                      .ref(
+                                        "users/${userFlyvoo!.uid}",
+                                      )
+                                      .remove();
                                   userFlyvoo!.delete();
                                   if (!mounted) return;
                                   Navigator.popUntil(
@@ -432,127 +549,13 @@ class _ExcluirContaState extends State<ExcluirConta> {
                 OutlinedButton(
                   onPressed: _btnAtivado
                       ? () async {
-                          if (_keySenha.currentState!.validate()) {
-                            setStateDialogo(() {
-                              _btnAtivado = false;
-                            });
-                            try {
-                              final cr = await userFlyvoo!
-                                  .reauthenticateWithCredential(
-                                EmailAuthProvider.credential(
-                                  email: userFlyvoo!.email!,
-                                  password: _txtSenha.text,
-                                ),
-                              );
-                              setStateDialogo(() {
-                                userFlyvoo = cr.user;
-                                _txtSenha.text = "";
-                                _txtEscondido = true;
-                                _btnAtivado = true;
-                              });
+                          switch (provider()) {
+                            case "password":
+                              await verificar(setStateDialogo);
+                              break;
+                            default:
                               if (!mounted) return;
-                              Navigator.pop<bool>(
-                                context,
-                                true,
-                              );
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == "wrong-password") {
-                                Flushbar(
-                                  duration: const Duration(seconds: 5),
-                                  margin: const EdgeInsets.all(20),
-                                  borderRadius: BorderRadius.circular(50),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                  messageText: Row(
-                                    children: [
-                                      Icon(
-                                        Symbols.error_rounded,
-                                        fill: 1,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Senha incorreta",
-                                        style: GoogleFonts.inter(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onError,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ).show(context);
-                              } else if (e.code == "too-many-requests") {
-                                Flushbar(
-                                  duration: const Duration(seconds: 5),
-                                  margin: const EdgeInsets.all(20),
-                                  borderRadius: BorderRadius.circular(50),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                  messageText: Row(
-                                    children: [
-                                      Icon(
-                                        Symbols.error_rounded,
-                                        fill: 1,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          "Muitas tentativas, tente novamente mais tarde.",
-                                          style: GoogleFonts.inter(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onError,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ).show(context);
-                              } else {
-                                Flushbar(
-                                  duration: const Duration(seconds: 5),
-                                  margin: const EdgeInsets.all(20),
-                                  borderRadius: BorderRadius.circular(50),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                  messageText: Row(
-                                    children: [
-                                      Icon(
-                                        Symbols.error_rounded,
-                                        fill: 1,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Erro desconhecido: ${e.code}",
-                                        style: GoogleFonts.inter(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onError,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ).show(context);
-                              }
-                              setStateDialogo(() {
-                                _btnAtivado = true;
-                              });
-                            }
+                              Navigator.pop<bool>(context, true);
                           }
                         }
                       : null,
@@ -596,6 +599,13 @@ class _ExcluirContaState extends State<ExcluirConta> {
               ).primary,
               padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
               onPressed: () async {
+                final flushbar = Flushbar(
+                  message: "Confirmando...",
+                  duration: const Duration(seconds: 10),
+                  margin: const EdgeInsets.all(20),
+                  borderRadius: BorderRadius.circular(50),
+                );
+                flushbar.show(context);
                 try {
                   final googleUser = await GoogleSignIn().signInSilently();
                   if (googleUser != null) {
@@ -612,6 +622,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                       _confirmado = true;
                       _btnAtivado = true;
                     });
+                    flushbar.dismiss();
                   }
                 } on FirebaseAuthException catch (e) {
                   if (!mounted) return;
@@ -706,7 +717,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
 
     List<Widget> email = <Widget>[
       const Text(
-        "sim",
+        "Para continuar com a exclusão da sua conta, confirme sua senha abaixo:",
       ),
       TextFormField(
         key: _keySenha,
@@ -830,6 +841,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                         ],
                       ),
                     ).show(context);
+                  } else if (e.code == "web-context-canceled") {
                   } else {
                     Flushbar(
                       duration: const Duration(seconds: 5),
@@ -896,14 +908,11 @@ class _ExcluirContaState extends State<ExcluirConta> {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: microsoft,
-      /* userFlyvoo!.providerData.first.providerId ==
-              EmailAuthProvider.PROVIDER_ID
-          ? email
-          : userFlyvoo!.providerData.first.providerId ==
-                  GoogleAuthProvider.PROVIDER_ID
-              ? google
-              : microsoft */
+      children: switch (provider()) {
+        "password" => email,
+        "google.com" => google,
+        _ => microsoft
+      },
     );
   }
 }

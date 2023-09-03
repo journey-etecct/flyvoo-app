@@ -545,14 +545,11 @@ class _LoginState extends State<Login> {
               }
               return null;
             },
-            onChanged: (value) {
-              _loginKey.currentState!.validate();
-            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _txtEmail,
             cursorColor: tema["primaria"],
             autofillHints: const [
               AutofillHints.email,
-              AutofillHints.username,
             ],
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(

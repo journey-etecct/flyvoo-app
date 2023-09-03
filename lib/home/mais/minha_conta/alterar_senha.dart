@@ -291,7 +291,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                       await userFlyvoo!.updatePassword(
                         _txtNovaSenha.text,
                       );
-                      TextInput.finishAutofillContext();
+                      TextInput.finishAutofillContext(shouldSave: true);
                       setState(() {
                         _btnAtivado = true;
                       });
@@ -444,9 +444,7 @@ class _InserirSenhaState extends State<InserirSenha> {
               }
               return null;
             },
-            onChanged: (value) {
-              _keySenha.currentState!.validate();
-            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             cursorColor: tema["texto"],
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
@@ -631,7 +629,6 @@ class _MudarSenhaState extends State<MudarSenha> {
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             cursorColor: tema["texto"],
-            autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(

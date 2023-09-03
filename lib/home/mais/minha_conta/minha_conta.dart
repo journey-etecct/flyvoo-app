@@ -516,7 +516,7 @@ class _MinhaContaState extends State<MinhaConta> {
   }
 
   String _formatarNome(String nome) {
-    return nome.replaceRange(5, null, "*");
+    return nome.replaceRange(4, null, "************");
   }
 
   GestureDetector alertaFeedback() {
@@ -706,6 +706,7 @@ class Tela3 extends StatelessWidget {
         ),
         RatingBar.builder(
           glow: false,
+          tapOnlyMode: true,
           itemBuilder: (context, index) {
             switch (index) {
               case 0:
@@ -770,7 +771,7 @@ class SlideUpRoute extends PageRouteBuilder {
             ).animate(
               CurvedAnimation(
                 parent: animation,
-                curve: Curves.fastOutSlowIn,
+                curve: Curves.ease,
                 reverseCurve: Curves.fastEaseInToSlowEaseOut,
               ),
             ),
