@@ -27,10 +27,12 @@ class _ConfigGeraisState extends State<ConfigGerais> {
 
   _shp() async {
     instS = await SharedPreferences.getInstance();
-    _notificacoes = instS.getBool("notificacoes") ?? true;
-    _som = instS.getBool("som") ?? true;
-    _vibracao = instS.getBool("vibracao") ?? true;
-    _animcoes = instS.getBool("animacoes") ?? true;
+    setState(() {
+      _notificacoes = instS.getBool("notificacoes") ?? true;
+      _som = instS.getBool("som") ?? true;
+      _vibracao = instS.getBool("vibracao") ?? true;
+      _animcoes = instS.getBool("animacoes") ?? true;
+    });
   }
 
   @override

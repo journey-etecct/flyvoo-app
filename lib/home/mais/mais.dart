@@ -80,7 +80,9 @@ class _MaisState extends State<Mais> {
               ),
               Expanded(
                 child: Text(
-                  userFlyvoo != null ? userFlyvoo!.displayName! : "Usuário",
+                  userFlyvoo != null
+                      ? userFlyvoo!.displayName!
+                      : "Usuário anônimo",
                   style: GoogleFonts.inter(
                     color: tema["texto"],
                     fontSize: 19,
@@ -226,72 +228,7 @@ class _MaisState extends State<Mais> {
       int index, BuildContext context, VoidCallback action) {
     return CupertinoButton(
       onPressed: () async {
-        switch (index) {
-          case 0:
-            if (userFlyvoo == null) {
-              showCupertinoDialog(
-                context: context,
-                builder: (context) => BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 2,
-                    sigmaY: 2,
-                  ),
-                  child: CupertinoAlertDialog(
-                    content: Text(
-                      "Para acessar isso, você precisa se cadastrar",
-                      style: GoogleFonts.inter(
-                        fontSize: 18,
-                      ),
-                    ),
-                    actions: [
-                      CupertinoDialogAction(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          "Cancelar",
-                          style: GoogleFonts.inter(
-                            color: CupertinoColors.systemBlue,
-                          ),
-                        ),
-                      ),
-                      CupertinoDialogAction(
-                        onPressed: () => Navigator.popAndPushNamed(
-                          context,
-                          "/login",
-                        ),
-                        child: Text(
-                          "Entrar como usuário",
-                          style: GoogleFonts.inter(
-                            color: CupertinoColors.systemBlue,
-                          ),
-                        ),
-                      ),
-                      CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () => Navigator.popAndPushNamed(
-                          context,
-                          "/opcoesCadastro",
-                        ),
-                        child: Text(
-                          "Criar uma conta",
-                          style: GoogleFonts.inter(
-                            color: CupertinoColors.systemBlue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              action.call();
-            }
-            break;
-          case 1:
-            action.call();
-            break;
-          default:
-            action.call();
-        }
+        action();
       },
       borderRadius: BorderRadius.circular(15),
       color: tema["botao"],
@@ -306,4 +243,62 @@ class _MaisState extends State<Mais> {
       ),
     );
   }
+}
+
+alertaLogin(BuildContext context) {
+  showCupertinoDialog(
+    context: context,
+    builder: (context) => BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 2,
+        sigmaY: 2,
+      ),
+      child: CupertinoAlertDialog(
+        content: Text(
+          "Para acessar isso, você precisa se cadastrar",
+          style: GoogleFonts.inter(
+            fontSize: 18,
+          ),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "Cancelar",
+              style: GoogleFonts.inter(
+                color: CupertinoColors.systemBlue,
+              ),
+            ),
+          ),
+          CupertinoDialogAction(
+            onPressed: () {
+              Navigator.popAndPushNamed(
+                context,
+                "/login",
+              );
+            },
+            child: Text(
+              "Entrar como usuário",
+              style: GoogleFonts.inter(
+                color: CupertinoColors.systemBlue,
+              ),
+            ),
+          ),
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () => Navigator.popAndPushNamed(
+              context,
+              "/opcoesCadastro",
+            ),
+            child: Text(
+              "Criar uma conta",
+              style: GoogleFonts.inter(
+                color: CupertinoColors.systemBlue,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

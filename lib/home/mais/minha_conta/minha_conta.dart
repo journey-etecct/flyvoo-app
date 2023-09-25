@@ -50,7 +50,12 @@ class _MinhaContaState extends State<MinhaConta> {
   @override
   void initState() {
     super.initState();
-    _userInfo = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
+    if (userFlyvoo != null) {
+      _userInfo =
+          FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
+    } else {
+      _userInfo = FirebaseDatabase.instance.ref("users/").get();
+    }
   }
 
   @override
@@ -100,13 +105,26 @@ class _MinhaContaState extends State<MinhaConta> {
                             Align(
                               alignment: Alignment.topCenter,
                               child: ClipOval(
-                                child: Image(
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(
-                                    userFlyvoo!.photoURL!,
-                                  ),
-                                ),
+                                child: userFlyvoo != null
+                                    ? FadeInImage(
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                        fadeInDuration:
+                                            const Duration(milliseconds: 100),
+                                        fadeOutDuration:
+                                            const Duration(milliseconds: 100),
+                                        placeholder: const AssetImage(
+                                          "assets/background/loading.gif",
+                                        ),
+                                        image: CachedNetworkImageProvider(
+                                          userFlyvoo!.photoURL!,
+                                        ),
+                                      )
+                                    : Image.asset(
+                                        "assets/icons/user.png",
+                                        width: 100,
+                                        color: tema["texto"],
+                                      ),
                               ),
                             ),
                             const SizedBox(
@@ -119,7 +137,9 @@ class _MinhaContaState extends State<MinhaConta> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text(
-                                    userFlyvoo!.displayName!,
+                                    userFlyvoo != null
+                                        ? userFlyvoo!.displayName!
+                                        : "Usuário anônimo",
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
@@ -130,7 +150,9 @@ class _MinhaContaState extends State<MinhaConta> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      userFlyvoo!.email!,
+                                      userFlyvoo != null
+                                          ? userFlyvoo!.email!
+                                          : "",
                                       style: GoogleFonts.inter(
                                         color: tema["texto"],
                                         fontWeight: FontWeight.w500,
@@ -164,7 +186,11 @@ class _MinhaContaState extends State<MinhaConta> {
                                         child: CupertinoButton(
                                           color: Colors.transparent,
                                           onPressed: () {
-                                            action.call();
+                                            if (userFlyvoo != null) {
+                                              action.call();
+                                            } else {
+                                              alertaLogin(context);
+                                            }
                                           },
                                           padding: const EdgeInsets.fromLTRB(
                                             23,
@@ -371,10 +397,16 @@ class _MinhaContaState extends State<MinhaConta> {
                       ),
                       !feedbackEnviado ? futureFeedback() : const SizedBox(),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          "/excluirConta",
-                        ),
+                        onTap: () {
+                          if (userFlyvoo != null) {
+                            Navigator.pushNamed(
+                              context,
+                              "/excluirConta",
+                            );
+                          } else {
+                            alertaLogin(context);
+                          }
+                        },
                         onLongPress: () => Navigator.pushNamed(
                           context,
                           "/excluirConta/feedback",
@@ -454,27 +486,32 @@ class _MinhaContaState extends State<MinhaConta> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      final resposta = await showCupertinoDialog<bool?>(
-                        context: context,
-                        builder: (context) => BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaX: 2,
-                            sigmaY: 2,
+                      if (userFlyvoo != null) {
+                        final resposta = await showCupertinoDialog<bool?>(
+                          context: context,
+                          builder: (context) => BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX: 2,
+                              sigmaY: 2,
+                            ),
+                            child: alertaFeedback(),
                           ),
-                          child: alertaFeedback(),
-                        ),
-                      );
-                      if (resposta != null && resposta) {
+                        );
+                        if (resposta != null && resposta) {
+                          if (!mounted) return;
+                          setState(() {
+                            feedbackEnviado = true;
+                          });
+                          Flushbar(
+                            duration: const Duration(seconds: 5),
+                            margin: const EdgeInsets.all(20),
+                            borderRadius: BorderRadius.circular(50),
+                            message: "Feedback enviado com sucesso!",
+                          ).show(context);
+                        }
+                      } else {
                         if (!mounted) return;
-                        setState(() {
-                          feedbackEnviado = true;
-                        });
-                        Flushbar(
-                          duration: const Duration(seconds: 5),
-                          margin: const EdgeInsets.all(20),
-                          borderRadius: BorderRadius.circular(50),
-                          message: "Feedback enviado com sucesso!",
-                        ).show(context);
+                        alertaLogin(context);
                       }
                     },
                     child: Container(

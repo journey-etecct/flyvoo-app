@@ -18,7 +18,7 @@ class CentralDeAjuda extends StatefulWidget {
 class _CentralDeAjudaState extends State<CentralDeAjuda> {
   (String, dynamic, List<String>)? _selecionado;
   final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: "TJAfLE39ZZ8",
+    initialVideoId: "k2qPBf-CbBg",
     flags: const YoutubePlayerFlags(
       autoPlay: !kDebugMode,
       hideControls: false,
@@ -95,7 +95,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
                       Text(
                         "Central de Ajuda",

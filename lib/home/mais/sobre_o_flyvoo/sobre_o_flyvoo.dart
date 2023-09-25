@@ -115,7 +115,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 25,
+                        height: 55,
                       ),
                       Text(
                         "Sobre o aplicativo",
