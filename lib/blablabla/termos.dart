@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/blablabla/token.dart';
+import 'package:flyvoo/secure/token.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;

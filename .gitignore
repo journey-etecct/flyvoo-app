@@ -42,5 +42,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-lib/home/mais/pub_key_EJS.dart
-lib/blablabla/token.dart
+/lib/secure/
