@@ -72,7 +72,7 @@ class _MaisState extends State<Mais> {
                       )
                     : Image.asset(
                         "assets/icons/user.png",
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                       ),
               ),
               const SizedBox(
@@ -84,7 +84,7 @@ class _MaisState extends State<Mais> {
                       ? userFlyvoo!.displayName!
                       : "Usuário anônimo",
                   style: GoogleFonts.inter(
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                     fontSize: 19,
                     fontWeight: FontWeight.bold,
                   ),
@@ -119,13 +119,13 @@ class _MaisState extends State<Mais> {
                                   return const SobreOFlyvoo();
                               }
                             },
-                            closedColor: tema["botao"]!,
+                            closedColor: Tema.botao.toColor(),
                             closedShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                             onClosed: (data) => setState(() {}),
                             tappable: false,
-                            openColor: tema["fundo"]!,
+                            openColor: Tema.fundo.toColor(),
                             transitionDuration:
                                 const Duration(milliseconds: 500),
                             closedBuilder: (context, action) => SizedBox(
@@ -154,7 +154,7 @@ class _MaisState extends State<Mais> {
                               content: Text(
                                 "Tem certeza que deseja sair?",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: Tema.texto.toColor(),
                                   fontSize: 17,
                                 ),
                               ),
@@ -231,7 +231,7 @@ class _MaisState extends State<Mais> {
         action();
       },
       borderRadius: BorderRadius.circular(15),
-      color: tema["botao"],
+      color: Tema.botao.toColor(),
       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
       child: Text(
         botoes[index],

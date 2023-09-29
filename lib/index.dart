@@ -16,8 +16,8 @@ import 'package:video_player/video_player.dart';
 bool iniciado = false;
 Shader linearGradient = LinearGradient(
   colors: <Color>[
-    tema["primaria"]!,
-    tema["noFundo"]!,
+    Tema.primaria.toColor(),
+    Tema.fundo.toColor(),
   ],
 ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
 
@@ -51,8 +51,8 @@ class _IndexState extends State<Index> {
     super.initState();
     linearGradient = LinearGradient(
       colors: <Color>[
-        tema["primaria"]!,
-        tema["noFundo"]!,
+        Tema.primaria.toColor(),
+        Tema.fundo.toColor(),
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     init();
@@ -111,7 +111,7 @@ class _IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tema["fundo"],
+      backgroundColor: Tema.fundo.toColor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -155,7 +155,7 @@ class _IndexState extends State<Index> {
                               text: "Bem-vindo(a) ao ",
                               style: GoogleFonts.inter(
                                 fontSize: 32,
-                                color: tema["noFundo"],
+                                color: Tema.fundo.toColor(),
                               ),
                               children: [
                                 TextSpan(
@@ -187,7 +187,7 @@ class _IndexState extends State<Index> {
                 ),
               ),
               Divider(
-                color: tema["noFundo"],
+                color: Tema.fundo.toColor(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
@@ -196,7 +196,7 @@ class _IndexState extends State<Index> {
                   text: TextSpan(
                     text: "Ao usar o aplicativo, você concorda com nossos ",
                     style: GoogleFonts.inter(
-                      color: tema["textoSecundario"],
+                      color: Tema.textoSecundario.toColor(),
                       fontSize: 15,
                       height: 1.3,
                       fontWeight: FontWeight.w300,
@@ -205,7 +205,7 @@ class _IndexState extends State<Index> {
                       TextSpan(
                         text: "Termos de Uso & Política de Privacidade",
                         style: GoogleFonts.inter(
-                          color: tema["textoSecundario"],
+                          color: Tema.textoSecundario.toColor(),
                           decoration: TextDecoration.underline,
                           decorationStyle: TextDecorationStyle.solid,
                         ),
@@ -217,7 +217,7 @@ class _IndexState extends State<Index> {
                       TextSpan(
                         text: ".",
                         style: GoogleFonts.inter(
-                          color: tema["textoSecundario"],
+                          color: Tema.textoSecundario.toColor(),
                         ),
                       ),
                     ],
@@ -265,7 +265,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: tema["fundo"],
+            color: Tema.fundo.toColor(),
             boxShadow: <BoxShadow>[
               BoxShadow(
                 blurRadius: 4,
@@ -284,7 +284,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
 
   CupertinoButton botaoEntrada(int index, BuildContext context) {
     return CupertinoButton(
-      color: tema["botaoIndex"],
+      color: Tema.botaoIndex.toColor(),
       borderRadius: BorderRadius.circular(50),
       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: Row(
@@ -294,7 +294,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
           ),
           Icon(
             botoes[index].icon,
-            color: tema["textoBotaoIndex"],
+            color: Tema.textoBotaoIndex.toColor(),
             size: 30,
           ),
           const SizedBox(
@@ -303,7 +303,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
           Text(
             botoes[index].text,
             style: GoogleFonts.inter(
-              color: tema["textoBotaoIndex"],
+              color: Tema.textoBotaoIndex.toColor(),
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),

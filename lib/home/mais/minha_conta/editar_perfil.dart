@@ -103,10 +103,10 @@ class _EditarPerfilState extends State<EditarPerfil> {
           AndroidUiSettings(
             toolbarTitle: '✂️Cortando...',
             hideBottomControls: true,
-            toolbarColor: tema["fundo"],
-            toolbarWidgetColor: tema["noFundo"],
+            toolbarColor: Tema.fundo.toColor(),
+            toolbarWidgetColor: Tema.fundo.toColor(),
             initAspectRatio: CropAspectRatioPreset.square,
-            statusBarColor: tema["fundo"],
+            statusBarColor: Tema.fundo.toColor(),
             lockAspectRatio: true,
           ),
         ],
@@ -137,10 +137,10 @@ class _EditarPerfilState extends State<EditarPerfil> {
           AndroidUiSettings(
             toolbarTitle: '✂️Cortando...',
             hideBottomControls: true,
-            toolbarColor: tema["fundo"],
-            toolbarWidgetColor: tema["noFundo"],
+            toolbarColor: Tema.fundo.toColor(),
+            toolbarWidgetColor: Tema.fundo.toColor(),
             initAspectRatio: CropAspectRatioPreset.square,
-            statusBarColor: tema["fundo"],
+            statusBarColor: Tema.fundo.toColor(),
             lockAspectRatio: true,
           ),
         ],
@@ -164,7 +164,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
         }
       },
       child: Scaffold(
-        backgroundColor: tema["fundo"],
+        backgroundColor: Tema.fundo.toColor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -193,7 +193,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         )
                       : Center(
                           child: CircularProgressIndicator(
-                            color: tema["texto"],
+                            color: Tema.texto.toColor(),
                           ),
                         ),
                 ),
@@ -472,7 +472,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 width: 65,
                 height: 65,
                 decoration: BoxDecoration(
-                  color: tema["texto"],
+                  color: Tema.texto.toColor(),
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Icon(
@@ -552,7 +552,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                     ),
                     child: AlertDialog(
                       alignment: Alignment.bottomCenter,
-                      backgroundColor: tema["fundo"],
+                      backgroundColor: Tema.fundo.toColor(),
                       title: Text(widget.campo),
                       content: switch (widget.index) {
                         0 => TextFormField(
@@ -621,16 +621,16 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                           ),
                         3 => DropdownButtonFormField(
                             value: sexoEscolhido,
-                            dropdownColor: tema["fundo"],
+                            dropdownColor: Tema.fundo.toColor(),
                             elevation: 1,
                             style: GoogleFonts.inter(
-                              color: tema["noFundo"],
+                              color: Tema.fundo.toColor(),
                               fontSize: 20,
                             ),
                             borderRadius: BorderRadius.circular(20),
                             icon: Image.asset(
                               "assets/icons/seta.png",
-                              color: tema["noFundo"],
+                              color: Tema.fundo.toColor(),
                             ),
                             selectedItemBuilder: (context) => sexos
                                 .map(
@@ -664,16 +664,16 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                           ),
                         4 => DropdownButtonFormField(
                             value: pronomesEscolhidos,
-                            dropdownColor: tema["fundo"],
+                            dropdownColor: Tema.fundo.toColor(),
                             elevation: 1,
                             style: GoogleFonts.inter(
-                              color: tema["noFundo"],
+                              color: Tema.fundo.toColor(),
                               fontSize: 20,
                             ),
                             borderRadius: BorderRadius.circular(20),
                             icon: Image.asset(
                               "assets/icons/seta.png",
-                              color: tema["noFundo"],
+                              color: Tema.fundo.toColor(),
                             ),
                             selectedItemBuilder: (context) => pronomes
                                 .map(
@@ -731,11 +731,11 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                               ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tema["primaria"]!,
+                                  color: Tema.primaria.toColor(),
                                 ),
                               ),
                             ),
-                            cursorColor: tema["primaria"],
+                            cursorColor: Tema.primaria.toColor(),
                           ),
                       },
                       /* TextField(
@@ -805,7 +805,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: tema["texto"]!,
+              color: Tema.texto.toColor(),
             ),
           ),
         ),
@@ -820,7 +820,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                     Text(
                       widget.campo,
                       style: GoogleFonts.inter(
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
@@ -830,7 +830,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                       softWrap: false,
                       overflow: TextOverflow.fade,
                       style: GoogleFonts.inter(
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
@@ -844,7 +844,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                     padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
                     child: Icon(
                       Bootstrap.pencil_fill,
-                      color: tema["texto"],
+                      color: Tema.texto.toColor(),
                     ),
                   )
                 : const Row(),

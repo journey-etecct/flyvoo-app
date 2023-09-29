@@ -44,7 +44,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tema["fundo"],
+      backgroundColor: Tema.fundo.toColor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -93,7 +93,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.notifications_rounded,
                             size: 30,
-                            color: tema["texto"],
+                            color: Tema.texto.toColor(),
                             fill: 1,
                           ),
                           const SizedBox(
@@ -105,7 +105,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Notificações",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: Tema.texto.toColor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -132,7 +132,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: tema["texto"]!.withOpacity(0.5),
+                  color: Tema.texto.toColor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -152,7 +152,9 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.volume_up_rounded,
                             size: 30,
-                            color: _notificacoes ? tema["texto"] : Colors.grey,
+                            color: _notificacoes
+                                ? Tema.texto.toColor()
+                                : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -165,7 +167,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                 "Som",
                                 style: GoogleFonts.inter(
                                   color: _notificacoes
-                                      ? tema["texto"]
+                                      ? Tema.texto.toColor()
                                       : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -195,7 +197,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: tema["texto"]!.withOpacity(0.5),
+                  color: Tema.texto.toColor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -215,7 +217,9 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.vibration_rounded,
                             size: 30,
-                            color: _notificacoes ? tema["texto"] : Colors.grey,
+                            color: _notificacoes
+                                ? Tema.texto.toColor()
+                                : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -228,7 +232,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                 "Vibração",
                                 style: GoogleFonts.inter(
                                   color: _notificacoes
-                                      ? tema["texto"]
+                                      ? Tema.texto.toColor()
                                       : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -258,7 +262,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: tema["texto"]!.withOpacity(0.5),
+                  color: Tema.texto.toColor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -305,7 +309,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                         children: [
                           Image.asset(
                             "assets/icons/lua.png",
-                            color: tema["texto"],
+                            color: Tema.texto.toColor(),
                           ),
                           const SizedBox(
                             width: 20,
@@ -316,7 +320,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Modo escuro",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: Tema.texto.toColor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -381,7 +385,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: tema["texto"]!.withOpacity(0.5),
+                  color: Tema.texto.toColor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -402,7 +406,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Animações de fundo",
                                 style: GoogleFonts.inter(
-                                  color: tema["texto"],
+                                  color: Tema.texto.toColor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),

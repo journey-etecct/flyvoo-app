@@ -19,7 +19,7 @@ class EmailEnviado extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        backgroundColor: tema["fundo"],
+        backgroundColor: Tema.fundo.toColor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -79,7 +79,7 @@ class EmailEnviado extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: tema["fundo"],
+                      color: Tema.fundo.toColor(),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           blurRadius: 4,
@@ -96,13 +96,13 @@ class EmailEnviado extends StatelessWidget {
                           (route) => route.isFirst,
                         );
                       },
-                      color: tema["botaoIndex"],
+                      color: Tema.botaoIndex.toColor(),
                       borderRadius: BorderRadius.circular(10),
                       padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                       child: Text(
                         "Fechar",
                         style: GoogleFonts.inter(
-                          color: tema["textoBotaoIndex"],
+                          color: Tema.textoBotaoIndex.toColor(),
                           fontSize: 25,
                         ),
                       ),

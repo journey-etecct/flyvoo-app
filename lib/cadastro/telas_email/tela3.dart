@@ -39,7 +39,7 @@ class _Tela3State extends State<Tela3> {
             hideBottomControls: true,
             toolbarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
-            toolbarWidgetColor: tema["textoBotaoIndex"],
+            toolbarWidgetColor: Tema.textoBotaoIndex.toColor(),
             initAspectRatio: CropAspectRatioPreset.square,
             statusBarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
@@ -75,7 +75,7 @@ class _Tela3State extends State<Tela3> {
             hideBottomControls: true,
             toolbarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
-            toolbarWidgetColor: tema["textoBotaoIndex"],
+            toolbarWidgetColor: Tema.textoBotaoIndex.toColor(),
             initAspectRatio: CropAspectRatioPreset.square,
             statusBarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
@@ -221,7 +221,7 @@ class _Tela3State extends State<Tela3> {
                       )
                     : Image(
                         image: const AssetImage("assets/icons/user.png"),
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                         width: 200,
                         fit: BoxFit.cover,
                       ),
@@ -229,7 +229,7 @@ class _Tela3State extends State<Tela3> {
                   width: 65,
                   height: 65,
                   decoration: BoxDecoration(
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Icon(

@@ -40,7 +40,7 @@ class _FeedbackECState extends State<FeedbackEC> {
         setState(() {});
       },
       child: Scaffold(
-        backgroundColor: tema["fundo"],
+        backgroundColor: Tema.fundo.toColor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -61,7 +61,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                 child: Text(
                   "Pular",
                   style: GoogleFonts.inter(
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                     fontSize: 18,
                   ),
                 ),
@@ -121,8 +121,8 @@ class _FeedbackECState extends State<FeedbackEC> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 color: dark
-                                    ? tema["fundo"]
-                                    : tema["fundo"]!.withOpacity(0.7),
+                                    ? Tema.fundo.toColor()
+                                    : Tema.fundo.toColor().withOpacity(0.7),
                               ),
                               child: Row(
                                 children: [
@@ -203,11 +203,11 @@ class _FeedbackECState extends State<FeedbackEC> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           borderSide: BorderSide(
-                                            color: tema["texto"]!,
+                                            color: Tema.texto.toColor(),
                                           ),
                                         ),
                                       ),
-                                      cursorColor: tema["texto"],
+                                      cursorColor: Tema.texto.toColor(),
                                     ),
                                   ],
                                 ),

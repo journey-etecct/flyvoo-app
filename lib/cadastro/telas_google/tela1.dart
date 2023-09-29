@@ -58,11 +58,11 @@ class _TelaGoogle1State extends State<TelaGoogle1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
           ),
           TextFormField(
             controller: txtTelefone,
@@ -82,12 +82,12 @@ class _TelaGoogle1State extends State<TelaGoogle1> {
               labelStyle: GoogleFonts.inter(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
               prefixText: "+55 ",
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
             inputFormatters: [
               PhoneInputFormatter(
                 defaultCountryCode: "BR",

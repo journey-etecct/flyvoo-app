@@ -55,11 +55,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
           ),
           TextFormField(
             controller: txtTelefone,
@@ -79,12 +79,12 @@ class _Tela1State extends State<Tela1> {
               labelStyle: GoogleFonts.inter(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
               prefixText: "+55 ",
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
             inputFormatters: [
               PhoneInputFormatter(
                 defaultCountryCode: "BR",
@@ -136,11 +136,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
           ),
           TextFormField(
             key: _senhaConfKey,
@@ -166,11 +166,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: tema["primaria"]!,
+                  color: Tema.primaria.toColor(),
                 ),
               ),
             ),
-            cursorColor: tema["primaria"],
+            cursorColor: Tema.primaria.toColor(),
           ),
         ],
       ),

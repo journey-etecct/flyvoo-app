@@ -32,7 +32,7 @@ class _SemInternetState extends State<SemInternet> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: tema["fundo"],
+        backgroundColor: Tema.fundo.toColor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -52,7 +52,7 @@ class _SemInternetState extends State<SemInternet> {
                 children: [
                   Icon(
                     Symbols.wifi_off_rounded,
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                     size: 100,
                   ),
                   const SizedBox(
@@ -63,7 +63,7 @@ class _SemInternetState extends State<SemInternet> {
                     style: GoogleFonts.inter(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: tema["texto"],
+                      color: Tema.texto.toColor(),
                     ),
                   ),
                   const SizedBox(
@@ -77,7 +77,7 @@ class _SemInternetState extends State<SemInternet> {
                       style: GoogleFonts.inter(
                         fontSize: 28,
                         fontWeight: FontWeight.w200,
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                         letterSpacing: -0.41,
                       ),
                     ),

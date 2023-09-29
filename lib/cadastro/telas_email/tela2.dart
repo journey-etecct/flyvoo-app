@@ -65,9 +65,9 @@ class _Tela2State extends State<Tela2> {
         children: [
           DropdownButtonFormField(
             value: carreiraEscolhida,
-            dropdownColor: tema["fundo"],
+            dropdownColor: Tema.fundo.toColor(),
             style: GoogleFonts.inter(
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
               fontSize: 17,
             ),
             elevation: 1,
@@ -87,7 +87,7 @@ class _Tela2State extends State<Tela2> {
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
             ),
             items: carreiras
                 .map(
@@ -133,7 +133,7 @@ class _Tela2State extends State<Tela2> {
                   border: Border(
                 bottom: BorderSide(
                   width: 2,
-                  color: tema["noFundo"]!.withOpacity(.30),
+                  color: Tema.fundo.toColor().withOpacity(.30),
                 ),
               )),
               child: Row(
@@ -207,16 +207,16 @@ class _Tela2State extends State<Tela2> {
           ),
           DropdownButtonFormField(
             value: sexoEscolhido,
-            dropdownColor: tema["fundo"],
+            dropdownColor: Tema.fundo.toColor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
             ),
             selectedItemBuilder: (context) => sexos
                 .map(
@@ -253,16 +253,16 @@ class _Tela2State extends State<Tela2> {
           ),
           DropdownButtonFormField(
             value: pronomesEscolhidos,
-            dropdownColor: tema["fundo"],
+            dropdownColor: Tema.fundo.toColor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: tema["noFundo"],
+              color: Tema.fundo.toColor(),
             ),
             selectedItemBuilder: (context) => pronomes
                 .map(

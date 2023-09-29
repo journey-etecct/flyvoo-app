@@ -15,7 +15,7 @@ class _EmpresasState extends State<Empresas> {
   @override
   Widget build(BuildContext context) {
     list = <Widget>[];
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 20; i++) {
       list.add(
         const Padding(
           padding: EdgeInsets.all(17.0),
@@ -25,17 +25,19 @@ class _EmpresasState extends State<Empresas> {
       i != 49
           ? list.add(
               Divider(
-                color: tema["texto"],
+                color: Tema.texto.toColor(),
               ),
             )
           : list.add(
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   bottom: 50,
                   top: 30,
                 ),
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Tema.texto.toColor(),
+                  ),
                 ),
               ),
             );
@@ -49,7 +51,7 @@ class _EmpresasState extends State<Empresas> {
             fontSize: 30,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.41,
-            color: tema["texto"],
+            color: Tema.texto.toColor(),
           ),
         ),
         const SizedBox(
@@ -59,11 +61,7 @@ class _EmpresasState extends State<Empresas> {
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  list[index],
-                ],
-              );
+              return list[index];
             },
             shrinkWrap: true,
             itemCount: list.length,
@@ -101,7 +99,7 @@ class CardEmpresas extends StatelessWidget {
                 "Estágio em Web Design | Home Office",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: tema["texto"],
+                  color: Tema.texto.toColor(),
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -110,7 +108,7 @@ class CardEmpresas extends StatelessWidget {
                 "Google",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: tema["texto"],
+                  color: Tema.texto.toColor(),
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -119,7 +117,7 @@ class CardEmpresas extends StatelessWidget {
                 "São Paulo, São Paulo, Brasil(Remoto)",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: tema["texto"],
+                  color: Tema.texto.toColor(),
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
                 ),
@@ -131,7 +129,7 @@ class CardEmpresas extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icons/alvo.png",
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                   ),
                   const SizedBox(
                     width: 7,

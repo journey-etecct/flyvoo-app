@@ -153,7 +153,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tema["fundo"],
+      backgroundColor: Tema.fundo.toColor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -396,7 +396,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
               TextSpan(
                 text:
                     "Se o seu problema for seu perfil${password ?? false ? ' ou sua conta' : ''}, você pode ",
-                style: GoogleFonts.inter(color: tema["noFundo"]),
+                style: GoogleFonts.inter(color: Tema.fundo.toColor()),
               ),
               TextSpan(
                 text: "editar seu perfil${password ?? false ? '' : '.'}",
@@ -425,7 +425,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                           text: " ou ",
                           style: TextStyle(
                             decoration: TextDecoration.none,
-                            color: tema["noFundo"],
+                            color: Tema.fundo.toColor(),
                           ),
                         ),
                         TextSpan(
@@ -462,7 +462,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
               TextSpan(
                 text:
                     "\n\nSe estiver tendo problema com outra coisa, você pode sempre ",
-                style: GoogleFonts.inter(color: tema["noFundo"]),
+                style: GoogleFonts.inter(color: Tema.fundo.toColor()),
               ),
               TextSpan(
                 text: "nos mandar um feedback.",
@@ -733,7 +733,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
         onChanged: (value) {
           _keySenha.currentState!.validate();
         },
-        cursorColor: tema["texto"],
+        cursorColor: Tema.texto.toColor(),
         autofillHints: const [AutofillHints.password],
         obscureText: _txtEscondido,
         keyboardType: TextInputType.visiblePassword,
@@ -741,11 +741,11 @@ class _ExcluirContaState extends State<ExcluirConta> {
           labelText: "Senha",
           labelStyle: GoogleFonts.inter(),
           floatingLabelStyle: TextStyle(
-            color: tema["texto"],
+            color: Tema.texto.toColor(),
           ),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: tema["texto"]!,
+              color: Tema.texto.toColor(),
             ),
           ),
           suffix: ClipRRect(

@@ -97,8 +97,8 @@ class _CadastroState extends State<Cadastro> {
     }
     linearGradient = LinearGradient(
       colors: <Color>[
-        tema["primaria"]!,
-        tema["noFundo"]!,
+        Tema.primaria.toColor(),
+        Tema.fundo.toColor(),
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     FlutterNativeSplash.remove();
@@ -191,7 +191,7 @@ class _CadastroState extends State<Cadastro> {
         }
       },
       child: Scaffold(
-        backgroundColor: tema["fundo"],
+        backgroundColor: Tema.fundo.toColor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -226,7 +226,7 @@ class _CadastroState extends State<Cadastro> {
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
-                            color: tema["texto"],
+                            color: Tema.texto.toColor(),
                           ),
                         ),
                         const SizedBox(
@@ -265,7 +265,7 @@ class _CadastroState extends State<Cadastro> {
                             return Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: tema["fundo"],
+                                color: Tema.fundo.toColor(),
                                 boxShadow: btnAtivado
                                     ? <BoxShadow>[
                                         BoxShadow(
@@ -302,7 +302,7 @@ class _CadastroState extends State<Cadastro> {
     return CupertinoButton(
       borderRadius: BorderRadius.circular(10),
       padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-      color: tema["botaoIndex"],
+      color: Tema.botaoIndex.toColor(),
       disabledColor: dark
           ? const Color(0xff007AFF).withOpacity(0.15)
           : const Color(0xffFB5607).withOpacity(0.30),
@@ -407,7 +407,7 @@ class _CadastroState extends State<Cadastro> {
         style: GoogleFonts.inter(
           fontSize: 25,
           color: btnAtivado
-              ? tema["textoBotaoIndex"]
+              ? Tema.textoBotaoIndex.toColor()
               : CupertinoColors.systemGrey2,
         ),
       ),

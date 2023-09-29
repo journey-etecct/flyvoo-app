@@ -195,11 +195,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: tema["fundo"],
+      color: Tema.fundo.toColor(),
       child: SafeArea(
         bottom: false,
         child: Scaffold(
-          backgroundColor: tema["fundo"],
+          backgroundColor: Tema.fundo.toColor(),
           body: Stack(
             children: [
               Column(
@@ -221,7 +221,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 height: 90,
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 decoration: BoxDecoration(
-                  color: !dark ? tema["fundo"] : const Color(0xff161616),
+                  color: !dark ? Tema.fundo.toColor() : const Color(0xff161616),
                   borderRadius: BorderRadius.circular(!dark ? 25 : 0),
                   boxShadow: [
                     BoxShadow(
@@ -275,7 +275,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 Container(
                                   decoration: BoxDecoration(
                                     color: indexHome == 0
-                                        ? tema["terciaria"]
+                                        ? Tema.terciaria.toColor()
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
@@ -287,8 +287,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   size: _animIcon0.value,
                                   fill: indexHome == 0 ? 1 : 0,
                                   color: indexHome == 0
-                                      ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      ? Tema.secundaria.toColor()
+                                      : Tema.fundo.toColor(),
                                 ),
                               ],
                             ),
@@ -326,7 +326,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 Container(
                                   decoration: BoxDecoration(
                                     color: indexHome == 1
-                                        ? tema["terciaria"]
+                                        ? Tema.terciaria.toColor()
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
@@ -338,8 +338,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   size: _animIcon1.value,
                                   fill: indexHome == 1 ? 1 : 0,
                                   color: indexHome == 1
-                                      ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      ? Tema.secundaria.toColor()
+                                      : Tema.fundo.toColor(),
                                 ),
                               ],
                             ),
@@ -377,7 +377,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 Container(
                                   decoration: BoxDecoration(
                                     color: indexHome == 2
-                                        ? tema["terciaria"]
+                                        ? Tema.terciaria.toColor()
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
@@ -390,8 +390,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       : Bootstrap.briefcase,
                                   size: _animIcon2.value,
                                   color: indexHome == 2
-                                      ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      ? Tema.secundaria.toColor()
+                                      : Tema.fundo.toColor(),
                                 ),
                               ],
                             ),
@@ -429,7 +429,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 Container(
                                   decoration: BoxDecoration(
                                     color: indexHome == 3
-                                        ? tema["terciaria"]
+                                        ? Tema.terciaria.toColor()
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
@@ -441,8 +441,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   size: _animIcon3.value,
                                   fill: indexHome == 3 ? 1 : 0,
                                   color: indexHome == 3
-                                      ? tema["secundaria"]
-                                      : tema["noFundo"],
+                                      ? Tema.secundaria.toColor()
+                                      : Tema.fundo.toColor(),
                                 ),
                               ],
                             ),

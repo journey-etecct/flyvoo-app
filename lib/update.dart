@@ -16,7 +16,7 @@ class _UpdateState extends State<Update> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tema["fundo"],
+      backgroundColor: Tema.fundo.toColor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -42,7 +42,7 @@ class _UpdateState extends State<Update> {
                     Icon(
                       Bootstrap.cloud_arrow_down,
                       size: 44,
-                      color: tema["texto"],
+                      color: Tema.texto.toColor(),
                     ),
                     const SizedBox(
                       width: 16,
@@ -53,7 +53,7 @@ class _UpdateState extends State<Update> {
                         fontSize: 26,
                         letterSpacing: -0.41,
                         fontWeight: FontWeight.w700,
-                        color: tema["texto"],
+                        color: Tema.texto.toColor(),
                       ),
                     ),
                   ],
@@ -66,7 +66,7 @@ class _UpdateState extends State<Update> {
                   "Baixe a versão mais recente do Flyvoo para ficar atualizado nas novidades e na sua segurança",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    color: tema["texto"],
+                    color: Tema.texto.toColor(),
                     fontSize: 25,
                     letterSpacing: -0.41,
                     fontWeight: FontWeight.w200,

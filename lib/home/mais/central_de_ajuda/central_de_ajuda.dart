@@ -74,7 +74,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
             setState(() {});
           },
           child: Scaffold(
-            backgroundColor: tema["fundo"],
+            backgroundColor: Tema.fundo.toColor(),
             body: Stack(
               children: [
                 SizedBox.expand(
@@ -102,7 +102,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w700,
                           fontSize: 30,
-                          color: tema["texto"],
+                          color: Tema.texto.toColor(),
                         ),
                       ),
                       const SizedBox(
@@ -113,7 +113,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
-                          color: tema["texto"],
+                          color: Tema.texto.toColor(),
                         ),
                       ),
                       const SizedBox(
@@ -124,7 +124,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                         child: Theme(
                           data: ThemeData.from(
                             colorScheme: ColorScheme.fromSeed(
-                              seedColor: tema["texto"]!,
+                              seedColor: Tema.texto.toColor(),
                               brightness:
                                   dark ? Brightness.dark : Brightness.light,
                             ),
@@ -147,7 +147,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                             leading: const Icon(Symbols.search_rounded),
                             shape: MaterialStatePropertyAll(
                               LinearBorder.bottom(
-                                side: BorderSide(color: tema["texto"]!),
+                                side: BorderSide(color: Tema.texto.toColor()),
                               ),
                             ),
                           ),
@@ -177,12 +177,9 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                         "Perguntas Frequentes",
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
-                          color: tema["texto"],
+                          color: Tema.texto.toColor(),
                           fontSize: 24,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
                       ),
                       listaFAQ(),
                       const SizedBox(
@@ -244,7 +241,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                             data[index].$1,
                             textAlign: TextAlign.left,
                             style: GoogleFonts.inter(
-                              color: tema["texto"],
+                              color: Tema.texto.toColor(),
                               fontSize: 19,
                               fontWeight: FontWeight.w600,
                               letterSpacing: -0.41,
@@ -299,7 +296,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                                       )) {
                                         return TextSpan(
                                           style: GoogleFonts.inter(
-                                            color: tema["texto"],
+                                            color: Tema.texto.toColor(),
                                             decoration:
                                                 TextDecoration.underline,
                                             fontSize: 18,
@@ -350,7 +347,7 @@ class _CentralDeAjudaState extends State<CentralDeAjuda> {
                 ),
                 data[index] != data.last
                     ? Divider(
-                        color: tema["texto"]!.withOpacity(0.5),
+                        color: Tema.texto.toColor().withOpacity(0.5),
                         height: 2,
                       )
                     : const SizedBox(),

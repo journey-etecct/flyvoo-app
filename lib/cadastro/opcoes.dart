@@ -309,7 +309,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tema["fundo"],
+      backgroundColor: Tema.fundo.toColor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -343,7 +343,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: tema["fundo"],
+                      color: Tema.fundo.toColor(),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           blurRadius: 4,
@@ -355,7 +355,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                     ),
                     child: CupertinoButton(
                       borderRadius: BorderRadius.circular(100),
-                      color: tema["botaoIndex"],
+                      color: Tema.botaoIndex.toColor(),
                       padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
                       onPressed: switch (index) {
                         0 => () => Navigator.pushNamed(
@@ -413,13 +413,13 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                                   child: Image(
                                     image: _botoes[index].icon.$1!,
                                     height: 29,
-                                    color: tema["textoBotaoIndex"],
+                                    color: Tema.textoBotaoIndex.toColor(),
                                   ),
                                 )
                               : Icon(
                                   _botoes[index].icon.$2,
                                   size: 30,
-                                  color: tema["textoBotaoIndex"],
+                                  color: Tema.textoBotaoIndex.toColor(),
                                 ),
                           const SizedBox(
                             width: 15,
@@ -427,7 +427,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                           Text(
                             _botoes[index].text,
                             style: GoogleFonts.inter(
-                              color: tema["textoBotaoIndex"],
+                              color: Tema.textoBotaoIndex.toColor(),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -444,7 +444,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                 ),
                 Text.rich(
                   style: GoogleFonts.inter(
-                    color: tema["noFundo"],
+                    color: Tema.fundo.toColor(),
                   ),
                   TextSpan(
                     text: "Já possui cadastro? ",
@@ -452,11 +452,13 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                       TextSpan(
                         text: "Clique aqui",
                         style: GoogleFonts.inter(
-                          color:
-                              dark ? tema["primaria"] : tema["textoBotaoIndex"],
+                          color: dark
+                              ? Tema.primaria.toColor()
+                              : Tema.textoBotaoIndex.toColor(),
                           decoration: TextDecoration.underline,
-                          decorationColor:
-                              dark ? tema["primaria"] : tema["textoBotaoIndex"],
+                          decorationColor: dark
+                              ? Tema.primaria.toColor()
+                              : Tema.textoBotaoIndex.toColor(),
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
