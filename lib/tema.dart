@@ -19,15 +19,11 @@ enum Tema {
   Color toColor() {
     switch (this) {
       case Tema.primaria:
-        return dark ? const Color(0xff00FFD8) : const Color(0xffFB5607);
+        return tema["primaria"]!;
       case Tema.secundaria:
-        return dark ? const Color(0xff31b6b0) : Colors.black;
+        return tema["primaria"]!;
       case Tema.terciaria:
-        return dark
-            ? const Color(0xff096073)
-            : const Color(0xff054BFD).withOpacity(
-                0.4,
-              );
+        return tema["primaria"]!;
       case Tema.fundo:
         return dark ? const Color(0xff252525) : Colors.white;
       case Tema.noFundo:

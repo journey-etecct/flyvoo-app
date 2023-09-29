@@ -227,9 +227,7 @@ class _MaisState extends State<Mais> {
   CupertinoButton botaoAcaoMais(
       int index, BuildContext context, VoidCallback action) {
     return CupertinoButton(
-      onPressed: () async {
-        action();
-      },
+      onPressed: () => action(),
       borderRadius: BorderRadius.circular(15),
       color: Tema.botao.toColor(),
       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
