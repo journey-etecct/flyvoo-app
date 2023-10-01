@@ -67,7 +67,7 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
             value: carreiraEscolhida,
             dropdownColor: Tema.fundo.cor(),
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 17,
             ),
             elevation: 1,
@@ -87,7 +87,7 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             items: carreiras
                 .map(
@@ -132,7 +132,7 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
                   border: Border(
                 bottom: BorderSide(
                   width: 2,
-                  color: Tema.fundo.cor().withOpacity(.30),
+                  color: Tema.noFundo.cor().withOpacity(.30),
                 ),
               )),
               child: Row(
@@ -171,36 +171,6 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
                   ],
                 )
               : const Row(),
-
-          /* DropdownButtonFormField(
-            icon: const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 3, 0),
-              child: Icon(Symbols.date_range),
-            ),
-            items: [
-              DropdownMenuItem<DateTime>(
-                value: nascimento,
-                child: const Text("Data de Nascimento"),
-              ),
-            ],
-            onChanged: (value) {},
-            selectedItemBuilder: (context) => [
-              const Text("Data de Nascimento"),
-            ],
-            onTap: () async {
-              nascimento = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now().subtract(
-                  const Duration(days: 365 * 18),
-                ),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().subtract(
-                  const Duration(days: 365 * 18),
-                ),
-              );
-              if (nascimento != null) {}
-            },
-          ), */
           const SizedBox(
             height: 15,
           ),
@@ -209,13 +179,13 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
             dropdownColor: Tema.fundo.cor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             selectedItemBuilder: (context) => sexos
                 .map(
@@ -255,13 +225,13 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
             dropdownColor: Tema.fundo.cor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             selectedItemBuilder: (context) => pronomes
                 .map(

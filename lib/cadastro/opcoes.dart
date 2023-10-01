@@ -444,7 +444,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
                 ),
                 Text.rich(
                   style: GoogleFonts.inter(
-                    color: Tema.fundo.cor(),
+                    color: Tema.noFundo.cor(),
                   ),
                   TextSpan(
                     text: "Já possui cadastro? ",

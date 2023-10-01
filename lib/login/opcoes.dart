@@ -348,7 +348,7 @@ class _LoginState extends State<Login> {
                 ),
                 Expanded(
                   child: Divider(
-                    color: Tema.fundo.cor(),
+                    color: Tema.noFundo.cor(),
                   ),
                 ),
                 const SizedBox(
@@ -365,7 +365,7 @@ class _LoginState extends State<Login> {
                 ),
                 Expanded(
                   child: Divider(
-                    color: Tema.fundo.cor(),
+                    color: Tema.noFundo.cor(),
                   ),
                 ),
                 const SizedBox(
@@ -490,7 +490,7 @@ class _LoginState extends State<Login> {
             ),
             Text.rich(
               style: GoogleFonts.inter(
-                color: Tema.fundo.cor(),
+                color: Tema.noFundo.cor(),
                 letterSpacing: -0.41,
                 fontWeight: FontWeight.w400,
               ),
@@ -629,8 +629,11 @@ class _LoginState extends State<Login> {
                 text: "Esqueceu a senha?",
                 style: GoogleFonts.inter(
                   fontSize: 15,
-                  color: Tema.primaria.cor(),
+                  color:
+                      dark ? Tema.primaria.cor() : Tema.textoBotaoIndex.cor(),
                   decoration: TextDecoration.underline,
+                  decorationColor:
+                      dark ? Tema.primaria.cor() : Tema.textoBotaoIndex.cor(),
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {

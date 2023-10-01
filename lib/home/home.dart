@@ -217,242 +217,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              Container(
-                height: 90,
-                margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                decoration: BoxDecoration(
-                  color: !dark ? Tema.fundo.cor() : const Color(0xff161616),
-                  borderRadius: BorderRadius.circular(!dark ? 25 : 0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: dark
-                          ? const Color.fromARGB(255, 18, 18, 18)
-                          : Colors.transparent,
-                      blurRadius: 100,
-                      spreadRadius: 100,
-                    ),
-                  ],
-                ),
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            onLongPress: () =>
-                                Navigator.pushNamed(context, "/update"),
-                            onTap: () {
-                              _index0.forward();
-                              _index1.reset();
-                              _index2.reset();
-                              _index3.reset();
-
-                              _icon0.forward();
-                              _icon1.reset();
-                              _icon2.reset();
-                              _icon3.reset();
-                              setState(() {
-                                if (indexHome < 0) {
-                                  _reverse = false;
-                                } else {
-                                  _reverse = true;
-                                }
-                                indexHome = 0;
-                              });
-                            },
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: indexHome == 0
-                                        ? Tema.terciaria.cor()
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  width: _anim0.value,
-                                  height: _anim0.value,
-                                ),
-                                Icon(
-                                  Symbols.mountain_flag_rounded,
-                                  size: _animIcon0.value,
-                                  fill: indexHome == 0 ? 1 : 0,
-                                  color: indexHome == 0
-                                      ? Tema.secundaria.cor()
-                                      : Tema.fundo.cor(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: InkWell(
-                            onTap: () {
-                              _index0.reset();
-                              _index1.forward();
-                              _index2.reset();
-                              _index3.reset();
-
-                              _icon0.reset();
-                              _icon1.forward();
-                              _icon2.reset();
-                              _icon3.reset();
-                              setState(() {
-                                if (indexHome < 1) {
-                                  _reverse = false;
-                                } else {
-                                  _reverse = true;
-                                }
-                                indexHome = 1;
-                              });
-                            },
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: indexHome == 1
-                                        ? Tema.terciaria.cor()
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  width: _anim1.value,
-                                  height: _anim1.value,
-                                ),
-                                Icon(
-                                  Symbols.school_rounded,
-                                  size: _animIcon1.value,
-                                  fill: indexHome == 1 ? 1 : 0,
-                                  color: indexHome == 1
-                                      ? Tema.secundaria.cor()
-                                      : Tema.fundo.cor(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: InkWell(
-                            onTap: () {
-                              _index0.reset();
-                              _index1.reset();
-                              _index2.forward();
-                              _index3.reset();
-
-                              _icon0.reset();
-                              _icon1.reset();
-                              _icon2.forward();
-                              _icon3.reset();
-                              setState(() {
-                                if (indexHome < 2) {
-                                  _reverse = false;
-                                } else {
-                                  _reverse = true;
-                                }
-                                indexHome = 2;
-                              });
-                            },
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: indexHome == 2
-                                        ? Tema.terciaria.cor()
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  width: _anim2.value,
-                                  height: _anim2.value,
-                                ),
-                                Icon(
-                                  indexHome == 2
-                                      ? Bootstrap.briefcase_fill
-                                      : Bootstrap.briefcase,
-                                  size: _animIcon2.value,
-                                  color: indexHome == 2
-                                      ? Tema.secundaria.cor()
-                                      : Tema.fundo.cor(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: InkWell(
-                            onTap: () {
-                              _index0.reset();
-                              _index1.reset();
-                              _index2.reset();
-                              _index3.forward();
-
-                              _icon0.reset();
-                              _icon1.reset();
-                              _icon2.reset();
-                              _icon3.forward();
-                              setState(() {
-                                if (indexHome < 3) {
-                                  _reverse = false;
-                                } else {
-                                  _reverse = true;
-                                }
-                                indexHome = 3;
-                              });
-                            },
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: indexHome == 3
-                                        ? Tema.terciaria.cor()
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  width: _anim3.value,
-                                  height: _anim3.value,
-                                ),
-                                Icon(
-                                  Symbols.settings_rounded,
-                                  size: _animIcon3.value,
-                                  fill: indexHome == 3 ? 1 : 0,
-                                  color: indexHome == 3
-                                      ? Tema.secundaria.cor()
-                                      : Tema.fundo.cor(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              navbar(context),
               Column(
                 children: [
                   const SizedBox(
@@ -481,6 +246,244 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Container navbar(BuildContext context) {
+    return Container(
+      height: 90,
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      decoration: BoxDecoration(
+        color: !dark ? Tema.fundo.cor() : const Color(0xff161616),
+        borderRadius: BorderRadius.circular(!dark ? 25 : 0),
+        boxShadow: [
+          BoxShadow(
+            color: dark
+                ? const Color.fromARGB(255, 18, 18, 18)
+                : Colors.transparent,
+            blurRadius: 100,
+            spreadRadius: 100,
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  onLongPress: () => Navigator.pushNamed(context, "/update"),
+                  onTap: () {
+                    _index0.forward();
+                    _index1.reset();
+                    _index2.reset();
+                    _index3.reset();
+
+                    _icon0.forward();
+                    _icon1.reset();
+                    _icon2.reset();
+                    _icon3.reset();
+                    setState(() {
+                      if (indexHome < 0) {
+                        _reverse = false;
+                      } else {
+                        _reverse = true;
+                      }
+                      indexHome = 0;
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: indexHome == 0
+                              ? Tema.terciaria.cor()
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        width: _anim0.value,
+                        height: _anim0.value,
+                      ),
+                      Icon(
+                        Symbols.mountain_flag_rounded,
+                        size: _animIcon0.value,
+                        fill: indexHome == 0 ? 1 : 0,
+                        color: indexHome == 0
+                            ? Tema.secundaria.cor()
+                            : Tema.noFundo.cor(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: InkWell(
+                  onTap: () {
+                    _index0.reset();
+                    _index1.forward();
+                    _index2.reset();
+                    _index3.reset();
+
+                    _icon0.reset();
+                    _icon1.forward();
+                    _icon2.reset();
+                    _icon3.reset();
+                    setState(() {
+                      if (indexHome < 1) {
+                        _reverse = false;
+                      } else {
+                        _reverse = true;
+                      }
+                      indexHome = 1;
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: indexHome == 1
+                              ? Tema.terciaria.cor()
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        width: _anim1.value,
+                        height: _anim1.value,
+                      ),
+                      Icon(
+                        Symbols.school_rounded,
+                        size: _animIcon1.value,
+                        fill: indexHome == 1 ? 1 : 0,
+                        color: indexHome == 1
+                            ? Tema.secundaria.cor()
+                            : Tema.noFundo.cor(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: InkWell(
+                  onTap: () {
+                    _index0.reset();
+                    _index1.reset();
+                    _index2.forward();
+                    _index3.reset();
+
+                    _icon0.reset();
+                    _icon1.reset();
+                    _icon2.forward();
+                    _icon3.reset();
+                    setState(() {
+                      if (indexHome < 2) {
+                        _reverse = false;
+                      } else {
+                        _reverse = true;
+                      }
+                      indexHome = 2;
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: indexHome == 2
+                              ? Tema.terciaria.cor()
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        width: _anim2.value,
+                        height: _anim2.value,
+                      ),
+                      Icon(
+                        indexHome == 2
+                            ? Bootstrap.briefcase_fill
+                            : Bootstrap.briefcase,
+                        size: _animIcon2.value,
+                        color: indexHome == 2
+                            ? Tema.secundaria.cor()
+                            : Tema.noFundo.cor(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: InkWell(
+                  onTap: () {
+                    _index0.reset();
+                    _index1.reset();
+                    _index2.reset();
+                    _index3.forward();
+
+                    _icon0.reset();
+                    _icon1.reset();
+                    _icon2.reset();
+                    _icon3.forward();
+                    setState(() {
+                      if (indexHome < 3) {
+                        _reverse = false;
+                      } else {
+                        _reverse = true;
+                      }
+                      indexHome = 3;
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: indexHome == 3
+                              ? Tema.terciaria.cor()
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        width: _anim3.value,
+                        height: _anim3.value,
+                      ),
+                      Icon(
+                        Symbols.settings_rounded,
+                        size: _animIcon3.value,
+                        fill: indexHome == 3 ? 1 : 0,
+                        color: indexHome == 3
+                            ? Tema.secundaria.cor()
+                            : Tema.noFundo.cor(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

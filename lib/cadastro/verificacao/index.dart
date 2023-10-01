@@ -160,7 +160,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                      color: Tema.fundo.cor(),
+                      color: Tema.noFundo.cor(),
                     ),
                   ),
                   const Expanded(

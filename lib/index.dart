@@ -17,7 +17,7 @@ bool iniciado = false;
 Shader linearGradient = LinearGradient(
   colors: <Color>[
     Tema.primaria.cor(),
-    Tema.texto.cor(),
+    Tema.noFundo.cor(),
   ],
 ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
 
@@ -52,7 +52,7 @@ class _IndexState extends State<Index> {
     linearGradient = LinearGradient(
       colors: <Color>[
         Tema.primaria.cor(),
-        Tema.fundo.cor(),
+        Tema.noFundo.cor(),
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     init();
@@ -155,7 +155,7 @@ class _IndexState extends State<Index> {
                               text: "Bem-vindo(a) ao ",
                               style: GoogleFonts.inter(
                                 fontSize: 32,
-                                color: Tema.texto.cor(),
+                                color: Tema.noFundo.cor(),
                               ),
                               children: [
                                 TextSpan(

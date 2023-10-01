@@ -44,7 +44,7 @@ final ValueNotifier<Brightness> notifier = ValueNotifier(
 User? userFlyvoo;
 
 Future<void> main() async {
-  var widgetsbinding = WidgetsFlutterBinding.ensureInitialized();
+  final widgetsbinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsbinding);
 
   //firebase inicializa
@@ -138,7 +138,7 @@ class _FlyvooState extends State<Flyvoo> {
                   fontWeight: FontWeight.w700,
                 ),
                 color: Tema.texto.cor(),
-                location: BannerLocation.topEnd,
+                location: BannerLocation.bottomEnd,
                 child: child,
               ),
             ),

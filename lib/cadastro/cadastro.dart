@@ -226,7 +226,7 @@ class _CadastroState extends State<Cadastro> {
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
-                            color: Tema.texto.cor(),
+                            color: Tema.noFundo.cor(),
                           ),
                         ),
                         const SizedBox(

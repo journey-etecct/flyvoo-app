@@ -67,7 +67,7 @@ class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
             value: carreiraEscolhida,
             dropdownColor: Tema.fundo.cor(),
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 17,
             ),
             elevation: 1,
@@ -87,7 +87,7 @@ class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             items: carreiras
                 .map(
@@ -209,13 +209,13 @@ class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
             dropdownColor: Tema.fundo.cor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             selectedItemBuilder: (context) => sexos
                 .map(
@@ -255,13 +255,13 @@ class _TelaMicrosoft2State extends State<TelaMicrosoft2> {
             dropdownColor: Tema.fundo.cor(),
             elevation: 1,
             style: GoogleFonts.inter(
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
               fontSize: 20,
             ),
             borderRadius: BorderRadius.circular(20),
             icon: Image.asset(
               "assets/icons/seta.png",
-              color: Tema.fundo.cor(),
+              color: Tema.noFundo.cor(),
             ),
             selectedItemBuilder: (context) => pronomes
                 .map(
