@@ -25,7 +25,7 @@ class _EmpresasState extends State<Empresas> {
       i != 49
           ? list.add(
               Divider(
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
               ),
             )
           : list.add(
@@ -36,7 +36,7 @@ class _EmpresasState extends State<Empresas> {
                 ),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                   ),
                 ),
               ),
@@ -51,7 +51,7 @@ class _EmpresasState extends State<Empresas> {
             fontSize: 30,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.41,
-            color: Tema.texto.toColor(),
+            color: Tema.texto.cor(),
           ),
         ),
         const SizedBox(
@@ -99,7 +99,7 @@ class CardEmpresas extends StatelessWidget {
                 "Estágio em Web Design | Home Office",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -108,7 +108,7 @@ class CardEmpresas extends StatelessWidget {
                 "Google",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -117,7 +117,7 @@ class CardEmpresas extends StatelessWidget {
                 "São Paulo, São Paulo, Brasil(Remoto)",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
                 ),
@@ -129,7 +129,7 @@ class CardEmpresas extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icons/alvo.png",
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                   ),
                   const SizedBox(
                     width: 7,

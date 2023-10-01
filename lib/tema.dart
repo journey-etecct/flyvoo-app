@@ -16,32 +16,28 @@ enum Tema {
   botaoIndex,
   textoBotaoIndex;
 
-  Color toColor() {
+  Color cor() {
     switch (this) {
       case Tema.primaria:
         return tema["primaria"]!;
       case Tema.secundaria:
-        return tema["primaria"]!;
+        return tema["secundaria"]!;
       case Tema.terciaria:
-        return tema["primaria"]!;
+        return tema["terciaria"]!;
       case Tema.fundo:
-        return dark ? const Color(0xff252525) : Colors.white;
+        return tema["fundo"]!;
       case Tema.noFundo:
-        return dark ? Colors.white : Colors.black;
+        return tema["noFundo"]!;
       case Tema.texto:
-        return dark ? Colors.white : const Color(0xff1E3C87);
+        return tema["texto"]!;
       case Tema.botao:
-        return dark ? const Color(0xffB8CCFF) : const Color(0xffF0F4FF);
+        return tema["botao"]!;
       case Tema.textoSecundario:
-        return dark
-            ? const Color(0xffd8d8d8)
-            : const Color(0xff404040).withOpacity(0.77);
+        return tema["textoSecundario"]!;
       case Tema.botaoIndex:
-        return dark
-            ? const Color(0xff00FFD8).withOpacity(0.37)
-            : const Color(0xffFFD3BD).withOpacity(0.60);
+        return tema["botaoIndex"]!;
       case Tema.textoBotaoIndex:
-        return dark ? Colors.white : const Color(0xffA93535);
+        return tema["textoBotaoIndex"]!;
       default:
         return Colors.white;
     }

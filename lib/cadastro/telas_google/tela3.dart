@@ -41,7 +41,7 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
             hideBottomControls: true,
             toolbarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
-            toolbarWidgetColor: Tema.textoBotaoIndex.toColor(),
+            toolbarWidgetColor: Tema.textoBotaoIndex.cor(),
             initAspectRatio: CropAspectRatioPreset.square,
             statusBarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
@@ -77,7 +77,7 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
             hideBottomControls: true,
             toolbarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
-            toolbarWidgetColor: Tema.textoBotaoIndex.toColor(),
+            toolbarWidgetColor: Tema.textoBotaoIndex.cor(),
             initAspectRatio: CropAspectRatioPreset.square,
             statusBarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
@@ -235,14 +235,14 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                                 "assets/icons/user.png",
                                 width: 200,
                                 fit: BoxFit.cover,
-                                color: Tema.texto.toColor(),
+                                color: Tema.texto.cor(),
                               ),
                       ),
                 Container(
                   width: 65,
                   height: 65,
                   decoration: BoxDecoration(
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Icon(

@@ -55,11 +55,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
             ),
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
           ),
           TextFormField(
             controller: txtTelefone,
@@ -79,12 +79,12 @@ class _Tela1State extends State<Tela1> {
               labelStyle: GoogleFonts.inter(fontSize: 20),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
               prefixText: "+55 ",
             ),
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
             inputFormatters: [
               PhoneInputFormatter(
                 defaultCountryCode: "BR",
@@ -136,11 +136,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
             ),
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
           ),
           TextFormField(
             key: _senhaConfKey,
@@ -166,11 +166,11 @@ class _Tela1State extends State<Tela1> {
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
             ),
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
           ),
         ],
       ),

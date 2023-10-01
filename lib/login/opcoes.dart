@@ -289,7 +289,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Tema.fundo.toColor(),
+      backgroundColor: Tema.fundo.cor(),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -348,7 +348,7 @@ class _LoginState extends State<Login> {
                 ),
                 Expanded(
                   child: Divider(
-                    color: Tema.fundo.toColor(),
+                    color: Tema.fundo.cor(),
                   ),
                 ),
                 const SizedBox(
@@ -365,7 +365,7 @@ class _LoginState extends State<Login> {
                 ),
                 Expanded(
                   child: Divider(
-                    color: Tema.fundo.toColor(),
+                    color: Tema.fundo.cor(),
                   ),
                 ),
                 const SizedBox(
@@ -380,7 +380,7 @@ class _LoginState extends State<Login> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: Tema.fundo.toColor(),
+                  color: Tema.fundo.cor(),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       blurRadius: 4,
@@ -392,7 +392,7 @@ class _LoginState extends State<Login> {
                 ),
                 child: CupertinoButton(
                   borderRadius: BorderRadius.circular(100),
-                  color: Tema.botaoIndex.toColor(),
+                  color: Tema.botaoIndex.cor(),
                   padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
                   onPressed: switch (index) {
                     0 => _btnGoogle
@@ -464,7 +464,7 @@ class _LoginState extends State<Login> {
                         child: Image(
                           image: _botoes[index].icon,
                           height: 29,
-                          color: Tema.textoBotaoIndex.toColor(),
+                          color: Tema.textoBotaoIndex.cor(),
                         ),
                       ),
                       const SizedBox(
@@ -473,7 +473,7 @@ class _LoginState extends State<Login> {
                       Text(
                         _botoes[index].text,
                         style: GoogleFonts.inter(
-                          color: Tema.textoBotaoIndex.toColor(),
+                          color: Tema.textoBotaoIndex.cor(),
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -490,7 +490,7 @@ class _LoginState extends State<Login> {
             ),
             Text.rich(
               style: GoogleFonts.inter(
-                color: Tema.fundo.toColor(),
+                color: Tema.fundo.cor(),
                 letterSpacing: -0.41,
                 fontWeight: FontWeight.w400,
               ),
@@ -501,12 +501,12 @@ class _LoginState extends State<Login> {
                     text: "Clique aqui",
                     style: GoogleFonts.inter(
                       color: dark
-                          ? Tema.primaria.toColor()
-                          : Tema.textoBotaoIndex.toColor(),
+                          ? Tema.primaria.cor()
+                          : Tema.textoBotaoIndex.cor(),
                       decoration: TextDecoration.underline,
                       decorationColor: dark
-                          ? Tema.primaria.toColor()
-                          : Tema.textoBotaoIndex.toColor(),
+                          ? Tema.primaria.cor()
+                          : Tema.textoBotaoIndex.cor(),
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
@@ -550,7 +550,7 @@ class _LoginState extends State<Login> {
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _txtEmail,
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
             autofillHints: const [
               AutofillHints.email,
             ],
@@ -560,7 +560,7 @@ class _LoginState extends State<Login> {
               labelStyle: GoogleFonts.inter(),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
             ),
@@ -582,7 +582,7 @@ class _LoginState extends State<Login> {
             onChanged: (value) {
               _senhaKey.currentState!.validate();
             },
-            cursorColor: Tema.primaria.toColor(),
+            cursorColor: Tema.primaria.cor(),
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
@@ -591,7 +591,7 @@ class _LoginState extends State<Login> {
               labelStyle: GoogleFonts.inter(),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                 ),
               ),
               suffix: ClipRRect(
@@ -629,7 +629,7 @@ class _LoginState extends State<Login> {
                 text: "Esqueceu a senha?",
                 style: GoogleFonts.inter(
                   fontSize: 15,
-                  color: Tema.primaria.toColor(),
+                  color: Tema.primaria.cor(),
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -648,7 +648,7 @@ class _LoginState extends State<Login> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Tema.fundo.toColor(),
+              color: Tema.fundo.cor(),
               boxShadow: _btnAtivado
                   ? <BoxShadow>[
                       BoxShadow(
@@ -665,7 +665,7 @@ class _LoginState extends State<Login> {
             child: CupertinoButton(
               borderRadius: BorderRadius.circular(10),
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-              color: Tema.botaoIndex.toColor(),
+              color: Tema.botaoIndex.cor(),
               disabledColor: dark
                   ? const Color(0xff007AFF).withOpacity(0.15)
                   : const Color(0xffFB5607).withOpacity(0.30),
@@ -805,7 +805,7 @@ class _LoginState extends State<Login> {
                 "Entrar",
                 style: GoogleFonts.inter(
                   fontSize: 25,
-                  color: Tema.textoBotaoIndex.toColor(),
+                  color: Tema.textoBotaoIndex.cor(),
                 ),
               ),
             ),

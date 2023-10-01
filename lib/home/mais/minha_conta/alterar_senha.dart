@@ -59,7 +59,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
         setState(() {});
       },
       child: Scaffold(
-        backgroundColor: Tema.fundo.toColor(),
+        backgroundColor: Tema.fundo.cor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -390,7 +390,7 @@ class _InserirSenhaState extends State<InserirSenha> {
                     maxLines: 2,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                      color: Tema.texto.toColor(),
+                      color: Tema.texto.cor(),
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
@@ -398,7 +398,7 @@ class _InserirSenhaState extends State<InserirSenha> {
                   Text(
                     userFlyvoo!.email!,
                     style: GoogleFonts.inter(
-                      color: Tema.texto.toColor(),
+                      color: Tema.texto.cor(),
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                     ),
@@ -419,7 +419,7 @@ class _InserirSenhaState extends State<InserirSenha> {
         Text(
           'Para continuar, insira sua senha atual',
           style: GoogleFonts.inter(
-            color: Tema.texto.toColor(),
+            color: Tema.texto.cor(),
             fontSize: 15,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.41,
@@ -445,7 +445,7 @@ class _InserirSenhaState extends State<InserirSenha> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            cursorColor: Tema.texto.toColor(),
+            cursorColor: Tema.texto.cor(),
             autofillHints: const [AutofillHints.password],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
@@ -453,11 +453,11 @@ class _InserirSenhaState extends State<InserirSenha> {
               labelText: "Senha",
               labelStyle: GoogleFonts.inter(),
               floatingLabelStyle: TextStyle(
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                 ),
               ),
               suffix: ClipRRect(
@@ -512,7 +512,7 @@ class _MudarSenhaState extends State<MudarSenha> {
             fontSize: 20,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.41,
-            color: Tema.texto.toColor(),
+            color: Tema.texto.cor(),
           ),
         ),
         Padding(
@@ -530,7 +530,7 @@ class _MudarSenhaState extends State<MudarSenha> {
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   height: 1.4,
                   letterSpacing: -0.41,
                 ),
@@ -568,7 +568,7 @@ class _MudarSenhaState extends State<MudarSenha> {
               _keyNovaSenha.currentState!.validate();
               _keyNovaSenhaConf.currentState!.validate();
             },
-            cursorColor: Tema.texto.toColor(),
+            cursorColor: Tema.texto.cor(),
             autofillHints: const [AutofillHints.newPassword],
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
@@ -576,11 +576,11 @@ class _MudarSenhaState extends State<MudarSenha> {
               labelText: "Nova senha",
               labelStyle: GoogleFonts.inter(),
               floatingLabelStyle: TextStyle(
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                 ),
               ),
               suffix: ClipRRect(
@@ -628,18 +628,18 @@ class _MudarSenhaState extends State<MudarSenha> {
               return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            cursorColor: Tema.texto.toColor(),
+            cursorColor: Tema.texto.cor(),
             obscureText: _txtEscondido,
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               labelText: "Confirmar a nova senha",
               labelStyle: GoogleFonts.inter(),
               floatingLabelStyle: TextStyle(
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                 ),
               ),
               suffix: ClipRRect(

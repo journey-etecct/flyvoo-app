@@ -61,7 +61,7 @@ class _MinhaContaState extends State<MinhaConta> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Tema.fundo.toColor(),
+      color: Tema.fundo.cor(),
       child: SafeArea(
         child: Scaffold(
           body: Stack(
@@ -123,7 +123,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     : Image.asset(
                                         "assets/icons/user.png",
                                         width: 100,
-                                        color: Tema.texto.toColor(),
+                                        color: Tema.texto.cor(),
                                       ),
                               ),
                             ),
@@ -143,7 +143,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
-                                      color: Tema.texto.toColor(),
+                                      color: Tema.texto.cor(),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -154,7 +154,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                           ? userFlyvoo!.email!
                                           : "",
                                       style: GoogleFonts.inter(
-                                        color: Tema.texto.toColor(),
+                                        color: Tema.texto.cor(),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15,
                                         decoration: TextDecoration.underline,
@@ -207,7 +207,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                           ),
                                         ),
                                       ),
-                                      openColor: Tema.fundo.toColor(),
+                                      openColor: Tema.fundo.cor(),
                                       openBuilder: (context, retorno) =>
                                           const EditarPerfil(),
                                     ),
@@ -233,7 +233,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               Text(
                                 "Configurações Gerais",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
@@ -243,7 +243,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               Image.asset(
                                 "assets/icons/seta2.png",
-                                color: Tema.texto.toColor(),
+                                color: Tema.texto.cor(),
                               ),
                             ],
                           ),
@@ -306,7 +306,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     Text(
                                       "Alterar senha",
                                       style: GoogleFonts.inter(
-                                        color: Tema.texto.toColor(),
+                                        color: Tema.texto.cor(),
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18,
                                       ),
@@ -316,7 +316,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     ),
                                     Image.asset(
                                       "assets/icons/seta2.png",
-                                      color: Tema.texto.toColor(),
+                                      color: Tema.texto.cor(),
                                     ),
                                   ],
                                 ),
@@ -326,7 +326,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       password ?? false
                           ? Divider(
                               height: 2,
-                              color: Tema.texto.toColor().withOpacity(0.5),
+                              color: Tema.texto.cor().withOpacity(0.5),
                             )
                           : const SizedBox(),
                       InkWell(
@@ -341,7 +341,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               Text(
                                 "Termos de Uso",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
@@ -351,7 +351,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               Image.asset(
                                 "assets/icons/seta2.png",
-                                color: Tema.texto.toColor(),
+                                color: Tema.texto.cor(),
                               ),
                             ],
                           ),
@@ -359,7 +359,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       ),
                       Divider(
                         height: 2,
-                        color: Tema.texto.toColor().withOpacity(0.5),
+                        color: Tema.texto.cor().withOpacity(0.5),
                       ),
                       InkWell(
                         onTap: () => Navigator.pushNamed(
@@ -373,7 +373,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               Text(
                                 "Política de Privacidade",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
@@ -383,7 +383,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               Image.asset(
                                 "assets/icons/seta2.png",
-                                color: Tema.texto.toColor(),
+                                color: Tema.texto.cor(),
                               ),
                             ],
                           ),
@@ -391,7 +391,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       ),
                       Divider(
                         height: 2,
-                        color: Tema.texto.toColor().withOpacity(0.5),
+                        color: Tema.texto.cor().withOpacity(0.5),
                       ),
                       !feedbackEnviado ? futureFeedback() : const SizedBox(),
                       InkWell(
@@ -519,7 +519,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           Text(
                             "Nos dê um feedback!",
                             style: GoogleFonts.inter(
-                              color: Tema.texto.toColor(),
+                              color: Tema.texto.cor(),
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
@@ -529,7 +529,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           ),
                           Image.asset(
                             "assets/icons/seta2.png",
-                            color: Tema.texto.toColor(),
+                            color: Tema.texto.cor(),
                           ),
                         ],
                       ),
@@ -537,7 +537,7 @@ class _MinhaContaState extends State<MinhaConta> {
                   ),
                   Divider(
                     height: 2,
-                    color: Tema.texto.toColor().withOpacity(0.5),
+                    color: Tema.texto.cor().withOpacity(0.5),
                   ),
                 ],
               );
@@ -563,7 +563,7 @@ class _MinhaContaState extends State<MinhaConta> {
       child: Theme(
         data: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Tema.texto.toColor(),
+            seedColor: Tema.texto.cor(),
             brightness: dark ? Brightness.dark : Brightness.light,
           ),
           useMaterial3: true,

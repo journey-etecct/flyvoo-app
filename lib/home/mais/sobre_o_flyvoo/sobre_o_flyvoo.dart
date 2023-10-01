@@ -92,7 +92,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Tema.fundo.toColor(),
+      backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -120,7 +120,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                       Text(
                         "Sobre o aplicativo",
                         style: GoogleFonts.inter(
-                          color: Tema.texto.toColor(),
+                          color: Tema.texto.cor(),
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                         ),
@@ -232,7 +232,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                       Text(
                         "O que é o Flyvoo?",
                         style: GoogleFonts.inter(
-                          color: Tema.texto.toColor(),
+                          color: Tema.texto.cor(),
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                         ),
@@ -257,7 +257,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                 Text(
                   "Equipe do Journey",
                   style: GoogleFonts.inter(
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                     fontSize: 30,
                     fontWeight: FontWeight.w600,
                   ),
@@ -281,7 +281,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                         height: 15,
                       ),
                       Divider(
-                        color: Tema.texto.toColor().withOpacity(0.5),
+                        color: Tema.texto.cor().withOpacity(0.5),
                       ),
                     ],
                   ),
@@ -333,7 +333,7 @@ class PessoaInfo extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10),
           child: Image(
             image: img,
-            color: Tema.texto.toColor(),
+            color: Tema.texto.cor(),
             width: 100,
             fit: BoxFit.cover,
           ),
@@ -378,7 +378,7 @@ class PessoaInfo extends StatelessWidget {
                               Image(
                                 image: img,
                                 fit: BoxFit.cover,
-                                color: Tema.texto.toColor(),
+                                color: Tema.texto.cor(),
                                 width: 150,
                               ),
                               const SizedBox(
@@ -405,11 +405,11 @@ class PessoaInfo extends StatelessWidget {
                     );
                   },
                   padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   child: Text(
                     "Ver mais",
                     style: GoogleFonts.inter(
-                      color: Tema.fundo.toColor(),
+                      color: Tema.fundo.cor(),
                     ),
                   ),
                 ),

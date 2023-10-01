@@ -90,7 +90,7 @@ class _RecuperacaoState extends State<Recuperacao> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Tema.fundo.toColor(),
+      backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -120,7 +120,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
-                        color: Tema.fundo.toColor(),
+                        color: Tema.fundo.cor(),
                       ),
                     ),
                     const Expanded(
@@ -168,11 +168,11 @@ class _RecuperacaoState extends State<Recuperacao> {
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: Tema.primaria.toColor(),
+                            color: Tema.primaria.cor(),
                           ),
                         ),
                       ),
-                      cursorColor: Tema.primaria.toColor(),
+                      cursorColor: Tema.primaria.cor(),
                     ),
                     const Expanded(
                       flex: 3,
@@ -182,7 +182,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                       margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Tema.fundo.toColor(),
+                        color: Tema.fundo.cor(),
                         boxShadow: _btnAtivado
                             ? <BoxShadow>[
                                 BoxShadow(
@@ -212,7 +212,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                                 }
                               }
                             : null,
-                        color: Tema.botaoIndex.toColor(),
+                        color: Tema.botaoIndex.cor(),
                         disabledColor: dark
                             ? const Color(0xff007AFF).withOpacity(0.15)
                             : const Color(0xffFB5607).withOpacity(0.30),
@@ -222,7 +222,7 @@ class _RecuperacaoState extends State<Recuperacao> {
                           "Enviar",
                           style: GoogleFonts.inter(
                             color: _btnAtivado
-                                ? Tema.textoBotaoIndex.toColor()
+                                ? Tema.textoBotaoIndex.cor()
                                 : CupertinoColors.systemGrey2,
                             fontSize: 25,
                           ),

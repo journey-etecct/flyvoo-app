@@ -27,7 +27,7 @@ class _UnivCursosState extends State<UnivCursos> {
       i != 19
           ? list.add(
               Divider(
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
               ),
             )
           : list.add(
@@ -38,7 +38,7 @@ class _UnivCursosState extends State<UnivCursos> {
                 ),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                   ),
                 ),
               ),
@@ -56,7 +56,7 @@ class _UnivCursosState extends State<UnivCursos> {
             fontSize: 30,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.41,
-            color: Tema.texto.toColor(),
+            color: Tema.texto.cor(),
           ),
         ),
         const SizedBox(
@@ -108,7 +108,7 @@ class CardCursos extends StatelessWidget {
                 "Informática Para Internet | Novotec Integrado (Mtec)",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -117,7 +117,7 @@ class CardCursos extends StatelessWidget {
                 "ETEC Cidade Tiradentes",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -126,7 +126,7 @@ class CardCursos extends StatelessWidget {
                 "São Paulo, São Paulo, Brasil(Presencial)",
                 textAlign: TextAlign.left,
                 style: GoogleFonts.inter(
-                  color: Tema.texto.toColor(),
+                  color: Tema.texto.cor(),
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
                 ),

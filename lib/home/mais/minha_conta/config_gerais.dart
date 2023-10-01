@@ -44,7 +44,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Tema.fundo.toColor(),
+      backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
           SizedBox.expand(
@@ -93,7 +93,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.notifications_rounded,
                             size: 30,
-                            color: Tema.texto.toColor(),
+                            color: Tema.texto.cor(),
                             fill: 1,
                           ),
                           const SizedBox(
@@ -105,7 +105,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Notificações",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -132,7 +132,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: Tema.texto.toColor().withOpacity(0.5),
+                  color: Tema.texto.cor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -152,9 +152,8 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.volume_up_rounded,
                             size: 30,
-                            color: _notificacoes
-                                ? Tema.texto.toColor()
-                                : Colors.grey,
+                            color:
+                                _notificacoes ? Tema.texto.cor() : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -167,7 +166,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                 "Som",
                                 style: GoogleFonts.inter(
                                   color: _notificacoes
-                                      ? Tema.texto.toColor()
+                                      ? Tema.texto.cor()
                                       : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -197,7 +196,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: Tema.texto.toColor().withOpacity(0.5),
+                  color: Tema.texto.cor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -217,9 +216,8 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                           Icon(
                             Symbols.vibration_rounded,
                             size: 30,
-                            color: _notificacoes
-                                ? Tema.texto.toColor()
-                                : Colors.grey,
+                            color:
+                                _notificacoes ? Tema.texto.cor() : Colors.grey,
                             fill: 1,
                           ),
                           const SizedBox(
@@ -232,7 +230,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                 "Vibração",
                                 style: GoogleFonts.inter(
                                   color: _notificacoes
-                                      ? Tema.texto.toColor()
+                                      ? Tema.texto.cor()
                                       : Colors.grey,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -262,7 +260,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: Tema.texto.toColor().withOpacity(0.5),
+                  color: Tema.texto.cor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -309,7 +307,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                         children: [
                           Image.asset(
                             "assets/icons/lua.png",
-                            color: Tema.texto.toColor(),
+                            color: Tema.texto.cor(),
                           ),
                           const SizedBox(
                             width: 20,
@@ -320,7 +318,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Modo escuro",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -385,7 +383,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                 ),
                 Divider(
                   height: 2,
-                  color: Tema.texto.toColor().withOpacity(0.5),
+                  color: Tema.texto.cor().withOpacity(0.5),
                 ),
                 SizedBox(
                   height: 60,
@@ -406,7 +404,7 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                               child: Text(
                                 "Animações de fundo",
                                 style: GoogleFonts.inter(
-                                  color: Tema.texto.toColor(),
+                                  color: Tema.texto.cor(),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),

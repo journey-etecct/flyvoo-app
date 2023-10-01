@@ -129,15 +129,15 @@ class _FlyvooState extends State<Flyvoo> {
               letterSpacing: -0.41,
             ),
             child: Container(
-              color: Tema.fundo.toColor(),
+              color: Tema.fundo.cor(),
               child: Banner(
                 message: "DEMO",
                 textStyle: TextStyle(
-                  color: Tema.fundo.toColor(),
+                  color: Tema.fundo.cor(),
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                 ),
-                color: Tema.texto.toColor(),
+                color: Tema.texto.cor(),
                 location: BannerLocation.topEnd,
                 child: child,
               ),
@@ -269,14 +269,14 @@ ThemeData buildTheme(mode, context) {
   var baseTheme = ThemeData(
     useMaterial3: true,
     brightness: mode,
-    colorSchemeSeed: Tema.primaria.toColor(),
+    colorSchemeSeed: Tema.primaria.cor(),
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: GoogleFonts.inter(
-        color: Tema.primaria.toColor(),
+        color: Tema.primaria.cor(),
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: Tema.primaria.toColor(),
+          color: Tema.primaria.cor(),
         ),
       ),
     ),

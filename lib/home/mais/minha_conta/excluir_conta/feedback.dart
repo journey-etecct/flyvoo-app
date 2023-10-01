@@ -40,7 +40,7 @@ class _FeedbackECState extends State<FeedbackEC> {
         setState(() {});
       },
       child: Scaffold(
-        backgroundColor: Tema.fundo.toColor(),
+        backgroundColor: Tema.fundo.cor(),
         body: Stack(
           children: [
             SizedBox.expand(
@@ -61,7 +61,7 @@ class _FeedbackECState extends State<FeedbackEC> {
                 child: Text(
                   "Pular",
                   style: GoogleFonts.inter(
-                    color: Tema.texto.toColor(),
+                    color: Tema.texto.cor(),
                     fontSize: 18,
                   ),
                 ),
@@ -121,8 +121,8 @@ class _FeedbackECState extends State<FeedbackEC> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 color: dark
-                                    ? Tema.fundo.toColor()
-                                    : Tema.fundo.toColor().withOpacity(0.7),
+                                    ? Tema.fundo.cor()
+                                    : Tema.fundo.cor().withOpacity(0.7),
                               ),
                               child: Row(
                                 children: [
@@ -203,11 +203,11 @@ class _FeedbackECState extends State<FeedbackEC> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           borderSide: BorderSide(
-                                            color: Tema.texto.toColor(),
+                                            color: Tema.texto.cor(),
                                           ),
                                         ),
                                       ),
-                                      cursorColor: Tema.texto.toColor(),
+                                      cursorColor: Tema.texto.cor(),
                                     ),
                                   ],
                                 ),
