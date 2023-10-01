@@ -42,4 +42,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/lib/secure/
+/lib/secure/pub_key_ejs.dart
+/lib/secure/token.dart
