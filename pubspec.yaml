@@ -51,6 +51,7 @@ flutter:
     - assets/background/
     - assets/logo/
     - assets/imagens/
+    - assets/imagens/areas/
   fonts:
     - family: Queensides
       fonts:
