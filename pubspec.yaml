@@ -49,6 +49,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/background/
+    - assets/background/areas/
     - assets/logo/
     - assets/imagens/
     - assets/imagens/areas/

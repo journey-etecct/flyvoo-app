@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-Areas areaAtual = Areas.logicoMat;
+int areaAtual = 0;
 
 class Principal extends StatefulWidget {
-  const Principal({super.key});
+  final Function(int areaAtual) notificarFundo;
+  const Principal(this.notificarFundo, {super.key});
 
   @override
   State<Principal> createState() => _PrincipalState();
@@ -34,7 +36,9 @@ class _PrincipalState extends State<Principal> {
   void initState() {
     super.initState();
     _init();
-    Areas.corporalCin;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.notificarFundo(1);
+    });
   }
 
   @override
@@ -50,9 +54,7 @@ class _PrincipalState extends State<Principal> {
         height: double.infinity,
         enlargeCenterPage: true,
         onPageChanged: (index, reason) {
-          setState(() {
-            areaAtual = Areas.values[index];
-          });
+          widget.notificarFundo(index + 1);
           debugPrint(Areas.values[index].toString());
         },
       ),
@@ -149,14 +151,6 @@ class Especialidade extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            /* Text(
-                "INICIAR",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ), */
           ),
         ),
       ],
@@ -170,49 +164,32 @@ class FadeIndexedStack extends StatefulWidget {
   final Duration duration;
 
   const FadeIndexedStack({
-    Key? key,
+    super.key,
     required this.index,
     required this.children,
     this.duration = const Duration(
       milliseconds: 800,
     ),
-  }) : super(key: key);
+  });
 
   @override
   State<FadeIndexedStack> createState() => _FadeIndexedStackState();
 }
 
-class _FadeIndexedStackState extends State<FadeIndexedStack>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void didUpdateWidget(FadeIndexedStack oldWidget) {
-    if (widget.index != oldWidget.index) {
-      _controller.forward(from: 0.0);
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void initState() {
-    _controller = AnimationController(vsync: this, duration: widget.duration);
-    _controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _FadeIndexedStackState extends State<FadeIndexedStack> {
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _controller,
+    return PageTransitionSwitcher(
+      duration: widget.duration,
+      transitionBuilder: (widget, anim1, anim2) {
+        return FadeTransition(
+          opacity: anim1,
+          child: widget,
+        );
+      },
       child: IndexedStack(
         index: widget.index,
+        key: ValueKey<int>(widget.index),
         children: widget.children,
       ),
     );

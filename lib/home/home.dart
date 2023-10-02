@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +14,11 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-List<Widget> telasHome = [
-  const Principal(),
-  const UnivCursos(),
-  const Empresas(),
-  const Mais()
-];
 late int indexHome;
+List<Areas?> fundos = [
+  null,
+  ...Areas.values,
+];
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,23 +28,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  late AnimationController _index0;
-  late Animation<double> _anim0;
-  late AnimationController _index1;
-  late Animation<double> _anim1;
-  late AnimationController _index2;
-  late Animation<double> _anim2;
-  late AnimationController _index3;
-  late Animation<double> _anim3;
-  late AnimationController _icon0;
-  late Animation<double> _animIcon0;
-  late AnimationController _icon1;
-  late Animation<double> _animIcon1;
-  late AnimationController _icon2;
-  late Animation<double> _animIcon2;
-  late AnimationController _icon3;
-  late Animation<double> _animIcon3;
   bool _reverse = false;
+  late List<Widget> telasHome = [
+    Principal(atualizar),
+    const UnivCursos(),
+    const Empresas(),
+    const Mais()
+  ];
+
+  atualizar(int areaAtualS) {
+    setState(() {
+      areaAtual = areaAtualS;
+    });
+  }
 
   _password() async {
     password = (await FirebaseAuth.instance.fetchSignInMethodsForEmail(
@@ -69,126 +65,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     if (userFlyvoo != null) {
       _password();
     }
-    _index0 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _anim0 = Tween<double>(
-      begin: 30,
-      end: 60,
-    ).animate(CurvedAnimation(parent: _index0, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _index0.value = 60;
-    _index1 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _anim1 = Tween<double>(
-      begin: 30,
-      end: 60,
-    ).animate(CurvedAnimation(parent: _index1, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _index2 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _anim2 = Tween<double>(
-      begin: 30,
-      end: 60,
-    ).animate(CurvedAnimation(parent: _index2, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _index3 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _anim3 = Tween<double>(
-      begin: 30,
-      end: 60,
-    ).animate(CurvedAnimation(parent: _index3, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _icon0 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _animIcon0 = Tween<double>(
-      begin: 45,
-      end: 35,
-    ).animate(CurvedAnimation(parent: _icon0, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _icon0.value = 35;
-    _icon1 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _animIcon1 = Tween<double>(
-      begin: 50,
-      end: 40,
-    ).animate(CurvedAnimation(parent: _icon1, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _icon2 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _animIcon2 = Tween<double>(
-      begin: 40,
-      end: 30,
-    ).animate(CurvedAnimation(parent: _icon2, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _icon3 = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 100,
-      ),
-    );
-    _animIcon3 = Tween<double>(
-      begin: 50,
-      end: 40,
-    ).animate(CurvedAnimation(parent: _icon3, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
+    animacoesStart();
     userFlyvoo = FirebaseAuth.instance.currentUser;
     FlutterNativeSplash.remove();
   }
 
   @override
   void dispose() {
-    _index0.dispose();
-    _icon0.dispose();
-    _index1.dispose();
-    _icon1.dispose();
-    _index2.dispose();
-    _icon2.dispose();
-    _index3.dispose();
-    _icon3.dispose();
+    animacoesDispose();
     super.dispose();
   }
 
@@ -202,20 +86,45 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           backgroundColor: Tema.fundo.cor(),
           body: Stack(
             children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Image(
-                      image: AssetImage(
-                        dark
-                            ? "assets/background/esfumadodark.png"
-                            : "assets/background/esfumadolight.png",
-                      ),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  ),
-                ],
+              FadeIndexedStack(
+                duration: const Duration(milliseconds: 250),
+                index: areaAtual,
+                children: fundos.map<Widget>((e) {
+                  if (e != null) {
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Image(
+                            image: AssetImage(
+                              dark
+                                  ? "assets/background/esfumadodark.png"
+                                  : "assets/background/areas/esf_${e.name}.png",
+                            ),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            filterQuality: FilterQuality.high,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Image(
+                            image: AssetImage(
+                              dark
+                                  ? "assets/background/esfumadodark.png"
+                                  : "assets/background/esfumadolight.png",
+                            ),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }).toList(),
               ),
               navbar(context),
               Column(
@@ -306,22 +215,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: indexHome == 0
-                              ? Tema.terciaria.cor()
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
+                      SizedBox(
                         width: _anim0.value,
                         height: _anim0.value,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          decoration: BoxDecoration(
+                            color: indexHome == 0 && fundos[areaAtual] != null
+                                ? fundos[areaAtual]!.navbar()
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
                       ),
                       Icon(
                         Symbols.mountain_flag_rounded,
                         size: _animIcon0.value,
                         fill: indexHome == 0 ? 1 : 0,
                         color: indexHome == 0
-                            ? Tema.secundaria.cor()
+                            ? Tema.fundo.cor()
                             : Tema.noFundo.cor(),
                       ),
                     ],
@@ -336,6 +248,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 width: 60,
                 child: InkWell(
                   onTap: () {
+                    atualizar(0);
                     _index0.reset();
                     _index1.forward();
                     _index2.reset();
@@ -387,6 +300,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 width: 60,
                 child: InkWell(
                   onTap: () {
+                    atualizar(0);
                     _index0.reset();
                     _index1.reset();
                     _index2.forward();
@@ -439,6 +353,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 width: 60,
                 child: InkWell(
                   onTap: () {
+                    atualizar(0);
                     _index0.reset();
                     _index1.reset();
                     _index2.reset();
@@ -487,5 +402,150 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  late AnimationController _index0;
+  late Animation<double> _anim0;
+  late AnimationController _index1;
+  late Animation<double> _anim1;
+  late AnimationController _index2;
+  late Animation<double> _anim2;
+  late AnimationController _index3;
+  late Animation<double> _anim3;
+  late AnimationController _icon0;
+  late Animation<double> _animIcon0;
+  late AnimationController _icon1;
+  late Animation<double> _animIcon1;
+  late AnimationController _icon2;
+  late Animation<double> _animIcon2;
+  late AnimationController _icon3;
+  late Animation<double> _animIcon3;
+
+  void animacoesStart() {
+    _index0 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim0 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(
+      CurvedAnimation(parent: _index0, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _index0.value = 60;
+    _index1 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim1 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(
+      CurvedAnimation(parent: _index1, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _index2 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim2 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(
+      CurvedAnimation(parent: _index2, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _index3 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _anim3 = Tween<double>(
+      begin: 30,
+      end: 60,
+    ).animate(
+      CurvedAnimation(parent: _index3, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _icon0 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon0 = Tween<double>(
+      begin: 45,
+      end: 35,
+    ).animate(
+      CurvedAnimation(parent: _icon0, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _icon0.value = 35;
+    _icon1 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon1 = Tween<double>(
+      begin: 50,
+      end: 40,
+    ).animate(
+      CurvedAnimation(parent: _icon1, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _icon2 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon2 = Tween<double>(
+      begin: 40,
+      end: 30,
+    ).animate(
+      CurvedAnimation(parent: _icon2, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+    _icon3 = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    );
+    _animIcon3 = Tween<double>(
+      begin: 50,
+      end: 40,
+    ).animate(
+      CurvedAnimation(parent: _icon3, curve: Curves.easeOut),
+    )..addListener(() {
+        setState(() {});
+      });
+  }
+
+  void animacoesDispose() {
+    _index0.dispose();
+    _icon0.dispose();
+    _index1.dispose();
+    _icon1.dispose();
+    _index2.dispose();
+    _icon2.dispose();
+    _index3.dispose();
+    _icon3.dispose();
   }
 }
