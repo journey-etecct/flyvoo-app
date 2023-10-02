@@ -66,18 +66,19 @@ Map<String, Color> tema = {
 };
 
 enum Areas {
-  naturalista("Naturalista"),
-  logicoMat("Logico-Matemática"),
-  existencial("Existencial"),
-  intrapessoal("Intrapessoal"),
-  linguistica("Linguística"),
-  corporalCin("Corporal-cinestética"),
-  interpessoal("Interpessoal"),
-  musical("Musical"),
-  espacial("Espacial");
+  naturalista("Naturalista", []),
+  logicoMat("Logico-Matemática", []),
+  existencial("Existencial", []),
+  intrapessoal("Intrapessoal", []),
+  linguistica("Linguística", []),
+  corporalCin("Corporal-cinestética", []),
+  interpessoal("Interpessoal", []),
+  musical("Musical", []),
+  espacial("Espacial", []);
 
-  const Areas(this.nome);
+  const Areas(this.nome, this.carreiras);
   final String nome;
+  final List<Carreira> carreiras;
 
   Color navbar() {
     return switch (this) {
@@ -120,4 +121,8 @@ enum Areas {
       Areas.naturalista => const Color(0xff39C023),
     };
   }
+}
+
+enum Carreira {
+  medicina,
 }

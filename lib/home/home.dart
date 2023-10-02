@@ -19,6 +19,7 @@ List<Areas?> fundos = [
   null,
   ...Areas.values,
 ];
+late BuildContext contextHome;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -54,6 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     indexHome = 0;
+    contextHome = context;
     if (!internetIniciado) {
       InternetConnectionChecker().onStatusChange.listen((status) {
         if (status == InternetConnectionStatus.disconnected) {
@@ -97,7 +99,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           child: Image(
                             image: AssetImage(
                               dark
-                                  ? "assets/background/esfumadodark.png"
+                                  ? "assets/background/areas_dark/esf_${e.name}.png"
                                   : "assets/background/areas/esf_${e.name}.png",
                             ),
                             fit: BoxFit.cover,

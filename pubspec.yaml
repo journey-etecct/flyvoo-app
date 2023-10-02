@@ -50,6 +50,7 @@ flutter:
     - assets/icons/
     - assets/background/
     - assets/background/areas/
+    - assets/background/areas_dark/
     - assets/logo/
     - assets/imagens/
     - assets/imagens/areas/
