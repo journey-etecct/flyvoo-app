@@ -300,70 +300,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                         const SizedBox(
                           height: 14,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 20,
-                                spreadRadius: 0,
-                                offset: const Offset(0, 4),
-                                color: Colors.black.withOpacity(0.2),
-                              ),
-                            ],
-                          ),
-                          width: double.infinity,
-                          child: CupertinoButton(
-                            onPressed: () async {
-                              final decisao = await showCupertinoDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => alertaDelete1(context),
-                              );
-                              if (decisao) {
-                                if (!mounted) return;
-                                final decisaoFinal = await showCupertinoDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) => alertaDelete2(context),
-                                );
-                                if (decisaoFinal) {
-                                  await FirebaseDatabase.instance
-                                      .ref(
-                                        "users/${userFlyvoo!.uid}",
-                                      )
-                                      .remove();
-                                  userFlyvoo!.delete();
-                                  if (!mounted) return;
-                                  Navigator.popUntil(
-                                    context,
-                                    (route) => route.isFirst,
-                                  );
-                                  Navigator.pushReplacementNamed(
-                                    context,
-                                    "/index",
-                                  );
-                                  Navigator.pushNamed(
-                                    context,
-                                    "/excluirConta/feedback",
-                                  );
-                                }
-                              }
-                            },
-                            color: dark
-                                ? const Color(0xFFFF2D2D)
-                                : const Color(0xFFFF2C2C),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            borderRadius: BorderRadius.circular(12),
-                            child: Text(
-                              "APAGAR MINHA CONTA",
-                              style: GoogleFonts.inter(
-                                fontSize: 19,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
+                        botaoDeletar(context),
                       ],
                     ),
                   ),
@@ -372,6 +309,71 @@ class _ExcluirContaState extends State<ExcluirConta> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container botaoDeletar(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            blurRadius: 20,
+            spreadRadius: 0,
+            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.2),
+          ),
+        ],
+      ),
+      width: double.infinity,
+      child: CupertinoButton(
+        onPressed: () async {
+          final decisao = await showCupertinoDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => alertaDelete1(context),
+          );
+          if (decisao) {
+            if (!mounted) return;
+            final decisaoFinal = await showCupertinoDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => alertaDelete2(context),
+            );
+            if (decisaoFinal) {
+              await FirebaseDatabase.instance
+                  .ref(
+                    "users/${userFlyvoo!.uid}",
+                  )
+                  .remove();
+              userFlyvoo!.delete();
+              if (!mounted) return;
+              Navigator.popUntil(
+                context,
+                (route) => route.isFirst,
+              );
+              Navigator.pushReplacementNamed(
+                context,
+                "/index",
+              );
+              Navigator.pushNamed(
+                context,
+                "/excluirConta/feedback",
+              );
+            }
+          }
+        },
+        color: dark ? const Color(0xFFFF2D2D) : const Color(0xFFFF2C2C),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        borderRadius: BorderRadius.circular(12),
+        child: Text(
+          "APAGAR MINHA CONTA",
+          style: GoogleFonts.inter(
+            fontSize: 19,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
@@ -396,7 +398,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
               TextSpan(
                 text:
                     "Se o seu problema for seu perfil${password ?? false ? ' ou sua conta' : ''}, você pode ",
-                style: GoogleFonts.inter(color: Tema.fundo.cor()),
+                style: GoogleFonts.inter(color: Tema.noFundo.cor()),
               ),
               TextSpan(
                 text: "editar seu perfil${password ?? false ? '' : '.'}",
@@ -425,7 +427,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                           text: " ou ",
                           style: TextStyle(
                             decoration: TextDecoration.none,
-                            color: Tema.fundo.cor(),
+                            color: Tema.noFundo.cor(),
                           ),
                         ),
                         TextSpan(
@@ -462,7 +464,9 @@ class _ExcluirContaState extends State<ExcluirConta> {
               TextSpan(
                 text:
                     "\n\nSe estiver tendo problema com outra coisa, você pode sempre ",
-                style: GoogleFonts.inter(color: Tema.fundo.cor()),
+                style: GoogleFonts.inter(
+                  color: Tema.noFundo.cor(),
+                ),
               ),
               TextSpan(
                 text: "nos mandar um feedback.",
@@ -705,6 +709,10 @@ class _ExcluirContaState extends State<ExcluirConta> {
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: ColorScheme.fromSeed(
+                        seedColor: Colors.red,
+                        brightness: Brightness.dark,
+                      ).onPrimary,
                     ),
                   ),
                 ],
