@@ -15,9 +15,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 late int indexHome;
-List<Areas?> fundos = [
+List<Area?> fundos = [
   null,
-  ...Areas.values,
+  ...Area.values,
 ];
 late BuildContext contextHome;
 

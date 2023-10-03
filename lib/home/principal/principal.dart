@@ -58,7 +58,6 @@ class _PrincipalState extends State<Principal> {
         enlargeCenterPage: true,
         onPageChanged: (index, reason) {
           widget.notificarFundo(index + 1);
-          debugPrint(Areas.values[index].toString());
         },
       ),
     );
@@ -75,7 +74,7 @@ class Especialidade extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          Areas.values[index].nome,
+          Area.values[index].nome,
           style: GoogleFonts.inter(
             fontSize: 28,
             fontWeight: FontWeight.w400,
@@ -86,7 +85,7 @@ class Especialidade extends StatelessWidget {
           height: 15,
         ),
         SvgPicture.asset(
-          "assets/imagens/areas/${Areas.values[index].name}.svg",
+          "assets/imagens/areas/${Area.values[index].name}.svg",
           height: 400,
         ),
         RatingBar(
@@ -130,10 +129,10 @@ class Especialidade extends StatelessWidget {
                 spreadRadius: 0,
                 offset: const Offset(0, 3),
                 color: dark
-                    ? Areas.values[index].primaryDark().withOpacity(
+                    ? Area.values[index].primaryDark().withOpacity(
                           0.5,
                         )
-                    : Areas.values[index].primaryLight().withOpacity(
+                    : Area.values[index].primaryLight().withOpacity(
                           0.5,
                         ),
               ),
@@ -142,8 +141,8 @@ class Especialidade extends StatelessWidget {
           child: CupertinoButton(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
             color: dark
-                ? Areas.values[index].primaryDark()
-                : Areas.values[index].primaryLight(),
+                ? Area.values[index].primaryDark()
+                : Area.values[index].primaryLight(),
             borderRadius: BorderRadius.circular(50),
             onPressed: () {
               showCupertinoDialog(
@@ -157,7 +156,7 @@ class Especialidade extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: Areas.values[index] == Areas.intrapessoal && dark
+                color: Area.values[index] == Area.intrapessoal && dark
                     ? Colors.black
                     : Colors.white,
               ),

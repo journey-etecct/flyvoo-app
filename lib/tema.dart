@@ -65,7 +65,7 @@ Map<String, Color> tema = {
   "textoBotaoIndex": dark ? Colors.white : const Color(0xffA93535),
 };
 
-enum Areas {
+enum Area {
   naturalista("Naturalista", []),
   logicoMat("Logico-Matemática", []),
   existencial("Existencial", []),
@@ -76,53 +76,70 @@ enum Areas {
   musical("Musical", []),
   espacial("Espacial", []);
 
-  const Areas(this.nome, this.carreiras);
+  const Area(this.nome, this.carreiras);
   final String nome;
   final List<Carreira> carreiras;
 
   Color navbar() {
     return switch (this) {
-      Areas.corporalCin => const Color(0xffFF7D7D),
-      Areas.espacial => const Color(0xff4A8AEC),
-      Areas.existencial => const Color(0xffAD44ED),
-      Areas.interpessoal => const Color(0xffFF6CBC),
-      Areas.intrapessoal => const Color(0xffFFD600),
-      Areas.linguistica => const Color(0xffF5C13B),
-      Areas.logicoMat => const Color(0xff685BFF),
-      Areas.musical => const Color(0xff24D6C1),
-      Areas.naturalista => const Color(0xff39C023),
+      Area.corporalCin => const Color(0xffFF7D7D),
+      Area.espacial => const Color(0xff4A8AEC),
+      Area.existencial => const Color(0xffAD44ED),
+      Area.interpessoal => const Color(0xffFF6CBC),
+      Area.intrapessoal => const Color(0xffFFD600),
+      Area.linguistica => const Color(0xffF5C13B),
+      Area.logicoMat => const Color(0xff685BFF),
+      Area.musical => const Color(0xff24D6C1),
+      Area.naturalista => const Color(0xff39C023),
     };
   }
 
   Color primaryLight() {
     return switch (this) {
-      Areas.corporalCin => const Color(0xffFF7D7D),
-      Areas.espacial => const Color(0xff367EED),
-      Areas.existencial => const Color(0xff942DD3),
-      Areas.interpessoal => const Color(0xffFF6CBC),
-      Areas.intrapessoal => const Color(0xffefc900),
-      Areas.linguistica => const Color(0xffFFA800),
-      Areas.logicoMat => const Color(0xff3C30CA),
-      Areas.musical => const Color(0xff27BA8E),
-      Areas.naturalista => const Color(0xff31B31C),
+      Area.corporalCin => const Color(0xffFF7D7D),
+      Area.espacial => const Color(0xff367EED),
+      Area.existencial => const Color(0xff942DD3),
+      Area.interpessoal => const Color(0xffFF6CBC),
+      Area.intrapessoal => const Color(0xffefc900),
+      Area.linguistica => const Color(0xffFFA800),
+      Area.logicoMat => const Color(0xff3C30CA),
+      Area.musical => const Color(0xff27BA8E),
+      Area.naturalista => const Color(0xff31B31C),
     };
   }
 
   Color primaryDark() {
     return switch (this) {
-      Areas.corporalCin => const Color(0xffFF1879),
-      Areas.espacial => const Color(0xff1866DE),
-      Areas.existencial => const Color(0xff8F3BC2),
-      Areas.interpessoal => const Color(0xffDE328F),
-      Areas.intrapessoal => const Color(0xffFFE500),
-      Areas.linguistica => const Color(0xffFFA800),
-      Areas.logicoMat => const Color(0xff5526B7),
-      Areas.musical => const Color(0xff0CCFB7),
-      Areas.naturalista => const Color(0xff39C023),
+      Area.corporalCin => const Color(0xffFF1879),
+      Area.espacial => const Color(0xff1866DE),
+      Area.existencial => const Color(0xff8F3BC2),
+      Area.interpessoal => const Color(0xffDE328F),
+      Area.intrapessoal => const Color(0xffFFE500),
+      Area.linguistica => const Color(0xffFFA800),
+      Area.logicoMat => const Color(0xff5526B7),
+      Area.musical => const Color(0xff0CCFB7),
+      Area.naturalista => const Color(0xff39C023),
     };
   }
 }
 
 enum Carreira {
-  medicina,
+  medicina("Medicina"),
+  pedagogia("Pedagogia"),
+  financas("Finanças"),
+  marketing("Marketing"),
+  psicologia("Psicologia"),
+  direito("Direito"),
+  cienciaCom("Ciência da Computação"),
+  engenhariaCiv("Engenharia Civil"),
+  nutricao("Nutrição"),
+  turismo("Turismo"),
+  odontologia("Odontologia"),
+  cinema("Cinema"),
+  letras("Letras"),
+  relacoesPub("Relações Públicas"),
+  designGra("Design gráfico");
+
+  const Carreira(this.nome);
+  final String nome;
 }
