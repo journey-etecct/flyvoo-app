@@ -65,7 +65,7 @@ Map<String, Color> tema = {
   "textoBotaoIndex": dark ? Colors.white : const Color(0xffA93535),
 };
 
-typedef Porcentagem = num;
+typedef Porcentagem = double;
 
 enum Area {
   naturalista("Naturalista"),

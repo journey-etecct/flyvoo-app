@@ -149,8 +149,7 @@ class Especialidade extends StatelessWidget {
               showCupertinoDialog(
                 context: contextHome,
                 barrierDismissible: true,
-                builder: (context) => alertaVerMais(
-                  context,
+                builder: (context) => AlertaVerMais(
                   Area.values[index],
                 ),
               );
