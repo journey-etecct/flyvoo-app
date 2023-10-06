@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/home/principal/info.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -148,7 +149,10 @@ class Especialidade extends StatelessWidget {
               showCupertinoDialog(
                 context: contextHome,
                 barrierDismissible: true,
-                builder: (context) => alertaVerMais(context),
+                builder: (context) => alertaVerMais(
+                  context,
+                  Area.values[index],
+                ),
               );
             },
             child: Text(
@@ -164,59 +168,6 @@ class Especialidade extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  BackdropFilter alertaVerMais(BuildContext context) {
-    return BackdropFilter(
-      filter: ColorFilter.mode(
-        Colors.black.withOpacity(0.2),
-        BlendMode.darken,
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-              child: Text(
-                "Informações da Inteligência",
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: GoogleFonts.inter(
-                  color: Tema.texto.cor(),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.41,
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: dark
-                    ? Colors.black.withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
-              ),
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.all(0),
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Text("$index");
-                },
-                itemCount: 50,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

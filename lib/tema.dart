@@ -65,20 +65,21 @@ Map<String, Color> tema = {
   "textoBotaoIndex": dark ? Colors.white : const Color(0xffA93535),
 };
 
-enum Area {
-  naturalista("Naturalista", []),
-  logicoMat("Logico-Matemática", []),
-  existencial("Existencial", []),
-  intrapessoal("Intrapessoal", []),
-  linguistica("Linguística", []),
-  corporalCin("Corporal-cinestética", []),
-  interpessoal("Interpessoal", []),
-  musical("Musical", []),
-  espacial("Espacial", []);
+typedef Porcentagem = num;
 
-  const Area(this.nome, this.carreiras);
+enum Area {
+  naturalista("Naturalista"),
+  logicoMat("Logico-Matemática"),
+  existencial("Existencial"),
+  intrapessoal("Intrapessoal"),
+  linguistica("Linguística"),
+  corporalCin("Corporal-cinestética"),
+  interpessoal("Interpessoal"),
+  musical("Musical"),
+  espacial("Espacial");
+
+  const Area(this.nome);
   final String nome;
-  final List<Carreira> carreiras;
 
   Color navbar() {
     return switch (this) {
@@ -124,22 +125,342 @@ enum Area {
 }
 
 enum Carreira {
-  medicina("Medicina"),
-  pedagogia("Pedagogia"),
-  financas("Finanças"),
-  marketing("Marketing"),
-  psicologia("Psicologia"),
-  direito("Direito"),
-  cienciaCom("Ciência da Computação"),
-  engenhariaCiv("Engenharia Civil"),
-  nutricao("Nutrição"),
-  turismo("Turismo"),
-  odontologia("Odontologia"),
-  cinema("Cinema"),
-  letras("Letras"),
-  relacoesPub("Relações Públicas"),
-  designGra("Design gráfico");
+  medicina("Medicina", [
+    (Area.interpessoal, 40),
+    (Area.naturalista, 40),
+    (Area.logicoMat, 20),
+  ]),
+  pedagogia("Pedagogia", [
+    (Area.interpessoal, 60),
+    (Area.linguistica, 30),
+    (Area.existencial, 10),
+  ]),
+  financas("Finanças", [
+    (Area.logicoMat, 85),
+    (Area.interpessoal, 15),
+  ]),
+  marketing("Marketing", [
+    (Area.interpessoal, 40),
+    (Area.linguistica, 30),
+    (Area.espacial, 30),
+  ]),
+  psicologia("Psicologia", [
+    (Area.interpessoal, 40),
+    (Area.existencial, 35),
+    (Area.intrapessoal, 25),
+  ]),
+  direito("Direito", [
+    (Area.linguistica, 60),
+    (Area.interpessoal, 20),
+    (Area.logicoMat, 20),
+  ]),
+  cienciaCom("Ciência da Computação", [
+    (Area.logicoMat, 70),
+    (Area.espacial, 30),
+  ]),
+  engenhariaCiv("Engenharia Civil", [
+    (Area.logicoMat, 50),
+    (Area.espacial, 50),
+  ]),
+  nutricao("Nutrição", [
+    (Area.naturalista, 40),
+    (Area.interpessoal, 35),
+    (Area.corporalCin, 25),
+  ]),
+  turismo("Turismo", [
+    (Area.espacial, 30),
+    (Area.naturalista, 30),
+    (Area.linguistica, 20),
+    (Area.interpessoal, 20),
+  ]),
+  odontologia("Odontologia", [
+    (Area.naturalista, 40),
+    (Area.interpessoal, 35),
+    (Area.corporalCin, 25),
+  ]),
+  cinema("Cinema", [
+    (Area.existencial, 35),
+    (Area.interpessoal, 30),
+    (Area.intrapessoal, 25),
+    (Area.musical, 10),
+  ]),
+  letras("Letras", [
+    (Area.linguistica, 70),
+    (Area.intrapessoal, 30),
+  ]),
+  relacoesPub("Relações Públicas", [
+    (Area.interpessoal, 70),
+    (Area.linguistica, 30),
+  ]),
+  designGra("Design gráfico", [
+    (Area.espacial, 60),
+    (Area.interpessoal, 20),
+    (Area.musical, 20),
+  ]),
+  jornalismo("Jornalismo", [
+    (Area.linguistica, 50),
+    (Area.interpessoal, 50),
+  ]),
+  medicinaVet("Medicina Veterinária", [
+    (Area.naturalista, 60),
+    (Area.interpessoal, 40),
+  ]),
+  bioquimica("Bioquimica", [
+    (Area.naturalista, 80),
+    (Area.logicoMat, 20),
+  ]),
+  biofisica("Biofisica", [
+    (Area.naturalista, 40),
+    (Area.logicoMat, 30),
+    (Area.existencial, 20),
+    (Area.espacial, 10),
+  ]),
+  meteorologia("Meteorologia", [
+    (Area.naturalista, 60),
+    (Area.espacial, 30),
+    (Area.linguistica, 10),
+  ]),
+  biomedicina("Biomedicina", [
+    (Area.naturalista, 40),
+    (Area.logicoMat, 35),
+    (Area.interpessoal, 25),
+  ]),
+  cienciasBio("Ciências Biológicas", [
+    (Area.naturalista, 50),
+    (Area.logicoMat, 30),
+    (Area.existencial, 20),
+  ]),
+  enfermagem("Enfermagem", [
+    (Area.interpessoal, 60),
+    (Area.naturalista, 30),
+    (Area.linguistica, 10),
+  ]),
+  estetica("Estetica", [
+    (Area.interpessoal, 50),
+    (Area.naturalista, 30),
+    (Area.espacial, 20),
+  ]),
+  educacaoFis("Educação Física", [
+    (Area.corporalCin, 80),
+    (Area.naturalista, 10),
+    (Area.interpessoal, 10),
+  ]),
+  farmacia("Farmácia", [
+    (Area.naturalista, 60),
+    (Area.logicoMat, 20),
+    (Area.interpessoal, 20),
+  ]),
+  fisioterapia("Fisioterapia", [
+    (Area.corporalCin, 60),
+    (Area.interpessoal, 28),
+    (Area.naturalista, 12),
+  ]),
+  quiropraxia("Quiropraxia", [
+    (Area.corporalCin, 50),
+    (Area.interpessoal, 30),
+    (Area.naturalista, 20),
+  ]),
+  biotecnologia("Biotecnologia", [
+    (Area.naturalista, 70),
+    (Area.logicoMat, 30),
+  ]),
+  arquitetura("Arquitetura e Urbanismo", [
+    (Area.espacial, 70),
+    (Area.logicoMat, 30),
+  ]),
+  ecologia("Ecologia", [
+    (Area.naturalista, 100),
+  ]),
+  agronomia("Agronomia", [
+    (Area.naturalista, 50),
+    (Area.espacial, 30),
+    (Area.corporalCin, 20),
+  ]),
+  geologia("Geologia", [
+    (Area.naturalista, 70),
+    (Area.espacial, 30),
+  ]),
+  oceanografia("Oceanografia", [
+    (Area.naturalista, 80),
+    (Area.existencial, 20),
+  ]),
+  fonoaudiologia("Fonoaudiologia", [
+    (Area.linguistica, 50),
+    (Area.musical, 20),
+    (Area.interpessoal, 15),
+    (Area.corporalCin, 15),
+  ]),
+  engenhariaAer("Engenharia Aeronáutica", [
+    (Area.logicoMat, 40),
+    (Area.espacial, 40),
+    (Area.naturalista, 20),
+  ]),
+  engenhariaEle("Engenharia Elétrica", [
+    (Area.logicoMat, 60),
+    (Area.naturalista, 30),
+    (Area.espacial, 10),
+  ]),
+  astronomia("Astrologia", [
+    (Area.naturalista, 50),
+    (Area.existencial, 40),
+    (Area.espacial, 10),
+  ]),
+  musicoterapia("Musicoterapia", [
+    (Area.musical, 40),
+    (Area.interpessoal, 30),
+    (Area.linguistica, 20),
+    (Area.intrapessoal, 10),
+  ]),
+  engenhariaMec("Engenharia Mecânica", [
+    (Area.logicoMat, 40),
+    (Area.espacial, 40),
+    (Area.corporalCin, 20),
+  ]),
+  estatistica("Estatística", [
+    (Area.logicoMat, 80),
+    (Area.intrapessoal, 20),
+  ]),
+  geofisica("Geofisica", [
+    (Area.naturalista, 50),
+    (Area.espacial, 30),
+    (Area.existencial, 20),
+  ]),
+  logistica("Logística", [
+    (Area.logicoMat, 80),
+    (Area.espacial, 20),
+  ]),
+  tecnologiaInf("Tecnologia da Informação", [
+    (Area.logicoMat, 100),
+  ]),
+  filosofia("Filosofia", [
+    (Area.existencial, 60),
+    (Area.intrapessoal, 20),
+    (Area.interpessoal, 15),
+    (Area.linguistica, 5),
+  ]),
+  historia("História", [
+    (Area.existencial, 40),
+    (Area.intrapessoal, 20),
+    (Area.interpessoal, 20),
+    (Area.linguistica, 20),
+  ]),
+  sociologia("Sociologia", [
+    (Area.interpessoal, 40),
+    (Area.existencial, 40),
+    (Area.intrapessoal, 10),
+    (Area.linguistica, 10),
+  ]),
+  teologia("Teologia", [
+    (Area.existencial, 50),
+    (Area.intrapessoal, 35),
+    (Area.linguistica, 15),
+  ]),
+  cienciaPol("Ciência Política", [
+    (Area.interpessoal, 40),
+    (Area.existencial, 35),
+    (Area.linguistica, 15),
+  ]),
+  administracao("Administração", [
+    (Area.logicoMat, 80),
+    (Area.interpessoal, 20),
+  ]),
+  biblioteconomia("Biblioteconomia", [
+    (Area.linguistica, 80),
+    (Area.intrapessoal, 10),
+    (Area.espacial, 10),
+  ]),
+  contabilidade("Contabilidade", [
+    (Area.logicoMat, 100),
+  ]),
+  eventos("Eventos", [
+    (Area.interpessoal, 80),
+    (Area.espacial, 20),
+  ]),
+  publicidade("Publicidade e Propaganda", [
+    (Area.interpessoal, 50),
+    (Area.espacial, 35),
+    (Area.musical, 15),
+  ]),
+  recursosHum("Recursos Humanos", [
+    (Area.interpessoal, 70),
+    (Area.logicoMat, 30),
+  ]),
+  segurancaTra("Segurança no Trabalho", [
+    (Area.interpessoal, 50),
+    (Area.espacial, 30),
+    (Area.corporalCin, 20),
+  ]),
+  artesCen("Artes Cênicas", [
+    (Area.intrapessoal, 30),
+    (Area.corporalCin, 30),
+    (Area.espacial, 20),
+    (Area.interpessoal, 20),
+  ]),
+  artesPla("Artes Plásticas", [
+    (Area.intrapessoal, 30),
+    (Area.espacial, 30),
+    (Area.existencial, 25),
+    (Area.musical, 15),
+  ]),
+  danca("Dança", [
+    (Area.corporalCin, 50),
+    (Area.interpessoal, 20),
+    (Area.intrapessoal, 20),
+    (Area.corporalCin, 10),
+  ]),
+  designJog("Design de Jogos", [
+    (Area.intrapessoal, 35),
+    (Area.logicoMat, 30),
+    (Area.espacial, 25),
+    (Area.musical, 10),
+  ]),
+  designMod("Design de Moda", [
+    (Area.interpessoal, 35),
+    (Area.intrapessoal, 30),
+    (Area.musical, 20),
+    (Area.espacial, 15),
+  ]),
+  designInt("Design de Interiores", [
+    (Area.espacial, 80),
+    (Area.intrapessoal, 20),
+  ]),
+  zootecnia("Zootecnia", [
+    (Area.naturalista, 80),
+    (Area.intrapessoal, 20),
+  ]),
+  analistaDad("Analista de Dados", [
+    (Area.logicoMat, 100),
+  ]),
+  secretariado("Secretariado", [
+    (Area.logicoMat, 70),
+    (Area.interpessoal, 30),
+  ]),
+  biologo("Biólogo", [
+    (Area.naturalista, 100),
+  ]),
+  fisico("Físico", [
+    (Area.logicoMat, 50),
+    (Area.naturalista, 35),
+    (Area.existencial, 15),
+  ]),
+  quimico("Químico", [
+    (Area.naturalista, 50),
+    (Area.logicoMat, 50),
+  ]),
+  matematica("Matemática", [
+    (Area.logicoMat, 100),
+  ]),
+  escritor("Escritor", [
+    (Area.linguistica, 50),
+    (Area.intrapessoal, 50),
+  ]),
+  dublagem("Dublagem", [
+    (Area.corporalCin, 40),
+    (Area.musical, 40),
+    (Area.interpessoal, 20),
+  ]);
 
-  const Carreira(this.nome);
+  const Carreira(this.nome, this.inteligencias);
   final String nome;
+  final List<(Area, Porcentagem)> inteligencias;
 }
