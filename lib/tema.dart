@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 bool dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
     Brightness.dark;
@@ -68,18 +70,19 @@ Map<String, Color> tema = {
 typedef Porcentagem = double;
 
 enum Area {
-  naturalista("Naturalista"),
-  logicoMat("Logico-Matemática"),
-  existencial("Existencial"),
-  intrapessoal("Intrapessoal"),
-  linguistica("Linguística"),
-  corporalCin("Corporal-cinestética"),
-  interpessoal("Interpessoal"),
-  musical("Musical"),
-  espacial("Espacial");
+  naturalista("Naturalista", FontAwesome.tree),
+  logicoMat("Logico-Matemática", FontAwesome.square_root_variable),
+  existencial("Existencial", BoxIcons.bxs_brain),
+  intrapessoal("Intrapessoal", FontAwesome.person),
+  linguistica("Linguística", Symbols.translate),
+  corporalCin("Corporal-cinestética", Symbols.sports_tennis),
+  interpessoal("Interpessoal", FontAwesome.people_carry_box),
+  musical("Musical", FontAwesome.headphones_simple),
+  espacial("Espacial", Symbols.globe);
 
-  const Area(this.nome);
+  const Area(this.nome, this.icone);
   final String nome;
+  final IconData icone;
 
   Color navbar() {
     return switch (this) {
