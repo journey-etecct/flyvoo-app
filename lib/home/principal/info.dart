@@ -2,11 +2,17 @@
 
 import 'dart:ui';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+Carreira _carreiraSelecionada = Carreira.administracao;
+bool _reverse = false;
+int _tela = 0;
+late void Function(void Function()) setStateLista;
 
 class AlertaVerMais extends StatefulWidget {
   final Area area;
@@ -19,50 +25,85 @@ class AlertaVerMais extends StatefulWidget {
 class _AlertaVerMaisState extends State<AlertaVerMais> {
   late final List<Widget> _telas = [
     Lista(widget.area),
-    /* Info(), */
+    Info(_carreiraSelecionada),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ColorFilter.mode(
-        Colors.black.withOpacity(0.2),
-        BlendMode.darken,
-      ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (_tela == 0) {
+          return true;
+        } else {
+          setState(() {
+            _reverse = true;
+            _tela = 0;
+          });
+          return false;
+        }
+      },
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-              child: Text(
-                "Informações da Inteligência",
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: GoogleFonts.inter(
-                  color: Tema.texto.cor(),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.41,
+        filter: ColorFilter.mode(
+          Colors.black.withOpacity(0.4),
+          BlendMode.darken,
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+                child: Text(
+                  "Informações da Inteligência",
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.41,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.all(25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: dark
-                    ? Colors.black.withOpacity(0.7)
-                    : Colors.white.withOpacity(0.7),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.all(25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: dark
+                      ? Colors.black.withOpacity(0.7)
+                      : Colors.white.withOpacity(0.7),
+                ),
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: StatefulBuilder(
+                  builder: (context, setStateL) {
+                    setStateLista = setStateL;
+                    return PageTransitionSwitcher(
+                      reverse: _reverse,
+                      transitionBuilder: (
+                        Widget child,
+                        Animation<double> primaryAnimation,
+                        Animation<double> secondaryAnimation,
+                      ) {
+                        return SharedAxisTransition(
+                          fillColor: Colors.transparent,
+                          animation: primaryAnimation,
+                          secondaryAnimation: secondaryAnimation,
+                          transitionType: SharedAxisTransitionType.horizontal,
+                          child: child,
+                        );
+                      },
+                      child: _telas[_tela],
+                    );
+                  },
+                ),
               ),
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Lista(widget.area),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -79,7 +120,7 @@ class Lista extends StatefulWidget {
 
 class _ListaState extends State<Lista> {
   List<(Carreira, int)> carreirasDessaArea = <(Carreira, int)>[];
-  construirLista() {
+  List<(Carreira, int)> construirLista() {
     carreirasDessaArea = [];
     for (Carreira carreira in Carreira.values) {
       for (int i = 0; i < carreira.inteligencias.length; i++) {
@@ -111,7 +152,13 @@ class _ListaState extends State<Lista> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    setStateLista(() {
+                      _reverse = false;
+                      _carreiraSelecionada = e.$1;
+                      _tela = 1;
+                    });
+                  },
                   borderRadius: BorderRadius.circular(10),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -161,7 +208,7 @@ class _ListaState extends State<Lista> {
                           child: IconButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {},
-                            icon: Icon(Symbols.arrow_back_ios),
+                            icon: Icon(Symbols.arrow_back),
                             iconSize: 30,
                           ),
                         ),
@@ -195,6 +242,6 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Text("${widget.carreira}");
   }
 }

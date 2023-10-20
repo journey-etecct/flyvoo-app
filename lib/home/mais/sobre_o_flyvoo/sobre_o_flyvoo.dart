@@ -19,61 +19,56 @@ class SobreOFlyvoo extends StatefulWidget {
 String versao = "...";
 String nversao = "...";
 String id = "...";
+List<List<dynamic>> _listaPessoas = [
+  [
+    const AssetImage("assets/imagens/pessoas/camila.png"),
+    "Camila Vitória",
+    "PESQUISA E DESIGN",
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/camila.png"),
+    "Daniel Alves",
+    "DESIGN E DESENVOLVIMENTO"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/danilo.png"),
+    "Danilo Lima",
+    "CEO \u2022 DESIGN E DESENVOLVIMENTO"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/felipe.png"),
+    "Felipe Araújo",
+    "DESIGN E DESENVOLVIMENTO"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/guilherme.png"),
+    "Guilherme Barbosa",
+    "PESQUISA E DESIGN"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/juliana.png"),
+    "Juliana Leal",
+    "PESQUISA"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/paulo.png"),
+    "Paulo Henrique",
+    "PESQUISA"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/rafael.png"),
+    "Rafael Lucílio",
+    "PESQUISA E DESIGN"
+  ],
+  [
+    const AssetImage("assets/imagens/pessoas/robson.png"),
+    "Robson Dias",
+    "DESIGN E DESENVOLVIMENTO"
+  ],
+  [const AssetImage("assets/imagens/pessoas/ryan.png"), "Ryan Silva", "DESIGN"],
+];
 
 class _SobreOFlyvooState extends State<SobreOFlyvoo> {
-  List<List<dynamic>> listaPessoas = [
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 1",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição",
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 2",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 3",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 4",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 5",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 6",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 7",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 8",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 9",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-    [
-      const AssetImage("assets/icons/user.png"),
-      "Pessoa 10",
-      "descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição"
-    ],
-  ];
-
   _pegarInfoApp() async {
     final info = await PackageInfo.fromPlatform();
     setState(() {
@@ -272,9 +267,9 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: PessoaInfo(
-                          listaPessoas[index][0],
-                          listaPessoas[index][1],
-                          listaPessoas[index][2],
+                          _listaPessoas[index][0],
+                          _listaPessoas[index][1],
+                          _listaPessoas[index][2],
                         ),
                       ),
                       const SizedBox(
@@ -285,7 +280,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                       ),
                     ],
                   ),
-                  itemCount: listaPessoas.length,
+                  itemCount: _listaPessoas.length,
                   shrinkWrap: true,
                 ),
                 const SizedBox(
@@ -327,15 +322,22 @@ class PessoaInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image(
-            image: img,
-            color: Tema.texto.cor(),
-            width: 100,
-            fit: BoxFit.cover,
+          child: PhysicalModel(
+            color: nome == _listaPessoas[2][1]
+                ? Tema.primaria.cor().withOpacity(dark ? 0.2 : 0.5)
+                : Tema.texto.cor().withOpacity(dark ? 0.2 : 0.5),
+            shape: BoxShape.circle,
+            child: ClipOval(
+              child: Image(
+                image: img,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
         const SizedBox(
@@ -357,62 +359,9 @@ class PessoaInfo extends StatelessWidget {
                 desc,
                 maxLines: 2,
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 15,
                 ),
                 overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CupertinoButton(
-                  onPressed: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (context) => BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                        child: CupertinoAlertDialog(
-                          title: Column(
-                            children: [
-                              Image(
-                                image: img,
-                                fit: BoxFit.cover,
-                                color: Tema.texto.cor(),
-                                width: 150,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(nome),
-                            ],
-                          ),
-                          content: Text(desc),
-                          actions: [
-                            CupertinoDialogAction(
-                              isDefaultAction: true,
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(
-                                "OK",
-                                style: GoogleFonts.inter(
-                                  color: CupertinoColors.systemBlue,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                  color: Tema.texto.cor(),
-                  child: Text(
-                    "Ver mais",
-                    style: GoogleFonts.inter(
-                      color: Tema.fundo.cor(),
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
