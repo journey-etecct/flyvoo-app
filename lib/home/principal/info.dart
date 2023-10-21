@@ -10,8 +10,8 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/tema.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 Carreira _carreiraSelecionada = Carreira.administracao;
@@ -36,15 +36,18 @@ class _AlertaVerMaisState extends State<AlertaVerMais> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: _tela == 0,
+      canPop: false,
       onPopInvoked: (poppou) {
         if (poppou) return;
 
-        setState(() {
-          _reverse = true;
-          _tela = 0;
-        });
-        Navigator.pop(context);
+        if (_tela == 0) {
+          Navigator.pop(context);
+        } else {
+          setState(() {
+            _reverse = true;
+            _tela = 0;
+          });
+        }
       },
       child: BackdropFilter(
         filter: ColorFilter.mode(
@@ -52,14 +55,14 @@ class _AlertaVerMaisState extends State<AlertaVerMais> {
           BlendMode.darken,
         ),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 child: Text(
                   "Informações da Inteligência",
                   overflow: TextOverflow.ellipsis,
@@ -198,6 +201,7 @@ class _ListaState extends State<Lista> {
                                 displayText: "%",
                                 displayTextStyle: GoogleFonts.inter(
                                   color: Tema.noFundo.cor(),
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 backgroundColor: Colors.grey.withOpacity(0.2),
                                 size: 20,
@@ -302,6 +306,7 @@ class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         children: [
           FutureBuilder(
@@ -310,152 +315,7 @@ class _InfoState extends State<Info> {
               if (infoCarreiraS.hasData &&
                   infoCarreiraS.connectionState == ConnectionState.done) {
                 final infoCarreira = infoCarreiraS.data!;
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Area.values[areaAtual - 1].icone),
-                        Text(_carreiraSelecionada.nome),
-                      ],
-                    ),
-                    Text("descrição"),
-                    Text("Salário"),
-                    Text(
-                      "R\$${infoCarreira.child("salario/min").value},00 - R\$${infoCarreira.child("salario/max").value},00",
-                    ),
-                    RatingBar(
-                      itemPadding: EdgeInsets.symmetric(horizontal: 10),
-                      initialRating: _ratingSalario(
-                        [
-                          infoCarreira.child("salario/min").value as int,
-                          infoCarreira.child("salario/max").value as int,
-                        ],
-                      ),
-                      ignoreGestures: true,
-                      glow: false,
-                      allowHalfRating: false,
-                      ratingWidget: RatingWidget(
-                        full: Icon(
-                          FontAwesome.money_bill_wave,
-                          fill: 1,
-                          color: Color(0xff00BF63),
-                        ),
-                        half: Icon(
-                          Symbols.star_rounded,
-                          fill: 1,
-                        ),
-                        empty: Icon(
-                          FontAwesome.money_bill_wave,
-                          color: Color(0xffAEAEB2),
-                        ),
-                      ),
-                      onRatingUpdate: (value) {},
-                    ),
-                    Text("Carga Horária"),
-                    Text(
-                      "${infoCarreira.child("cargaHoraria").value} ${infoCarreira.child("cargaHoraria").value as int < 2 ? "hora semanal" : "horas semanais"}",
-                    ),
-                    RatingBar(
-                      itemPadding: EdgeInsets.symmetric(horizontal: 5),
-                      itemSize: 50,
-                      initialRating: _ratingCarga(
-                        infoCarreira.child("cargaHoraria").value as int,
-                      ),
-                      ignoreGestures: true,
-                      glow: false,
-                      allowHalfRating: false,
-                      ratingWidget: RatingWidget(
-                        full: Icon(
-                          Symbols.alarm,
-                          color: Color(0xffEB4549),
-                          grade: 600,
-                        ),
-                        half: Icon(
-                          Symbols.star_rounded,
-                          fill: 1,
-                        ),
-                        empty: Icon(
-                          Symbols.alarm,
-                          color: Color(0xffAEAEB2),
-                          grade: 600,
-                        ),
-                      ),
-                      onRatingUpdate: (value) {},
-                    ),
-                    Text("Observações"),
-                    Text("tem que trabalhar"),
-                    Text("Inteligências"),
-                    Stack(),
-                    Text("Sua compatibilidade"),
-                    FutureBuilder(
-                      future: _fezTeste,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData &&
-                            snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.data!) {
-                            return RatingBar(
-                              ratingWidget: RatingWidget(
-                                full: Icon(
-                                  Symbols.star_rounded,
-                                  fill: 1,
-                                ),
-                                half: Icon(
-                                  Symbols.star_rounded,
-                                  fill: 1,
-                                ),
-                                empty: Icon(
-                                  Symbols.star_rounded,
-                                ),
-                              ),
-                              onRatingUpdate: (value) {},
-                            );
-                          } else {
-                            return Column(
-                              children: [
-                                Text("REQUER TESTE DO USUÁRIO"),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                        blurRadius: 20,
-                                        spreadRadius: 0,
-                                        offset: const Offset(0, 3),
-                                        color:
-                                            const Color(0xffF81B50).withOpacity(
-                                          0.5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  height: 43,
-                                  width: 150,
-                                  child: CupertinoButton(
-                                    onPressed: () async {},
-                                    padding: const EdgeInsets.all(0),
-                                    color: const Color(0xffF81B50),
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Text(
-                                      "Fazer teste",
-                                      style: GoogleFonts.inter(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                );
+                return informacoes(infoCarreira);
               } else {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -463,23 +323,442 @@ class _InfoState extends State<Info> {
               }
             },
           ),
-          /* Text("nada"),
-          RatingBar(
-            ratingWidget: RatingWidget(
-              full: Icon(
-                Symbols.star_rounded,
-                fill: 1,
-              ),
-              half: Icon(
-                Symbols.star_rounded,
-                fill: 1,
-              ),
-              empty: Icon(
-                Symbols.star_rounded,
+        ],
+      ),
+    );
+  }
+
+  Column informacoes(DataSnapshot infoCarreira) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            switch (Area.values[areaAtual - 1]) {
+              Area.existencial ||
+              Area.linguistica ||
+              Area.corporalCin ||
+              Area.espacial =>
+                Icon(
+                  Area.values[areaAtual - 1].icone,
+                  size: 80,
+                  color: dark
+                      ? Area.values[areaAtual - 1].primaryDark()
+                      : Area.values[areaAtual - 1].primaryLight(),
+                ),
+              _ => FaIcon(
+                  Area.values[areaAtual - 1].icone,
+                  size: 80,
+                  color: dark
+                      ? Area.values[areaAtual - 1].primaryDark()
+                      : Area.values[areaAtual - 1].primaryLight(),
+                ),
+            },
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                _carreiraSelecionada.nome,
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 24,
+                  color: dark
+                      ? Area.values[areaAtual - 1].primaryDark()
+                      : Area.values[areaAtual - 1].primaryLight(),
+                ),
               ),
             ),
-            onRatingUpdate: (value) {},
-          ), */
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          infoCarreira.child("desc/").value as String,
+          textAlign: TextAlign.justify,
+          style: GoogleFonts.inter(
+            color: Tema.texto.cor(),
+            fontSize: 18,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Salário",
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Text(
+          "R\$${infoCarreira.child("salario/min").value},00 - R\$${infoCarreira.child("salario/max").value},00",
+          style: GoogleFonts.inter(
+            color: Color(0xFF00BF63),
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+          ),
+        ),
+        RatingBar(
+          wrapAlignment: WrapAlignment.start,
+          itemPadding: EdgeInsets.symmetric(horizontal: 8.5),
+          initialRating: _ratingSalario(
+            [
+              infoCarreira.child("salario/min").value as int,
+              infoCarreira.child("salario/max").value as int,
+            ],
+          ),
+          ignoreGestures: true,
+          glow: false,
+          allowHalfRating: false,
+          ratingWidget: RatingWidget(
+            full: Icon(
+              FontAwesomeIcons.moneyBillWave,
+              fill: 1,
+              color: Color(0xff00BF63),
+              size: 45,
+            ),
+            half: Icon(
+              Symbols.star_rounded,
+              fill: 1,
+            ),
+            empty: Icon(
+              FontAwesomeIcons.moneyBillWave,
+              color: Color(0xffAEAEB2),
+              size: 45,
+            ),
+          ),
+          onRatingUpdate: (value) {},
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Carga Horária",
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Text(
+          "${infoCarreira.child("cargaHoraria").value} horas semanais",
+          style: GoogleFonts.inter(
+            color: Color(0xffEB4549),
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+          ),
+        ),
+        RatingBar(
+          itemPadding: EdgeInsets.symmetric(horizontal: 3),
+          itemSize: 50,
+          initialRating: _ratingCarga(
+            infoCarreira.child("cargaHoraria").value as int,
+          ),
+          ignoreGestures: true,
+          glow: false,
+          allowHalfRating: false,
+          ratingWidget: RatingWidget(
+            full: Icon(
+              Symbols.alarm,
+              color: Color(0xffEB4549),
+              weight: 700,
+            ),
+            half: Icon(
+              Symbols.star_rounded,
+              fill: 1,
+            ),
+            empty: Icon(
+              Symbols.alarm,
+              color: Color(0xffAEAEB2),
+              weight: 700,
+            ),
+          ),
+          onRatingUpdate: (value) {},
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Observações",
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Text(
+          infoCarreira.child("obs/").value as String,
+          style: GoogleFonts.inter(
+            fontSize: 22,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Inteligência(s)",
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        painelIntel(),
+        SizedBox(
+          height: 30,
+        ),
+        Text(
+          "Sua compatibilidade",
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        FutureBuilder(
+          future: _fezTeste,
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data!) {
+                return RatingBar(
+                  ratingWidget: RatingWidget(
+                    full: Icon(
+                      Symbols.star_rounded,
+                      fill: 1,
+                    ),
+                    half: Icon(
+                      Symbols.star_rounded,
+                      fill: 1,
+                    ),
+                    empty: Icon(
+                      Symbols.star_rounded,
+                    ),
+                  ),
+                  onRatingUpdate: (value) {},
+                );
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "REQUER TESTE DO USUÁRIO",
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        color: Tema.texto.cor(),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: const Offset(0, 3),
+                              color: const Color(0xffF81B50).withOpacity(0.5),
+                            ),
+                          ],
+                        ),
+                        height: 43,
+                        width: 150,
+                        child: CupertinoButton(
+                          onPressed: () async {},
+                          padding: const EdgeInsets.all(0),
+                          color: const Color(0xffF81B50),
+                          borderRadius: BorderRadius.circular(10),
+                          child: Text(
+                            "Fazer teste",
+                            style: GoogleFonts.inter(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  SizedBox painelIntel() {
+    final intel = _carreiraSelecionada.inteligencias;
+    return SizedBox(
+      height: intel.length > 2 ? 180 : 150,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(),
+          ..._carreiraSelecionada.inteligencias.map<Widget>(
+            (e) {
+              switch (intel.length) {
+                case 1:
+                  return Center(
+                    child: Tooltip(
+                      message: e.$1.nome,
+                      child: switch (e.$1) {
+                        Area.existencial ||
+                        Area.linguistica ||
+                        Area.corporalCin ||
+                        Area.espacial =>
+                          Icon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: 135,
+                          ),
+                        _ => FaIcon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: 135,
+                          ),
+                      },
+                    ),
+                  );
+                case 2:
+                  return Positioned(
+                    top: intel.first == e ? 0 : 70,
+                    left: intel.first == e ? 50 : 150,
+                    child: Tooltip(
+                      message: e.$1.nome,
+                      child: switch (e.$1) {
+                        Area.existencial ||
+                        Area.linguistica ||
+                        Area.corporalCin ||
+                        Area.espacial =>
+                          Icon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: intel.first == e ? 100 : 80,
+                          ),
+                        _ => FaIcon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: intel.first == e ? 100 : 80,
+                          ),
+                      },
+                    ),
+                  );
+                case 3:
+                  return Positioned(
+                    top: intel.first == e
+                        ? 0
+                        : intel.last != e
+                            ? 50
+                            : 100,
+                    left: intel.first == e
+                        ? 50
+                        : intel.last != e
+                            ? 160
+                            : 90,
+                    child: Tooltip(
+                      message: e.$1.nome,
+                      child: switch (e.$1) {
+                        Area.existencial ||
+                        Area.linguistica ||
+                        Area.corporalCin ||
+                        Area.espacial =>
+                          Icon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: intel.first == e
+                                ? 90
+                                : intel.last != e
+                                    ? 80
+                                    : 60,
+                          ),
+                        _ => FaIcon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: intel.first == e
+                                ? 90
+                                : intel.last != e
+                                    ? 80
+                                    : 60,
+                          ),
+                      },
+                    ),
+                  );
+                default:
+                  return Positioned(
+                    top: switch (intel.indexOf(e)) {
+                      0 => 0,
+                      1 => 30,
+                      2 => 90,
+                      _ => 110,
+                    },
+                    left: switch (intel.indexOf(e)) {
+                      0 => 50,
+                      1 => 150,
+                      2 => 60,
+                      _ => 140,
+                    },
+                    child: Tooltip(
+                      message: e.$1.nome,
+                      child: switch (e.$1) {
+                        Area.existencial ||
+                        Area.linguistica ||
+                        Area.corporalCin ||
+                        Area.espacial =>
+                          Icon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: switch (intel.indexOf(e)) {
+                              0 => 70,
+                              1 => 65,
+                              2 => 60,
+                              _ => 55,
+                            },
+                          ),
+                        _ => FaIcon(
+                            e.$1.icone,
+                            color:
+                                dark ? e.$1.primaryDark() : e.$1.primaryDark(),
+                            size: switch (intel.indexOf(e)) {
+                              0 => 70,
+                              1 => 65,
+                              2 => 60,
+                              _ => 55,
+                            },
+                          ),
+                      },
+                    ),
+                  );
+              }
+            },
+          ).toList(),
         ],
       ),
     );

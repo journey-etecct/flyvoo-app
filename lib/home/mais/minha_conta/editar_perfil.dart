@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,7 +13,6 @@ import 'package:flyvoo/cadastro/telas_email/tela3.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -837,7 +837,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
                     child: Icon(
-                      Bootstrap.pencil_fill,
+                      BootstrapIcons.pencil_fill,
                       color: Tema.texto.cor(),
                     ),
                   )

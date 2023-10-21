@@ -1,6 +1,7 @@
+import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:icons_plus/icons_plus.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 bool dark = SchedulerBinding.instance.platformDispatcher.platformBrightness ==
@@ -70,14 +71,14 @@ Map<String, Color> tema = {
 typedef Porcentagem = double;
 
 enum Area {
-  naturalista("Naturalista", FontAwesome.tree),
-  logicoMat("Logico-Matemática", FontAwesome.square_root_variable),
-  existencial("Existencial", BoxIcons.bxs_brain),
-  intrapessoal("Intrapessoal", FontAwesome.person),
+  naturalista("Naturalista", FontAwesomeIcons.tree),
+  logicoMat("Logico-Matemática", FontAwesomeIcons.squareRootVariable),
+  existencial("Existencial", Boxicons.bxs_brain),
+  intrapessoal("Intrapessoal", FontAwesomeIcons.person),
   linguistica("Linguística", Symbols.translate),
   corporalCin("Corporal-cinestética", Symbols.sports_tennis),
-  interpessoal("Interpessoal", FontAwesome.people_carry_box),
-  musical("Musical", FontAwesome.headphones_simple),
+  interpessoal("Interpessoal", FontAwesomeIcons.peopleCarryBox),
+  musical("Musical", FontAwesomeIcons.headphonesSimple),
   espacial("Espacial", Symbols.globe);
 
   const Area(this.nome, this.icone);

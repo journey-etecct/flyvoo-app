@@ -376,7 +376,7 @@ class _LoginState extends State<Login> {
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Container(
-                margin: const EdgeInsets.fromLTRB(60, 0, 60, 10),
+                margin: const EdgeInsets.fromLTRB(55, 0, 55, 10),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),

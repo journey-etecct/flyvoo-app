@@ -7,8 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/central_de_ajuda/central_de_ajuda.dart';
+import 'package:flyvoo/home/mais/doacoes.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
-import 'package:flyvoo/secure/pub_key_ejs.dart';
+import 'package:flyvoo/secure/pub_key_ejs.dart' show pubKey;
 import 'package:flyvoo/home/mais/sobre_o_flyvoo/sobre_o_flyvoo.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -25,7 +26,12 @@ class Mais extends StatefulWidget {
 }
 
 class _MaisState extends State<Mais> {
-  List<String> botoes = ["Minha Conta", "Central de Ajuda", "Sobre o Flyvoo"];
+  List<String> botoes = [
+    "Minha Conta",
+    "Central de Ajuda",
+    "Sobre o Flyvoo",
+    "Doações",
+  ];
   final _keyImg = GlobalKey<State>();
 
   @override
@@ -100,44 +106,43 @@ class _MaisState extends State<Mais> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 210,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(50, 8, 50, 8),
-                          child: OpenContainer(
-                            openBuilder: (context, action) {
-                              switch (index) {
-                                case 0:
-                                  return const MinhaConta();
-                                case 1:
-                                  return const CentralDeAjuda();
-                                default:
-                                  return const SobreOFlyvoo();
-                              }
-                            },
-                            closedColor: Tema.botao.cor(),
-                            closedShape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            onClosed: (data) => setState(() {}),
-                            tappable: false,
-                            openColor: Tema.fundo.cor(),
-                            transitionDuration:
-                                const Duration(milliseconds: 500),
-                            closedBuilder: (context, action) => SizedBox(
-                              width: double.infinity,
-                              child: botaoAcaoMais(index, context, action),
-                            ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 8, 50, 8),
+                        child: OpenContainer(
+                          openBuilder: (context, action) {
+                            switch (index) {
+                              case 0:
+                                return const MinhaConta();
+                              case 1:
+                                return const CentralDeAjuda();
+                              case 2:
+                                return const SobreOFlyvoo();
+                              default:
+                                return const Doacoes();
+                            }
+                          },
+                          closedColor: Tema.botao.cor(),
+                          closedShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          onClosed: (data) => setState(() {}),
+                          tappable: false,
+                          openColor: Tema.fundo.cor(),
+                          transitionDuration: const Duration(milliseconds: 500),
+                          closedBuilder: (context, action) => SizedBox(
+                            width: double.infinity,
+                            child: botaoAcaoMais(index, context, action),
                           ),
                         ),
-                      ],
-                    ),
-                    itemCount: 3,
+                      ),
+                    ],
                   ),
+                  itemCount: 4,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 8, 50, 0),
@@ -212,7 +217,7 @@ class _MaisState extends State<Mais> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -225,7 +230,10 @@ class _MaisState extends State<Mais> {
   }
 
   CupertinoButton botaoAcaoMais(
-      int index, BuildContext context, VoidCallback action) {
+    int index,
+    BuildContext context,
+    VoidCallback action,
+  ) {
     return CupertinoButton(
       onPressed: () => action(),
       borderRadius: BorderRadius.circular(15),

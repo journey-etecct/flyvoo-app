@@ -27,7 +27,6 @@ dependencies:
   uni_links: ^0.5.1
   video_player: ^2.6.0
   flutter_native_splash: ^2.3.1
-  icons_plus: ^4.0.0
   cached_network_image: ^3.2.3
   emailjs: ^1.3.0
   flutter_rating_bar: ^4.0.1
@@ -38,6 +37,9 @@ dependencies:
   onesignal_flutter: ^5.0.0-beta2
   carousel_slider: ^4.2.1
   flutter_animation_progress_bar: ^2.3.1
+  font_awesome_flutter: ^10.6.0
+  bootstrap_icons: ^1.11.1
+  boxicons: ^2.1.3
 
 dev_dependencies:
   flutter_test:

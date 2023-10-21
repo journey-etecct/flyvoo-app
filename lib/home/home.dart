@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:animations/animations.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -12,7 +11,6 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 late int indexHome;
 List<Area?> fundos = [
@@ -91,42 +89,44 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               FadeIndexedStack(
                 duration: const Duration(milliseconds: 250),
                 index: areaAtual,
-                children: fundos.map<Widget>((e) {
-                  if (e != null) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Image(
-                            image: AssetImage(
-                              dark
-                                  ? "assets/background/areas_dark/esf_${e.name}.png"
-                                  : "assets/background/areas/esf_${e.name}.png",
+                children: fundos.map<Widget>(
+                  (e) {
+                    if (e != null) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Image(
+                              image: AssetImage(
+                                dark
+                                    ? "assets/background/areas_dark/esf_${e.name}.png"
+                                    : "assets/background/areas/esf_${e.name}.png",
+                              ),
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              filterQuality: FilterQuality.high,
                             ),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            filterQuality: FilterQuality.high,
                           ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Image(
-                            image: AssetImage(
-                              dark
-                                  ? "assets/background/esfumadodark.png"
-                                  : "assets/background/esfumadolight.png",
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Image(
+                              image: AssetImage(
+                                dark
+                                    ? "assets/background/esfumadodark.png"
+                                    : "assets/background/esfumadolight.png",
+                              ),
+                              fit: BoxFit.cover,
+                              width: double.infinity,
                             ),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
                           ),
-                        ),
-                      ],
-                    );
-                  }
-                }).toList(),
+                        ],
+                      );
+                    }
+                  },
+                ).toList(),
               ),
               navbar(context),
               Column(
@@ -336,8 +336,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                       Icon(
                         indexHome == 2
-                            ? Bootstrap.briefcase_fill
-                            : Bootstrap.briefcase,
+                            ? BootstrapIcons.briefcase_fill
+                            : BootstrapIcons.briefcase,
                         size: _animIcon2.value,
                         color: indexHome == 2
                             ? Tema.secundaria.cor()

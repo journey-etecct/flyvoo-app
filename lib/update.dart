@@ -1,9 +1,9 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class Update extends StatefulWidget {
   const Update({super.key});
@@ -40,7 +40,7 @@ class _UpdateState extends State<Update> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Bootstrap.cloud_arrow_down,
+                      BootstrapIcons.cloud_arrow_down,
                       size: 44,
                       color: Tema.texto.cor(),
                     ),
@@ -89,7 +89,7 @@ class _UpdateState extends State<Update> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(
-                          Bootstrap.cloud_arrow_down,
+                          BootstrapIcons.cloud_arrow_down,
                           size: 44,
                           color: Colors.white,
                         ),

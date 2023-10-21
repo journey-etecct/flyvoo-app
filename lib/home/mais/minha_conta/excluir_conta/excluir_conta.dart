@@ -505,7 +505,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
               context,
               true,
             ),
-            child: const Text("QUERO APAGAR MINHA CONTA"),
+            child: const Text("APAGUE MINHA CONTA"),
           ),
         ],
       ),

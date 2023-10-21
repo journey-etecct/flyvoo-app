@@ -261,7 +261,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          margin: const EdgeInsets.fromLTRB(5, 0, 5, 10),
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
