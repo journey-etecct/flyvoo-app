@@ -27,10 +27,8 @@ class _SemInternetState extends State<SemInternet> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         backgroundColor: Tema.fundo.cor(),
         body: Stack(

@@ -20,9 +20,8 @@ class ConfigGerais extends StatefulWidget {
 }
 
 class _ConfigGeraisState extends State<ConfigGerais> {
-  _setDark(dark) async {
-    final inst = await SharedPreferences.getInstance();
-    inst.setBool("dark", dark);
+  _setDark(bool dark) async {
+    instS.setBool("dark", dark);
   }
 
   _shp() async {

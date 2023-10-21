@@ -290,7 +290,7 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                     bottom: 30,
                   ),
                   child: Text(
-                    "Graças a todos os envolvidos, esse projeto foi possível${String.fromCharCode(0x2764)}",
+                    "Graças a todos os envolvidos, esse projeto foi possível\u2764",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       height: 1.1,
@@ -356,7 +356,7 @@ class PessoaInfo extends StatelessWidget {
                 desc,
                 maxLines: 2,
                 style: GoogleFonts.inter(
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

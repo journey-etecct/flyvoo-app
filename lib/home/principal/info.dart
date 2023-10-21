@@ -35,17 +35,16 @@ class _AlertaVerMaisState extends State<AlertaVerMais> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (_tela == 0) {
-          return true;
-        } else {
-          setState(() {
-            _reverse = true;
-            _tela = 0;
-          });
-          return false;
-        }
+    return PopScope(
+      canPop: _tela == 0,
+      onPopInvoked: (poppou) {
+        if (poppou) return;
+
+        setState(() {
+          _reverse = true;
+          _tela = 0;
+        });
+        Navigator.pop(context);
       },
       child: BackdropFilter(
         filter: ColorFilter.mode(
@@ -322,7 +321,8 @@ class _InfoState extends State<Info> {
                     Text("descrição"),
                     Text("Salário"),
                     Text(
-                        "R\$${infoCarreira.child("salario/min").value},00 - R\$${infoCarreira.child("salario/max").value},00"),
+                      "R\$${infoCarreira.child("salario/min").value},00 - R\$${infoCarreira.child("salario/max").value},00",
+                    ),
                     RatingBar(
                       itemPadding: EdgeInsets.symmetric(horizontal: 10),
                       initialRating: _ratingSalario(

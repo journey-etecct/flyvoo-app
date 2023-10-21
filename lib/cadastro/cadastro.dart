@@ -121,73 +121,85 @@ class _CadastroState extends State<Cadastro> {
     btnAtivado = true;
   }
 
+  Future<bool> _canPop(String argumento) async {
+    if (_step != 0) {
+      setState(() {
+        _reversed = true;
+        _step--;
+        btnAtivado = true;
+      });
+      return true;
+    } else if (argumento == "email") {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: CupertinoAlertDialog(
+            title: Text(
+              "Tem certeza que deseja sair da etapa de cadastro?",
+              style: GoogleFonts.inter(),
+            ),
+            content: Text(
+              "Sua conta será removida e você precisará verificar seu email novamente.",
+              style: GoogleFonts.inter(),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancelar",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemBlue,
+                  ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () async {
+                  if (userFlyvoo != null) {
+                    await userFlyvoo?.delete();
+                  }
+                  await FirebaseAuth.instance.signOut();
+                  final instS = await SharedPreferences.getInstance();
+                  await instS.remove("cadastroTerminado");
+                  if (!mounted) return;
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                },
+                child: Text(
+                  "Sair",
+                  style: GoogleFonts.inter(
+                    color: CupertinoColors.systemPink,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      return false;
+    } else {
+      await SharedPreferences.getInstance().then(
+        (value) => value.remove("cadastroTerminado"),
+      );
+      await FirebaseAuth.instance.currentUser?.delete();
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final argumento = ModalRoute.of(context)!.settings.arguments.toString();
-    return WillPopScope(
-      onWillPop: () async {
-        if (_step != 0) {
-          setState(() {
-            _reversed = true;
-            _step--;
-            btnAtivado = true;
-          });
-          return false;
-        } else if (argumento == "email") {
-          showCupertinoDialog(
-            context: context,
-            builder: (context) => BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: CupertinoAlertDialog(
-                title: Text(
-                  "Tem certeza que deseja sair da etapa de cadastro?",
-                  style: GoogleFonts.inter(),
-                ),
-                content: Text(
-                  "Sua conta será removida e você precisará verificar seu email novamente.",
-                  style: GoogleFonts.inter(),
-                ),
-                actions: [
-                  CupertinoDialogAction(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Cancelar",
-                      style: GoogleFonts.inter(
-                        color: CupertinoColors.systemBlue,
-                      ),
-                    ),
-                  ),
-                  CupertinoDialogAction(
-                    onPressed: () async {
-                      if (userFlyvoo != null) {
-                        await userFlyvoo?.delete();
-                      }
-                      await FirebaseAuth.instance.signOut();
-                      final instS = await SharedPreferences.getInstance();
-                      await instS.remove("cadastroTerminado");
-                      if (!mounted) return;
-                      Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
-                      );
-                    },
-                    child: Text(
-                      "Sair",
-                      style: GoogleFonts.inter(
-                        color: CupertinoColors.systemPink,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-          return false;
-        } else {
-          final inst = await SharedPreferences.getInstance();
-          inst.remove("cadastroTerminado");
-          await FirebaseAuth.instance.currentUser?.delete();
-          return true;
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (poppou) async {
+        if (poppou) {
+          return;
+        }
+        if (await _canPop(argumento)) {
+          if (!mounted) return;
+          Navigator.pop(context);
         }
       },
       child: Scaffold(

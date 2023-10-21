@@ -10,13 +10,12 @@ class EmailEnviado extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (poppou) {
         Navigator.popUntil(
           context,
           (route) => route.isFirst,
         );
-        return false;
       },
       child: Scaffold(
         backgroundColor: Tema.fundo.cor(),

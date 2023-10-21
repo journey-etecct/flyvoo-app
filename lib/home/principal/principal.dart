@@ -1,4 +1,3 @@
-
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,7 +78,7 @@ class Especialidade extends StatelessWidget {
             letterSpacing: -0.41,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         SvgPicture.asset(
@@ -93,20 +92,20 @@ class Especialidade extends StatelessWidget {
           ignoreGestures: true,
           itemCount: 3,
           ratingWidget: RatingWidget(
-            full: Icon(
+            full: const Icon(
               Symbols.star_rounded,
               fill: 1,
             ),
-            half: Icon(
+            half: const Icon(
               Symbols.star_rounded,
               fill: 1,
             ),
-            empty: Icon(
+            empty: const Icon(
               Symbols.star_rounded,
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
@@ -116,7 +115,7 @@ class Especialidade extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Container(

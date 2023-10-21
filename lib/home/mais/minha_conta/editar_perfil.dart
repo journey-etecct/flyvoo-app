@@ -155,14 +155,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (_btnAtivado) {
-          return true;
-        } else {
-          return false;
-        }
-      },
+    return PopScope(
+      canPop: _btnAtivado,
       child: Scaffold(
         backgroundColor: Tema.fundo.cor(),
         body: Stack(

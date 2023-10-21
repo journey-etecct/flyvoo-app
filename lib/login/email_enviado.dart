@@ -10,13 +10,14 @@ class EmailEnviadoSenha extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (poppou) {
+        if (poppou) return;
         Navigator.popUntil(
           context,
           (route) => route.isFirst,
         );
-        return false;
       },
       child: Scaffold(
         backgroundColor: Tema.fundo.cor(),
