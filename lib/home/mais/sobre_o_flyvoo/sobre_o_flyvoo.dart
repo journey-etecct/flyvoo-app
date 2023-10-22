@@ -18,51 +18,55 @@ String nversao = "...";
 String id = "...";
 List<List<dynamic>> _listaPessoas = [
   [
-    const AssetImage("assets/imagens/pessoas/camila.png"),
+    const AssetImage("assets/imagens/pessoas/camila.webp"),
     "Camila Vitória",
     "PESQUISA E DESIGN",
   ],
   [
-    const AssetImage("assets/imagens/pessoas/camila.png"),
+    const AssetImage("assets/imagens/pessoas/daniel.webp"),
     "Daniel Alves",
     "DESIGN E DESENVOLVIMENTO"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/danilo.png"),
+    const AssetImage("assets/imagens/pessoas/danilo.webp"),
     "Danilo Lima",
     "CEO \u2022 DESIGN E DESENVOLVIMENTO"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/felipe.png"),
+    const AssetImage("assets/imagens/pessoas/felipe.webp"),
     "Felipe Araújo",
     "DESIGN E DESENVOLVIMENTO"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/guilherme.png"),
+    const AssetImage("assets/imagens/pessoas/guilherme.webp"),
     "Guilherme Barbosa",
     "PESQUISA E DESIGN"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/juliana.png"),
+    const AssetImage("assets/imagens/pessoas/juliana.webp"),
     "Juliana Leal",
     "PESQUISA"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/paulo.png"),
+    const AssetImage("assets/imagens/pessoas/paulo.webp"),
     "Paulo Henrique",
     "PESQUISA"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/rafael.png"),
+    const AssetImage("assets/imagens/pessoas/rafael.webp"),
     "Rafael Lucílio",
     "PESQUISA E DESIGN"
   ],
   [
-    const AssetImage("assets/imagens/pessoas/robson.png"),
+    const AssetImage("assets/imagens/pessoas/robson.webp"),
     "Robson Dias",
     "DESIGN E DESENVOLVIMENTO"
   ],
-  [const AssetImage("assets/imagens/pessoas/ryan.png"), "Ryan Silva", "DESIGN"],
+  [
+    const AssetImage("assets/imagens/pessoas/ryan.webp"),
+    "Ryan Silva",
+    "DESIGN",
+  ],
 ];
 
 class _SobreOFlyvooState extends State<SobreOFlyvoo> {

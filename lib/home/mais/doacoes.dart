@@ -43,11 +43,7 @@ class Doacoes extends StatelessWidget {
                   ),
                 ),
                 const Expanded(child: SizedBox()),
-                Image.asset(
-                  dark
-                      ? "assets/imagens/pix_dark.png"
-                      : "assets/imagens/pix_light.png",
-                ),
+                Image.asset("assets/imagens/pix.webp"),
                 const SizedBox(
                   height: 15,
                 ),
