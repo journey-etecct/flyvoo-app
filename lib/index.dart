@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -37,6 +38,7 @@ class _IndexState extends State<Index> {
     );
     await controllerBG.initialize();
     await controllerBG.setLooping(true);
+    await controllerBG.setVolume(0);
     setState(() {});
     final inst = await SharedPreferences.getInstance();
     if (inst.getBool("animacoes") ?? true) {
@@ -56,7 +58,7 @@ class _IndexState extends State<Index> {
       ],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     init();
-    if (!internetIniciado) {
+    if (!internetIniciado && !kIsWeb) {
       InternetConnectionChecker().onStatusChange.listen((status) {
         if (status == InternetConnectionStatus.disconnected) {
           Navigator.pushNamed(context, "/semInternet");

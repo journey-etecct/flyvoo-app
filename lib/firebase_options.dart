@@ -55,6 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '876266782253',
     projectId: 'flyvoo',
     authDomain: 'flyvoo.firebaseapp.com',
+    databaseURL: 'https://flyvoo-default-rtdb.firebaseio.com',
     storageBucket: 'flyvoo.appspot.com',
     measurementId: 'G-CX03QR9M45',
   );
@@ -64,6 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:876266782253:android:6b38a5aecd5299738482a4',
     messagingSenderId: '876266782253',
     projectId: 'flyvoo',
+    databaseURL: 'https://flyvoo-default-rtdb.firebaseio.com',
     storageBucket: 'flyvoo.appspot.com',
   );
 }

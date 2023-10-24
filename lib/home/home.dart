@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/home/empresas/empresas.dart';
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     indexHome = 0;
     contextHome = context;
-    if (!internetIniciado) {
+    if (!internetIniciado && !kIsWeb) {
       InternetConnectionChecker().onStatusChange.listen((status) {
         if (status == InternetConnectionStatus.disconnected) {
           Navigator.pushNamed(context, "/semInternet");

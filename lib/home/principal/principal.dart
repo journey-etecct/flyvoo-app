@@ -9,7 +9,6 @@ import 'package:flyvoo/home/principal/info.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 int areaAtual = 0;
 
@@ -22,20 +21,9 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-  Future _init() async {
-    OneSignal.initialize("8ae86c8a-3e2e-4ca6-b474-ef5c641a0e22");
-    if (!OneSignal.Notifications.permission) {
-      await OneSignal.Notifications.requestPermission(true);
-    }
-    debugPrint(
-      "permissão de notificação: ${OneSignal.Notifications.permission}",
-    );
-  }
-
   @override
   void initState() {
     super.initState();
-    _init();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.notificarFundo(1);
     });

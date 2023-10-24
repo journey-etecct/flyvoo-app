@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "876266782253",
+    "firebase_url": "https://flyvoo-default-rtdb.firebaseio.com",
     "project_id": "flyvoo",
     "storage_bucket": "flyvoo.appspot.com"
   },
@@ -14,19 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "876266782253-3rid479s0tcms914d81agn9vnogb7gl7.apps.googleusercontent.com",
+          "client_id": "876266782253-7hj3bdorr40demu3mvli4t7d7v044lqb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.journey.flyvoo",
-            "certificate_hash": "94b2ce0240d3204de05ef48524f3b33ab655b150"
-          }
-        },
-        {
-          "client_id": "876266782253-l1v5skt31lmo549dmcc23s1md1g0a7ur.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.journey.flyvoo",
-            "certificate_hash": "ee35573bca3cbb97165267e856158e47a087a686"
+            "certificate_hash": "ce8451c60395bb054a24388a442cb26b1612c84d"
           }
         },
         {

@@ -33,7 +33,6 @@ dependencies:
   package_info_plus: ^4.0.2
   internet_connection_checker: ^1.0.0+1
   flutter_svg: ^2.0.7
-  onesignal_flutter: ^5.0.0-beta2
   carousel_slider: ^4.2.1
   flutter_animation_progress_bar: ^2.3.1
   font_awesome_flutter: ^10.6.0
@@ -139,7 +138,7 @@ flutter_native_splash:
   # platform.
   #android: false
   ios: false
-  web: false
+  web: true
 
   # Platform specific images can be specified with the following parameters, which will override
   # the respective parameter.  You may specify all, selected, or none of these parameters:
@@ -195,7 +194,7 @@ flutter_native_splash:
   #       To show the notification bar, add the following code to your Flutter app:
   #       WidgetsFlutterBinding.ensureInitialized();
   #       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top], );
-  #fullscreen: true
+  fullscreen: true
 
   # If you have changed the name(s) of your info.plist file(s), you can specify the filename(s)
   # with the info_plist_files parameter.  Remove only the # characters in the three lines below,

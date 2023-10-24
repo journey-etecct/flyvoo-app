@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -50,7 +51,7 @@ Future<void> main() async {
 
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  if (!kIsWeb) FirebaseDatabase.instance.setPersistenceEnabled(true);
 
   //pegar situação de login
   userFlyvoo = FirebaseAuth.instance.currentUser;
@@ -110,10 +111,23 @@ class _FlyvooState extends State<Flyvoo> {
     });
   }
 
+  Future<void> initWeb() async {
+    try {
+      final initialLink = await getInitialLink();
+      debugPrint(initialLink);
+    } on PlatformException catch (e) {
+      debugPrint(e.code);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    initUniLinks();
+    if (!kIsWeb) {
+      initUniLinks();
+    } else {
+      initWeb();
+    }
   }
 
   @override
