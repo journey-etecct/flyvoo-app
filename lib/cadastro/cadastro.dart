@@ -78,6 +78,7 @@ class _CadastroState extends State<Cadastro> {
       );
       await controllerBG.initialize();
       await controllerBG.setLooping(true);
+      await controllerBG.setVolume(0);
       setState(() {});
       final inst = await SharedPreferences.getInstance();
       if (inst.getBool("animacoes") ?? true) {

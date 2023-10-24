@@ -386,10 +386,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_multi_formatter
-      sha256: bfef1fb7357b5be34cdf7797da361d185f6e873e2f3d2704dbfa56181d021543
+      sha256: c4c878eebbff7b8d4094967892e46c80d5c9a2df8e8d629aacaad213acee09a6
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.14"
+    version: "2.11.15"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -1073,18 +1073,18 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_platform_interface
-      sha256: "95465b39f83bfe95fcb9d174829d6476216f2d548b79c38ab2506e0458787618"
+      sha256: "980e8d9af422f477be6948bdfb68df8433be71f5743a188968b0c1b887807e50"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.0"
   url_launcher_web:
     dependency: transitive
     description:
       name: url_launcher_web
-      sha256: "2942294a500b4fa0b918685aff406773ba0a4cd34b7f42198742a94083020ce5"
+      sha256: "043a0d5b83bb7a6f4f0040763dd7b23e75c8e1979cc1109a545054b6dcf56d17"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.20"
+    version: "2.1.0"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -1093,6 +1093,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.8"
+  url_strategy:
+    dependency: "direct main"
+    description:
+      name: url_strategy
+      sha256: "42b68b42a9864c4d710401add17ad06e28f1c1d5500c93b98c431f6b0ea4ab87"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   uuid:
     dependency: transitive
     description:

@@ -34,6 +34,7 @@ import 'package:flyvoo/update.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'package:video_player/video_player.dart';
 
 bool internetIniciado = false;
@@ -51,7 +52,11 @@ Future<void> main() async {
 
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if (!kIsWeb) FirebaseDatabase.instance.setPersistenceEnabled(true);
+  if (!kIsWeb) {
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+  } else {
+    setPathUrlStrategy();
+  }
 
   //pegar situação de login
   userFlyvoo = FirebaseAuth.instance.currentUser;
@@ -114,7 +119,7 @@ class _FlyvooState extends State<Flyvoo> {
   Future<void> initWeb() async {
     try {
       final initialLink = await getInitialLink();
-      debugPrint(initialLink);
+      debugPrint(initialLink); // TODO: continuação do cadastro
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }

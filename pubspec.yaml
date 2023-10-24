@@ -1,5 +1,4 @@
 name: flyvoo
-description: A new Flutter project.
 publish_to: "none"
 version: 1.0.0+1
 
@@ -38,6 +37,7 @@ dependencies:
   font_awesome_flutter: ^10.6.0
   bootstrap_icons: ^1.11.1
   boxicons: ^2.1.3
+  url_strategy: ^0.2.0
 
 dev_dependencies:
   flutter_test:
