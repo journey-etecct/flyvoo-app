@@ -118,8 +118,8 @@ class _FlyvooState extends State<Flyvoo> {
 
   Future<void> initWeb() async {
     try {
-      final initialLink = await getInitialLink();
-      debugPrint(initialLink); // TODO: continuação do cadastro
+      final initialLink = await getInitialUri();
+      debugPrint(initialLink.toString()); // TODO: continuação do cadastro web
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
@@ -270,6 +270,7 @@ class _FlyvooState extends State<Flyvoo> {
         home: widget.home,
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
+        title: kIsWeb ? "Flyvoo Web" : "Flyvoo",
       ),
     );
   }

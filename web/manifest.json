@@ -13,5 +13,9 @@
       "platform": "play",
       "id": "io.journey.flyvoo"
     }
-  ]
+  ],
+  "icons": {
+    "192": "icons/android-chrome-192x192.png",
+    "512": "icons/android-chrome-512x512.png"
+  }
 }

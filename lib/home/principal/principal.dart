@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/principal/info.dart';
 import 'package:flyvoo/tema.dart';
@@ -40,6 +39,7 @@ class _PrincipalState extends State<Principal> {
       },
       options: CarouselOptions(
         height: double.infinity,
+        enableInfiniteScroll: true,
         enlargeCenterPage: true,
         onPageChanged: (index, reason) {
           widget.notificarFundo(index + 1);
@@ -69,8 +69,12 @@ class Especialidade extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        SvgPicture.asset(
+        /* SvgPicture.asset(
           "assets/imagens/areas/${Area.values[index].name}.svg",
+          height: 400,
+        ), */
+        Image.asset(
+          "assets/imagens/areas/${Area.values[index].name}.webp",
           height: 400,
         ),
         RatingBar(
