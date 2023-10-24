@@ -44,3 +44,4 @@ app.*.map.json
 /android/app/release
 /lib/secure/pub_key_ejs.dart
 /lib/secure/token.dart
+.firebase/

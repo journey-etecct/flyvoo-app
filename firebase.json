@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "source": ".",
+    "site": "m-flyvoo",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "frameworksBackend": {
+      "region": "us-east1"
+    }
+  }
+}
