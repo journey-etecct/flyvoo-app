@@ -45,7 +45,7 @@ class _IndexState extends State<Index> {
       await controllerBG.play();
     }
     iniciado = true;
-    FlutterNativeSplash.remove();
+    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   @override

@@ -48,7 +48,7 @@ User? userFlyvoo;
 
 Future<void> main() async {
   final widgetsbinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsbinding);
+  if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsbinding);
 
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
