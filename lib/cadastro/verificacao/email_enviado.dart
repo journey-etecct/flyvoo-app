@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -80,10 +81,12 @@ class EmailEnviado extends StatelessWidget {
                     ),
                     child: CupertinoButton(
                       onPressed: () {
-                        Navigator.popUntil(
-                          context,
-                          (route) => route.isFirst,
-                        );
+                        kIsWeb
+                            ? Navigator.pushReplacementNamed(context, "/")
+                            : Navigator.popUntil(
+                                context,
+                                (route) => route.isFirst,
+                              );
                       },
                       color: Tema.botaoIndex.cor(),
                       borderRadius: BorderRadius.circular(10),

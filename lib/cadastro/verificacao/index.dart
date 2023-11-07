@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
@@ -12,6 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final _txtEmail = TextEditingController();
 bool _btnAtivado = true;
+final flushbar = Flushbar(
+  message: "Conectando...",
+  duration: const Duration(seconds: 5),
+  margin: const EdgeInsets.all(20),
+  borderRadius: BorderRadius.circular(50),
+);
 
 class VerificacaoEmail extends StatefulWidget {
   const VerificacaoEmail({super.key});
@@ -42,7 +49,9 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       });
       await userFlyvoo?.sendEmailVerification(
         ActionCodeSettings(
-          url: "https://flyvoo.page.link/verifyEmail",
+          url: kIsWeb
+              ? "https://m-flyvoo.web.app/verificar/${userFlyvoo?.uid}"
+              : "https://flyvoo.page.link/verifyEmail",
           androidPackageName: "io.journey.flyvoo",
         ),
       );
@@ -50,6 +59,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       await instS.setBool("cadastroTerminado", false);
       if (userFlyvoo != null) {
         if (!mounted) return;
+        flushbar.dismiss();
         Navigator.pushNamed(
           context,
           "/opcoesCadastro/email/enviado",
@@ -232,12 +242,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                       onPressed: _btnAtivado
                           ? () async {
                               if (_emailKey.currentState!.validate()) {
-                                Flushbar(
-                                  message: "Conectando...",
-                                  duration: const Duration(seconds: 5),
-                                  margin: const EdgeInsets.all(20),
-                                  borderRadius: BorderRadius.circular(50),
-                                ).show(context);
+                                flushbar.show(context);
                                 setState(() {
                                   _btnAtivado = false;
                                 });
