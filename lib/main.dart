@@ -308,3 +308,77 @@ ThemeData buildTheme(mode, context) {
     textTheme: GoogleFonts.interTextTheme(baseTheme.textTheme),
   );
 }
+
+class Background extends StatefulWidget {
+  const Background({super.key});
+
+  @override
+  State<Background> createState() => _BackgroundState();
+}
+
+class _BackgroundState extends State<Background> {
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb) {
+      return SizedBox.expand(
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: VideoPlayer(controllerBG),
+          ),
+        ),
+      );
+    } else {
+      return const BackgroundWeb();
+    }
+  }
+}
+
+class BackgroundWeb extends StatefulWidget {
+  const BackgroundWeb({super.key});
+
+  @override
+  State<BackgroundWeb> createState() => _BackgroundWebState();
+}
+
+class _BackgroundWebState extends State<BackgroundWeb> {
+  late VideoPlayerController controllerLocal;
+
+  init() async {
+    controllerLocal = VideoPlayerController.asset(
+      dark ? "assets/background/dark.webm" : "assets/background/light.webm",
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
+    await controllerLocal.initialize();
+    await controllerLocal.setLooping(true);
+    await controllerLocal.setVolume(0);
+    setState(() {});
+    final inst = await SharedPreferences.getInstance();
+    if (inst.getBool("animacoes") ?? true) {
+      await controllerLocal.play();
+    }
+    iniciado = true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: SizedBox(
+          width: controllerLocal.value.size.width,
+          height: controllerLocal.value.size.height,
+          child: VideoPlayer(controllerLocal),
+        ),
+      ),
+    );
+  }
+}

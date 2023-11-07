@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:video_player/video_player.dart';
 
 class EmailEnviadoSenha extends StatelessWidget {
   const EmailEnviadoSenha({super.key});
@@ -23,16 +22,7 @@ class EmailEnviadoSenha extends StatelessWidget {
         backgroundColor: Tema.fundo.cor(),
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: controllerBG.value.size.width,
-                  height: controllerBG.value.size.height,
-                  child: VideoPlayer(controllerBG),
-                ),
-              ),
-            ),
+            const Background(),
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(

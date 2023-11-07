@@ -9,7 +9,6 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_player/video_player.dart';
 
 final _txtEmail = TextEditingController();
 bool _btnAtivado = true;
@@ -135,16 +134,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: controllerBG.value.size.width,
-                height: controllerBG.value.size.height,
-                child: VideoPlayer(controllerBG),
-              ),
-            ),
-          ),
+          const Background(),
           SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,

@@ -116,16 +116,7 @@ class _IndexState extends State<Index> {
       backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: controllerBG.value.size.width,
-                height: controllerBG.value.size.height,
-                child: VideoPlayer(controllerBG),
-              ),
-            ),
-          ),
+          const Background(),
           Column(
             children: [
               Expanded(

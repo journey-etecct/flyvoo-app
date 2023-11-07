@@ -13,7 +13,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_player/video_player.dart';
 
 List<BotaoIndex> _botoes = [
   BotaoIndex(
@@ -293,16 +292,7 @@ class _LoginState extends State<Login> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: VideoPlayer(controllerBG),
-              ),
-            ),
-          ),
+          const Background(),
           SingleChildScrollView(
             child: SizedBox(
               width: MediaQuery.of(context).size.width,

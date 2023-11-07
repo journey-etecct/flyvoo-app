@@ -207,16 +207,7 @@ class _CadastroState extends State<Cadastro> {
         backgroundColor: Tema.fundo.cor(),
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: controllerBG.value.size.width,
-                  height: controllerBG.value.size.height,
-                  child: VideoPlayer(controllerBG),
-                ),
-              ),
-            ),
+            const Background(),
             Padding(
               padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: SingleChildScrollView(

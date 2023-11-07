@@ -10,7 +10,6 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:video_player/video_player.dart';
 
 List<BotaoIndex> _botoes = [
   BotaoIndex(
@@ -312,16 +311,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
       backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: controllerBG.value.size.width,
-                height: controllerBG.value.size.height,
-                child: VideoPlayer(controllerBG),
-              ),
-            ),
-          ),
+          const Background(),
           Center(
             child: Column(
               children: [
