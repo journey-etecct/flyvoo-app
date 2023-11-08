@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/cadastro/telas_email/tela1.dart';
@@ -88,7 +89,7 @@ class _CadastroState extends State<Cadastro> {
         iniciado = true;
       });
     }
-    if (!internetIniciado) {
+    if (!internetIniciado && !kIsWeb) {
       InternetConnectionChecker().onStatusChange.listen((status) {
         if (status == InternetConnectionStatus.disconnected) {
           Navigator.pushNamed(context, "/semInternet");
