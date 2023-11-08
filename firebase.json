@@ -6,7 +6,8 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "**/android/**"
+      "**/android/**",
+      "**/build/**"
     ],
     "frameworksBackend": {
       "region": "us-east1"
