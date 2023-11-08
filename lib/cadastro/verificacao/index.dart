@@ -50,7 +50,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       await userFlyvoo?.sendEmailVerification(
         ActionCodeSettings(
           url: kIsWeb
-              ? "https://m-flyvoo.web.app/verificar/${userFlyvoo?.uid}"
+              ? "https://m-flyvoo.web.app/verificar"
               : "https://flyvoo.page.link/verifyEmail",
           androidPackageName: "io.journey.flyvoo",
         ),

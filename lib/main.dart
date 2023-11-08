@@ -65,9 +65,8 @@ Future<void> main() async {
       WidgetsBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.dark;
   if (userFlyvoo != null) {
-    password = (await FirebaseAuth.instance.fetchSignInMethodsForEmail(
-          userFlyvoo!.email!,
-        ))
+    password = (await FirebaseAuth.instance
+                .fetchSignInMethodsForEmail(userFlyvoo!.email!))
             .first ==
         "password";
   }
@@ -119,7 +118,9 @@ class _FlyvooState extends State<Flyvoo> {
   Future<void> initWeb() async {
     try {
       final initialLink = await getInitialUri();
-      debugPrint(initialLink.toString()); // TODO: continuação do cadastro web
+      if (initialLink.toString().contains("verificar")) {
+        navigatorKey.currentState!.pushNamed('/cadastro', arguments: "email");
+      }
     } on PlatformException catch (e) {
       debugPrint(e.code);
     }
