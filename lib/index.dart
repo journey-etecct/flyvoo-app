@@ -66,7 +66,7 @@ class _IndexState extends State<Index> {
       });
       internetIniciado = true;
     }
-    if (!widget.cadastroTerminado) {
+    if (!widget.cadastroTerminado && !kIsWeb) {
       SchedulerBinding.instance.addPostFrameCallback(
         (_) => showCupertinoDialog(
           context: context,

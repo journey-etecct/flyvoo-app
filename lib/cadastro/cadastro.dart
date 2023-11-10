@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:http/http.dart' as http;
 import 'package:animations/animations.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -192,7 +193,17 @@ class _CadastroState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
-    final argumento = ModalRoute.of(context)!.settings.arguments.toString();
+    late String argumento;
+    if (kIsWeb) {
+      argumento = switch (
+          FirebaseAuth.instance.currentUser?.providerData.first.providerId) {
+        "password" => "email",
+        "google.com" => "google",
+        _ => "microsoft"
+      };
+    } else {
+      argumento = ModalRoute.of(context)!.settings.arguments.toString();
+    }
     return PopScope(
       canPop: false,
       onPopInvoked: (poppou) async {
@@ -374,23 +385,26 @@ class _CadastroState extends State<Cadastro> {
                     "cadastroTerminado",
                     true,
                   );
-                  if (argumento == "email") {
+                  if (argumento == "email" || userImg != null) {
                     Reference instSt = FirebaseStorage.instance.ref(
                       "users/${userFlyvoo?.uid}",
                     );
-                    await instSt.putFile(userImg!);
-                  } else if (userImg != null) {
-                    Reference instSt = FirebaseStorage.instance.ref(
-                      "users/${userFlyvoo?.uid}",
-                    );
-                    await instSt.putFile(userImg!);
+                    if (kIsWeb) {
+                      final resposta = await http.get(Uri.file(userImg!.path));
+                      instSt.putData(
+                        resposta.bodyBytes,
+                      );
+                      /* await instSt.putData(userImg!.); */
+                    } else {
+                      await instSt.putFile(
+                        userImg!,
+                      );
+                    }
                   }
                   await userFlyvoo?.updatePhotoURL(
-                    argumento == "email"
+                    argumento == "email" || userImg != null
                         ? "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media"
-                        : userImg == null
-                            ? userFlyvoo!.photoURL
-                            : "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media",
+                        : userFlyvoo!.photoURL,
                   );
                   setState(() {
                     userFlyvoo = FirebaseAuth.instance.currentUser;

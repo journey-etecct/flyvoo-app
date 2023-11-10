@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/cadastro/cadastro.dart';
 import 'package:flyvoo/tema.dart';
@@ -44,6 +45,19 @@ class _Tela3State extends State<Tela3> {
             statusBarColor:
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             lockAspectRatio: true,
+          ),
+          WebUiSettings(
+            context: context,
+            boundary: CroppieBoundary(
+              width: MediaQuery.of(context).size.width.toInt() - 150,
+              height: MediaQuery.of(context).size.width.toInt() - 150,
+            ),
+            viewPort: CroppieViewPort(
+              width: MediaQuery.of(context).size.width.toInt() - 150,
+              height: MediaQuery.of(context).size.width.toInt() - 150,
+            ),
+            enableZoom: true,
+            mouseWheelZoom: true,
           ),
         ],
       );
@@ -111,99 +125,151 @@ class _Tela3State extends State<Tela3> {
                       ),
                     ),
                   ),
-                  actions: [
-                    CupertinoActionSheetAction(
-                      onPressed: () async {
-                        var cortado = await _pegarImagemGaleria();
-                        if (cortado != null) {
-                          if (!mounted) return;
-                          Navigator.pop(context);
-                          setState(() {
-                            userImg = cortado;
-                          });
-                          await showCupertinoDialog(
-                            context: context,
-                            builder: (context) => BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: CupertinoAlertDialog(
-                                content: Text(
-                                  "Imagem enviada com sucesso!",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text(
-                                      "OK",
-                                      style: GoogleFonts.inter(
-                                        color: CupertinoColors.systemBlue,
+                  actions: !kIsWeb
+                      ? [
+                          CupertinoActionSheetAction(
+                            onPressed: () async {
+                              var cortado = await _pegarImagemGaleria();
+                              if (cortado != null) {
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                setState(() {
+                                  userImg = cortado;
+                                  btnAtivado = true;
+                                });
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => BackdropFilter(
+                                    filter:
+                                        ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                                    child: CupertinoAlertDialog(
+                                      content: Text(
+                                        "Imagem enviada com sucesso!",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                        ),
                                       ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.inter(
+                                              color: CupertinoColors.systemBlue,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Galeria",
+                              style: GoogleFonts.inter(
+                                color: CupertinoColors.systemBlue,
                               ),
                             ),
-                          );
-                          setStateBotao(() {
-                            btnAtivado = true;
-                          });
-                        }
-                      },
-                      child: Text(
-                        "Galeria",
-                        style: GoogleFonts.inter(
-                          color: CupertinoColors.systemBlue,
-                        ),
-                      ),
-                    ),
-                    CupertinoActionSheetAction(
-                      onPressed: () async {
-                        var cortado = await _pegarImagemCamera();
-                        if (cortado != null) {
-                          if (!mounted) return;
-                          Navigator.pop(context);
-                          setState(() {
-                            userImg = cortado;
-                            btnAtivado = true;
-                          });
-                          await showCupertinoDialog(
-                            context: context,
-                            builder: (context) => BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: CupertinoAlertDialog(
-                                content: Text(
-                                  "Imagem enviada com sucesso!",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text(
-                                      "OK",
-                                      style: GoogleFonts.inter(
-                                        color: CupertinoColors.systemBlue,
+                          ),
+                          CupertinoActionSheetAction(
+                            onPressed: () async {
+                              var cortado = await _pegarImagemCamera();
+                              if (cortado != null) {
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                setState(() {
+                                  userImg = cortado;
+                                });
+                                await showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => BackdropFilter(
+                                    filter:
+                                        ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                                    child: CupertinoAlertDialog(
+                                      content: Text(
+                                        "Imagem enviada com sucesso!",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                        ),
                                       ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.inter(
+                                              color: CupertinoColors.systemBlue,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                );
+                                setStateBotao(() {
+                                  btnAtivado = true;
+                                });
+                              }
+                            },
+                            child: Text(
+                              "Câmera",
+                              style: GoogleFonts.inter(
+                                color: CupertinoColors.systemBlue,
                               ),
                             ),
-                          );
-                          setState(() {});
-                        }
-                      },
-                      child: Text(
-                        "Câmera",
-                        style: GoogleFonts.inter(
-                          color: CupertinoColors.systemBlue,
-                        ),
-                      ),
-                    ),
-                  ],
+                          ),
+                        ]
+                      : [
+                          CupertinoActionSheetAction(
+                            onPressed: () async {
+                              var cortado = await _pegarImagemGaleria();
+                              if (cortado != null) {
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                                setState(() {
+                                  userImg = cortado;
+                                  btnAtivado = true;
+                                });
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => BackdropFilter(
+                                    filter:
+                                        ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                                    child: CupertinoAlertDialog(
+                                      content: Text(
+                                        "Imagem enviada com sucesso!",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.inter(
+                                              color: CupertinoColors.systemBlue,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Galeria",
+                              style: GoogleFonts.inter(
+                                color: CupertinoColors.systemBlue,
+                              ),
+                            ),
+                          ),
+                        ],
                 ),
               );
             },
@@ -214,7 +280,9 @@ class _Tela3State extends State<Tela3> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Image(
-                          image: FileImage(userImg!),
+                          image: kIsWeb
+                              ? NetworkImage(userImg!.path)
+                              : FileImage(userImg!) as ImageProvider,
                           width: 200,
                           fit: BoxFit.cover,
                         ),
