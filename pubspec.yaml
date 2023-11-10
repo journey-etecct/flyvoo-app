@@ -39,6 +39,7 @@ dependencies:
   boxicons: ^2.1.3
   url_strategy: ^0.2.0
   device_info_plus: ^9.1.0
+  cross_file: ^0.3.3+6
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class Tela3 extends StatefulWidget {
 }
 
 class _Tela3State extends State<Tela3> {
-  Future<File?> _pegarImagemGaleria() async {
+  Future<XFile?> _pegarImagemGaleria() async {
     XFile? sim = await picker.pickImage(
       source: ImageSource.gallery,
     );
@@ -64,12 +64,12 @@ class _Tela3State extends State<Tela3> {
       if (imgCortada == null) {
         return null;
       } else {
-        return File(imgCortada.path);
+        return XFile(imgCortada.path);
       }
     }
   }
 
-  Future<File?> _pegarImagemCamera() async {
+  Future<XFile?> _pegarImagemCamera() async {
     XFile? sim = await picker.pickImage(
       source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.front,
@@ -100,7 +100,7 @@ class _Tela3State extends State<Tela3> {
       if (imgCortada == null) {
         return null;
       } else {
-        return File(imgCortada.path);
+        return XFile(imgCortada.path);
       }
     }
   }
@@ -282,7 +282,7 @@ class _Tela3State extends State<Tela3> {
                         child: Image(
                           image: kIsWeb
                               ? NetworkImage(userImg!.path)
-                              : FileImage(userImg!) as ImageProvider,
+                              : FileImage(File(userImg!.path)) as ImageProvider,
                           width: 200,
                           fit: BoxFit.cover,
                         ),

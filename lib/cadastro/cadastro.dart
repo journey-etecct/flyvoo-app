@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:http/http.dart' as http;
 import 'package:animations/animations.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -38,7 +38,7 @@ String? carreiraEscolhida;
 String? sexoEscolhido;
 String? pronomesEscolhidos;
 DateTime? nascimento;
-File? userImg;
+XFile? userImg;
 List<Widget> telas = const <Widget>[
   Tela1(),
   Tela2(),
@@ -385,27 +385,25 @@ class _CadastroState extends State<Cadastro> {
                     "cadastroTerminado",
                     true,
                   );
+                  Reference instSt = FirebaseStorage.instance.ref(
+                    "users/${userFlyvoo?.uid}",
+                  );
                   if (argumento == "email" || userImg != null) {
-                    Reference instSt = FirebaseStorage.instance.ref(
-                      "users/${userFlyvoo?.uid}",
-                    );
                     if (kIsWeb) {
-                      final resposta = await http.get(Uri.file(userImg!.path));
-                      instSt.putData(
-                        resposta.bodyBytes,
+                      final bytes = await userImg!.readAsBytes();
+                      await instSt.putData(
+                        bytes,
                       );
-                      /* await instSt.putData(userImg!.); */
                     } else {
                       await instSt.putFile(
-                        userImg!,
+                        File(userImg!.path),
                       );
                     }
+                    final download = await instSt.getDownloadURL();
+                    await userFlyvoo?.updatePhotoURL(
+                      download,
+                    );
                   }
-                  await userFlyvoo?.updatePhotoURL(
-                    argumento == "email" || userImg != null
-                        ? "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2F${userFlyvoo?.uid}?alt=media"
-                        : userFlyvoo!.photoURL,
-                  );
                   setState(() {
                     userFlyvoo = FirebaseAuth.instance.currentUser;
                   });
