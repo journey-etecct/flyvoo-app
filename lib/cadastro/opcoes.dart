@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/main.dart';
@@ -47,83 +48,92 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
     setState(() {
       _btnGoogle = false;
     });
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    late dynamic credential;
+    if (!kIsWeb) {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    if (googleUser == null) {
-      return null;
-    }
+      if (googleUser == null) {
+        return null;
+      }
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    final emails = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
-      googleUser.email,
-    ); // [] ou [google.com] ou [microsoft.com]
-    if (emails.isNotEmpty) {
-      if (!mounted) return null;
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
+      final emails = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+        googleUser.email,
+      ); // [] ou [google.com] ou [microsoft.com]
+      if (emails.isNotEmpty) {
+        if (!mounted) return null;
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+              title: Column(
+                children: [
+                  const Icon(Symbols.error_circle_rounded_error),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Essa conta já existe",
+                    style: GoogleFonts.inter(),
+                  ),
+                ],
+              ),
+              content: Text(
+                "Deseja fazer login?",
+                style: GoogleFonts.inter(),
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
-                Text(
-                  "Essa conta já existe",
-                  style: GoogleFonts.inter(),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  isDefaultAction: true,
+                  child: Text(
+                    "Entrar",
+                    style: GoogleFonts.inter(
+                      color: CupertinoColors.systemBlue,
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: Text(
-              "Deseja fazer login?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/login");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Entrar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
-        ),
-      );
-      return null;
-    }
+        );
+        return null;
+      }
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      // Create a new credential
+      credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+    }
 
     // Once signed in, return the UserCredential
     try {
-      final cr = await FirebaseAuth.instance.signInWithCredential(credential);
-      return cr;
+      if (kIsWeb) {
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+        final cr = await FirebaseAuth.instance.signInWithPopup(googleProvider);
+        return cr;
+      } else {
+        final cr = await FirebaseAuth.instance.signInWithCredential(credential);
+        return cr;
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == "account-exists-with-different-credential") {
         if (!mounted) return null;

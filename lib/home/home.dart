@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     animacoesStart();
     userFlyvoo = FirebaseAuth.instance.currentUser;
     FlutterNativeSplash.remove();
+    CachedNetworkImage.evictFromCache(userFlyvoo!.photoURL!);
   }
 
   @override

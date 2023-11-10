@@ -1,22 +1,13 @@
 {
   "hosting": {
-    "source": ".",
+    "public": "build/web",
     "site": "m-flyvoo",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      "**/android/**",
-      "**/build/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "frameworksBackend": {
-      "region": "us-east1"
-    }
+    ]
   }
 }

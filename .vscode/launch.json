@@ -8,7 +8,7 @@
       "name": "flyvoo",
       "request": "launch",
       "type": "dart",
-      "args": ["--web-port=1234"]
+      "args": ["--web-renderer=html"]
     },
     {
       "name": "flyvoo (profile mode)",
