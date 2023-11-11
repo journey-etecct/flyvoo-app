@@ -127,6 +127,7 @@ class _OpcoesDeCadastroState extends State<OpcoesDeCadastro> {
     try {
       if (kIsWeb) {
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        googleProvider.addScope("email");
 
         final cr = await FirebaseAuth.instance.signInWithPopup(googleProvider);
         return cr;

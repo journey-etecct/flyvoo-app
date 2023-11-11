@@ -153,11 +153,16 @@ class _IndexState extends State<Index> {
                               children: [
                                 TextSpan(
                                   text: "Flyvoo!",
-                                  style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.bold,
-                                    foreground: Paint()
-                                      ..shader = linearGradient,
-                                  ),
+                                  style: kIsWeb
+                                      ? GoogleFonts.inter(
+                                          fontWeight: FontWeight.bold,
+                                          color: Tema.primaria.cor(),
+                                        )
+                                      : GoogleFonts.inter(
+                                          fontWeight: FontWeight.bold,
+                                          foreground: Paint()
+                                            ..shader = linearGradient,
+                                        ),
                                 )
                               ],
                             ),

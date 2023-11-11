@@ -65,10 +65,7 @@ Future<void> main() async {
       WidgetsBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.dark;
   if (userFlyvoo != null) {
-    password = (await FirebaseAuth.instance
-                .fetchSignInMethodsForEmail(userFlyvoo!.email!))
-            .first ==
-        "password";
+    password = userFlyvoo?.providerData.first.providerId == "password";
   }
 
   //pagina inicial de acordo com a situação de login

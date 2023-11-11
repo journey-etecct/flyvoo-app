@@ -406,6 +406,7 @@ class _CadastroState extends State<Cadastro> {
                   }
                   setState(() {
                     userFlyvoo = FirebaseAuth.instance.currentUser;
+                    userImg = null;
                   });
                   if (!mounted) return;
                   Navigator.popUntil(

@@ -43,14 +43,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     });
   }
 
-  _password() async {
-    password = (await FirebaseAuth.instance.fetchSignInMethodsForEmail(
-          userFlyvoo!.email!,
-        ))
-            .first ==
-        "password";
-  }
-
   @override
   void initState() {
     super.initState();
@@ -65,7 +57,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       internetIniciado = true;
     }
     if (userFlyvoo != null) {
-      _password();
+      password = userFlyvoo?.providerData.first.providerId == "password";
     }
     animacoesStart();
     userFlyvoo = FirebaseAuth.instance.currentUser;
