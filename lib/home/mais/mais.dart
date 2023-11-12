@@ -72,8 +72,8 @@ class _MaisState extends State<Mais> {
                         placeholder: const AssetImage(
                           "assets/background/loading.gif",
                         ),
-                        image: const CachedNetworkImageProvider(
-                          "https://firebasestorage.googleapis.com/v0/b/flyvoo.appspot.com/o/users%2Fd5djtJtXS1dgU3SHZ7hSneqUikr2?alt=media&token=ccc823cb-6692-4976-a603-096e306cb50d",
+                        image: CachedNetworkImageProvider(
+                          userFlyvoo!.photoURL!,
                         ),
                       )
                     : Image.asset(

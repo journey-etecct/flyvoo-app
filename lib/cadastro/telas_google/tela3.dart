@@ -48,7 +48,19 @@ class _TelaGoogle3State extends State<TelaGoogle3> {
                 dark ? const Color(0xff157567) : const Color(0xffffe1d0),
             lockAspectRatio: true,
           ),
-          WebUiSettings(context: context),
+          WebUiSettings(
+            context: context,
+            boundary: CroppieBoundary(
+              width: MediaQuery.of(context).size.width.toInt() - 150,
+              height: MediaQuery.of(context).size.width.toInt() - 150,
+            ),
+            viewPort: CroppieViewPort(
+              width: MediaQuery.of(context).size.width.toInt() - 150,
+              height: MediaQuery.of(context).size.width.toInt() - 150,
+            ),
+            enableZoom: true,
+            mouseWheelZoom: true,
+          ),
         ],
       );
       if (imgCortada == null) {

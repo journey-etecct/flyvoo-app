@@ -64,7 +64,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
     await CachedNetworkImage.evictFromCache(url);
   }
 
-  void _pegarInfo() async {
+  Future<void> _pegarInfo() async {
     setState(() {
       carregando = true;
     });
@@ -502,7 +502,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
       case 0:
         return _txtNome.text;
       case 1:
-        return userFlyvoo!.email!;
+        return userFlyvoo!.providerData.first.email!;
       case 2:
         return _txtTelefone.text;
       case 3:

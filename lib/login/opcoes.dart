@@ -4,6 +4,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,120 +62,31 @@ class _LoginState extends State<Login> {
     setState(() {
       _btnGoogle = false;
     });
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    if (googleUser == null) {
-      return null;
-    }
+    if (!kIsWeb) {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      if (googleUser == null) {
+        return null;
+      }
 
-    final emails = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
-      googleUser.email,
-    ); // [] ou [google.com] ou [microsoft.com]
-    if (emails.isEmpty) {
-      if (!mounted) return null;
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Essa conta não existe",
-                  style: GoogleFonts.inter(),
-                ),
-              ],
-            ),
-            content: Text(
-              "Deseja se cadastrar?",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Cancelar",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushNamed(context, "/opcoesCadastro");
-                },
-                isDefaultAction: true,
-                child: Text(
-                  "Criar uma conta",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
-      return null;
-    } else if (emails.contains("microsoft.com")) {
-      if (!mounted) return null;
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: CupertinoAlertDialog(
-            title: Column(
-              children: [
-                const Icon(Symbols.error_circle_rounded_error),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Essa conta existe com outro tipo de credencial",
-                  style: GoogleFonts.inter(),
-                ),
-              ],
-            ),
-            content: Text(
-              "Tente novamente com a opção Microsoft ou com Email",
-              style: GoogleFonts.inter(),
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.pop(context),
-                isDefaultAction: true,
-                child: Text(
-                  "OK",
-                  style: GoogleFonts.inter(
-                    color: CupertinoColors.systemBlue,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      return null;
+
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } else {
+      GoogleAuthProvider google = GoogleAuthProvider();
+      google.addScope("email");
+
+      return await FirebaseAuth.instance.signInWithPopup(google);
     }
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<UserCredential?> signInWithMicrosoft() async {
@@ -380,97 +292,7 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
-                child: CupertinoButton(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Tema.botaoIndex.cor(),
-                  padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
-                  onPressed: switch (index) {
-                    0 => _btnGoogle
-                        ? () async {
-                            UserCredential? cr = await signInWithGoogle();
-                            if (cr != null) {
-                              setState(() {
-                                userFlyvoo = cr.user;
-                              });
-                              if (!mounted) return;
-                              Navigator.popUntil(
-                                context,
-                                (route) => route.isFirst,
-                              );
-                              Navigator.pushReplacementNamed(
-                                context,
-                                "/home",
-                              );
-                              final inst =
-                                  await SharedPreferences.getInstance();
-                              inst.setBool(
-                                "cadastroTerminado",
-                                true,
-                              );
-                            } else {
-                              setState(() {
-                                _btnGoogle = true;
-                              });
-                            }
-                          }
-                        : null,
-                    _ => _btnMicrosoft
-                        ? () async {
-                            UserCredential? cr = await signInWithMicrosoft();
-                            if (cr != null) {
-                              setState(() {
-                                userFlyvoo = cr.user;
-                              });
-                              if (!mounted) return;
-                              Navigator.popUntil(
-                                context,
-                                (route) => route.isFirst,
-                              );
-                              Navigator.pushReplacementNamed(
-                                context,
-                                "/home",
-                              );
-                              final inst =
-                                  await SharedPreferences.getInstance();
-                              inst.setBool(
-                                "cadastroTerminado",
-                                true,
-                              );
-                            } else {
-                              setState(() {
-                                _btnMicrosoft = true;
-                              });
-                            }
-                          }
-                        : null,
-                  },
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image(
-                          image: _botoes[index].icon,
-                          height: 29,
-                          color: Tema.textoBotaoIndex.cor(),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        _botoes[index].text,
-                        style: GoogleFonts.inter(
-                          color: Tema.textoBotaoIndex.cor(),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: botao(index, context),
               ),
               itemCount: _botoes.length,
               shrinkWrap: true,
@@ -515,6 +337,160 @@ class _LoginState extends State<Login> {
           height: 40,
         ),
       ],
+    );
+  }
+
+  CupertinoButton botao(int index, BuildContext context) {
+    return CupertinoButton(
+      borderRadius: BorderRadius.circular(100),
+      color: Tema.botaoIndex.cor(),
+      padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+      onPressed: switch (index) {
+        0 => _btnGoogle
+            ? () async {
+                UserCredential? cr = await signInWithGoogle();
+                if (cr != null) {
+                  final instDATABASE = FirebaseDatabase.instance.ref(
+                    "users/${cr.user?.uid}",
+                  );
+                  if (await instDATABASE.get().then((value) => !value.exists)) {
+                    if (!mounted) return;
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                        child: CupertinoAlertDialog(
+                          title: Column(
+                            children: [
+                              const Icon(Symbols.error_circle_rounded_error),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Essa conta não existe",
+                                style: GoogleFonts.inter(),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            "Deseja se cadastrar?",
+                            style: GoogleFonts.inter(),
+                          ),
+                          actions: [
+                            CupertinoDialogAction(
+                              onPressed: () async {
+                                await cr.user?.delete();
+                                if (!mounted) return;
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Cancelar",
+                                style: GoogleFonts.inter(
+                                  color: CupertinoColors.systemBlue,
+                                ),
+                              ),
+                            ),
+                            CupertinoDialogAction(
+                              onPressed: () {
+                                Navigator.popUntil(
+                                  context,
+                                  (route) => route.isFirst,
+                                );
+                                Navigator.pushNamed(context, "/cadastro");
+                              },
+                              isDefaultAction: true,
+                              child: Text(
+                                "Criar uma conta",
+                                style: GoogleFonts.inter(
+                                  color: CupertinoColors.systemBlue,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    setState(() {
+                      userFlyvoo = cr.user;
+                    });
+                    if (!mounted) return;
+                    Navigator.popUntil(
+                      context,
+                      (route) => route.isFirst,
+                    );
+                    Navigator.pushReplacementNamed(
+                      context,
+                      "/home",
+                    );
+                    final inst = await SharedPreferences.getInstance();
+                    inst.setBool(
+                      "cadastroTerminado",
+                      true,
+                    );
+                  }
+                } else {
+                  setState(() {
+                    _btnGoogle = true;
+                  });
+                }
+              }
+            : null,
+        _ => _btnMicrosoft
+            ? () async {
+                UserCredential? cr = await signInWithMicrosoft();
+                if (cr != null) {
+                  setState(() {
+                    userFlyvoo = cr.user;
+                  });
+                  if (!mounted) return;
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                  Navigator.pushReplacementNamed(
+                    context,
+                    "/home",
+                  );
+                  final inst = await SharedPreferences.getInstance();
+                  inst.setBool(
+                    "cadastroTerminado",
+                    true,
+                  );
+                } else {
+                  setState(() {
+                    _btnMicrosoft = true;
+                  });
+                }
+              }
+            : null,
+      },
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 25,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image(
+              image: _botoes[index].icon,
+              height: 29,
+              color: Tema.textoBotaoIndex.cor(),
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Text(
+            _botoes[index].text,
+            style: GoogleFonts.inter(
+              color: Tema.textoBotaoIndex.cor(),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

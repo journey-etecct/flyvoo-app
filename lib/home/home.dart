@@ -62,7 +62,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     animacoesStart();
     userFlyvoo = FirebaseAuth.instance.currentUser;
     FlutterNativeSplash.remove();
-    CachedNetworkImage.evictFromCache(userFlyvoo!.photoURL!);
+    if (userFlyvoo != null) {
+      CachedNetworkImage.evictFromCache(userFlyvoo!.photoURL!);
+    }
   }
 
   @override

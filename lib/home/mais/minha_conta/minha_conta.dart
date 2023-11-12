@@ -151,7 +151,8 @@ class _MinhaContaState extends State<MinhaConta> {
                                   Expanded(
                                     child: Text(
                                       userFlyvoo != null
-                                          ? userFlyvoo!.email!
+                                          ? userFlyvoo!
+                                              .providerData.first.email!
                                           : "",
                                       style: GoogleFonts.inter(
                                         color: Tema.texto.cor(),

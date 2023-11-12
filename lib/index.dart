@@ -341,7 +341,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                                   if (userFlyvoo != null) {
                                     inst.setString(
                                       "email",
-                                      userFlyvoo!.email!,
+                                      userFlyvoo!.providerData.first.email!,
                                     );
                                   }
                                   userFlyvoo = null;

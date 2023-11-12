@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/mais/mais.dart';
@@ -611,22 +612,34 @@ class _ExcluirContaState extends State<ExcluirConta> {
                 );
                 flushbar.show(context);
                 try {
-                  final googleUser = await GoogleSignIn().signInSilently();
-                  if (googleUser != null) {
-                    final GoogleSignInAuthentication googleAuth =
-                        await googleUser.authentication;
-                    final cr = await userFlyvoo!.reauthenticateWithCredential(
-                      GoogleAuthProvider.credential(
-                        accessToken: googleAuth.accessToken,
-                        idToken: googleAuth.idToken,
-                      ),
-                    );
+                  if (kIsWeb) {
+                    final provider = GoogleAuthProvider();
+                    final cr =
+                        await userFlyvoo!.reauthenticateWithPopup(provider);
                     setStateDialogo(() {
                       userFlyvoo = cr.user;
                       _confirmado = true;
                       _btnAtivado = true;
                     });
                     flushbar.dismiss();
+                  } else {
+                    final googleUser = await GoogleSignIn().signInSilently();
+                    if (googleUser != null) {
+                      final GoogleSignInAuthentication googleAuth =
+                          await googleUser.authentication;
+                      final cr = await userFlyvoo!.reauthenticateWithCredential(
+                        GoogleAuthProvider.credential(
+                          accessToken: googleAuth.accessToken,
+                          idToken: googleAuth.idToken,
+                        ),
+                      );
+                      setStateDialogo(() {
+                        userFlyvoo = cr.user;
+                        _confirmado = true;
+                        _btnAtivado = true;
+                      });
+                      flushbar.dismiss();
+                    }
                   }
                 } on FirebaseAuthException catch (e) {
                   if (!mounted) return;
