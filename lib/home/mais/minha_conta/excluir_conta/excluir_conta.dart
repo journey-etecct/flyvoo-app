@@ -190,7 +190,7 @@ class _ExcluirContaState extends State<ExcluirConta> {
                             padding: const EdgeInsets.all(15),
                             child: ClipOval(
                               child: Image(
-                                width: 120,
+                                width: 121,
                                 opacity: const AlwaysStoppedAnimation(0.5),
                                 color: Colors.grey,
                                 colorBlendMode: BlendMode.color,
@@ -827,9 +827,16 @@ class _ExcluirContaState extends State<ExcluirConta> {
               onPressed: () async {
                 try {
                   final mauthpro = MicrosoftAuthProvider();
-                  final cr = await userFlyvoo!.reauthenticateWithProvider(
-                    mauthpro,
-                  );
+                  late UserCredential cr;
+                  if (kIsWeb) {
+                    cr = await userFlyvoo!.reauthenticateWithPopup(
+                      mauthpro,
+                    );
+                  } else {
+                    cr = await userFlyvoo!.reauthenticateWithProvider(
+                      mauthpro,
+                    );
+                  }
                   setStateDialogo(() {
                     userFlyvoo = cr.user;
                     _confirmado = true;

@@ -95,8 +95,12 @@ class _LoginState extends State<Login> {
     });
     final microsoftProvider = MicrosoftAuthProvider();
     try {
-      final cr =
-          await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+      late UserCredential cr;
+      if (kIsWeb) {
+        cr = await FirebaseAuth.instance.signInWithPopup(microsoftProvider);
+      } else {
+        cr = await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+      }
       final info = await FirebaseDatabase.instance.ref("users/").get();
       if (!info.child("${cr.user?.uid}").exists) {
         if (!mounted) return null;
