@@ -318,7 +318,7 @@ class _BotoesEntradaState extends State<BotoesEntrada> {
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
                   content: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    padding: const EdgeInsets.fromLTRB(1.1, 0, 1.1, 0),
                     child: Text(
                       "Caso queira mais funcionalidade no app, sinta-se livre para se cadastrar quando quiser!",
                       style: GoogleFonts.inter(
