@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +14,6 @@ class Empresas extends StatefulWidget {
 }
 
 class _EmpresasState extends State<Empresas> {
-  var list = <Widget>[];
   late Future<DataSnapshot> _getCarreiras;
 
   @override
@@ -27,33 +24,6 @@ class _EmpresasState extends State<Empresas> {
 
   @override
   Widget build(BuildContext context) {
-    /* for (var i = 0; i < 20; i++) {
-      list.add(
-        const Padding(
-          padding: EdgeInsets.all(17.0),
-          child: CardEmpresas(),
-        ),
-      );
-      i != 19
-          ? list.add(
-              Divider(
-                color: Tema.texto.cor(),
-              ),
-            )
-          : list.add(
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 50,
-                  top: 30,
-                ),
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Tema.texto.cor(),
-                  ),
-                ),
-              ),
-            );
-    } */
     return Column(
       children: [
         Text(
@@ -77,7 +47,7 @@ class _EmpresasState extends State<Empresas> {
                 final snapshotData = snapshot.data!;
 
                 return ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return CardEmpresas(
                       snapshotData.children
@@ -92,7 +62,7 @@ class _EmpresasState extends State<Empresas> {
                   itemCount: snapshotData.children.length,
                 );
               } else {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -206,7 +176,7 @@ class _CardEmpresasState extends State<CardEmpresas> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(17.0),
+          padding: const EdgeInsets.all(17.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -256,7 +226,7 @@ class _CardEmpresasState extends State<CardEmpresas> {
                       style: GoogleFonts.inter(
                         color: Tema.texto.cor(),
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(
@@ -308,7 +278,7 @@ class _CardEmpresasState extends State<CardEmpresas> {
             ? Divider(
                 color: Tema.noFundo.cor(),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }

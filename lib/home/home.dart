@@ -165,7 +165,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       decoration: BoxDecoration(
         color: !dark ? Tema.fundo.cor() : const Color(0xff161616),
-        borderRadius: BorderRadius.circular(!dark ? 25 : 0),
+        borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
             color: dark
