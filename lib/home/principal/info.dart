@@ -268,22 +268,29 @@ class _InfoState extends State<Info> {
         // TODO: programar se o usuário fez ou não o teste
         Future.delayed(Duration(seconds: 2), () => false);
 
-    final ref = FirebaseDatabase.instance.ref("/carreiras/nome");
+    final ref = FirebaseDatabase.instance.ref("/carreiras/");
     _infoCarreira = ref.get();
   }
 
-  double _ratingCarga(int cargaHoraria) {
-    switch (cargaHoraria) {
-      case < 10:
-        return 1;
-      case < 20:
-        return 2;
-      case < 30:
-        return 3;
-      case < 40:
-        return 4;
-      default:
-        return 5;
+  double _ratingCarga(String cargaHoraria) {
+    if (cargaHoraria.contains(RegExp(r'[0-9]'))) {
+      int cargaInt = 0;
+      cargaInt = int.tryParse(cargaHoraria.replaceRange(3, null, "")) ?? 0;
+
+      switch (cargaInt) {
+        case < 10:
+          return 1;
+        case < 20:
+          return 2;
+        case < 30:
+          return 3;
+        case < 40:
+          return 4;
+        default:
+          return 5;
+      }
+    } else {
+      return 999;
     }
   }
 
@@ -394,7 +401,7 @@ class _InfoState extends State<Info> {
           ),
         ),
         Text(
-          "R\$${infoCarreira.child("salario/min").value},00 - R\$${infoCarreira.child("salario/max").value},00",
+          "${infoCarreira.child("salario/min").value} - ${infoCarreira.child("salario/max").value}",
           style: GoogleFonts.inter(
             color: Color(0xFF00BF63),
             fontWeight: FontWeight.w600,
@@ -444,40 +451,45 @@ class _InfoState extends State<Info> {
           ),
         ),
         Text(
-          "${infoCarreira.child("cargaHoraria").value} horas semanais",
+          "${infoCarreira.child("cargaHoraria").value}",
           style: GoogleFonts.inter(
             color: Color(0xffEB4549),
             fontWeight: FontWeight.w600,
             fontSize: 24,
           ),
         ),
-        RatingBar(
-          itemPadding: EdgeInsets.symmetric(horizontal: 3),
-          itemSize: 50,
-          initialRating: _ratingCarga(
-            infoCarreira.child("cargaHoraria").value as int,
-          ),
-          ignoreGestures: true,
-          glow: false,
-          allowHalfRating: false,
-          ratingWidget: RatingWidget(
-            full: Icon(
-              Symbols.alarm,
-              color: Color(0xffEB4549),
-              weight: 700,
-            ),
-            half: Icon(
-              Symbols.star_rounded,
-              fill: 1,
-            ),
-            empty: Icon(
-              Symbols.alarm,
-              color: Color(0xffAEAEB2),
-              weight: 700,
-            ),
-          ),
-          onRatingUpdate: (value) {},
-        ),
+        _ratingCarga(
+                  infoCarreira.child("cargaHoraria").value as String,
+                ) <
+                10
+            ? RatingBar(
+                itemPadding: EdgeInsets.symmetric(horizontal: 3),
+                itemSize: 50,
+                initialRating: _ratingCarga(
+                  infoCarreira.child("cargaHoraria").value as String,
+                ),
+                ignoreGestures: true,
+                glow: false,
+                allowHalfRating: false,
+                ratingWidget: RatingWidget(
+                  full: Icon(
+                    Symbols.alarm,
+                    color: Color(0xffEB4549),
+                    weight: 700,
+                  ),
+                  half: Icon(
+                    Symbols.star_rounded,
+                    fill: 1,
+                  ),
+                  empty: Icon(
+                    Symbols.alarm,
+                    color: Color(0xffAEAEB2),
+                    weight: 700,
+                  ),
+                ),
+                onRatingUpdate: (value) {},
+              )
+            : SizedBox(),
         SizedBox(
           height: 20,
         ),

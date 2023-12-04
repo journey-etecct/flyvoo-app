@@ -69,10 +69,6 @@ class Especialidade extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        /* SvgPicture.asset(
-          "assets/imagens/areas/${Area.values[index].name}.svg",
-          height: 400,
-        ), */
         Image.asset(
           "assets/imagens/areas/${Area.values[index].name}.webp",
           height: 400,
