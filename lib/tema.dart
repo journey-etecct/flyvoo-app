@@ -462,6 +462,21 @@ enum Carreira {
     (Area.corporalCin, 40),
     (Area.musical, 40),
     (Area.interpessoal, 20),
+  ]),
+  fotografia("Fotografia", [
+    (Area.interpessoal, 50),
+    (Area.espacial, 40),
+    (Area.musical, 10),
+  ]),
+  musica("Música", [
+    (Area.interpessoal, 60),
+    (Area.linguistica, 20),
+    (Area.musical, 20),
+  ]),
+  segurancaTrab("Segurança no Trabalho", [
+    (Area.interpessoal, 50),
+    (Area.espacial, 30),
+    (Area.corporalCin, 20),
   ]);
 
   const Carreira(this.nome, this.inteligencias);

@@ -1,5 +1,11 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/empresas/info.dart';
 import 'package:flyvoo/tema.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Empresas extends StatefulWidget {
@@ -11,18 +17,24 @@ class Empresas extends StatefulWidget {
 
 class _EmpresasState extends State<Empresas> {
   var list = <Widget>[];
+  late Future<DataSnapshot> _getCarreiras;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCarreiras = FirebaseDatabase.instance.ref("/carreiras/").get();
+  }
 
   @override
   Widget build(BuildContext context) {
-    list = <Widget>[];
-    for (var i = 0; i < 20; i++) {
+    /* for (var i = 0; i < 20; i++) {
       list.add(
         const Padding(
           padding: EdgeInsets.all(17.0),
           child: CardEmpresas(),
         ),
       );
-      i != 49
+      i != 19
           ? list.add(
               Divider(
                 color: Tema.texto.cor(),
@@ -41,12 +53,11 @@ class _EmpresasState extends State<Empresas> {
                 ),
               ),
             );
-    }
-
+    } */
     return Column(
       children: [
         Text(
-          "Empresas",
+          "Carreiras",
           style: GoogleFonts.inter(
             fontSize: 30,
             fontWeight: FontWeight.w600,
@@ -58,88 +69,246 @@ class _EmpresasState extends State<Empresas> {
           height: 10,
         ),
         Expanded(
-          child: ListView.builder(
+          child: FutureBuilder(
+            future: _getCarreiras,
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                final snapshotData = snapshot.data!;
+
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return CardEmpresas(
+                      snapshotData.children
+                              .toList()[index]
+                              .child("carreira")
+                              .value ==
+                          "Zootecnia",
+                      snapshotData.children.toList()[index],
+                    );
+                  },
+                  shrinkWrap: true,
+                  itemCount: snapshotData.children.length,
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+          /* ListView.builder(
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return list[index];
             },
             shrinkWrap: true,
             itemCount: list.length,
-          ),
+          ), */
         ),
       ],
     );
   }
 }
 
-class CardEmpresas extends StatelessWidget {
-  const CardEmpresas({
+typedef ListaInteligencias = Map;
+String _inteligenciasToString(ListaInteligencias inteligencias) {
+  String stringFinal = "";
+
+  if (inteligencias["corporalCin"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.corporalCin.nome}";
+    } else {
+      stringFinal += Area.corporalCin.nome;
+    }
+  }
+  if (inteligencias["espacial"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.espacial.nome}";
+    } else {
+      stringFinal += Area.espacial.nome;
+    }
+  }
+  if (inteligencias["existencial"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.existencial.nome}";
+    } else {
+      stringFinal += Area.existencial.nome;
+    }
+  }
+  if (inteligencias["interpessoal"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.interpessoal.nome}";
+    } else {
+      stringFinal += Area.interpessoal.nome;
+    }
+  }
+  if (inteligencias["intrapessoal"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.intrapessoal.nome}";
+    } else {
+      stringFinal += Area.intrapessoal.nome;
+    }
+  }
+  if (inteligencias["linguistica"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.linguistica.nome}";
+    } else {
+      stringFinal += Area.linguistica.nome;
+    }
+  }
+  if (inteligencias["logicoMat"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.logicoMat.nome}";
+    } else {
+      stringFinal += Area.logicoMat.nome;
+    }
+  }
+  if (inteligencias["musical"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.musical.nome}";
+    } else {
+      stringFinal += Area.musical.nome;
+    }
+  }
+  if (inteligencias["naturalista"] != null) {
+    if (stringFinal != "") {
+      stringFinal += ", ${Area.naturalista.nome}";
+    } else {
+      stringFinal += Area.naturalista.nome;
+    }
+  }
+
+  return stringFinal;
+}
+
+class CardEmpresas extends StatefulWidget {
+  final DataSnapshot data;
+  final bool isLast;
+  const CardEmpresas(
+    this.isLast,
+    this.data, {
     super.key,
   });
 
   @override
+  State<CardEmpresas> createState() => _CardEmpresasState();
+}
+
+class _CardEmpresasState extends State<CardEmpresas> {
+  Area _pegarMaiorInteligencia(Carreira carreira) {
+    return carreira.inteligencias.first.$1;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
       children: [
-        ClipOval(
-          child: Image.asset(
-            "assets/background/loading.gif",
-            width: 50,
-          ),
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        Expanded(
-          child: Column(
+        Padding(
+          padding: EdgeInsets.all(17.0),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Estágio em Web Design | Home Office",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.inter(
-                  color: Tema.texto.cor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                "Google",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.inter(
-                  color: Tema.texto.cor(),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                "São Paulo, São Paulo, Brasil(Remoto)",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.inter(
-                  color: Tema.texto.cor(),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/icons/alvo.png",
+              switch (_pegarMaiorInteligencia(
+                Carreira.values.byName(widget.data.key!),
+              )) {
+                Area.existencial ||
+                Area.linguistica ||
+                Area.corporalCin ||
+                Area.espacial =>
+                  Icon(
+                    _pegarMaiorInteligencia(
+                      Carreira.values.byName(widget.data.key!),
+                    ).icone,
+                    size: 80,
                     color: Tema.texto.cor(),
                   ),
-                  const SizedBox(
-                    width: 7,
+                _ => FaIcon(
+                    _pegarMaiorInteligencia(
+                      Carreira.values.byName(widget.data.key!),
+                    ).icone,
+                    size: 80,
+                    color: Tema.texto.cor(),
                   ),
-                  const Text("Recrutando"),
-                ],
+              },
+              const SizedBox(
+                width: 25,
               ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.data.child("carreira").value as String,
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.inter(
+                        color: Tema.texto.cor(),
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      _inteligenciasToString(
+                        widget.data.child("inteligencia").value as Map,
+                      ),
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.inter(
+                        color: Tema.texto.cor(),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CupertinoButton(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 30,
+                          ),
+                          color: Tema.texto.cor(),
+                          borderRadius: BorderRadius.circular(50),
+                          onPressed: () {
+                            setState(() {
+                              carreiraSelecionada = Carreira.values.byName(
+                                widget.data.key!,
+                              );
+                            });
+                            showCupertinoDialog(
+                              context: context,
+                              builder: (context) => AlertaVerMais(
+                                _pegarMaiorInteligencia(
+                                  Carreira.values.byName(widget.data.key!),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'VER MAIS',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Tema.fundo.cor(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
-        )
+        ),
+        !widget.isLast
+            ? Divider(
+                color: Tema.noFundo.cor(),
+              )
+            : SizedBox(),
       ],
     );
   }

@@ -1,21 +1,15 @@
 import 'dart:ui';
 
-import 'package:animations/animations.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-Carreira _carreiraSelecionada = Carreira.administracao;
-bool _reverse = false;
-int _tela = 0;
-late void Function(void Function()) setStateLista;
+Carreira carreiraSelecionada = Carreira.administracao;
 
 class AlertaVerMais extends StatefulWidget {
   final Area area;
@@ -26,223 +20,49 @@ class AlertaVerMais extends StatefulWidget {
 }
 
 class _AlertaVerMaisState extends State<AlertaVerMais> {
-  late final List<Widget> _telas = [
-    Lista(widget.area),
-    const Info(),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (poppou) {
-        if (poppou) return;
-
-        if (_tela == 0) {
-          Navigator.pop(context);
-        } else {
-          setState(() {
-            _reverse = true;
-            _tela = 0;
-          });
-        }
-      },
+    return BackdropFilter(
+      filter: ColorFilter.mode(
+        Colors.black.withOpacity(0.4),
+        BlendMode.darken,
+      ),
       child: BackdropFilter(
-        filter: ColorFilter.mode(
-          Colors.black.withOpacity(0.4),
-          BlendMode.darken,
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-                child: Text(
-                  "Informações da Inteligência",
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.41,
-                  ),
+        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+              child: Text(
+                "Informações da Inteligência",
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.41,
                 ),
               ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: dark
-                      ? Colors.black.withOpacity(0.7)
-                      : Colors.white.withOpacity(0.7),
-                ),
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: StatefulBuilder(
-                  builder: (context, setStateL) {
-                    setStateLista = setStateL;
-                    return PageTransitionSwitcher(
-                      reverse: _reverse,
-                      transitionBuilder: (
-                        Widget child,
-                        Animation<double> primaryAnimation,
-                        Animation<double> secondaryAnimation,
-                      ) {
-                        return SharedAxisTransition(
-                          fillColor: Colors.transparent,
-                          animation: primaryAnimation,
-                          secondaryAnimation: secondaryAnimation,
-                          transitionType: SharedAxisTransitionType.horizontal,
-                          child: child,
-                        );
-                      },
-                      child: _telas[_tela],
-                    );
-                  },
-                ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: dark
+                    ? Colors.black.withOpacity(0.7)
+                    : Colors.white.withOpacity(0.7),
               ),
-            ],
-          ),
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: const Info(),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class Lista extends StatefulWidget {
-  final Area area;
-  const Lista(this.area, {super.key});
-
-  @override
-  State<Lista> createState() => _ListaState();
-}
-
-class _ListaState extends State<Lista> {
-  List<(Carreira, int)> carreirasDessaArea = <(Carreira, int)>[];
-  List<(Carreira, int)> construirLista() {
-    carreirasDessaArea = [];
-    for (Carreira carreira in Carreira.values) {
-      for (int i = 0; i < carreira.inteligencias.length; i++) {
-        if (carreira.inteligencias[i].$1 == widget.area) {
-          carreirasDessaArea.add((carreira, i));
-          break;
-        }
-      }
-    }
-
-    carreirasDessaArea.sort((a, b) {
-      return b.$1.inteligencias[b.$2].$2.compareTo(a.$1.inteligencias[a.$2].$2);
-    });
-
-    return carreirasDessaArea;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(0),
-      physics: const BouncingScrollPhysics(),
-      children: construirLista().map<Widget>(
-        (e) {
-          return Material(
-            color: Colors.transparent,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      setStateLista(() {
-                        _reverse = false;
-                        _carreiraSelecionada = e.$1;
-                        _tela = 1;
-                      });
-                    });
-                  },
-                  borderRadius: BorderRadius.circular(10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e.$1.nome,
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Nessa área:',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                ),
-                              ),
-                              FAProgressBar(
-                                currentValue: e.$1.inteligencias[e.$2].$2,
-                                displayText: "%",
-                                displayTextStyle: GoogleFonts.inter(
-                                  color: Tema.noFundo.cor(),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                backgroundColor: Colors.grey.withOpacity(0.2),
-                                size: 20,
-                                progressColor: dark
-                                    ? widget.area.primaryLight()
-                                    : widget.area.primaryDark(),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ],
-                          ),
-                        ),
-                        RotatedBox(
-                          quarterTurns: 3,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              setState(() {
-                                setStateLista(() {
-                                  _reverse = false;
-                                  _carreiraSelecionada = e.$1;
-                                  _tela = 1;
-                                });
-                              });
-                            },
-                            icon: const Icon(Symbols.expand_more_rounded),
-                            iconSize: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                e != carreirasDessaArea.last
-                    ? Divider(
-                        color: Tema.noFundo.cor(),
-                        height: 30,
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-          );
-        },
-      ).toList(),
     );
   }
 }
@@ -267,7 +87,7 @@ class _InfoState extends State<Info> {
         Future.delayed(const Duration(seconds: 2), () => false);
 
     final ref = FirebaseDatabase.instance.ref(
-      "/carreiras/${_carreiraSelecionada.toString().replaceAll("Carreira.", "")}",
+      "/carreiras/${carreiraSelecionada.toString().replaceAll("Carreira.", "")}",
     );
     _infoCarreira = ref.get();
   }
@@ -338,30 +158,38 @@ class _InfoState extends State<Info> {
     );
   }
 
+  Area _pegarMaiorInteligencia(Carreira carreira) {
+    return carreira.inteligencias.first.$1;
+  }
+
   Column informacoes(DataSnapshot infoCarreira) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            switch (Area.values[areaAtual - 1]) {
+            switch (_pegarMaiorInteligencia(carreiraSelecionada)) {
               Area.existencial ||
               Area.linguistica ||
               Area.corporalCin ||
               Area.espacial =>
                 Icon(
-                  Area.values[areaAtual - 1].icone,
+                  _pegarMaiorInteligencia(carreiraSelecionada).icone,
                   size: 80,
                   color: dark
-                      ? Area.values[areaAtual - 1].primaryDark()
-                      : Area.values[areaAtual - 1].primaryLight(),
+                      ? _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryDark()
+                      : _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryLight(),
                 ),
               _ => FaIcon(
-                  Area.values[areaAtual - 1].icone,
+                  _pegarMaiorInteligencia(carreiraSelecionada).icone,
                   size: 80,
                   color: dark
-                      ? Area.values[areaAtual - 1].primaryDark()
-                      : Area.values[areaAtual - 1].primaryLight(),
+                      ? _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryDark()
+                      : _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryLight(),
                 ),
             },
             const SizedBox(
@@ -369,13 +197,15 @@ class _InfoState extends State<Info> {
             ),
             Expanded(
               child: Text(
-                _carreiraSelecionada.nome,
+                carreiraSelecionada.nome,
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.w800,
                   fontSize: 24,
                   color: dark
-                      ? Area.values[areaAtual - 1].primaryDark()
-                      : Area.values[areaAtual - 1].primaryLight(),
+                      ? _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryDark()
+                      : _pegarMaiorInteligencia(carreiraSelecionada)
+                          .primaryLight(),
                 ),
               ),
             ),
@@ -623,14 +453,14 @@ class _InfoState extends State<Info> {
   }
 
   SizedBox painelIntel() {
-    final intel = _carreiraSelecionada.inteligencias;
+    final intel = carreiraSelecionada.inteligencias;
     return SizedBox(
       height: intel.length > 2 ? 180 : 150,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(),
-          ..._carreiraSelecionada.inteligencias.map<Widget>(
+          ...carreiraSelecionada.inteligencias.map<Widget>(
             (e) {
               switch (intel.length) {
                 case 1:
@@ -781,7 +611,7 @@ class _InfoState extends State<Info> {
 
   // ignore: unused_element
   String _pegarNomePadronizado(Carreira carreira) {
-    final str = "$_carreiraSelecionada";
+    final str = "$carreiraSelecionada";
     return str.replaceAll("Carreira.", "");
   }
 }
