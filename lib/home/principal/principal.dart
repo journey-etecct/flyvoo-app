@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/principal/info.dart';
+import 'package:flyvoo/home/principal/teste/resultados.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -106,46 +107,56 @@ class Especialidade extends StatelessWidget {
         const SizedBox(
           height: 30,
         ),
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                blurRadius: 20,
-                spreadRadius: 0,
-                offset: const Offset(0, 3),
-                color: dark
-                    ? Area.values[index].primaryDark().withOpacity(
-                          0.5,
-                        )
-                    : Area.values[index].primaryLight().withOpacity(
-                          0.5,
-                        ),
+        InkWell(
+          onLongPress: () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const Resultados(),
               ),
-            ],
-          ),
-          child: CupertinoButton(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-            color: dark
-                ? Area.values[index].primaryDark()
-                : Area.values[index].primaryLight(),
-            borderRadius: BorderRadius.circular(50),
-            onPressed: () {
-              showCupertinoDialog(
-                context: contextHome,
-                barrierDismissible: true,
-                builder: (context) => AlertaVerMais(
-                  Area.values[index],
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 3),
+                  color: dark
+                      ? Area.values[index].primaryDark().withOpacity(
+                            0.5,
+                          )
+                      : Area.values[index].primaryLight().withOpacity(
+                            0.5,
+                          ),
                 ),
-              );
-            },
-            child: Text(
-              'VER MAIS',
-              style: GoogleFonts.inter(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Area.values[index] == Area.intrapessoal && dark
-                    ? Colors.black
-                    : Colors.white,
+              ],
+            ),
+            child: CupertinoButton(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+              color: dark
+                  ? Area.values[index].primaryDark()
+                  : Area.values[index].primaryLight(),
+              borderRadius: BorderRadius.circular(50),
+              onPressed: () {
+                showCupertinoDialog(
+                  context: contextHome,
+                  barrierDismissible: true,
+                  builder: (context) => AlertaVerMais(
+                    Area.values[index],
+                  ),
+                );
+              },
+              child: Text(
+                'VER MAIS',
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Area.values[index] == Area.intrapessoal && dark
+                      ? Colors.black
+                      : Colors.white,
+                ),
               ),
             ),
           ),

@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flyvoo/home/principal/teste/pergunta.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -40,8 +39,8 @@ class _IntroducaoState extends State<Introducao> {
         bool resposta = await showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
-            title: Text("Tem certeza que deseja sair?"),
-            content: Text("Você perderá todo o seu progresso até aqui"),
+            title: const Text("Tem certeza que deseja sair?"),
+            content: const Text("Você perderá todo o seu progresso até aqui"),
             actions: [
               CupertinoDialogAction(
                 onPressed: () => Navigator.pop(context, false),
@@ -71,6 +70,22 @@ class _IntroducaoState extends State<Introducao> {
       },
       child: SpotlightShow(
         skipWhenPop: false,
+        onFinish: () {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => Pergunta(0, listaPerguntas),
+            ),
+          );
+        },
+        onSkip: () {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => Pergunta(0, listaPerguntas),
+            ),
+          );
+        },
         child: Scaffold(
           backgroundColor: Tema.fundo.cor(),
           body: Stack(
@@ -94,7 +109,7 @@ class _IntroducaoState extends State<Introducao> {
                 child: Column(
                   children: [
                     header(context),
-                    SizedBox(
+                    const SizedBox(
                       height: 125,
                     ),
                     Expanded(
@@ -102,130 +117,160 @@ class _IntroducaoState extends State<Introducao> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 50,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          verticalDirection: VerticalDirection.up,
-                          children: [
-                            RadioListTile(
-                              title: Text(
-                                "Discordo muito",
-                                style: GoogleFonts.inter(
-                                  fontSize: 24,
+                        child: SpotlightAnt(
+                          index: 1,
+                          spotlight: const SpotlightConfig(
+                            builder: SpotlightRectBuilder(borderRadius: 25),
+                          ),
+                          content: Center(
+                            child: Text(
+                              "São 5 opções de respostas\nResponda com responsabilidade",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                fontSize: 25,
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            verticalDirection: VerticalDirection.up,
+                            children: [
+                              RadioListTile(
+                                title: Text(
+                                  "Discordo muito",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                  ),
                                 ),
-                              ),
-                              fillColor: MaterialStatePropertyAll(
-                                Color(0xffFF0000),
-                              ),
-                              value: OpcoesTeste.discordoMuito,
-                              groupValue: opcaoEscolhida,
-                              onChanged: (selecionado) {
-                                setState(() {
-                                  opcaoEscolhida = selecionado;
-                                });
-                              },
-                            ),
-                            Divider(
-                              color: Tema.noFundo.cor(),
-                            ),
-                            RadioListTile(
-                              title: Text(
-                                "Discordo pouco",
-                                style: GoogleFonts.inter(
-                                  fontSize: 24,
+                                fillColor: const MaterialStatePropertyAll(
+                                  Color(0xffFF0000),
                                 ),
+                                value: OpcoesTeste.discordoMuito,
+                                groupValue: opcaoEscolhida,
+                                onChanged: (selecionado) {
+                                  setState(() {
+                                    opcaoEscolhida = selecionado;
+                                  });
+                                },
                               ),
-                              fillColor: MaterialStatePropertyAll(
-                                Color.fromARGB(255, 255, 120, 120),
+                              Divider(
+                                color: Tema.noFundo.cor(),
                               ),
-                              value: OpcoesTeste.discordoPouco,
-                              groupValue: opcaoEscolhida,
-                              onChanged: (selecionado) {
-                                setState(() {
-                                  opcaoEscolhida = selecionado;
-                                });
-                              },
-                            ),
-                            Divider(
-                              color: Tema.noFundo.cor(),
-                            ),
-                            RadioListTile(
-                              title: Text(
-                                "Neutro",
-                                style: GoogleFonts.inter(
-                                  fontSize: 24,
+                              RadioListTile(
+                                title: Text(
+                                  "Discordo pouco",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                  ),
                                 ),
-                              ),
-                              fillColor: MaterialStatePropertyAll(
-                                Colors.grey,
-                              ),
-                              value: OpcoesTeste.neutro,
-                              groupValue: opcaoEscolhida,
-                              onChanged: (selecionado) {
-                                setState(() {
-                                  opcaoEscolhida = selecionado;
-                                });
-                              },
-                            ),
-                            Divider(
-                              color: Tema.noFundo.cor(),
-                            ),
-                            RadioListTile(
-                              title: Text(
-                                "Concordo pouco",
-                                style: GoogleFonts.inter(
-                                  fontSize: 24,
+                                fillColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 255, 120, 120),
                                 ),
+                                value: OpcoesTeste.discordoPouco,
+                                groupValue: opcaoEscolhida,
+                                onChanged: (selecionado) {
+                                  setState(() {
+                                    opcaoEscolhida = selecionado;
+                                  });
+                                },
                               ),
-                              fillColor: MaterialStatePropertyAll(
-                                Color.fromARGB(255, 105, 172, 99),
+                              Divider(
+                                color: Tema.noFundo.cor(),
                               ),
-                              value: OpcoesTeste.concordoPouco,
-                              groupValue: opcaoEscolhida,
-                              onChanged: (selecionado) {
-                                setState(() {
-                                  opcaoEscolhida = selecionado;
-                                });
-                              },
-                            ),
-                            Divider(
-                              color: Tema.noFundo.cor(),
-                            ),
-                            RadioListTile(
-                              title: Text(
-                                "Concordo muito",
-                                style: GoogleFonts.inter(
-                                  fontSize: 24,
+                              RadioListTile(
+                                title: Text(
+                                  "Neutro",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                  ),
                                 ),
+                                fillColor: const MaterialStatePropertyAll(
+                                  Colors.grey,
+                                ),
+                                value: OpcoesTeste.neutro,
+                                groupValue: opcaoEscolhida,
+                                onChanged: (selecionado) {
+                                  setState(() {
+                                    opcaoEscolhida = selecionado;
+                                  });
+                                },
                               ),
-                              fillColor: MaterialStatePropertyAll(
-                                Color(0xff1F9E14),
+                              Divider(
+                                color: Tema.noFundo.cor(),
                               ),
-                              value: OpcoesTeste.concordoMuito,
-                              groupValue: opcaoEscolhida,
-                              onChanged: (selecionado) {
-                                setState(() {
-                                  opcaoEscolhida = selecionado;
-                                });
-                              },
-                            ),
-                          ],
+                              RadioListTile(
+                                title: Text(
+                                  "Concordo pouco",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                fillColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 105, 172, 99),
+                                ),
+                                value: OpcoesTeste.concordoPouco,
+                                groupValue: opcaoEscolhida,
+                                onChanged: (selecionado) {
+                                  setState(() {
+                                    opcaoEscolhida = selecionado;
+                                  });
+                                },
+                              ),
+                              Divider(
+                                color: Tema.noFundo.cor(),
+                              ),
+                              RadioListTile(
+                                title: Text(
+                                  "Concordo muito",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                fillColor: const MaterialStatePropertyAll(
+                                  Color(0xff1F9E14),
+                                ),
+                                value: OpcoesTeste.concordoMuito,
+                                groupValue: opcaoEscolhida,
+                                onChanged: (selecionado) {
+                                  setState(() {
+                                    opcaoEscolhida = selecionado;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    CupertinoButton(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                      color: Colors.blue,
-                      onPressed: () {},
-                      child: Text(
-                        "Próximo",
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    SpotlightAnt(
+                      index: 2,
+                      spotlight: const SpotlightConfig(
+                        builder: SpotlightRectBuilder(borderRadius: 8),
+                      ),
+                      content: Center(
+                        child: Text(
+                          "Clique aqui para avançar no teste",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoButton(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        color: Colors.blue,
+                        onPressed: () {},
+                        child: Text(
+                          "Próximo",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                   ],
@@ -245,7 +290,7 @@ class _IntroducaoState extends State<Introducao> {
         Container(
           height: 225,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.blue,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(40),
@@ -257,10 +302,19 @@ class _IntroducaoState extends State<Introducao> {
           left: 75 / 2,
           top: 125,
           child: SpotlightAnt(
-            spotlight: SpotlightConfig(
+            index: 0,
+            spotlight: const SpotlightConfig(
               builder: SpotlightRectBuilder(borderRadius: 25),
             ),
-            content: Text("data"),
+            content: Center(
+              child: Text(
+                "A pergunta aparece aqui",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 25,
+                ),
+              ),
+            ),
             child: Container(
               width: MediaQuery.of(context).size.width - 75,
               decoration: BoxDecoration(
@@ -282,45 +336,64 @@ class _IntroducaoState extends State<Introducao> {
         ),
         Padding(
           padding: const EdgeInsets.all(15),
-          child: IconButton(
-            onPressed: () async {
-              bool resposta = await showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: Text("Tem certeza que deseja sair?"),
-                  content: Text("Você perderá todo o seu progresso até aqui"),
-                  actions: [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: Text(
-                        "Cancelar",
-                        style: GoogleFonts.inter(
-                          color: CupertinoColors.systemBlue,
-                        ),
-                      ),
-                    ),
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: Text(
-                        "Sair",
-                        style: GoogleFonts.inter(
-                          color: CupertinoColors.systemRed,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-              if (resposta) {
-                if (!mounted) return;
-                Navigator.pop(context);
-              }
-            },
-            icon: Icon(
-              Symbols.close,
-              size: 30,
+          child: SpotlightAnt(
+            index: 3,
+            spotlight: const SpotlightConfig(
+              builder: SpotlightCircularBuilder(),
             ),
-            color: Tema.noFundo.cor(),
+            content: Center(
+              child: Text(
+                "Você pode sair do quiz a qualquer momento",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 25,
+                ),
+              ),
+            ),
+            child: IconButton(
+              onPressed: () async {
+                bool resposta = await showCupertinoDialog(
+                  context: context,
+                  builder: (context) => CupertinoAlertDialog(
+                    title: const Text("Tem certeza que deseja sair?"),
+                    content: const Text(
+                        "Você perderá todo o seu progresso até aqui"),
+                    actions: [
+                      CupertinoDialogAction(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: Text(
+                          "Cancelar",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemBlue,
+                          ),
+                        ),
+                      ),
+                      CupertinoDialogAction(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: Text(
+                          "Sair",
+                          style: GoogleFonts.inter(
+                            color: CupertinoColors.systemRed,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+                if (resposta) {
+                  SystemChrome.setEnabledSystemUIMode(
+                    SystemUiMode.edgeToEdge,
+                  );
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                }
+              },
+              icon: const Icon(
+                Symbols.close,
+                size: 30,
+              ),
+              color: Tema.noFundo.cor(),
+            ),
           ),
         ),
       ],

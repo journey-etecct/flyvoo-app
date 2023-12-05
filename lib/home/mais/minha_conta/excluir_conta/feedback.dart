@@ -262,7 +262,6 @@ class _FeedbackECState extends State<FeedbackEC> {
                                   if (!mounted) return;
                                   Navigator.pop(context);
                                 } catch (e) {
-                                  debugPrint(e.toString());
                                   setState(() {
                                     _btnAtivado = true;
                                   });

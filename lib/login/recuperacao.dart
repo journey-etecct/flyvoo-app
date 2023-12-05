@@ -31,7 +31,6 @@ class _RecuperacaoState extends State<Recuperacao> {
       setState(() {
         _btnAtivado = true;
       });
-      debugPrint(e.code);
       if (e.code == "user-not-found") {
         Flushbar(
           duration: const Duration(seconds: 5),
