@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:ui';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -61,7 +59,7 @@ class _UnivCursosState extends State<UnivCursos> {
                   itemCount: snapshotData.children.length,
                 );
               } else {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -279,7 +277,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -288,7 +286,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -324,7 +322,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -333,7 +331,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -369,7 +367,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -378,7 +376,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -414,7 +412,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -423,7 +421,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -459,7 +457,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -468,7 +466,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -506,7 +504,7 @@ class _PopupCursosState extends State<PopupCursos> {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
@@ -515,7 +513,7 @@ class _PopupCursosState extends State<PopupCursos> {
                         width: 75,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -558,14 +556,14 @@ class _PopupCursosState extends State<PopupCursos> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Selecione um"),
+              const Text("Selecione um"),
               ...listaFaculdades,
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),

@@ -608,10 +608,4 @@ class _InfoState extends State<Info> {
       ),
     );
   }
-
-  // ignore: unused_element
-  String _pegarNomePadronizado(Carreira carreira) {
-    final str = "$carreiraSelecionada";
-    return str.replaceAll("Carreira.", "");
-  }
 }

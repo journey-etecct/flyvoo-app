@@ -6,7 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
+import 'package:flyvoo/home/principal/teste/intro.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -295,8 +298,14 @@ class _InfoState extends State<Info> {
   }
 
   double _ratingSalario(List<String> salarios) {
-    final salarioMinInt = int.tryParse(salarios[0].replaceAll("R\$", "")) ?? 0;
-    final salarioMaxInt = int.tryParse(salarios[1].replaceAll("R\$", "")) ?? 0;
+    final salarioMinInt = int.tryParse(
+          salarios[0].replaceAll("R\$", "").replaceAll(",00", ""),
+        ) ??
+        0;
+    final salarioMaxInt = int.tryParse(
+          salarios[1].replaceAll("R\$", "").replaceAll(",00", ""),
+        ) ??
+        0;
 
     final media = (salarioMaxInt + salarioMinInt) / 2;
     switch (media) {
@@ -538,87 +547,103 @@ class _InfoState extends State<Info> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        FutureBuilder(
-          future: _fezTeste,
-          builder: (context, snapshot) {
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data!) {
-                return RatingBar(
-                  ratingWidget: RatingWidget(
-                    full: const Icon(
-                      Symbols.star_rounded,
-                      fill: 1,
+        fezTesteBotao(),
+      ],
+    );
+  }
+
+  FutureBuilder<bool> fezTesteBotao() {
+    return FutureBuilder(
+      future: _fezTeste,
+      builder: (context, snapshot) {
+        if (snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data!) {
+            return RatingBar(
+              ratingWidget: RatingWidget(
+                full: const Icon(
+                  Symbols.star_rounded,
+                  fill: 1,
+                ),
+                half: const Icon(
+                  Symbols.star_rounded,
+                  fill: 1,
+                ),
+                empty: const Icon(
+                  Symbols.star_rounded,
+                ),
+              ),
+              onRatingUpdate: (value) {},
+            );
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "REQUER TESTE DO USUÁRIO",
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    color: Tema.texto.cor(),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          blurRadius: 20,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 3),
+                          color: const Color(0xffF81B50).withOpacity(0.5),
+                        ),
+                      ],
                     ),
-                    half: const Icon(
-                      Symbols.star_rounded,
-                      fill: 1,
-                    ),
-                    empty: const Icon(
-                      Symbols.star_rounded,
+                    height: 43,
+                    width: 150,
+                    child: CupertinoButton(
+                      onPressed: () async {
+                        if (userFlyvoo == null) {
+                          alertaLogin(context);
+                        } else {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => const Introducao(),
+                            ),
+                          );
+                        }
+                      },
+                      padding: const EdgeInsets.all(0),
+                      color: const Color(0xffF81B50),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Text(
+                        "Fazer teste",
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                  onRatingUpdate: (value) {},
-                );
-              } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "REQUER TESTE DO USUÁRIO",
-                      style: GoogleFonts.inter(
-                        fontSize: 18,
-                        color: Tema.texto.cor(),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              blurRadius: 20,
-                              spreadRadius: 0,
-                              offset: const Offset(0, 3),
-                              color: const Color(0xffF81B50).withOpacity(0.5),
-                            ),
-                          ],
-                        ),
-                        height: 43,
-                        width: 150,
-                        child: CupertinoButton(
-                          onPressed: () async {},
-                          padding: const EdgeInsets.all(0),
-                          color: const Color(0xffF81B50),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Text(
-                            "Fazer teste",
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
-      ],
+                ),
+              ],
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
@@ -777,11 +802,5 @@ class _InfoState extends State<Info> {
         ],
       ),
     );
-  }
-
-  // ignore: unused_element
-  String _pegarNomePadronizado(Carreira carreira) {
-    final str = "$_carreiraSelecionada";
-    return str.replaceAll("Carreira.", "");
   }
 }

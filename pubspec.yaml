@@ -40,6 +40,9 @@ dependencies:
   url_strategy: ^0.2.0
   device_info_plus: ^9.1.0
   cross_file: ^0.3.3+6
+  animated_text_kit: ^4.2.2
+  just_the_tooltip: ^0.0.12
+  spotlight_ant: ^1.0.5
 
 dev_dependencies:
   flutter_test:
