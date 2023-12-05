@@ -107,56 +107,52 @@ class Especialidade extends StatelessWidget {
         const SizedBox(
           height: 30,
         ),
-        InkWell(
-          onLongPress: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const Resultados(),
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 20,
+                spreadRadius: 0,
+                offset: const Offset(0, 3),
+                color: dark
+                    ? Area.values[index].primaryDark().withOpacity(
+                          0.5,
+                        )
+                    : Area.values[index].primaryLight().withOpacity(
+                          0.5,
+                        ),
               ),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  blurRadius: 20,
-                  spreadRadius: 0,
-                  offset: const Offset(0, 3),
-                  color: dark
-                      ? Area.values[index].primaryDark().withOpacity(
-                            0.5,
-                          )
-                      : Area.values[index].primaryLight().withOpacity(
-                            0.5,
-                          ),
+            ],
+          ),
+          child: CupertinoButton(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+            color: dark
+                ? Area.values[index].primaryDark()
+                : Area.values[index].primaryLight(),
+            borderRadius: BorderRadius.circular(50),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const Resultados(),
                 ),
-              ],
-            ),
-            child: CupertinoButton(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-              color: dark
-                  ? Area.values[index].primaryDark()
-                  : Area.values[index].primaryLight(),
-              borderRadius: BorderRadius.circular(50),
-              onPressed: () {
-                showCupertinoDialog(
-                  context: contextHome,
-                  barrierDismissible: true,
-                  builder: (context) => AlertaVerMais(
-                    Area.values[index],
-                  ),
-                );
-              },
-              child: Text(
-                'VER MAIS',
-                style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Area.values[index] == Area.intrapessoal && dark
-                      ? Colors.black
-                      : Colors.white,
+              );
+              /* showCupertinoDialog(
+                context: contextHome,
+                barrierDismissible: true,
+                builder: (context) => AlertaVerMais(
+                  Area.values[index],
                 ),
+              ); */
+            },
+            child: Text(
+              'VER MAIS',
+              style: GoogleFonts.inter(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Area.values[index] == Area.intrapessoal && dark
+                    ? Colors.black
+                    : Colors.white,
               ),
             ),
           ),

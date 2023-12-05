@@ -126,8 +126,9 @@ class Lista extends StatefulWidget {
   State<Lista> createState() => _ListaState();
 }
 
+List<(Carreira, int)> carreirasDessaArea = <(Carreira, int)>[];
+
 class _ListaState extends State<Lista> {
-  List<(Carreira, int)> carreirasDessaArea = <(Carreira, int)>[];
   List<(Carreira, int)> construirLista() {
     carreirasDessaArea = [];
     for (Carreira carreira in Carreira.values) {
