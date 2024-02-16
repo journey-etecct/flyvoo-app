@@ -59,8 +59,10 @@ class _UnivCursosState extends State<UnivCursos> {
                   itemCount: snapshotData.children.length,
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Tema.texto.cor(),
+                  ),
                 );
               }
             },
@@ -74,6 +76,7 @@ class _UnivCursosState extends State<UnivCursos> {
 class CardCursos extends StatefulWidget {
   final bool isLast;
   final DataSnapshot data;
+
   const CardCursos(
     this.isLast,
     this.data, {
@@ -247,6 +250,7 @@ class _CardCursosState extends State<CardCursos> {
 class PopupCursos extends StatefulWidget {
   final String nome;
   final Map faculdades;
+
   const PopupCursos(this.nome, this.faculdades, {super.key});
 
   @override

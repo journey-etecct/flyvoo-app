@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -11,9 +14,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 int areaAtual = 0;
+late DataSnapshot carreirasDB;
+bool jaPegouCarreirasDB = false;
 
 class Principal extends StatefulWidget {
   final Function(int areaAtual) notificarFundo;
+
   const Principal(this.notificarFundo, {super.key});
 
   @override
@@ -21,9 +27,19 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
+  _init() async {
+    if (!jaPegouCarreirasDB) {
+      final ref = FirebaseDatabase.instance.ref("carreiras");
+      carreirasDB = await ref.get();
+
+      jaPegouCarreirasDB = true;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.notificarFundo(1);
     });
@@ -52,6 +68,7 @@ class _PrincipalState extends State<Principal> {
 
 class Especialidade extends StatelessWidget {
   final int index;
+
   const Especialidade({super.key, required this.index});
 
   @override
@@ -115,12 +132,8 @@ class Especialidade extends StatelessWidget {
                 spreadRadius: 0,
                 offset: const Offset(0, 3),
                 color: dark
-                    ? Area.values[index].primaryDark().withOpacity(
-                          0.5,
-                        )
-                    : Area.values[index].primaryLight().withOpacity(
-                          0.5,
-                        ),
+                    ? Area.values[index].primaryDark().withOpacity(0.5)
+                    : Area.values[index].primaryLight().withOpacity(0.5),
               ),
             ],
           ),

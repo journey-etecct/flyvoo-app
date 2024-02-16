@@ -62,8 +62,10 @@ class _EmpresasState extends State<Empresas> {
                   itemCount: snapshotData.children.length,
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Tema.texto.cor(),
+                  ),
                 );
               }
             },
@@ -83,6 +85,7 @@ class _EmpresasState extends State<Empresas> {
 }
 
 typedef ListaInteligencias = Map;
+
 String _inteligenciasToString(ListaInteligencias inteligencias) {
   String stringFinal = "";
 
@@ -156,6 +159,7 @@ String _inteligenciasToString(ListaInteligencias inteligencias) {
 class CardEmpresas extends StatefulWidget {
   final DataSnapshot data;
   final bool isLast;
+
   const CardEmpresas(
     this.isLast,
     this.data, {

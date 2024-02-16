@@ -47,6 +47,7 @@ class _ResultadosState extends State<Resultados> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _init();
   }
 
@@ -96,7 +97,7 @@ class _ResultadosState extends State<Resultados> {
           ),
           Positioned(
             left: 75 / 2,
-            top: 150,
+            top: 120,
             child: Container(
               width: MediaQuery.of(context).size.width - 75,
               height: MediaQuery.of(context).size.height - 175,
@@ -117,10 +118,13 @@ class _ResultadosState extends State<Resultados> {
                       color: Tema.noFundo.cor(),
                     ),
                   ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
                     itemCount: 3,
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,6 +159,13 @@ class _ResultadosState extends State<Resultados> {
                   SizedBox(
                     height: 20,
                   ),
+                  Divider(
+                    indent: 25,
+                    endIndent: 25,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Principais carreiras:",
                     textAlign: TextAlign.start,
@@ -163,6 +174,9 @@ class _ResultadosState extends State<Resultados> {
                       fontWeight: FontWeight.w600,
                       color: Tema.noFundo.cor(),
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                   ListView.builder(
                     shrinkWrap: true,
@@ -175,7 +189,7 @@ class _ResultadosState extends State<Resultados> {
                             construirLista(_listaArray[index].$1).first.$1.nome,
                           ),
                           Text(
-                            construirLista(_listaArray[index].$1).first.$1.nome,
+                            construirLista(_listaArray[index].$1)[1].$1.nome,
                           ),
                         ],
                       );
@@ -186,7 +200,10 @@ class _ResultadosState extends State<Resultados> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).padding.top + 10,
+              horizontal: 15,
+            ),
             child: IconButton(
               onPressed: () async {
                 SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);

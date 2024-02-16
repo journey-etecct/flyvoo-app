@@ -82,6 +82,7 @@ Future<void> main() async {
 
 class Flyvoo extends StatefulWidget {
   final Widget home;
+
   const Flyvoo(
     this.home, {
     super.key,
@@ -149,16 +150,26 @@ class _FlyvooState extends State<Flyvoo> {
             ),
             child: Container(
               color: Tema.fundo.cor(),
-              child: Banner(
-                message: "DEMO",
-                textStyle: TextStyle(
-                  color: Tema.fundo.cor(),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                ),
-                color: Tema.texto.cor(),
-                location: BannerLocation.bottomEnd,
-                child: child,
+              height: 50,
+              width: 50,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Banner(
+                    message: "DEMO",
+                    textStyle: TextStyle(
+                      color: Tema.fundo.cor(),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    color: Tema.texto.cor(),
+                    location: BannerLocation.bottomEnd,
+                    child: child,
+                  ),
+                  /*SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  )*/
+                ],
               ),
             ),
           );
