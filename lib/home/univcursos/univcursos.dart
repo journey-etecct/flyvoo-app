@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,12 +16,12 @@ class UnivCursos extends StatefulWidget {
 }
 
 class _UnivCursosState extends State<UnivCursos> {
-  late Future<DataSnapshot> _getCursos;
+  late DataSnapshot _getCursos;
 
   @override
   void initState() {
     super.initState();
-    _getCursos = FirebaseDatabase.instance.ref("/cursos/").get();
+    _getCursos = cursosDB;
   }
 
   @override
@@ -40,32 +41,16 @@ class _UnivCursosState extends State<UnivCursos> {
           height: 10,
         ),
         Expanded(
-          child: FutureBuilder(
-            future: _getCursos,
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                final snapshotData = snapshot.data!;
-
-                return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return CardCursos(
-                      snapshotData.children.toList()[index].key == "Zootecnia",
-                      snapshotData.children.toList()[index],
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: snapshotData.children.length,
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Tema.texto.cor(),
-                  ),
-                );
-              }
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return CardCursos(
+                _getCursos.children.toList()[index].key == "Zootecnia",
+                _getCursos.children.toList()[index],
+              );
             },
+            shrinkWrap: true,
+            itemCount: _getCursos.children.length,
           ),
         ),
       ],

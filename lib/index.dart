@@ -24,6 +24,7 @@ Shader linearGradient = LinearGradient(
 
 class Index extends StatefulWidget {
   final bool cadastroTerminado;
+
   const Index(this.cadastroTerminado, {super.key});
 
   @override
@@ -188,7 +189,12 @@ class _IndexState extends State<Index> {
                 color: Tema.textoSecundario.cor(),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                padding: EdgeInsets.fromLTRB(
+                  20,
+                  5,
+                  20,
+                  MediaQuery.of(context).padding.bottom + 20,
+                ),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -239,6 +245,7 @@ List<BotaoIndex> botoes = [
 class BotaoIndex {
   final String text;
   final IconData icon;
+
   BotaoIndex(this.icon, this.text);
 }
 

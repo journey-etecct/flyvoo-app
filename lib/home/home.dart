@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -20,6 +21,10 @@ List<Area?> fundos = [
   ...Area.values,
 ];
 late BuildContext contextHome;
+late DataSnapshot carreirasDB;
+bool jaPegouCarreirasDB = false;
+late DataSnapshot cursosDB;
+bool jaPegouCursosDB = false;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -43,9 +48,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     });
   }
 
+  _init() async {
+    if (!jaPegouCarreirasDB) {
+      final ref = FirebaseDatabase.instance.ref("carreiras");
+      carreirasDB = await ref.get();
+
+      jaPegouCarreirasDB = true;
+    }
+    if (!jaPegouCursosDB) {
+      final ref = FirebaseDatabase.instance.ref("cursos");
+      cursosDB = await ref.get();
+
+      jaPegouCursosDB = true;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _init();
     indexHome = 0;
     contextHome = context;
     if (!internetIniciado && !kIsWeb) {

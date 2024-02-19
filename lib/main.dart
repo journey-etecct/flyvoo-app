@@ -50,6 +50,14 @@ Future<void> main() async {
   final widgetsbinding = WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsbinding);
 
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: dark ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
+
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   if (!kIsWeb) {
@@ -150,26 +158,16 @@ class _FlyvooState extends State<Flyvoo> {
             ),
             child: Container(
               color: Tema.fundo.cor(),
-              height: 50,
-              width: 50,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Banner(
-                    message: "DEMO",
-                    textStyle: TextStyle(
-                      color: Tema.fundo.cor(),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    color: Tema.texto.cor(),
-                    location: BannerLocation.bottomEnd,
-                    child: child,
-                  ),
-                  /*SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
-                  )*/
-                ],
+              child: Banner(
+                message: "RC",
+                textStyle: TextStyle(
+                  color: Tema.fundo.cor(),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+                color: Tema.texto.cor(),
+                location: BannerLocation.bottomEnd,
+                child: child,
               ),
             ),
           );

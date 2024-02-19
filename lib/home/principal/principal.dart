@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,8 +12,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 int areaAtual = 0;
-late DataSnapshot carreirasDB;
-bool jaPegouCarreirasDB = false;
 
 class Principal extends StatefulWidget {
   final Function(int areaAtual) notificarFundo;
@@ -27,15 +23,6 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-  _init() async {
-    if (!jaPegouCarreirasDB) {
-      final ref = FirebaseDatabase.instance.ref("carreiras");
-      carreirasDB = await ref.get();
-
-      jaPegouCarreirasDB = true;
-    }
-  }
-
   @override
   void initState() {
     super.initState();

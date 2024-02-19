@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/principal/teste/intro.dart';
@@ -22,6 +23,7 @@ late void Function(void Function()) setStateLista;
 
 class AlertaVerMais extends StatefulWidget {
   final Area area;
+
   const AlertaVerMais(this.area, {super.key});
 
   @override
@@ -120,6 +122,7 @@ class _AlertaVerMaisState extends State<AlertaVerMais> {
 
 class Lista extends StatefulWidget {
   final Area area;
+
   const Lista(this.area, {super.key});
 
   @override
@@ -260,7 +263,7 @@ class Info extends StatefulWidget {
 
 class _InfoState extends State<Info> {
   late Future<bool> _fezTeste;
-  late Future<DataSnapshot> _infoCarreira;
+  late DataSnapshot _infoCarreira;
 
   @override
   void initState() {
@@ -270,10 +273,8 @@ class _InfoState extends State<Info> {
         // TODO: programar se o usuário fez ou não o teste
         Future.delayed(const Duration(seconds: 2), () => false);
 
-    final ref = FirebaseDatabase.instance.ref(
-      "/carreiras/${_carreiraSelecionada.toString().replaceAll("Carreira.", "")}",
-    );
-    _infoCarreira = ref.get();
+    _infoCarreira = carreirasDB
+        .child(_carreiraSelecionada.toString().replaceAll("Carreira.", ""));
   }
 
   double _ratingCarga(String cargaHoraria) {
@@ -329,20 +330,7 @@ class _InfoState extends State<Info> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          FutureBuilder(
-            future: _infoCarreira,
-            builder: (context, infoCarreiraS) {
-              if (infoCarreiraS.hasData &&
-                  infoCarreiraS.connectionState == ConnectionState.done) {
-                final infoCarreira = infoCarreiraS.data!;
-                return informacoes(infoCarreira);
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
+          informacoes(_infoCarreira),
         ],
       ),
     );

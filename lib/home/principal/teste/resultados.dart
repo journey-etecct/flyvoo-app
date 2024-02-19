@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/principal/info.dart';
+import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/principal/teste/pergunta.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -106,96 +108,83 @@ class _ResultadosState extends State<Resultados> {
                 color: Tema.fundo.cor(),
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Principais inteligências:",
-                    textAlign: TextAlign.start,
-                    style: GoogleFonts.inter(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w600,
-                      color: Tema.noFundo.cor(),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Principais inteligências:",
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.inter(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w600,
+                        color: Tema.noFundo.cor(),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _listaArray[index].$1.nome,
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                            ),
-                          ),
-                          FAProgressBar(
-                            currentValue: _listaArray[index].$2.toDouble(),
-                            displayTextStyle: GoogleFonts.inter(
-                              color: Tema.noFundo.cor(),
-                              fontWeight: FontWeight.w600,
-                            ),
-                            backgroundColor: Colors.grey.withOpacity(0.2),
-                            size: 20,
-                            progressColor: dark
-                                ? _listaArray[index].$1.primaryLight()
-                                : _listaArray[index].$1.primaryDark(),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Divider(
-                    indent: 25,
-                    endIndent: 25,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Principais carreiras:",
-                    textAlign: TextAlign.start,
-                    style: GoogleFonts.inter(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w600,
-                      color: Tema.noFundo.cor(),
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            construirLista(_listaArray[index].$1).first.$1.nome,
-                          ),
-                          Text(
-                            construirLista(_listaArray[index].$1)[1].$1.nome,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 3,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _listaArray[index].$1.nome,
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                            FAProgressBar(
+                              currentValue: _listaArray[index].$2.toDouble(),
+                              displayTextStyle: GoogleFonts.inter(
+                                color: Tema.noFundo.cor(),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              size: 20,
+                              progressColor: dark
+                                  ? _listaArray[index].$1.primaryLight()
+                                  : _listaArray[index].$1.primaryDark(),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Divider(
+                      indent: 25,
+                      endIndent: 25,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Principais carreiras:",
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.inter(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w600,
+                        color: Tema.noFundo.cor(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    listaCarreiras(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -218,6 +207,151 @@ class _ResultadosState extends State<Resultados> {
           ),
         ],
       ),
+    );
+  }
+
+  ListView listaCarreiras() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 3,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  construirLista(_listaArray[index].$1)[0].$1.nome,
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  carreirasDB
+                      .child(
+                        "${construirLista(_listaArray[index].$1)[0].$1.name}/desc",
+                      )
+                      .value as String,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '\nSalário:',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' de ${carreirasDB.child(
+                              "${construirLista(_listaArray[index].$1)[0].$1.name}/salario/min",
+                            ).value} até ${carreirasDB.child(
+                              "${construirLista(_listaArray[index].$1)[0].$1.name}/salario/max",
+                            ).value} \n\n',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Carga Horária: ',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: carreirasDB
+                            .child(
+                              "${construirLista(_listaArray[index].$1)[0].$1.name}/cargaHoraria",
+                            )
+                            .value as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  construirLista(_listaArray[index].$1)[1].$1.nome,
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  carreirasDB
+                      .child(
+                        "${construirLista(_listaArray[index].$1)[1].$1.name}/desc",
+                      )
+                      .value as String,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '\nSalário:',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' de ${carreirasDB.child(
+                              "${construirLista(_listaArray[index].$1)[1].$1.name}/salario/min",
+                            ).value} até ${carreirasDB.child(
+                              "${construirLista(_listaArray[index].$1)[1].$1.name}/salario/max",
+                            ).value} \n\n',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Carga Horária: ',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: carreirasDB
+                            .child(
+                              "${construirLista(_listaArray[index].$1)[1].$1.name}/cargaHoraria",
+                            )
+                            .value as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            /*Text(
+               construirLista(_listaArray[index].$1)[0].$1.nome,
+             ),
+             Text(
+               construirLista(_listaArray[index].$1)[1].$1.nome,
+             ),*/
+          ],
+        );
+      },
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flyvoo/home/empresas/info.dart';
+import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,12 +16,12 @@ class Empresas extends StatefulWidget {
 }
 
 class _EmpresasState extends State<Empresas> {
-  late Future<DataSnapshot> _getCarreiras;
+  late DataSnapshot _getCarreiras;
 
   @override
   void initState() {
     super.initState();
-    _getCarreiras = FirebaseDatabase.instance.ref("/carreiras/").get();
+    _getCarreiras = carreirasDB;
   }
 
   @override
@@ -39,36 +41,20 @@ class _EmpresasState extends State<Empresas> {
           height: 10,
         ),
         Expanded(
-          child: FutureBuilder(
-            future: _getCarreiras,
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                final snapshotData = snapshot.data!;
-
-                return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return CardEmpresas(
-                      snapshotData.children
-                              .toList()[index]
-                              .child("carreira")
-                              .value ==
-                          "Zootecnia",
-                      snapshotData.children.toList()[index],
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: snapshotData.children.length,
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Tema.texto.cor(),
-                  ),
-                );
-              }
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return CardEmpresas(
+                _getCarreiras.children
+                        .toList()[index]
+                        .child("carreira")
+                        .value ==
+                    "Zootecnia",
+                _getCarreiras.children.toList()[index],
+              );
             },
+            shrinkWrap: true,
+            itemCount: _getCarreiras.children.length,
           ),
           /* ListView.builder(
             physics: const BouncingScrollPhysics(),

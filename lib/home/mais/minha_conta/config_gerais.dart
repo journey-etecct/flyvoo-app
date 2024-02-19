@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -298,6 +299,14 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                         notifier.value =
                             dark ? Brightness.dark : Brightness.light;
                         _setDark(dark);
+                        SystemChrome.setSystemUIOverlayStyle(
+                          SystemUiOverlayStyle(
+                            statusBarColor: Colors.transparent,
+                            statusBarIconBrightness:
+                                dark ? Brightness.light : Brightness.dark,
+                            systemNavigationBarColor: Colors.transparent,
+                          ),
+                        );
                       });
                     },
                     child: Padding(
@@ -367,9 +376,20 @@ class _ConfigGeraisState extends State<ConfigGerais> {
                                         ? Colors.white
                                         : const Color(0xffA93535),
                                   };
-                                  notifier.value =
-                                      dark ? Brightness.dark : Brightness.light;
+                                  notifier.value = dark
+                                      ? Brightness.light
+                                      : Brightness.light;
                                   _setDark(dark);
+                                  SystemChrome.setSystemUIOverlayStyle(
+                                    SystemUiOverlayStyle(
+                                      statusBarColor: Colors.transparent,
+                                      statusBarIconBrightness: dark
+                                          ? Brightness.light
+                                          : Brightness.dark,
+                                      systemNavigationBarColor:
+                                          Colors.transparent,
+                                    ),
+                                  );
                                 });
                               },
                               activeColor: const Color(0xff1E3C87),
