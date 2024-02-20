@@ -14,6 +14,7 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 late int indexHome;
 List<Area?> fundos = [
@@ -41,6 +42,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     const Empresas(),
     const Mais()
   ];
+  bool _popupMao = false;
+  bool _sumir = true;
 
   atualizar(int areaAtualS) {
     setState(() {
@@ -49,6 +52,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   _init() async {
+    final shp = await SharedPreferences.getInstance();
+    if (!(shp.getBool("jaFoiPopupMao") ?? false)) {
+      setState(() {
+        _popupMao = true;
+        shp.setBool("jaFoiPopupMao", true);
+      });
+    } else {
+      _sumir = false;
+    }
+
     if (!jaPegouCarreirasDB) {
       final ref = FirebaseDatabase.instance.ref("carreiras");
       carreirasDB = await ref.get();
@@ -173,6 +186,41 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ),
                 ],
               ),
+              _sumir
+                  ? InkWell(
+                      highlightColor: Colors.transparent,
+                      enableFeedback: false,
+                      hoverColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      onTap: () {
+                        setState(() {
+                          _popupMao = false;
+                          Future.delayed(
+                            const Duration(milliseconds: 500),
+                            () {
+                              _sumir = false;
+                            },
+                          );
+                        });
+                      },
+                      child: SizedBox.expand(
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 500),
+                          opacity: _popupMao ? 1 : 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.2),
+                            ),
+                            child: Image.asset(
+                              "assets/imagens/mao.webp",
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

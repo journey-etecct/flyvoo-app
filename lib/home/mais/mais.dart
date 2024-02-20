@@ -6,6 +6,7 @@ import 'package:emailjs/emailjs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flyvoo/home/mais/central_de_ajuda/central_de_ajuda.dart';
 import 'package:flyvoo/home/mais/doacoes.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
@@ -130,7 +131,13 @@ class _MaisState extends State<Mais> {
                           closedShape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          onClosed: (data) => setState(() {}),
+                          onClosed: (data) => setState(() {
+                            SystemChrome.setSystemUIOverlayStyle(
+                              const SystemUiOverlayStyle(
+                                statusBarColor: Colors.transparent,
+                              ),
+                            );
+                          }),
                           tappable: false,
                           openColor: Tema.fundo.cor(),
                           transitionDuration: const Duration(milliseconds: 500),

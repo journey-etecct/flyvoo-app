@@ -6,6 +6,6 @@ import io.flutter.embedding.android.FlutterActivity
 class MainActivity : FlutterActivity() {
   override fun onPostResume() {
     super.onPostResume()
-    WindowCompat.setDecorFitsSystemWindows(window, false).
+    WindowCompat.setDecorFitsSystemWindows(window, false)
   }
 }

@@ -3,7 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flyvoo/secure/token.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flyvoo/secure/token.dart' show token;
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -23,12 +25,23 @@ Future<String> getPolitica() async {
   return utf8.decode(conteudo);
 }
 
-class Politica extends StatelessWidget {
+class Politica extends StatefulWidget {
   const Politica({super.key});
+
+  @override
+  State<Politica> createState() => _PoliticaState();
+}
+
+class _PoliticaState extends State<Politica> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Tema.fundo.cor(),
       body: Stack(
         children: [
           Image(
@@ -55,9 +68,7 @@ class Politica extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 35,
-                ),
+                const SizedBox(height: 35),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: Image(
@@ -124,7 +135,10 @@ class Politica extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).padding.bottom,
+                ),
               ],
             ),
           ),

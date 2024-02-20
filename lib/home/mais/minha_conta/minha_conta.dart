@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -7,6 +9,7 @@ import 'package:emailjs/emailjs.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/mais/mais.dart';
 import 'package:flyvoo/home/mais/minha_conta/editar_perfil.dart';
@@ -14,6 +17,8 @@ import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+import '../../principal/teste/resultados.dart';
 
 final _txtMensagem1 = TextEditingController();
 final _txtMensagem2 = TextEditingController();
@@ -33,6 +38,9 @@ List<String> _listaBotaoCancelar = [
   "Voltar",
 ];
 
+bool fezTeste = false;
+bool jaPegouFezTeste = false;
+
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
 
@@ -47,9 +55,24 @@ class _MinhaContaState extends State<MinhaConta> {
     const Tela3(),
   ];
 
+  _init() async {
+    if (!jaPegouFezTeste) {
+      final ref =
+          FirebaseDatabase.instance.ref("users/${userFlyvoo?.uid}/resultados");
+      final data = await ref.get();
+
+      setState(() {
+        fezTeste = data.exists;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _init();
+
     if (userFlyvoo != null) {
       _userInfo =
           FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
@@ -60,417 +83,465 @@ class _MinhaContaState extends State<MinhaConta> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Tema.fundo.cor(),
-      child: SafeArea(
-        child: Scaffold(
-          body: Stack(
-            children: [
-              SizedBox.expand(
-                child: Image(
-                  image: AssetImage(
-                    dark
-                        ? "assets/background/esfumadodark.png"
-                        : "assets/background/esfumadolight.png",
-                  ),
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+    return Scaffold(
+      backgroundColor: Tema.fundo.cor(),
+      body: Stack(
+        children: [
+          SizedBox.expand(
+            child: Image(
+              image: AssetImage(
+                dark
+                    ? "assets/background/esfumadodark.png"
+                    : "assets/background/esfumadolight.png",
               ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: OverflowBox(
-                  maxHeight: double.infinity,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: dark
-                              ? const Color.fromRGBO(43, 74, 128, 0.5)
-                              : const Color.fromRGBO(184, 204, 255, 50),
-                          borderRadius: BorderRadius.circular(12),
+              fit: BoxFit.cover,
+              width: double.infinity,
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: OverflowBox(
+              maxHeight: double.infinity,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.top + 40,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: dark
+                          ? const Color.fromRGBO(43, 74, 128, 0.5)
+                          : const Color.fromRGBO(184, 204, 255, 50),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(20),
+                    height: 180,
+                    child: Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: ClipOval(
+                            child: userFlyvoo != null
+                                ? FadeInImage(
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                    fadeInDuration:
+                                        const Duration(milliseconds: 100),
+                                    fadeOutDuration:
+                                        const Duration(milliseconds: 100),
+                                    placeholder: const AssetImage(
+                                      "assets/background/loading.gif",
+                                    ),
+                                    image: CachedNetworkImageProvider(
+                                      userFlyvoo!.photoURL!,
+                                    ),
+                                  )
+                                : Image.asset(
+                                    "assets/icons/user.png",
+                                    width: 100,
+                                    color: Tema.texto.cor(),
+                                  ),
+                          ),
                         ),
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(20),
-                        height: 180,
-                        child: Row(
-                          children: [
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: ClipOval(
-                                child: userFlyvoo != null
-                                    ? FadeInImage(
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                        fadeInDuration:
-                                            const Duration(milliseconds: 100),
-                                        fadeOutDuration:
-                                            const Duration(milliseconds: 100),
-                                        placeholder: const AssetImage(
-                                          "assets/background/loading.gif",
-                                        ),
-                                        image: CachedNetworkImageProvider(
-                                          userFlyvoo!.photoURL!,
-                                        ),
-                                      )
-                                    : Image.asset(
-                                        "assets/icons/user.png",
-                                        width: 100,
-                                        color: Tema.texto.cor(),
-                                      ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    userFlyvoo != null
-                                        ? userFlyvoo!.displayName!
-                                        : "Usuário anônimo",
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
-                                      color: Tema.texto.cor(),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      userFlyvoo != null
-                                          ? userFlyvoo!
-                                              .providerData.first.email!
-                                          : "",
-                                      style: GoogleFonts.inter(
-                                        color: Tema.texto.cor(),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      30,
-                                      0,
-                                      30,
-                                      0,
-                                    ),
-                                    child: OpenContainer(
-                                      transitionDuration: const Duration(
-                                        milliseconds: 500,
-                                      ),
-                                      closedColor: CupertinoColors.systemPink,
-                                      closedShape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      tappable: false,
-                                      onClosed: (data) => setState(() {}),
-                                      closedBuilder: (context, action) => Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: CupertinoButton(
-                                          color: Colors.transparent,
-                                          onPressed: () {
-                                            if (userFlyvoo != null) {
-                                              action.call();
-                                            } else {
-                                              alertaLogin(context);
-                                            }
-                                          },
-                                          padding: const EdgeInsets.only(
-                                            top: 0,
-                                            bottom: 0,
-                                          ),
-                                          child: Text(
-                                            "Editar perfil",
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      openColor: Tema.fundo.cor(),
-                                      openBuilder: (context, retorno) =>
-                                          const EditarPerfil(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        const SizedBox(
+                          width: 10,
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            "/home/configGerais",
-                          );
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                          child: Row(
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                "Configurações Gerais",
+                                userFlyvoo != null
+                                    ? userFlyvoo!.displayName!
+                                    : "Usuário anônimo",
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
                                   color: Tema.texto.cor(),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              const Expanded(
-                                child: SizedBox(),
+                              Expanded(
+                                child: Text(
+                                  userFlyvoo != null
+                                      ? userFlyvoo!.providerData.first.email!
+                                      : "",
+                                  style: GoogleFonts.inter(
+                                    color: Tema.texto.cor(),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
                               ),
-                              Image.asset(
-                                "assets/icons/seta2.png",
-                                color: Tema.texto.cor(),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  30,
+                                  0,
+                                  30,
+                                  0,
+                                ),
+                                child: OpenContainer(
+                                  transitionDuration: const Duration(
+                                    milliseconds: 500,
+                                  ),
+                                  closedColor: CupertinoColors.systemPink,
+                                  closedShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  tappable: false,
+                                  onClosed: (data) => setState(() {}),
+                                  closedBuilder: (context, action) => Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: CupertinoButton(
+                                      color: Colors.transparent,
+                                      onPressed: () {
+                                        if (userFlyvoo != null) {
+                                          action.call();
+                                        } else {
+                                          alertaLogin(context);
+                                        }
+                                      },
+                                      padding: const EdgeInsets.only(
+                                        top: 0,
+                                        bottom: 0,
+                                      ),
+                                      child: Text(
+                                        "Editar perfil",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  openColor: Tema.fundo.cor(),
+                                  openBuilder: (context, retorno) =>
+                                      const EditarPerfil(),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          "Segurança e Privacidade",
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      password ?? false
-                          ? InkWell(
-                              onTap: () async {
-                                final retorno = await Navigator.pushNamed(
-                                    context, "/home/alterarSenha");
-                                if ((retorno as bool?) ?? false) {
-                                  if (!mounted) return;
-                                  showCupertinoDialog(
-                                    context: context,
-                                    builder: (context) => BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                        sigmaX: 2,
-                                        sigmaY: 2,
-                                      ),
-                                      child: CupertinoAlertDialog(
-                                        content: Text(
-                                          "Senha alterada com sucesso",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text(
-                                              "OK",
-                                              style: GoogleFonts.inter(
-                                                color:
-                                                    CupertinoColors.systemBlue,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Alterar senha",
-                                      style: GoogleFonts.inter(
-                                        color: Tema.texto.cor(),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    const Expanded(
-                                      child: SizedBox(),
-                                    ),
-                                    Image.asset(
-                                      "assets/icons/seta2.png",
-                                      color: Tema.texto.cor(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
-                      password ?? false
-                          ? Divider(
-                              height: 2,
-                              color: Tema.texto.cor().withOpacity(0.5),
-                            )
-                          : const SizedBox(),
-                      InkWell(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          "/home/termosdeuso",
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Termos de Uso",
-                                style: GoogleFonts.inter(
-                                  color: Tema.texto.cor(),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              const Expanded(
-                                child: SizedBox(),
-                              ),
-                              Image.asset(
-                                "assets/icons/seta2.png",
-                                color: Tema.texto.cor(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        height: 2,
-                        color: Tema.texto.cor().withOpacity(0.5),
-                      ),
-                      InkWell(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          "/home/politica",
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Política de Privacidade",
-                                style: GoogleFonts.inter(
-                                  color: Tema.texto.cor(),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              const Expanded(
-                                child: SizedBox(),
-                              ),
-                              Image.asset(
-                                "assets/icons/seta2.png",
-                                color: Tema.texto.cor(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        height: 2,
-                        color: Tema.texto.cor().withOpacity(0.5),
-                      ),
-                      !feedbackEnviado ? futureFeedback() : const SizedBox(),
-                      InkWell(
-                        onTap: () {
-                          if (userFlyvoo != null) {
-                            Navigator.pushNamed(
-                              context,
-                              "/excluirConta",
-                            );
-                          } else {
-                            alertaLogin(context);
-                          }
-                        },
-                        onLongPress: () => Navigator.pushNamed(
-                          context,
-                          "/excluirConta/feedback",
-                        ), // TODO: deletar no modo release
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                          width: double.infinity,
-                          child: Text(
-                            "Excluir minha conta",
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        "/home/configGerais",
+                      );
+                      setState(() {});
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Configurações Gerais",
                             style: GoogleFonts.inter(
-                              color: dark
-                                  ? const Color(0xffFF545E)
-                                  : const Color(0xffF81B50),
+                              color: Tema.texto.cor(),
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        blurRadius: 4,
-                        spreadRadius: 0,
-                        offset: const Offset(0, 5),
-                        color: const Color(
-                          0xff000000,
-                        ).withOpacity(0.25),
-                      ),
-                    ],
-                  ),
-                  height: 43,
-                  width: 129,
-                  margin: const EdgeInsets.only(
-                    bottom: 50,
-                  ),
-                  child: CupertinoButton(
-                    borderRadius: BorderRadius.circular(10),
-                    onPressed: () => Navigator.pop(context),
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "Voltar",
-                      style: GoogleFonts.inter(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.black,
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: Tema.texto.cor(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
+                  fezTeste
+                      ? Divider(
+                          height: 2,
+                          color: Tema.texto.cor().withOpacity(0.5),
+                        )
+                      : SizedBox(),
+                  fezTeste
+                      ? InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const Resultados(),
+                              ),
+                            );
+
+                            setState(() {});
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Meus resultados",
+                                  style: GoogleFonts.inter(
+                                    color: Tema.texto.cor(),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const Expanded(
+                                  child: SizedBox(),
+                                ),
+                                Image.asset(
+                                  "assets/icons/seta2.png",
+                                  color: Tema.texto.cor(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: Text(
+                      "Segurança e Privacidade",
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  password ?? false
+                      ? InkWell(
+                          onTap: () async {
+                            final retorno = await Navigator.pushNamed(
+                                context, "/home/alterarSenha");
+                            if ((retorno as bool?) ?? false) {
+                              if (!context.mounted) return;
+                              showCupertinoDialog(
+                                context: context,
+                                builder: (context) => BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 2,
+                                    sigmaY: 2,
+                                  ),
+                                  child: CupertinoAlertDialog(
+                                    content: Text(
+                                      "Senha alterada com sucesso",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.inter(
+                                            color: CupertinoColors.systemBlue,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Alterar senha",
+                                  style: GoogleFonts.inter(
+                                    color: Tema.texto.cor(),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const Expanded(
+                                  child: SizedBox(),
+                                ),
+                                Image.asset(
+                                  "assets/icons/seta2.png",
+                                  color: Tema.texto.cor(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                  password ?? false
+                      ? Divider(
+                          height: 2,
+                          color: Tema.texto.cor().withOpacity(0.5),
+                        )
+                      : const SizedBox(),
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        "/home/termosdeuso",
+                      );
+                      SystemChrome.setSystemUIOverlayStyle(
+                        const SystemUiOverlayStyle(
+                          statusBarColor: Colors.transparent,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Termos de Uso",
+                            style: GoogleFonts.inter(
+                              color: Tema.texto.cor(),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: Tema.texto.cor(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: Tema.texto.cor().withOpacity(0.5),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        "/home/politica",
+                      );
+                      SystemChrome.setSystemUIOverlayStyle(
+                        const SystemUiOverlayStyle(
+                          statusBarColor: Colors.transparent,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Política de Privacidade",
+                            style: GoogleFonts.inter(
+                              color: Tema.texto.cor(),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          Image.asset(
+                            "assets/icons/seta2.png",
+                            color: Tema.texto.cor(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: Tema.texto.cor().withOpacity(0.5),
+                  ),
+                  !feedbackEnviado ? futureFeedback() : const SizedBox(),
+                  InkWell(
+                    onTap: () {
+                      if (userFlyvoo != null) {
+                        Navigator.pushNamed(
+                          context,
+                          "/excluirConta",
+                        );
+                      } else {
+                        alertaLogin(context);
+                      }
+                    },
+                    onLongPress: () => Navigator.pushNamed(
+                      context,
+                      "/excluirConta/feedback",
+                    ), // TODO: deletar no modo release
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      width: double.infinity,
+                      child: Text(
+                        "Excluir minha conta",
+                        style: GoogleFonts.inter(
+                          color: dark
+                              ? const Color(0xffFF545E)
+                              : const Color(0xffF81B50),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 5),
+                    color: const Color(
+                      0xff000000,
+                    ).withOpacity(0.25),
+                  ),
+                ],
+              ),
+              height: 43,
+              width: 129,
+              margin: const EdgeInsets.only(
+                bottom: 50,
+              ),
+              child: CupertinoButton(
+                borderRadius: BorderRadius.circular(10),
+                onPressed: () => Navigator.pop(context),
+                color: Colors.white,
+                padding: const EdgeInsets.all(0),
+                child: Text(
+                  "Voltar",
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -497,7 +568,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           ),
                         );
                         if (resposta != null && resposta) {
-                          if (!mounted) return;
+                          if (!context.mounted) return;
                           setState(() {
                             feedbackEnviado = true;
                           });
@@ -783,6 +854,7 @@ class Tela3 extends StatelessWidget {
 
 class SlideUpRoute extends PageRouteBuilder {
   final Widget page;
+
   SlideUpRoute(
     this.page,
   ) : super(

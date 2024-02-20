@@ -5,11 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/home/principal/info.dart';
-import 'package:flyvoo/home/principal/teste/resultados.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:flyvoo/main.dart';
 
 int areaAtual = 0;
 
@@ -23,9 +24,23 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
+  _init() async {
+    if (!jaPegouFezTeste) {
+      final ref =
+          FirebaseDatabase.instance.ref("users/${userFlyvoo?.uid}/resultados");
+      final data = await ref.get();
+
+      setState(() {
+        fezTeste = data.exists;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _init();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.notificarFundo(1);
@@ -78,36 +93,42 @@ class Especialidade extends StatelessWidget {
           "assets/imagens/areas/${Area.values[index].name}.webp",
           height: 400,
         ),
-        RatingBar(
-          onRatingUpdate: (value) {},
-          glow: false,
-          allowHalfRating: false,
-          ignoreGestures: true,
-          itemCount: 3,
-          ratingWidget: RatingWidget(
-            full: const Icon(
-              Symbols.star_rounded,
-              fill: 1,
-            ),
-            half: const Icon(
-              Symbols.star_rounded,
-              fill: 1,
-            ),
-            empty: const Icon(
-              Symbols.star_rounded,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "0%",
-          style: GoogleFonts.inter(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        fezTeste
+            ? Column(
+                children: [
+                  RatingBar(
+                    onRatingUpdate: (value) {},
+                    glow: false,
+                    allowHalfRating: false,
+                    ignoreGestures: true,
+                    itemCount: 3,
+                    ratingWidget: RatingWidget(
+                      full: const Icon(
+                        Symbols.star_rounded,
+                        fill: 1,
+                      ),
+                      half: const Icon(
+                        Symbols.star_rounded,
+                        fill: 1,
+                      ),
+                      empty: const Icon(
+                        Symbols.star_rounded,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "0%",
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              )
+            : const SizedBox(),
         const SizedBox(
           height: 30,
         ),
@@ -131,19 +152,13 @@ class Especialidade extends StatelessWidget {
                 : Area.values[index].primaryLight(),
             borderRadius: BorderRadius.circular(50),
             onPressed: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => const Resultados(),
-                ),
-              );
-              /* showCupertinoDialog(
+              showCupertinoDialog(
                 context: contextHome,
                 barrierDismissible: true,
                 builder: (context) => AlertaVerMais(
                   Area.values[index],
                 ),
-              ); */
+              );
             },
             child: Text(
               'VER MAIS',

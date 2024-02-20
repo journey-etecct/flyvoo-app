@@ -82,6 +82,9 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.black),
+    );
     _pegarInfoApp();
   }
 
@@ -305,6 +308,9 @@ class _SobreOFlyvooState extends State<SobreOFlyvoo> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).padding.bottom,
+                ),
               ],
             ),
           ),
@@ -318,6 +324,7 @@ class PessoaInfo extends StatelessWidget {
   final AssetImage img;
   final String nome;
   final String desc;
+
   const PessoaInfo(this.img, this.nome, this.desc, {super.key});
 
   @override

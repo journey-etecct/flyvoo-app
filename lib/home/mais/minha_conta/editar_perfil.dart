@@ -90,7 +90,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
     XFile? sim = await picker.pickImage(
       source: ImageSource.gallery,
     );
-    if (!mounted) return null;
+    if (!context.mounted) return null;
     if (sim == null) {
       return null;
     } else {
@@ -124,7 +124,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
       source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.front,
     );
-    if (!mounted) return null;
+    if (!context.mounted) return null;
     if (sim == null) {
       return null;
     } else {
@@ -248,8 +248,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: MediaQuery.of(context).padding.bottom + 20,
                 )
               ],
             ),
@@ -287,7 +287,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
               setState(() {
                 _btnAtivado = true;
               });
-              if (!mounted) return;
+              if (!context.mounted) return;
               showCupertinoDialog(
                 context: context,
                 builder: (context) => BackdropFilter(
@@ -358,7 +358,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     onPressed: () async {
                       var cortado = await _pegarImagemGaleria();
                       if (cortado != null) {
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         setState(() {
                           _imgEscolhida = cortado;
@@ -401,7 +401,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     onPressed: () async {
                       var cortado = await _pegarImagemCamera();
                       if (cortado != null) {
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         setState(() {
                           _imgEscolhida = cortado;
@@ -487,6 +487,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
 class CampoEdicao extends StatefulWidget {
   final String campo;
   final int index;
+
   const CampoEdicao({super.key, required this.campo, required this.index});
 
   @override
@@ -566,7 +567,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                                 return "Nome inválido";
                               } else if (!value.contains(
                                 RegExp(
-                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}){1,10}$',
+                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšž∂ð]+( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšž∂ð]+){1,10}$',
                                 ),
                               )) {
                                 return "Insira seu nome completo";
@@ -708,7 +709,7 @@ class _CampoEdicaoState extends State<CampoEdicao> {
                                 return "Nome inválido";
                               } else if (!value.contains(
                                 RegExp(
-                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð]{1,}){1,10}$',
+                                  r'^[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð][a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšž∂ð]+( {1,2}[A-ZÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð][a-za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšž∂ð]+){1,10}$',
                                 ),
                               )) {
                                 return "Insira seu nome completo";
