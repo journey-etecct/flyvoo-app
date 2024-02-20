@@ -1,9 +1,13 @@
 import 'package:animations/animations.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/home/principal/teste/intro.dart';
+import 'package:flyvoo/home/principal/teste/resultados.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -11,6 +15,7 @@ import 'package:material_symbols_icons/symbols.dart';
 class Pergunta extends StatefulWidget {
   final Map<String, List<Area>> listaDePerguntas;
   final int pergIndex;
+
   const Pergunta(this.pergIndex, this.listaDePerguntas, {super.key});
 
   @override
@@ -62,7 +67,7 @@ class _PerguntaState extends State<Pergunta> {
           ),
         );
         if (resposta) {
-          if (!mounted) return;
+          if (!context.mounted) return;
           Navigator.pop(context);
         }
       },
@@ -118,6 +123,57 @@ class _PerguntaState extends State<Pergunta> {
                     color: Colors.blue,
                     onPressed: () {
                       if (widget.pergIndex == 29) {
+                        if (opcaoEscolhida != null) {
+                          switch (opcaoEscolhida) {
+                            case OpcoesTeste.concordoMuito:
+                              for (Area area in areasPergunta) {
+                                resultados[area] = resultados[area]! + 100;
+                              }
+                              break;
+                            case OpcoesTeste.concordoPouco:
+                              for (Area area in areasPergunta) {
+                                resultados[area] = resultados[area]! + 50;
+                              }
+                              break;
+                            case OpcoesTeste.discordoMuito:
+                              for (Area area in areasPergunta) {
+                                resultados[area] = resultados[area]! - 100;
+                              }
+                              break;
+                            case OpcoesTeste.discordoPouco:
+                              for (Area area in areasPergunta) {
+                                resultados[area] = resultados[area]! - 50;
+                              }
+                              break;
+                            default:
+                          }
+
+                          // salvar tudo no firebase
+                          final userRef = FirebaseDatabase.instance
+                              .ref("users/${userFlyvoo?.uid}/resultados");
+                          userRef.set({
+                            "logicoMat": resultados[Area.logicoMat],
+                            "corporalCin": resultados[Area.corporalCin],
+                            "espacial": resultados[Area.espacial],
+                            "existencial": resultados[Area.existencial],
+                            "linguistica": resultados[Area.linguistica],
+                            "intrapessoal": resultados[Area.intrapessoal],
+                            "interpessoal": resultados[Area.interpessoal],
+                            "musical": resultados[Area.musical],
+                            "naturalista": resultados[Area.naturalista],
+                          });
+
+                          setState(() {
+                            fezTeste = true;
+                          });
+
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => const Resultados(),
+                            ),
+                          );
+                        }
                       } else {
                         if (_congratuleixos) {
                           setState(() {
@@ -395,7 +451,7 @@ class _PerguntaState extends State<Pergunta> {
                 SystemChrome.setEnabledSystemUIMode(
                   SystemUiMode.edgeToEdge,
                 );
-                if (!mounted) return;
+                if (!context.mounted) return;
                 Navigator.pop(context);
               }
             },
@@ -411,7 +467,7 @@ class _PerguntaState extends State<Pergunta> {
   }
 }
 
-Map<Area, num> resultados = {
+Map<Area, int> resultados = {
   Area.corporalCin: 0,
   Area.espacial: 0,
   Area.existencial: 0,

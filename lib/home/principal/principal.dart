@@ -7,6 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/home/principal/info.dart';
+import 'package:flyvoo/home/principal/teste/pergunta.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -26,13 +27,31 @@ class Principal extends StatefulWidget {
 class _PrincipalState extends State<Principal> {
   _init() async {
     if (!jaPegouFezTeste) {
-      final ref =
-          FirebaseDatabase.instance.ref("users/${userFlyvoo?.uid}/resultados");
-      final data = await ref.get();
+      if (userFlyvoo != null) {
+        final ref = FirebaseDatabase.instance
+            .ref("users/${userFlyvoo?.uid}/resultados");
+        final data = await ref.get();
 
-      setState(() {
-        fezTeste = data.exists;
-      });
+        setState(() {
+          fezTeste = data.exists;
+
+          resultados = {
+            Area.naturalista: data.child("naturalista").value as int,
+            Area.musical: data.child("musical").value as int,
+            Area.interpessoal: data.child("interpessoal").value as int,
+            Area.intrapessoal: data.child("intrapessoal").value as int,
+            Area.corporalCin: data.child("corporalCin").value as int,
+            Area.linguistica: data.child("linguistica").value as int,
+            Area.existencial: data.child("existencial").value as int,
+            Area.espacial: data.child("espacial").value as int,
+            Area.logicoMat: data.child("logicoMat").value as int,
+          };
+        });
+      } else {
+        setState(() {
+          fezTeste = false;
+        });
+      }
     }
   }
 

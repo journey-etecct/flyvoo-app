@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -55,23 +53,9 @@ class _MinhaContaState extends State<MinhaConta> {
     const Tela3(),
   ];
 
-  _init() async {
-    if (!jaPegouFezTeste) {
-      final ref =
-          FirebaseDatabase.instance.ref("users/${userFlyvoo?.uid}/resultados");
-      final data = await ref.get();
-
-      setState(() {
-        fezTeste = data.exists;
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-
-    _init();
 
     if (userFlyvoo != null) {
       _userInfo =
@@ -275,7 +259,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           height: 2,
                           color: Tema.texto.cor().withOpacity(0.5),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   fezTeste
                       ? InkWell(
                           onTap: () async {
@@ -311,7 +295,7 @@ class _MinhaContaState extends State<MinhaConta> {
                             ),
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Text(

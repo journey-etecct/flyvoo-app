@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
@@ -83,9 +82,6 @@ class _InfoState extends State<Info> {
   void initState() {
     super.initState();
 
-    final ref = FirebaseDatabase.instance.ref(
-      "/carreiras/${carreiraSelecionada.toString().replaceAll("Carreira.", "")}",
-    );
     _infoCarreira = carreirasDB
         .child(carreiraSelecionada.toString().replaceAll("Carreira.", ""));
   }
@@ -311,25 +307,31 @@ class _InfoState extends State<Info> {
         const SizedBox(
           height: 20,
         ),
-        Text(
-          "Observações",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            color: Tema.texto.cor(),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        Text(
-          infoCarreira.child("obs/").value as String,
-          style: GoogleFonts.inter(
-            fontSize: 22,
-            color: Tema.texto.cor(),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
+        (_infoCarreira.child("obs/").value as String).isNotEmpty
+            ? Column(
+                children: [
+                  Text(
+                    "Observações",
+                    style: GoogleFonts.inter(
+                      fontSize: 24,
+                      color: Tema.texto.cor(),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    infoCarreira.child("obs/").value as String,
+                    style: GoogleFonts.inter(
+                      fontSize: 22,
+                      color: Tema.texto.cor(),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )
+            : const SizedBox(),
         Text(
           "Inteligência(s)",
           style: GoogleFonts.inter(
@@ -345,79 +347,6 @@ class _InfoState extends State<Info> {
         const SizedBox(
           height: 30,
         ),
-        Text(
-          "Sua compatibilidade",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            color: Tema.texto.cor(),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        RatingBar(
-          ratingWidget: RatingWidget(
-            full: const Icon(
-              Symbols.star_rounded,
-              fill: 1,
-            ),
-            half: const Icon(
-              Symbols.star_rounded,
-              fill: 1,
-            ),
-            empty: const Icon(
-              Symbols.star_rounded,
-            ),
-          ),
-          onRatingUpdate: (value) {},
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              "REQUER TESTE DO USUÁRIO",
-              style: GoogleFonts.inter(
-                fontSize: 18,
-                color: Tema.texto.cor(),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 3),
-                      color: const Color(0xffF81B50).withOpacity(0.5),
-                    ),
-                  ],
-                ),
-                height: 43,
-                width: 150,
-                child: CupertinoButton(
-                  onPressed: () async {},
-                  padding: const EdgeInsets.all(0),
-                  color: const Color(0xffF81B50),
-                  borderRadius: BorderRadius.circular(10),
-                  child: Text(
-                    "Fazer teste",
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
       ],
     );
   }

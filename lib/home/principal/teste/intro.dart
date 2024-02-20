@@ -64,7 +64,7 @@ class _IntroducaoState extends State<Introducao> {
           ),
         );
         if (resposta) {
-          if (!mounted) return;
+          if (!context.mounted) return;
           Navigator.pop(context);
         }
       },
@@ -73,7 +73,7 @@ class _IntroducaoState extends State<Introducao> {
         onFinish: () {
           Navigator.pushReplacement(
             context,
-            CupertinoPageRoute(
+            MaterialPageRoute(
               builder: (context) => Pergunta(0, listaPerguntas),
             ),
           );
@@ -81,7 +81,7 @@ class _IntroducaoState extends State<Introducao> {
         onSkip: () {
           Navigator.pushReplacement(
             context,
-            CupertinoPageRoute(
+            MaterialPageRoute(
               builder: (context) => Pergunta(0, listaPerguntas),
             ),
           );
@@ -384,7 +384,7 @@ class _IntroducaoState extends State<Introducao> {
                   SystemChrome.setEnabledSystemUIMode(
                     SystemUiMode.edgeToEdge,
                   );
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                 }
               },

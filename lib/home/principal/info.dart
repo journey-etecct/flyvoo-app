@@ -8,8 +8,10 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/mais/mais.dart';
+import 'package:flyvoo/home/mais/minha_conta/minha_conta.dart';
 import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/principal/teste/intro.dart';
+import 'package:flyvoo/home/principal/teste/pergunta.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,7 +35,7 @@ class AlertaVerMais extends StatefulWidget {
 class _AlertaVerMaisState extends State<AlertaVerMais> {
   late final List<Widget> _telas = [
     Lista(widget.area),
-    const Info(),
+    Info(widget.area),
   ];
 
   @override
@@ -255,23 +257,43 @@ class _ListaState extends State<Lista> {
 }
 
 class Info extends StatefulWidget {
-  const Info({super.key});
+  final Area area;
+
+  const Info(this.area, {super.key});
 
   @override
   State<Info> createState() => _InfoState();
 }
 
 class _InfoState extends State<Info> {
-  late Future<bool> _fezTeste;
   late DataSnapshot _infoCarreira;
+  List<(Area, num)> _listaArray = [];
 
   @override
   void initState() {
     super.initState();
 
-    _fezTeste =
-        // TODO: programar se o usuário fez ou não o teste
-        Future.delayed(const Duration(seconds: 2), () => false);
+    for (Area area in resultados.keys) {
+      _listaArray.add((area, resultados[area]!));
+    }
+
+    _listaArray.sort((a, b) => (a.$2 - b.$2).toInt());
+    List<(Area, num)> outraListaArray = [];
+
+    for (var inteligencia in _listaArray) {
+      outraListaArray.add(
+        (
+          inteligencia.$1,
+          calcularRating(
+            _listaArray.last.$2,
+            _listaArray.first.$2,
+            inteligencia.$2,
+          ),
+        ),
+      );
+    }
+
+    _listaArray = outraListaArray;
 
     _infoCarreira = carreirasDB
         .child(_carreiraSelecionada.toString().replaceAll("Carreira.", ""));
@@ -494,25 +516,31 @@ class _InfoState extends State<Info> {
         const SizedBox(
           height: 20,
         ),
-        Text(
-          "Observações",
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            color: Tema.texto.cor(),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        Text(
-          infoCarreira.child("obs/").value as String,
-          style: GoogleFonts.inter(
-            fontSize: 22,
-            color: Tema.texto.cor(),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
+        (_infoCarreira.child("obs/").value as String).isNotEmpty
+            ? Column(
+                children: [
+                  Text(
+                    "Observações",
+                    style: GoogleFonts.inter(
+                      fontSize: 24,
+                      color: Tema.texto.cor(),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    infoCarreira.child("obs/").value as String,
+                    style: GoogleFonts.inter(
+                      fontSize: 22,
+                      color: Tema.texto.cor(),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )
+            : const SizedBox(),
         Text(
           "Inteligência(s)",
           style: GoogleFonts.inter(
@@ -541,99 +569,95 @@ class _InfoState extends State<Info> {
     );
   }
 
-  FutureBuilder<bool> fezTesteBotao() {
-    return FutureBuilder(
-      future: _fezTeste,
-      builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data!) {
-            return RatingBar(
-              ratingWidget: RatingWidget(
-                full: const Icon(
-                  Symbols.star_rounded,
-                  fill: 1,
-                ),
-                half: const Icon(
-                  Symbols.star_rounded,
-                  fill: 1,
-                ),
-                empty: const Icon(
-                  Symbols.star_rounded,
+  Widget fezTesteBotao() {
+    if (fezTeste) {
+      return RatingBar(
+        initialRating: _listaArray
+            .firstWhere((element) {
+              return element.$1 == widget.area;
+            })
+            .$2
+            .toDouble(),
+        minRating: _listaArray.last.$2.toDouble(),
+        maxRating: _listaArray.first.$2.toDouble(),
+        ratingWidget: RatingWidget(
+          full: const Icon(
+            Symbols.star_rounded,
+            fill: 1,
+          ),
+          half: const Icon(
+            Symbols.star_rounded,
+            fill: 1,
+          ),
+          empty: const Icon(
+            Symbols.star_rounded,
+          ),
+        ),
+        onRatingUpdate: (value) {},
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            "REQUER TESTE DO USUÁRIO",
+            style: GoogleFonts.inter(
+              fontSize: 18,
+              color: Tema.texto.cor(),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    blurRadius: 20,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 3),
+                    color: const Color(0xffF81B50).withOpacity(0.5),
+                  ),
+                ],
+              ),
+              height: 43,
+              width: 150,
+              child: CupertinoButton(
+                onPressed: () async {
+                  if (userFlyvoo == null) {
+                    alertaLogin(context);
+                  } else {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const Introducao(),
+                      ),
+                    );
+                  }
+                },
+                padding: const EdgeInsets.all(0),
+                color: const Color(0xffF81B50),
+                borderRadius: BorderRadius.circular(10),
+                child: Text(
+                  "Fazer teste",
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              onRatingUpdate: (value) {},
-            );
-          } else {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "REQUER TESTE DO USUÁRIO",
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    color: Tema.texto.cor(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: 20,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 3),
-                          color: const Color(0xffF81B50).withOpacity(0.5),
-                        ),
-                      ],
-                    ),
-                    height: 43,
-                    width: 150,
-                    child: CupertinoButton(
-                      onPressed: () async {
-                        if (userFlyvoo == null) {
-                          alertaLogin(context);
-                        } else {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const Introducao(),
-                            ),
-                          );
-                        }
-                      },
-                      padding: const EdgeInsets.all(0),
-                      color: const Color(0xffF81B50),
-                      borderRadius: BorderRadius.circular(10),
-                      child: Text(
-                        "Fazer teste",
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   SizedBox painelIntel() {
@@ -792,4 +816,14 @@ class _InfoState extends State<Info> {
       ),
     );
   }
+}
+
+double calcularRating(num min, num max, num current) {
+  final num totalRange = max - min;
+  final double umPrcnt = totalRange / 5;
+
+  final num currentRange = current - min;
+  final double porcentagem = currentRange / umPrcnt;
+
+  return porcentagem;
 }
