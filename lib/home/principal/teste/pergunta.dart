@@ -167,7 +167,7 @@ class _PerguntaState extends State<Pergunta> {
                             fezTeste = true;
                           });
 
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             CupertinoPageRoute(
                               builder: (context) => const Resultados(),
