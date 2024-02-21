@@ -4,19 +4,6 @@ import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-final List<String> carreiras = [
-  "Qual área você deseja seguir?",
-  "carreira1",
-  "carreira2",
-  "carreira3",
-  "carreira4",
-  "carreira5",
-  "carreira6",
-  "carreira7",
-  "carreira8",
-  "carreira9",
-];
-
 final List<String> sexos = [
   "Sexo",
   "Masculino",
@@ -52,7 +39,6 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
   @override
   void initState() {
     super.initState();
-    carreiraEscolhida ??= carreiras.first;
     sexoEscolhido ??= sexos.first;
     pronomesEscolhidos ??= pronomes.first;
   }
@@ -63,52 +49,6 @@ class _TelaGoogle2State extends State<TelaGoogle2> {
       key: formKey2,
       child: Column(
         children: [
-          DropdownButtonFormField(
-            value: carreiraEscolhida,
-            dropdownColor: Tema.fundo.cor(),
-            style: GoogleFonts.inter(
-              color: Tema.noFundo.cor(),
-              fontSize: 17,
-            ),
-            elevation: 1,
-            validator: (value) {
-              if (value == carreiras.first) {
-                return "*Obrigatório";
-              }
-              return null;
-            },
-            selectedItemBuilder: (context) => carreiras
-                .map<Widget>(
-                  (e) => Text(
-                    e,
-                  ),
-                )
-                .toList(),
-            borderRadius: BorderRadius.circular(20),
-            icon: Image.asset(
-              "assets/icons/seta.png",
-              color: Tema.noFundo.cor(),
-            ),
-            items: carreiras
-                .map(
-                  (String carreira) => DropdownMenuItem<String>(
-                    value: carreira,
-                    enabled: carreira != carreiras.first,
-                    child: Text(carreira),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value != null) {
-                setState(() {
-                  carreiraEscolhida = value;
-                });
-              }
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
           InkWell(
             onTap: () async {
               nascimento = await showDatePicker(

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flyvoo/cadastro/verificacao/email_enviado.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,9 +62,11 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
       if (userFlyvoo != null) {
         if (!mounted) return;
         flushbar.dismiss();
-        Navigator.pushNamed(
+        Navigator.pushReplacement(
           context,
-          "/opcoesCadastro/email/enviado",
+          CupertinoPageRoute(
+            builder: (context) => const EmailEnviado(),
+          ),
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -194,7 +197,7 @@ class _VerificacaoEmailState extends State<VerificacaoEmail> {
                           return "*Obrigatório";
                         } else if (!value.contains(
                           RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                           ),
                         )) {
                           return "Email inválido";

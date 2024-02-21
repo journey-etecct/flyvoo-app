@@ -94,8 +94,11 @@ class _IndexState extends State<Index> {
                 ),
                 CupertinoDialogAction(
                   isDefaultAction: true,
-                  onPressed: () =>
-                      Navigator.popAndPushNamed(context, "/cadastro"),
+                  onPressed: () => Navigator.popAndPushNamed(
+                    context,
+                    "/cadastro",
+                    arguments: "email",
+                  ),
                   child: Text(
                     "OK",
                     style: GoogleFonts.inter(

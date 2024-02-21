@@ -35,17 +35,19 @@ class _PrincipalState extends State<Principal> {
         setState(() {
           fezTeste = data.exists;
 
-          resultados = {
-            Area.naturalista: data.child("naturalista").value as int,
-            Area.musical: data.child("musical").value as int,
-            Area.interpessoal: data.child("interpessoal").value as int,
-            Area.intrapessoal: data.child("intrapessoal").value as int,
-            Area.corporalCin: data.child("corporalCin").value as int,
-            Area.linguistica: data.child("linguistica").value as int,
-            Area.existencial: data.child("existencial").value as int,
-            Area.espacial: data.child("espacial").value as int,
-            Area.logicoMat: data.child("logicoMat").value as int,
-          };
+          if (fezTeste) {
+            resultados = {
+              Area.naturalista: data.child("naturalista").value as int,
+              Area.musical: data.child("musical").value as int,
+              Area.interpessoal: data.child("interpessoal").value as int,
+              Area.intrapessoal: data.child("intrapessoal").value as int,
+              Area.corporalCin: data.child("corporalCin").value as int,
+              Area.linguistica: data.child("linguistica").value as int,
+              Area.existencial: data.child("existencial").value as int,
+              Area.espacial: data.child("espacial").value as int,
+              Area.logicoMat: data.child("logicoMat").value as int,
+            };
+          }
         });
       } else {
         setState(() {

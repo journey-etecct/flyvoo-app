@@ -34,7 +34,6 @@ final txtNome = TextEditingController();
 final txtTelefone = TextEditingController();
 final txtSenha = TextEditingController();
 final txtSenhaConf = TextEditingController();
-String? carreiraEscolhida;
 String? sexoEscolhido;
 String? pronomesEscolhidos;
 DateTime? nascimento;
@@ -116,7 +115,6 @@ class _CadastroState extends State<Cadastro> {
     txtSenhaConf.text = "";
     txtTelefone.text = "";
     sexoEscolhido = null;
-    carreiraEscolhida = null;
     pronomesEscolhidos = null;
     nascimento = null;
     userFlyvoo = FirebaseAuth.instance.currentUser;
@@ -373,7 +371,6 @@ class _CadastroState extends State<Cadastro> {
                     "telefone": txtTelefone.text,
                     "nascimento":
                         "${nascimento?.day};${nascimento?.month};${nascimento?.year}",
-                    "area": carreiraEscolhida,
                     "sexo": sexoEscolhido,
                     "pronomes": pronomesEscolhidos == "Pronomes (opcional)"
                         ? "Nenhum"
