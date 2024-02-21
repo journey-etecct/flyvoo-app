@@ -58,8 +58,7 @@ class _MinhaContaState extends State<MinhaConta> {
     super.initState();
 
     if (userFlyvoo != null) {
-      _userInfo =
-          FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
+      _userInfo = FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
     } else {
       _userInfo = FirebaseDatabase.instance.ref("users/").get();
     }
@@ -74,9 +73,7 @@ class _MinhaContaState extends State<MinhaConta> {
           SizedBox.expand(
             child: Image(
               image: AssetImage(
-                dark
-                    ? "assets/background/esfumadodark.png"
-                    : "assets/background/esfumadolight.png",
+                dark ? "assets/background/esfumadodark.png" : "assets/background/esfumadolight.png",
               ),
               fit: BoxFit.cover,
               width: double.infinity,
@@ -114,10 +111,8 @@ class _MinhaContaState extends State<MinhaConta> {
                                 ? FadeInImage(
                                     width: 100,
                                     fit: BoxFit.cover,
-                                    fadeInDuration:
-                                        const Duration(milliseconds: 100),
-                                    fadeOutDuration:
-                                        const Duration(milliseconds: 100),
+                                    fadeInDuration: const Duration(milliseconds: 100),
+                                    fadeOutDuration: const Duration(milliseconds: 100),
                                     placeholder: const AssetImage(
                                       "assets/background/loading.gif",
                                     ),
@@ -142,9 +137,7 @@ class _MinhaContaState extends State<MinhaConta> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                userFlyvoo != null
-                                    ? userFlyvoo!.displayName!
-                                    : "Usuário anônimo",
+                                userFlyvoo != null ? userFlyvoo!.displayName! : "Usuário anônimo",
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
@@ -155,9 +148,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               Expanded(
                                 child: Text(
-                                  userFlyvoo != null
-                                      ? userFlyvoo!.providerData.first.email!
-                                      : "",
+                                  userFlyvoo != null ? userFlyvoo!.providerData.first.email! : "",
                                   style: GoogleFonts.inter(
                                     color: Tema.texto.cor(),
                                     fontWeight: FontWeight.w500,
@@ -213,8 +204,7 @@ class _MinhaContaState extends State<MinhaConta> {
                                     ),
                                   ),
                                   openColor: Tema.fundo.cor(),
-                                  openBuilder: (context, retorno) =>
-                                      const EditarPerfil(),
+                                  openBuilder: (context, retorno) => const EditarPerfil(),
                                 ),
                               ),
                             ],
@@ -309,8 +299,8 @@ class _MinhaContaState extends State<MinhaConta> {
                   password ?? false
                       ? InkWell(
                           onTap: () async {
-                            final retorno = await Navigator.pushNamed(
-                                context, "/home/alterarSenha");
+                            final retorno =
+                                await Navigator.pushNamed(context, "/home/alterarSenha");
                             if ((retorno as bool?) ?? false) {
                               if (!context.mounted) return;
                               showCupertinoDialog(
@@ -463,19 +453,13 @@ class _MinhaContaState extends State<MinhaConta> {
                         alertaLogin(context);
                       }
                     },
-                    onLongPress: () => Navigator.pushNamed(
-                      context,
-                      "/excluirConta/feedback",
-                    ), // TODO: deletar no modo release
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                       width: double.infinity,
                       child: Text(
                         "Excluir minha conta",
                         style: GoogleFonts.inter(
-                          color: dark
-                              ? const Color(0xffFF545E)
-                              : const Color(0xffF81B50),
+                          color: dark ? const Color(0xffFF545E) : const Color(0xffF81B50),
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
@@ -708,9 +692,8 @@ class _MinhaContaState extends State<MinhaConta> {
                             )
                             .set(true);
                         setState(() {
-                          _userInfo = FirebaseDatabase.instance
-                              .ref("users/${userFlyvoo!.uid}")
-                              .get();
+                          _userInfo =
+                              FirebaseDatabase.instance.ref("users/${userFlyvoo!.uid}").get();
                         });
                       }
                   }
