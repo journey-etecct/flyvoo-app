@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
+import 'package:flyvoo/home/principal/info.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,6 +78,7 @@ class Info extends StatefulWidget {
 
 class _InfoState extends State<Info> {
   late DataSnapshot _infoCarreira;
+  List<(Area, num)> _listaArray = [];
 
   @override
   void initState() {
@@ -346,6 +348,11 @@ class _InfoState extends State<Info> {
         painelIntel(),
         const SizedBox(
           height: 30,
+        ),
+        fezTesteBotao(
+          context,
+          _listaArray,
+          carreiraSelecionada.inteligencias.first.$1,
         ),
       ],
     );

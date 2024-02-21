@@ -564,100 +564,9 @@ class _InfoState extends State<Info> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        fezTesteBotao(),
+        fezTesteBotao(context, _listaArray, widget.area),
       ],
     );
-  }
-
-  Widget fezTesteBotao() {
-    if (fezTeste) {
-      return RatingBar(
-        initialRating: _listaArray
-            .firstWhere((element) {
-              return element.$1 == widget.area;
-            })
-            .$2
-            .toDouble(),
-        minRating: _listaArray.last.$2.toDouble(),
-        maxRating: _listaArray.first.$2.toDouble(),
-        ratingWidget: RatingWidget(
-          full: const Icon(
-            Symbols.star_rounded,
-            fill: 1,
-          ),
-          half: const Icon(
-            Symbols.star_rounded,
-            fill: 1,
-          ),
-          empty: const Icon(
-            Symbols.star_rounded,
-          ),
-        ),
-        onRatingUpdate: (value) {},
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            "REQUER TESTE DO USUÁRIO",
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              color: Tema.texto.cor(),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    blurRadius: 20,
-                    spreadRadius: 0,
-                    offset: const Offset(0, 3),
-                    color: const Color(0xffF81B50).withOpacity(0.5),
-                  ),
-                ],
-              ),
-              height: 43,
-              width: 150,
-              child: CupertinoButton(
-                onPressed: () async {
-                  if (userFlyvoo == null) {
-                    alertaLogin(context);
-                  } else {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => const Introducao(),
-                      ),
-                    );
-                  }
-                },
-                padding: const EdgeInsets.all(0),
-                color: const Color(0xffF81B50),
-                borderRadius: BorderRadius.circular(10),
-                child: Text(
-                  "Fazer teste",
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
   }
 
   SizedBox painelIntel() {
@@ -826,4 +735,95 @@ double calcularRating(num min, num max, num current) {
   final double porcentagem = currentRange / umPrcnt;
 
   return porcentagem;
+}
+
+Widget fezTesteBotao(BuildContext context, List listaArray, Area area) {
+  if (fezTeste) {
+    return RatingBar(
+      initialRating: listaArray
+          .firstWhere((element) {
+            return element.$1 == area;
+          })
+          .$2
+          .toDouble(),
+      minRating: listaArray.last.$2.toDouble(),
+      maxRating: listaArray.first.$2.toDouble(),
+      ratingWidget: RatingWidget(
+        full: const Icon(
+          Symbols.star_rounded,
+          fill: 1,
+        ),
+        half: const Icon(
+          Symbols.star_rounded,
+          fill: 1,
+        ),
+        empty: const Icon(
+          Symbols.star_rounded,
+        ),
+      ),
+      onRatingUpdate: (value) {},
+    );
+  } else {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          "REQUER TESTE DO USUÁRIO",
+          style: GoogleFonts.inter(
+            fontSize: 18,
+            color: Tema.texto.cor(),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 3),
+                  color: const Color(0xffF81B50).withOpacity(0.5),
+                ),
+              ],
+            ),
+            height: 43,
+            width: 150,
+            child: CupertinoButton(
+              onPressed: () async {
+                if (userFlyvoo == null) {
+                  alertaLogin(context);
+                } else {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const Introducao(),
+                    ),
+                  );
+                }
+              },
+              padding: const EdgeInsets.all(0),
+              color: const Color(0xffF81B50),
+              borderRadius: BorderRadius.circular(10),
+              child: Text(
+                "Fazer teste",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

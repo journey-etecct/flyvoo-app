@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -60,6 +61,11 @@ Future<void> main() async {
 
   //firebase inicializa
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAppCheck.instance.activate(
+    webProvider:
+        ReCaptchaEnterpriseProvider('6LdykXopAAAAACw955FPSgLhBwcFXSmcKipY6lKz'),
+    androidProvider: AndroidProvider.playIntegrity,
+  );
   if (!kIsWeb) {
     FirebaseDatabase.instance.setPersistenceEnabled(true);
   } else {
