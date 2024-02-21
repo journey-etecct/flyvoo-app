@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flyvoo/home/home.dart';
 import 'package:flyvoo/home/principal/info.dart';
+import 'package:flyvoo/home/principal/teste/pergunta.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,6 +84,28 @@ class _InfoState extends State<Info> {
   @override
   void initState() {
     super.initState();
+
+    for (Area area in resultados.keys) {
+      _listaArray.add((area, resultados[area]!));
+    }
+
+    _listaArray.sort((a, b) => (a.$2 - b.$2).toInt());
+    List<(Area, num)> outraListaArray = [];
+
+    for (var inteligencia in _listaArray) {
+      outraListaArray.add(
+        (
+          inteligencia.$1,
+          calcularRating(
+            _listaArray.last.$2,
+            _listaArray.first.$2,
+            inteligencia.$2,
+          ),
+        ),
+      );
+    }
+
+    _listaArray = outraListaArray;
 
     _infoCarreira = carreirasDB
         .child(carreiraSelecionada.toString().replaceAll("Carreira.", ""));
