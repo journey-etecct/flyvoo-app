@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class SemInternet extends StatefulWidget {
@@ -15,14 +17,7 @@ class _SemInternetState extends State<SemInternet> {
   @override
   void initState() {
     super.initState();
-    InternetConnectionChecker().onStatusChange.listen((status) {
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          Navigator.pop(context);
-          break;
-        default:
-      }
-    });
+    connecteo.untilConnects().then((value) => Navigator.pop(context));
   }
 
   @override

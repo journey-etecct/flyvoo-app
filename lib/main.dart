@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connecteo/connecteo.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +47,7 @@ final ValueNotifier<Brightness> notifier = ValueNotifier(
   dark ? Brightness.dark : Brightness.light,
 );
 User? userFlyvoo;
+final connecteo = ConnectionChecker();
 
 Future<void> main() async {
   final widgetsbinding = WidgetsFlutterBinding.ensureInitialized();

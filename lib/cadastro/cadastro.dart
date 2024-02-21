@@ -24,7 +24,6 @@ import 'package:flyvoo/index.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -90,8 +89,8 @@ class _CadastroState extends State<Cadastro> {
       });
     }
     if (!internetIniciado && !kIsWeb) {
-      InternetConnectionChecker().onStatusChange.listen((status) {
-        if (status == InternetConnectionStatus.disconnected) {
+      connecteo.connectionStream.listen((conectado) {
+        if (!conectado) {
           Navigator.pushNamed(context, "/semInternet");
         }
       });
@@ -162,7 +161,7 @@ class _CadastroState extends State<Cadastro> {
                   await FirebaseAuth.instance.signOut();
                   final instS = await SharedPreferences.getInstance();
                   await instS.remove("cadastroTerminado");
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   Navigator.popUntil(
                     context,
                     (route) => route.isFirst,
@@ -209,7 +208,7 @@ class _CadastroState extends State<Cadastro> {
           return;
         }
         if (await _canPop(argumento)) {
-          if (!mounted) return;
+          if (!context.mounted) return;
           Navigator.pop(context);
         }
       },
@@ -405,7 +404,7 @@ class _CadastroState extends State<Cadastro> {
                     userFlyvoo = FirebaseAuth.instance.currentUser;
                     userImg = null;
                   });
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   Navigator.popUntil(
                     context,
                     (route) => route.isFirst,

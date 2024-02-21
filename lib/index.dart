@@ -9,7 +9,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -60,8 +59,8 @@ class _IndexState extends State<Index> {
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 300.0, 200.0));
     init();
     if (!internetIniciado && !kIsWeb) {
-      InternetConnectionChecker().onStatusChange.listen((status) {
-        if (status == InternetConnectionStatus.disconnected) {
+      connecteo.connectionStream.listen((conectado) {
+        if (!conectado) {
           Navigator.pushNamed(context, "/semInternet");
         }
       });

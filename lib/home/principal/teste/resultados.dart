@@ -37,15 +37,15 @@ class _ResultadosState extends State<Resultados> {
         (
           inteligencia.$1,
           calcularPorcentagem(
-            _listaArray.last.$2,
             _listaArray.first.$2,
+            _listaArray.last.$2,
             inteligencia.$2,
           ),
         ),
       );
     }
 
-    _listaArray = outraListaArray;
+    _listaArray = outraListaArray.reversed.toList();
   }
 
   List<(Carreira, int)> construirLista(Area area) {

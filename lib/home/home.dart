@@ -12,7 +12,6 @@ import 'package:flyvoo/home/principal/principal.dart';
 import 'package:flyvoo/home/univcursos/univcursos.dart';
 import 'package:flyvoo/main.dart';
 import 'package:flyvoo/tema.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,8 +82,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     indexHome = 0;
     contextHome = context;
     if (!internetIniciado && !kIsWeb) {
-      InternetConnectionChecker().onStatusChange.listen((status) {
-        if (status == InternetConnectionStatus.disconnected) {
+      connecteo.connectionStream.listen((conectado) {
+        if (!conectado) {
           Navigator.pushNamed(context, "/semInternet");
         }
       });
